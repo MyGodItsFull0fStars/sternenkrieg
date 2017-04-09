@@ -1,6 +1,7 @@
 package com.example.wenboda.sk_ui3;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -17,25 +18,39 @@ import java.io.IOException;
 
 public class Modi extends Activity {
     ImageButton back;
+    Button btn_gotocube;
+
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        //setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         setContentView(R.layout.modi);
 
+        btn_gotocube = (Button) findViewById(R.id.btn_spielen);
         back = (ImageButton) findViewById(R.id.Back);
-        onclickb onclickback = new onclickb();
-        back.setOnClickListener(onclickback);
-    }
-    class onclickb implements View.OnClickListener{
 
-        @Override
-        public void onClick(View v) {
-            Runtime runtime = Runtime.getRuntime();
-            try {
-                runtime.exec("input keyevent " + KeyEvent.KEYCODE_BACK);
-            } catch (IOException e) {
-                e.printStackTrace();
+
+        btn_gotocube.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent nextScreen = new Intent(getApplicationContext(), wuerfeltest.class);
+                nextScreen.putExtra("shake", true);
+                startActivity(nextScreen);
             }
-        }
+        });
+
+
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Runtime runtime = Runtime.getRuntime();
+                try {
+                    runtime.exec("input keyevent " + KeyEvent.KEYCODE_BACK);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
+
+
 }

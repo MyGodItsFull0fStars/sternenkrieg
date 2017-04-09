@@ -23,7 +23,7 @@ public class Spielen extends Activity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        //setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         setContentView(R.layout.spielen);
         button = (Button)findViewById(R.id.Einzelspielen);
         back = (ImageButton) findViewById(R.id.Back);

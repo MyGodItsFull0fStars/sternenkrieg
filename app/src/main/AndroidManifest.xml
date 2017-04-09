@@ -20,6 +20,10 @@
             android:label="@string/app_name"></activity>
         <activity android:name=".Modi"
             android:label="@string/app_name"></activity>
+        <activity android:name=".wuerfeltest"
+            android:label="@string/app_name"></activity>
+        <activity android:name=".EndScreen"
+            android:label="@string/app_name"></activity>
 
 
     </application>
