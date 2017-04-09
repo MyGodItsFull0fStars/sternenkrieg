@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        is-multidex="true"
+        jar="C:\Users\Chris\Documents\GitHub\sternenkrieg\app\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="46867969ed07820a47511c9a93dc85525a03af36">
+        <dex dex="C:\Users\Chris\Documents\GitHub\sternenkrieg\app\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run-bootstrap_dc1df95b833f9a6cb66df5b87506feb0b7ffc147\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\Chris\Documents\GitHub\sternenkrieg\app\build\intermediates\incremental-runtime-classes\debug\instant-run.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="c82741bc129dd5f99f11a4ab8666ae24262053b6">
+        <dex dex="C:\Users\Chris\Documents\GitHub\sternenkrieg\app\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run_0381e05f6c05684b54d06d79e54ab09aa618b163\classes.dex" />
+    </item>
+
+</items>
