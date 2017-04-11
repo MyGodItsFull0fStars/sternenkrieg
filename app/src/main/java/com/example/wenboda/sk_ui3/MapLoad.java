@@ -64,11 +64,8 @@ public class MapLoad extends BaseAdapter{
 
             gridView = new View(context);
 
-
-            // get layout from mobile.xml
             gridView = inflater.inflate(R.layout.square, null);
 
-            // set image based on selected text
             ImageView imageView = (ImageView) gridView
                     .findViewById(R.id.grid_item_image);
             imageView.getLayoutParams().height=height/8 ;
@@ -83,7 +80,8 @@ public class MapLoad extends BaseAdapter{
                 imageView.setBackgroundColor(Color.MAGENTA);
             } else if (mobile.equals("2")) {
                 imageView.setBackgroundColor(Color.RED);
-            }
+            }else if(mobile.equals("3"))
+                imageView.setBackgroundColor(Color.YELLOW);
 
         } else {
             gridView = (View) convertView;
