@@ -9,6 +9,7 @@ import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
@@ -70,9 +71,8 @@ public class MapLoad extends BaseAdapter{
             // set image based on selected text
             ImageView imageView = (ImageView) gridView
                     .findViewById(R.id.grid_item_image);
-
-            imageView.getLayoutParams().height=width/8;
-            imageView.getLayoutParams().width=width/8;
+            imageView.getLayoutParams().height=height/8 ;
+            imageView.getLayoutParams().width=height/8;
 
 
             String mobile = mobileValues[position];
