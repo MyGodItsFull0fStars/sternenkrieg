@@ -28,7 +28,7 @@ public class EndScreen extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent nextScreen =  new Intent(getApplicationContext(),MainActivity.class);
+                Intent nextScreen =  new Intent(getApplicationContext(),Map.class);
                 startActivity(nextScreen);
             }
         });
