@@ -25,7 +25,7 @@ public class Spielen extends Activity {
         super.onCreate(savedInstanceState);
         //setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         setContentView(R.layout.spielen);
-        button = (Button)findViewById(R.id.Einzelspielen);
+        button = (Button)findViewById(R.id.Einzelspieler);
         back = (ImageButton) findViewById(R.id.Back);
 
         onclickl onclickModi = new onclickl();

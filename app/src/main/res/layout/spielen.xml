@@ -29,17 +29,18 @@
                 android:layout_weight="1"
                 android:id="@+id/Back"
                 android:scaleType="centerInside"/>
+
             <TextView
                 android:id="@+id/textView"
                 android:layout_width="0dp"
-                android:layout_weight="6"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
+                android:layout_weight="6"
                 android:gravity="center"
 
-                android:text="Splielen"
-                android:textSize="60sp"
-                android:paddingBottom="30dp"/>
+                android:paddingBottom="30dp"
+                android:text="Spielen"
+                android:textSize="60sp" />
 
             <ImageButton
                 android:layout_width="0dp"
@@ -52,22 +53,22 @@
         </LinearLayout>
 
 
+        <Button
+            android:id="@+id/Einzelspieler"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+
+            android:text="Einzelspieler"
+
+            android:textSize="20sp" />
 
         <Button
             android:layout_width="300dp"
             android:layout_height="wrap_content"
-            android:text="Einzelspielen"
-
-            android:textSize="20sp"
-
-            android:id="@+id/Einzelspielen"/>
-        <Button
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
 
 
-            android:text="Gegen andere Spieler"
-            android:textSize="20sp"/>
+            android:text="Mehrspieler"
+            android:textSize="20sp" />
         <Button
             android:layout_width="300dp"
             android:layout_height="wrap_content"

@@ -28,6 +28,7 @@ public class Map extends AppCompatActivity {
     int width;
     int height;
     int oldpos;
+    int amountShips = 0;
 
 
     @Override
@@ -89,8 +90,13 @@ public class Map extends AppCompatActivity {
                         int x= (int)event.getX();
                         int y = (int)event.getY();
                         int pos= position(x,y);
+                        if(amountShips<17 && !(map[pos].equals("2"))&& !(map[pos+1].equals("2"))&&!(map[pos+2].equals("2"))){
                         map[pos]=2+"";
+                            map[pos+1]=2+"";
+                            map[pos+2]=2+"";
                         draw(map);
+                            amountShips++;
+                        }
                         return (true);
                     }
 

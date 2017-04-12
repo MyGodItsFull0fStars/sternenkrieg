@@ -3,21 +3,21 @@
 
     <item
         is-multidex="true"
-        jar="C:\Users\Chris\Documents\GitHub\sternenkrieg\app\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
+        jar="/home/anja/AndroidStudioProjects/se2/sternenkrieg/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
         jumboMode="true"
         optimize="true"
         revision="25.0.2"
-        sha1="cadfb50520c9c196d098666d3adb97acfbbfff35">
-        <dex dex="C:\Users\Chris\Documents\GitHub\sternenkrieg\app\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run-bootstrap_dc1df95b833f9a6cb66df5b87506feb0b7ffc147\classes.dex" />
+        sha1="8e603590d50e824876c76bb738a26ba061d65c91">
+        <dex dex="/home/anja/AndroidStudioProjects/se2/sternenkrieg/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run-bootstrap_fa0944224f838a7bbe2c0ec92a57eee441dc5cfc/classes.dex" />
     </item>
     <item
         is-multidex="true"
-        jar="C:\Users\Chris\Documents\GitHub\sternenkrieg\app\build\intermediates\incremental-runtime-classes\debug\instant-run.jar"
+        jar="/home/anja/AndroidStudioProjects/se2/sternenkrieg/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
         jumboMode="true"
         optimize="true"
         revision="25.0.2"
-        sha1="c82741bc129dd5f99f11a4ab8666ae24262053b6">
-        <dex dex="C:\Users\Chris\Documents\GitHub\sternenkrieg\app\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run_0381e05f6c05684b54d06d79e54ab09aa618b163\classes.dex" />
+        sha1="510aa6efc159983dfbffa676a0dae37568c0a46f">
+        <dex dex="/home/anja/AndroidStudioProjects/se2/sternenkrieg/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run_cede02e560268432d9a62c5a193c11e12cddcb68/classes.dex" />
     </item>
 
 </items>
