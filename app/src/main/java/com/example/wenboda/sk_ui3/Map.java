@@ -71,6 +71,7 @@ public class Map extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 degree+=90;
+
                 if(degree==360)
                     degree=0;
 
@@ -111,40 +112,41 @@ public class Map extends AppCompatActivity {
                         int y = (int) event.getY();
                         int pos = position(x, y);
 
-                        //kleines Schiff
-                        if (which_ship == 0) {
-                            if (!map[pos].equals(2 + "")) {
-                                //falls schon mal gesetzt wird die letzte Position gelöscht
-                                delete(old_small);
-                                //neue Position gesetzt
-                                map[pos] = 2 + "";
-                                old_small[0] = pos;
+                            //kleines Schiff
+                            if (which_ship == 0) {
+                                if (!map[pos].equals(2 + "")) {
+                                    //falls schon mal gesetzt wird die letzte Position gelöscht
+                                    delete(old_small);
+                                    //neue Position gesetzt
+                                    map[pos] = 2 + "";
+                                    old_small[0] = pos;
+                                }
                             }
-                        }
-                        //mittleres Schiff
-                        if (which_ship == 1) {
-                            if (!map[pos].equals(2 + "") && !map[pos + 1].equals(2 + "")) {
-                                delete(old_middle);
-                                // pos-1 weil wenn man das Bild bewegt ist der Zeiger genau mittig vom Bild
-                                map[pos-1] = 2 + "";
-                                old_middle[0] = pos-1;
-                                map[pos] = 2 + "";
-                                old_middle[1] = pos;
+                            //mittleres Schiff
+                            if (which_ship == 1) {
+                                if (!map[pos].equals(2 + "") && !map[pos + 1].equals(2 + "")) {
+                                    delete(old_middle);
+                                    // pos-1 weil wenn man das Bild bewegt ist der Zeiger genau mittig vom Bild
+                                    map[pos - 1] = 2 + "";
+                                    old_middle[0] = pos - 1;
+                                    map[pos] = 2 + "";
+                                    old_middle[1] = pos;
+                                }
                             }
-                        }
-                        //großes Schiff
-                        if (which_ship == 2) {
-                            if (!map[pos].equals(2 + "") && !map[pos + 1].equals(2 + "") && !map[pos + 2].equals(2 + "")) {
-                                delete(old_big);
-                                // pos-1 weil wenn man das Bild bewegt ist der Zeiger genau mittig vom Bild
-                                map[pos-1] = 2 + "";
-                                old_big[0] = pos-1;
-                                map[pos] = 2 + "";
-                                old_big[1] = pos;
-                                map[pos + 1] = 2 + "";
-                                old_big[2] = pos + 1;
+                            //großes Schiff
+                            if (which_ship == 2) {
+                                if (!map[pos].equals(2 + "") && !map[pos + 1].equals(2 + "") && !map[pos + 2].equals(2 + "")) {
+                                    delete(old_big);
+                                    // pos-1 weil wenn man das Bild bewegt ist der Zeiger genau mittig vom Bild
+                                    map[pos - 1] = 2 + "";
+                                    old_big[0] = pos - 1;
+                                    map[pos] = 2 + "";
+                                    old_big[1] = pos;
+                                    map[pos + 1] = 2 + "";
+                                    old_big[2] = pos + 1;
+                                }
                             }
-                        }
+
                         draw(map);
 
                         return (true);
