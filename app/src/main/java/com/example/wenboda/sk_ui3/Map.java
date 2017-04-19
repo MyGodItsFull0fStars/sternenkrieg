@@ -15,6 +15,10 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
+
 public class Map extends AppCompatActivity {
     GridView gridView;
     ImageView imageView;
@@ -23,9 +27,9 @@ public class Map extends AppCompatActivity {
     int width;
     int height;
     int oldpos;
-    int degree=0;
+    int degree = 0;
     int which_ship;
-    int[] old_small= new int[1];
+    int[] old_small = new int[1];
     int[] old_middle = new int[2];
     int[] old_big = new int[3];
 
@@ -57,7 +61,7 @@ public class Map extends AppCompatActivity {
         gridView = (GridView) findViewById(R.id.gridView);
         gridView.getLayoutParams().height = height;
         gridView.getLayoutParams().width = height;
-        ship1.getLayoutParams().height = height /8;
+        ship1.getLayoutParams().height = height / 8;
         ship1.getLayoutParams().width = height / 8;
         ship2.getLayoutParams().height = height / 8;
         ship2.getLayoutParams().width = height / 4;
@@ -70,20 +74,21 @@ public class Map extends AppCompatActivity {
         turn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                degree+=90;
-                if(degree==360)
-                    degree=0;
+                degree += 90;
+                if (degree == 360)
+                    degree = 0;
 
-                ship1.setRotation(degree);
-                ship2.setRotation(degree);
-                ship3.setRotation(degree);
+                ship1.animate().rotationBy(90).start();
+                ship2.animate().rotationBy(90).start();
+                ship3.animate().rotationBy(90).start();
 
             }
         });
 
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-                Toast.makeText(getApplicationContext(), "Pos: " + position + " Id: " + id,
+
+                Toast.makeText(getApplicationContext(), "Pos: " + position + " Id: " ,
                         Toast.LENGTH_SHORT).show();
                 map[position] = 1 + "";
                 draw(map);
@@ -119,32 +124,65 @@ public class Map extends AppCompatActivity {
                                 //neue Position gesetzt
                                 map[pos] = 2 + "";
                                 old_small[0] = pos;
+
+
                             }
+
                         }
                         //mittleres Schiff
                         if (which_ship == 1) {
-                            if (!map[pos].equals(2 + "") && !map[pos + 1].equals(2 + "")) {
-                                delete(old_middle);
-                                // pos-1 weil wenn man das Bild bewegt ist der Zeiger genau mittig vom Bild
-                                map[pos-1] = 2 + "";
-                                old_middle[0] = pos-1;
-                                map[pos] = 2 + "";
-                                old_middle[1] = pos;
+                            if (degree == 180 || degree == 0) {
+                                //chek_position schaut das das schiff nicht auserhalb der map oder vom rechten ende der map auf die linke seite gesetzt wird
+                                if (chek_position(pos, which_ship)&&!map[pos].equals(2 + "") && !map[pos + 1].equals(2 + "")) {
+                                    delete(old_middle);
+                                    // pos-1 weil wenn man das Bild bewegt ist der Zeiger genau mittig vom Bild
+                                    map[pos - 1] = 2 + "";
+                                    old_middle[0] = pos - 1;
+                                    map[pos] = 2 + "";
+                                    old_middle[1] = pos;
+                                }
+                            } else if (degree == 90 || degree == 270) {
+                                if (chek_position(pos, which_ship)&&!map[pos].equals(2 + "") && !map[pos - 8].equals(2 + "")) {
+                                    delete(old_middle);
+                                    map[pos - 8] = 2 + "";
+                                    old_middle[0] = pos - 8;
+                                    map[pos] = 2 + "";
+                                    old_middle[1] = pos;
+                                }
+
                             }
+
+
                         }
                         //großes Schiff
                         if (which_ship == 2) {
-                            if (!map[pos].equals(2 + "") && !map[pos + 1].equals(2 + "") && !map[pos + 2].equals(2 + "")) {
-                                delete(old_big);
-                                // pos-1 weil wenn man das Bild bewegt ist der Zeiger genau mittig vom Bild
-                                map[pos-1] = 2 + "";
-                                old_big[0] = pos-1;
-                                map[pos] = 2 + "";
-                                old_big[1] = pos;
-                                map[pos + 1] = 2 + "";
-                                old_big[2] = pos + 1;
+                            if (degree == 180 || degree == 0) {
+                                if (chek_position(pos, which_ship)&&!map[pos].equals(2 + "") && !map[pos + 1].equals(2 + "") && !map[pos + 2].equals(2 + "")) {
+                                    delete(old_big);
+                                    // pos-1 weil wenn man das Bild bewegt ist der Zeiger genau mittig vom Bild
+                                    map[pos - 1] = 2 + "";
+                                    old_big[0] = pos - 1;
+                                    map[pos] = 2 + "";
+                                    old_big[1] = pos;
+                                    map[pos + 1] = 2 + "";
+                                    old_big[2] = pos + 1;
+                                }
+                            } else if (degree == 90 || degree == 270) {
+                                if (chek_position(pos, which_ship)&& !map[pos - 8].equals(2 + "") && !map[pos].equals(2 + "") && !map[pos + 8].equals(2 + "")) {
+                                    delete(old_big);
+                                    map[pos - 8] = 2 + "";
+                                    old_big[0] = pos - 8;
+                                    map[pos] = 2 + "";
+                                    old_big[1] = pos;
+                                    map[pos + 8] = 2 + "";
+                                    old_big[2] = pos + 8;
+                                }
+
+
                             }
+
                         }
+
                         draw(map);
 
                         return (true);
@@ -152,7 +190,9 @@ public class Map extends AppCompatActivity {
                     }
 
                     case DragEvent.ACTION_DRAG_ENDED: {
-
+                        ship1.setVisibility(View.VISIBLE);
+                        ship2.setVisibility(View.VISIBLE);
+                        ship3.setVisibility(View.VISIBLE);
                         return (true);
 
                     }
@@ -164,7 +204,9 @@ public class Map extends AppCompatActivity {
 
         });
 
-        ship1.setOnTouchListener(new View.OnTouchListener() {
+        ship1.setOnTouchListener(new View.OnTouchListener()
+
+        {
 
             @Override
             public boolean onTouch(View v, MotionEvent arg1) {
@@ -173,10 +215,13 @@ public class Map extends AppCompatActivity {
                 v.startDrag(data, shadow, null, 0);
                 //small ship
                 which_ship = 0;
+                ship1.setVisibility(View.INVISIBLE);
                 return false;
             }
         });
-        ship2.setOnTouchListener(new View.OnTouchListener() {
+        ship2.setOnTouchListener(new View.OnTouchListener()
+
+        {
 
             @Override
             public boolean onTouch(View v, MotionEvent arg1) {
@@ -185,23 +230,58 @@ public class Map extends AppCompatActivity {
                 v.startDrag(data, shadow, null, 0);
                 //middle ship
                 which_ship = 1;
+                ship2.setVisibility(View.INVISIBLE);
                 return false;
             }
         });
-        ship3.setOnTouchListener(new View.OnTouchListener() {
+        ship3.setOnTouchListener(new View.OnTouchListener()
+
+        {
 
             @Override
             public boolean onTouch(View v, MotionEvent arg1) {
                 ClipData data = ClipData.newPlainText("", "");
                 View.DragShadowBuilder shadow = new View.DragShadowBuilder(ship3);
+
                 v.startDrag(data, shadow, null, 0);
                 //big ship
                 which_ship = 2;
+                ship3.setVisibility(View.INVISIBLE);
                 return false;
             }
         });
 
 
+    }
+    public boolean chek_position(int pos,int size){
+        ArrayList<Integer> failures_right=new ArrayList<Integer>(Arrays.asList(7,15,23,31,39,47,55,63));
+        ArrayList<Integer> failures_leftt=new ArrayList<Integer>(Arrays.asList(8,16,24,32,40,48,56));
+
+        String[] length = new String[size];
+        if (degree == 180 || degree == 0) {
+            if (size == 1) {
+                if (failures_right.contains(pos-1)||failures_leftt.contains(pos) || pos < 1 || pos > 62) {
+                    return false;
+                }
+            } else if (size == 2) {
+                if (failures_right.contains(pos-1) ||failures_right.contains(pos)|| failures_leftt.contains(pos) || pos < 1 || pos > 62) {
+                    return false;
+                }
+            }
+        }
+        if (degree == 90 || degree == 270) {
+            if (size == 1) {
+                if (pos < 8 || pos > 63) {
+                    return false;
+                }
+            } else if (size == 2) {
+                if (pos < 8 || pos > 55) {
+                    return false;
+                }
+            }
+
+        }
+        return true;
     }
 
     public int position(int x, int y) {
@@ -212,15 +292,16 @@ public class Map extends AppCompatActivity {
         return pos;
     }
 
-    public void delete(int data[]){
-        if(data.equals(null)){
+    public void delete(int data[]) {
+        if (data.equals(null)) {
 
-        }else {
+        } else {
             for (int x : data) {
                 map[x] = 0 + "";
             }
-            draw(map);
+
         }
+        draw(map);
 
     }
 
