@@ -15,6 +15,9 @@ import com.bumptech.glide.Glide;
 public class MainActivity extends AppCompatActivity {
 
     Button button;
+    Button networkBtn;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,6 +30,10 @@ public class MainActivity extends AppCompatActivity {
         spielenlistener s = new spielenlistener();
         button.setOnClickListener(s);
 
+        networkBtn= (Button)findViewById(R.id.network);
+        networkListener networkListener = new networkListener();
+        networkBtn.setOnClickListener(networkListener);
+
         ImageView background = (ImageView) findViewById(R.id.background);
         background.setBackgroundColor(Color.rgb(0,0,0));
         Glide.with(this).load(R.raw.beckgraund).asGif().centerCrop().into(background);
@@ -36,9 +43,18 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onClick(View v) {
 
-            Intent inten = new Intent();
-            inten.setClass(MainActivity.this,Map.class);
-            startActivity(inten);
+            Intent intent = new Intent();
+            intent.setClass(MainActivity.this,Map.class);
+            startActivity(intent);
+        }
+    }
+
+    class networkListener implements View.OnClickListener{
+
+        @Override
+        public void onClick(View view) {
+            Intent intent = new Intent(MainActivity.this, Networking.class);
+            startActivity(intent);
         }
     }
 }

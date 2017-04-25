@@ -64,7 +64,6 @@ public class Networking extends AppCompatActivity implements GoogleApiClient.Con
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wifi);
-
         initViews();
     }
 

@@ -6,26 +6,24 @@
     android:layout_height="match_parent"
     tools:context="com.example.wenboda.sk_ui3.MainActivity">
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <RelativeLayout
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_marginBottom="0dp"
-        android:layout_marginLeft="0dp"
-        android:layout_marginRight="0dp"
-        android:layout_marginTop="0dp"
+        android:layout_height="0dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
 
         <ImageView
             android:id="@+id/background"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_alignParentTop="true"
-            android:layout_marginTop="0dp"
-            android:layout_marginBottom="0dp"/>
+            android:layout_marginBottom="0dp"
+            android:layout_marginTop="0dp" />
 
 
         <LinearLayout
@@ -52,9 +50,11 @@
                 android:id="@+id/spielen"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
+                android:backgroundTint="@color/colorPrimary"
+
+
                 android:text="Spielen"
-
-
+                android:textColor="@color/common_signin_btn_dark_text_default"
                 android:textSize="20sp" />
 
             <Button
@@ -62,15 +62,29 @@
                 android:layout_height="wrap_content"
 
 
+                android:backgroundTint="@color/colorPrimary"
                 android:text="Optionen"
+                android:textColor="@color/common_signin_btn_dark_text_default"
                 android:textSize="20sp" />
 
             <Button
+                android:id="@+id/button3"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
+
+
+                android:backgroundTint="@color/colorPrimary"
                 android:text="Über uns"
+                android:textColor="@color/common_signin_btn_dark_text_default"
+                android:textSize="20sp" />
 
-
+            <Button
+                android:id="@+id/network"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/colorPrimary"
+                android:text="Host/Client"
+                android:textColor="@color/common_signin_btn_dark_text_default"
                 android:textSize="20sp" />
 
 

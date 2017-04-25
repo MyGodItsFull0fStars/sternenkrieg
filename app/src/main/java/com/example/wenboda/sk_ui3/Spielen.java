@@ -1,9 +1,7 @@
 package com.example.wenboda.sk_ui3;
 
 import android.app.Activity;
-import android.app.Instrumentation;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.KeyEvent;
@@ -20,6 +18,8 @@ import java.io.IOException;
 public class Spielen extends Activity {
     Button button;
     ImageButton back;
+    //Button networkBtn;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,12 +27,24 @@ public class Spielen extends Activity {
         setContentView(R.layout.spielen);
         button = (Button)findViewById(R.id.Einzelspieler);
         back = (ImageButton) findViewById(R.id.Back);
+        //networkBtn = (Button) findViewById(R.id.network);
 
         onclickl onclickModi = new onclickl();
         button.setOnClickListener(onclickModi);
 
         onclickb onclickback = new onclickb();
         back.setOnClickListener(onclickback);
+
+//        networkBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(Spielen.this, Networking.class);
+//                startActivity(intent);
+//            }
+//        });
+
+
+
     }
 
     class onclickl implements View.OnClickListener{
