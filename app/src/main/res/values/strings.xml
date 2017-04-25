@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">SK_UI3</string>
+    <string name="service_id">Sternenkrieg</string>
+    <string name="connection_type_host">Host</string>
 </resources>
