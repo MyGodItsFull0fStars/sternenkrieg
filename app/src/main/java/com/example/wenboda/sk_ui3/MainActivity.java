@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.target.GlideDrawableImageViewTarget;
 
 import java.io.IOException;
@@ -34,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
 
         ImageView background = (ImageView) findViewById(R.id.background);
         background.setBackgroundColor(Color.rgb(0,0,0));
-        Glide.with(this).load(R.raw.beckgraund).asGif().centerCrop().into(background);
+        Glide.with(this).load(R.raw.background).asGif().centerCrop().diskCacheStrategy(DiskCacheStrategy.SOURCE).into(background);
     }
     class spielenlistener implements View.OnClickListener{
 
