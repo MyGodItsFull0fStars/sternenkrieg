@@ -3,24 +3,22 @@ package com.example.wenboda.sk_ui3;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Color;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.request.target.GlideDrawableImageViewTarget;
-
-import java.io.IOException;
-import java.io.InputStream;
 
 public class MainActivity extends AppCompatActivity {
 
     Button button;
+    Button networkBtn;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,6 +31,10 @@ public class MainActivity extends AppCompatActivity {
         spielenlistener s = new spielenlistener();
         button.setOnClickListener(s);
 
+        networkBtn= (Button)findViewById(R.id.network);
+        networkListener networkListener = new networkListener();
+        networkBtn.setOnClickListener(networkListener);
+
         ImageView background = (ImageView) findViewById(R.id.background);
         background.setBackgroundColor(Color.rgb(0,0,0));
         Glide.with(this).load(R.raw.cet).asGif().centerCrop().diskCacheStrategy(DiskCacheStrategy.SOURCE).into(background);
@@ -42,9 +44,18 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onClick(View v) {
 
-            Intent inten = new Intent();
-            inten.setClass(MainActivity.this,Map.class);
-            startActivity(inten);
+            Intent intent = new Intent();
+            intent.setClass(MainActivity.this,Map.class);
+            startActivity(intent);
+        }
+    }
+
+    class networkListener implements View.OnClickListener{
+
+        @Override
+        public void onClick(View view) {
+            Intent intent = new Intent(MainActivity.this, Networking.class);
+            startActivity(intent);
         }
     }
 }
