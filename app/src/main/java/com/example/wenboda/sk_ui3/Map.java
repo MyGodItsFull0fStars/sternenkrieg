@@ -1,6 +1,7 @@
 package com.example.wenboda.sk_ui3;
 
 import android.content.ClipData;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Point;
 import android.os.Bundle;
@@ -22,7 +23,7 @@ import java.util.Arrays;
 public class Map extends AppCompatActivity {
     GridView gridView;
     ImageView imageView;
-    ImageView ship1, ship2, ship3, turn;
+    ImageView ship1, ship2, ship3, turn, play;
     String map[];
     int width;
     int height;
@@ -32,6 +33,7 @@ public class Map extends AppCompatActivity {
     int[] old_small = new int[1];
     int[] old_middle = new int[2];
     int[] old_big = new int[3];
+    boolean count0, count1, count2 = false;
 
 
     @Override
@@ -46,6 +48,7 @@ public class Map extends AppCompatActivity {
         ship2 = (ImageView) findViewById(R.id.image_ship2);
         ship3 = (ImageView) findViewById(R.id.image_ship3);
         turn = (ImageView) findViewById(R.id.image_turn);
+        play = (ImageView) findViewById(R.id.play);
         oldpos = 0;
 
         map = new String[64];
@@ -67,6 +70,16 @@ public class Map extends AppCompatActivity {
         ship2.getLayoutParams().width = height / 4;
         ship3.getLayoutParams().height = height / 8;
         ship3.getLayoutParams().width = height / 3;
+
+
+            play.setOnClickListener((v) -> {
+                System.out.println("Clicked on Button!");
+                        if(count0 && count1 && count2) {
+                            Intent intent = new Intent();
+                            intent.setClass(Map.this, Spielfeld.class);
+                            startActivity(intent);
+                        }
+            });
 
 
         gridView.setAdapter(new MapLoad(this, map));
@@ -127,7 +140,8 @@ public class Map extends AppCompatActivity {
 
 
                             }
-
+                            count0=true;
+                            System.out.println("Placed ship successfully!");
                         }
                         //mittleres Schiff
                         if (which_ship == 1) {
@@ -151,8 +165,8 @@ public class Map extends AppCompatActivity {
                                 }
 
                             }
-
-
+                            count1=true;
+                            System.out.println("Placed ship successfully!");
                         }
                         //großes Schiff
                         if (which_ship == 2) {
@@ -180,7 +194,8 @@ public class Map extends AppCompatActivity {
 
 
                             }
-
+                            count2=true;
+                            System.out.println("Placed ship successfully!");
                         }
 
                         draw(map);
@@ -308,4 +323,5 @@ public class Map extends AppCompatActivity {
     public void draw(String[] array) {
         gridView.setAdapter(new MapLoad(this, array));
     }
+
 }

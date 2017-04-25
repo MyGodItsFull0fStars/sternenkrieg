@@ -31,6 +31,9 @@
         <activity android:name=".Map"
             android:label="SK_UI3"
             />
+        <activity android:name=".Spielfeld"
+            android:label="SK_UI3"
+            />
     </application>
 
 </manifest>
