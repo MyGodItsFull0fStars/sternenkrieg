@@ -37,6 +37,7 @@ public class Networking extends AppCompatActivity implements GoogleApiClient.Con
 
     private GoogleApiClient mGoogleApiClient;
 
+
     private Spinner mTypeSpinner;
     private TextView mStatusText;
     private Button mConnectionButton;

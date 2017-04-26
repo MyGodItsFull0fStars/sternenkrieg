@@ -25,15 +25,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/spinner_type"
-        android:text="Advertise/Connect"/>
+        android:backgroundTint="@color/colorPrimary"
+        android:text="Advertise/Connect"
+        android:textColor="@color/common_signin_btn_dark_text_default" />
 
     <ListView
         android:id="@+id/list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:stackFromBottom="true"
-        android:layout_below="@+id/button_connection"
-        android:layout_above="@+id/send_text_container"/>
+        android:layout_below="@+id/button_connection" />
 
     <LinearLayout
         android:id="@+id/send_text_container"
@@ -60,7 +61,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Send" />
+            android:text="@string/send" />
 
     </LinearLayout>
 
