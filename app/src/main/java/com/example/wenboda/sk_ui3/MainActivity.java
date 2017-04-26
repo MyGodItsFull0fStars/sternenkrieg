@@ -17,6 +17,8 @@ public class MainActivity extends AppCompatActivity {
 
     Button button;
     Button networkBtn;
+    Button optionsBtn;
+    Button aboutBtn;
 
 
     @Override
@@ -34,6 +36,14 @@ public class MainActivity extends AppCompatActivity {
         networkBtn= (Button)findViewById(R.id.network);
         networkListener networkListener = new networkListener();
         networkBtn.setOnClickListener(networkListener);
+
+        aboutBtn = (Button) findViewById(R.id.about);
+        aboutListener aboutListener = new aboutListener();
+        aboutBtn.setOnClickListener(aboutListener);
+
+        optionsBtn = (Button) findViewById(R.id.options);
+        optionsListener optionsListener = new optionsListener();
+        optionsBtn.setOnClickListener(optionsListener);
 
         ImageView background = (ImageView) findViewById(R.id.background);
         background.setBackgroundColor(Color.rgb(0,0,0));
@@ -55,6 +65,24 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onClick(View view) {
             Intent intent = new Intent(MainActivity.this, Networking.class);
+            startActivity(intent);
+        }
+    }
+
+    class aboutListener implements View.OnClickListener{
+
+        @Override
+        public void onClick(View view) {
+            Intent intent = new Intent(MainActivity.this, About.class);
+            startActivity(intent);
+        }
+    }
+
+    class optionsListener implements View.OnClickListener{
+
+        @Override
+        public void onClick(View view) {
+            Intent intent = new Intent(MainActivity.this, Options.class);
             startActivity(intent);
         }
     }
