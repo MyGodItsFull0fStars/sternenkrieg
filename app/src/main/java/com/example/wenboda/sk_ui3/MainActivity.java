@@ -26,30 +26,31 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 
-        button = (Button)findViewById(R.id.spielen);
+        button = (Button) findViewById(R.id.spielen);
         spielenlistener s = new spielenlistener();
         button.setOnClickListener(s);
 
-        networkBtn= (Button)findViewById(R.id.network);
+        networkBtn = (Button) findViewById(R.id.network);
         networkListener networkListener = new networkListener();
         networkBtn.setOnClickListener(networkListener);
 
         ImageView background = (ImageView) findViewById(R.id.background);
-        background.setBackgroundColor(Color.rgb(0,0,0));
+        background.setBackgroundColor(Color.rgb(0, 0, 0));
         Glide.with(this).load(R.raw.beckgraund).asGif().centerCrop().into(background);
     }
-    class spielenlistener implements View.OnClickListener{
+
+    private class spielenlistener implements View.OnClickListener {
 
         @Override
         public void onClick(View v) {
 
             Intent intent = new Intent();
-            intent.setClass(MainActivity.this,Map.class);
+            intent.setClass(MainActivity.this, Map.class);
             startActivity(intent);
         }
     }
 
-    class networkListener implements View.OnClickListener{
+    private class networkListener implements View.OnClickListener {
 
         @Override
         public void onClick(View view) {
