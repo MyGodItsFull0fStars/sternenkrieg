@@ -3,6 +3,7 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_map"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.wenboda.sk_ui3.Map">
@@ -15,30 +16,30 @@
         android:layout_marginRight="16dp"
         android:layout_marginTop="41dp"
         app:layout_constraintRight_toRightOf="parent"
-        app:srcCompat="@drawable/ship"
-        app:layout_constraintTop_toBottomOf="@+id/image_turn" />
+        app:layout_constraintTop_toBottomOf="@+id/image_turn"
+        app:srcCompat="@drawable/ship" />
 
     <ImageView
         android:id="@+id/image_ship2"
         android:layout_width="119dp"
         android:layout_height="80dp"
-        app:srcCompat="@drawable/schiff_middle"
         android:layout_marginRight="7dp"
-        app:layout_constraintRight_toRightOf="parent"
         android:layout_marginTop="24dp"
-        app:layout_constraintTop_toBottomOf="@+id/image_ship1" />
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/image_ship1"
+        app:srcCompat="@drawable/schiff_middle" />
 
     <ImageView
         android:id="@+id/image_ship3"
         android:layout_width="156dp"
         android:layout_height="102dp"
-        app:srcCompat="@drawable/schiff_big"
         android:layout_marginRight="7dp"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintVertical_bias="0.0"
         android:layout_marginTop="8dp"
-        app:layout_constraintTop_toBottomOf="@+id/image_ship2" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/image_ship2"
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@drawable/schiff_big" />
 
     <GridView
         android:id="@+id/gridView"
@@ -62,11 +63,11 @@
         android:id="@+id/image_turn"
         android:layout_width="78dp"
         android:layout_height="54dp"
-        app:srcCompat="@drawable/rotate"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="16dp"
         android:layout_marginRight="16dp"
+        android:layout_marginTop="16dp"
         app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/rotate"
         tools:layout_editor_absoluteX="290dp" />
 
     <ImageView

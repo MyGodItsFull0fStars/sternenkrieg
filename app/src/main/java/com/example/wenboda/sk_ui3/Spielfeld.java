@@ -42,24 +42,25 @@ public class Spielfeld extends AppCompatActivity {
 
         imageView = (ImageView) findViewById(R.id.grid_item_image);
 
-        Map myShips = new Map();
-       map1 = myShips.getMap();
+        String[] map1 = getIntent().getExtras().getStringArray("oldmap");
 
-      //  gridView1.setAdapter(new MapLoad(this, map1));
+       // gridView1.setAdapter(new MapLoad(this, map1));
       //  map1 = new String[64];
         map2 = new String[64];
         for (int i = 0; i < 64; i++) {
-            map1[i] = 0 + "";
             map2[i] = 0 + "";
         }
 
+        map2[31] = "a";
+        map2[32] = "a";
+        map2[33] = "a";
 
         Display display = getWindowManager().getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
         System.out.println(size.x+" -- "+size.y);
-        width = size.x - 300;
-        height = size.y - 300;
+        width = size.x - 60;
+        height = size.y - 60;
 
         gridView1 = (GridView) findViewById(R.id.player1_grid);
         gridView1.getLayoutParams().height = height;
