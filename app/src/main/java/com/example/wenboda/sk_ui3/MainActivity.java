@@ -11,11 +11,14 @@ import android.widget.Button;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 public class MainActivity extends AppCompatActivity {
 
     Button button;
     Button networkBtn;
+    Button optionsBtn;
+    Button aboutBtn;
 
 
     @Override
@@ -26,35 +29,60 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 
-        button = (Button) findViewById(R.id.spielen);
+        button = (Button)findViewById(R.id.spielen);
         spielenlistener s = new spielenlistener();
         button.setOnClickListener(s);
 
-        networkBtn = (Button) findViewById(R.id.network);
+        networkBtn= (Button)findViewById(R.id.network);
         networkListener networkListener = new networkListener();
         networkBtn.setOnClickListener(networkListener);
 
-        ImageView background = (ImageView) findViewById(R.id.background);
-        background.setBackgroundColor(Color.rgb(0, 0, 0));
-        Glide.with(this).load(R.raw.beckgraund).asGif().centerCrop().into(background);
-    }
+        aboutBtn = (Button) findViewById(R.id.about);
+        aboutListener aboutListener = new aboutListener();
+        aboutBtn.setOnClickListener(aboutListener);
 
-    private class spielenlistener implements View.OnClickListener {
+        optionsBtn = (Button) findViewById(R.id.options);
+        optionsListener optionsListener = new optionsListener();
+        optionsBtn.setOnClickListener(optionsListener);
+
+        ImageView background = (ImageView) findViewById(R.id.background);
+        background.setBackgroundColor(Color.rgb(0,0,0));
+        Glide.with(this).load(R.raw.background).asGif().centerCrop().diskCacheStrategy(DiskCacheStrategy.SOURCE).into(background);
+    }
+    class spielenlistener implements View.OnClickListener{
 
         @Override
         public void onClick(View v) {
 
             Intent intent = new Intent();
-            intent.setClass(MainActivity.this, Map.class);
+            intent.setClass(MainActivity.this,Map.class);
             startActivity(intent);
         }
     }
 
-    private class networkListener implements View.OnClickListener {
+    class networkListener implements View.OnClickListener{
 
         @Override
         public void onClick(View view) {
             Intent intent = new Intent(MainActivity.this, Networking.class);
+            startActivity(intent);
+        }
+    }
+
+    class aboutListener implements View.OnClickListener{
+
+        @Override
+        public void onClick(View view) {
+            Intent intent = new Intent(MainActivity.this, About.class);
+            startActivity(intent);
+        }
+    }
+
+    class optionsListener implements View.OnClickListener{
+
+        @Override
+        public void onClick(View view) {
+            Intent intent = new Intent(MainActivity.this, Options.class);
             startActivity(intent);
         }
     }
