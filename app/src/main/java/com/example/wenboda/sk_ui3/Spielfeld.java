@@ -1,24 +1,17 @@
 package com.example.wenboda.sk_ui3;
 
 
-import android.content.ClipData;
-import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Display;
-import android.view.DragEvent;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.Toast;
-
-import java.lang.reflect.Array;
-import java.util.*;
 
 /**
  * Created by anja on 25.04.17.
@@ -43,10 +36,10 @@ public class Spielfeld extends AppCompatActivity {
         imageView = (ImageView) findViewById(R.id.grid_item_image);
 
         Map myShips = new Map();
-       map1 = myShips.getMap();
+        map1 = myShips.getMap();
 
-      //  gridView1.setAdapter(new MapLoad(this, map1));
-      //  map1 = new String[64];
+        //  gridView1.setAdapter(new MapLoad(this, map1));
+        //  map1 = new String[64];
         map2 = new String[64];
         for (int i = 0; i < 64; i++) {
             map1[i] = 0 + "";
@@ -57,7 +50,7 @@ public class Spielfeld extends AppCompatActivity {
         Display display = getWindowManager().getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
-        System.out.println(size.x+" -- "+size.y);
+        System.out.println(size.x + " -- " + size.y);
         width = size.x - 300;
         height = size.y - 300;
 
@@ -78,8 +71,6 @@ public class Spielfeld extends AppCompatActivity {
                         Toast.LENGTH_SHORT).show();
                 map1[position] = 3 + "";
                 draw(map1, gridView1);
-
-
             }
         });
 
@@ -98,10 +89,10 @@ public class Spielfeld extends AppCompatActivity {
 
     }
 
-      public void draw(String[] array, GridView gridView) {
+    public void draw(String[] array, GridView gridView) {
         gridView.setAdapter(new MapLoad(this, array));
-        }
     }
+}
 
 
 
