@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
 
         ImageView background = (ImageView) findViewById(R.id.background);
         background.setBackgroundColor(Color.rgb(0,0,0));
-        Glide.with(this).load(R.raw.cet).asGif().centerCrop().diskCacheStrategy(DiskCacheStrategy.SOURCE).into(background);
+        Glide.with(this).load(R.raw.background).asGif().centerCrop().diskCacheStrategy(DiskCacheStrategy.SOURCE).into(background);
     }
     class spielenlistener implements View.OnClickListener{
 

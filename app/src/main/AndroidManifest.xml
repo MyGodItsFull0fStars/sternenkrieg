@@ -28,12 +28,14 @@
         <activity
             android:name=".EndScreen"
             android:label="@string/app_name" />
-        <activity android:name=".Map"
-            android:label="@string/app_name"
-            />
-        <activity android:name=".Networking"
+        <activity
+            android:name=".Map"
+            android:label="@string/app_name" />
+        <activity
+            android:name=".Networking"
             android:label="@string/app_name"/>
-        <activity android:name=".Spielfeld"
+        <activity
+            android:name=".Spielfeld"
             android:label="SK_UI3" />
     </application>
 

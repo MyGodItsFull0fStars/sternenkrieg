@@ -24,7 +24,7 @@ public class Map extends AppCompatActivity {
     GridView gridView;
     ImageView imageView;
     ImageView ship1, ship2, ship3, turn, play;
-    String map[];
+    String map[] = new String[64];
     int width;
     int height;
     int oldpos;
@@ -35,6 +35,11 @@ public class Map extends AppCompatActivity {
     int[] old_big = new int[3];
     boolean count0, count1, count2 = false;
 
+
+    public String[] getMap() {
+        map[23] = 2+"";
+        return map;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
