@@ -16,7 +16,6 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -82,6 +81,7 @@ public class Map extends AppCompatActivity {
                         if(count0 && count1 && count2) {
                             Intent intent = new Intent();
                             intent.setClass(Map.this, Spielfeld.class);
+                            intent.putExtra("oldmap", map);
                             startActivity(intent);
                         }
             });
@@ -151,7 +151,7 @@ public class Map extends AppCompatActivity {
                         //mittleres Schiff
                         if (which_ship == 1) {
                             if (degree == 180 || degree == 0) {
-                                //chek_position schaut das das schiff nicht auserhalb der map oder vom rechten ende der map auf die linke seite gesetzt wird
+                                //check_position schaut dass das schiff nicht auserhalb der map oder vom rechten ende der map auf die linke seite gesetzt wird
                                 if (chek_position(pos, which_ship)&&!map[pos].equals(2 + "") && !map[pos + 1].equals(2 + "")) {
                                     delete(old_middle);
                                     // pos-1 weil wenn man das Bild bewegt ist der Zeiger genau mittig vom Bild

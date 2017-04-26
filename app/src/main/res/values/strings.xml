@@ -4,4 +4,5 @@
     <string name="sk_label">SK_UI3</string>
     <string name="connection_type_host">Host</string>
     <string name="connection_type_client">Client</string>
+    <string name="send">Send</string>
 </resources>
