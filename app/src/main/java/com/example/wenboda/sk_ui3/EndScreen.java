@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+
 public class EndScreen extends AppCompatActivity {
     Button button;
     TextView who_is_starting;
