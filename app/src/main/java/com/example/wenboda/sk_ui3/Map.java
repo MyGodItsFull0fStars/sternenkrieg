@@ -81,6 +81,7 @@ public class Map extends AppCompatActivity {
                         if(count0 && count1 && count2) {
                             Intent intent = new Intent();
                             intent.setClass(Map.this, Spielfeld.class);
+                            intent.putExtra("oldmap", map);
                             startActivity(intent);
                         }
             });
