@@ -79,8 +79,11 @@ public class MapLoad extends BaseAdapter{
                 imageView.setBackgroundColor(Color.MAGENTA);
             } else if (mobile.equals("2")) {
                 imageView.setBackgroundColor(Color.RED);
-            }else if(mobile.equals("3"))
+            }else if(mobile.equals("3")) {
                 imageView.setBackgroundColor(Color.YELLOW);
+            }else if(mobile.equals("4"))
+                imageView.setBackgroundColor(Color.GREEN);
+
 
         } else {
             gridView = (View) convertView;
