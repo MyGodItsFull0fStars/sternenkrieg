@@ -19,6 +19,7 @@ public class MainActivity extends AppCompatActivity {
     Button networkBtn;
     Button optionsBtn;
     Button aboutBtn;
+    Button wuerfelBtn;
 
 
     @Override
@@ -29,11 +30,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 
-        button = (Button)findViewById(R.id.spielen);
+        button = (Button) findViewById(R.id.spielen);
         spielenlistener s = new spielenlistener();
         button.setOnClickListener(s);
 
-        networkBtn= (Button)findViewById(R.id.network);
+        networkBtn = (Button) findViewById(R.id.network);
         networkListener networkListener = new networkListener();
         networkBtn.setOnClickListener(networkListener);
 
@@ -45,22 +46,33 @@ public class MainActivity extends AppCompatActivity {
         optionsListener optionsListener = new optionsListener();
         optionsBtn.setOnClickListener(optionsListener);
 
+        wuerfelBtn = (Button) findViewById(R.id.wuerfel);
+        wuerfelBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, wuerfeltest.class);
+                intent.putExtra("shake", false);
+                startActivity(intent);
+            }
+        });
+
         ImageView background = (ImageView) findViewById(R.id.background);
-        background.setBackgroundColor(Color.rgb(0,0,0));
+        background.setBackgroundColor(Color.rgb(0, 0, 0));
         Glide.with(this).load(R.raw.background).asGif().centerCrop().diskCacheStrategy(DiskCacheStrategy.SOURCE).into(background);
     }
-    class spielenlistener implements View.OnClickListener{
+
+    private class spielenlistener implements View.OnClickListener {
 
         @Override
         public void onClick(View v) {
 
             Intent intent = new Intent();
-            intent.setClass(MainActivity.this,Map.class);
+            intent.setClass(MainActivity.this, Map.class);
             startActivity(intent);
         }
     }
 
-    class networkListener implements View.OnClickListener{
+    private class networkListener implements View.OnClickListener {
 
         @Override
         public void onClick(View view) {
@@ -69,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    class aboutListener implements View.OnClickListener{
+    private class aboutListener implements View.OnClickListener {
 
         @Override
         public void onClick(View view) {
@@ -78,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    class optionsListener implements View.OnClickListener{
+    private class optionsListener implements View.OnClickListener {
 
         @Override
         public void onClick(View view) {
