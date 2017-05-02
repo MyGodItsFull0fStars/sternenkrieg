@@ -47,7 +47,7 @@
                 android:src="@drawable/logo" />
 
             <Button
-                android:id="@+id/spielen"
+                android:id="@+id/start"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/colorPrimary"
@@ -89,7 +89,7 @@
                 android:textSize="20sp" />
 
             <Button
-                android:id="@+id/wuerfel"
+                android:id="@+id/dice"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/colorPrimary"

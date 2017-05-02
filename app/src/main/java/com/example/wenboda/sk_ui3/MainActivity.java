@@ -15,12 +15,11 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button button;
+    Button startBtn;
     Button networkBtn;
     Button optionsBtn;
     Button aboutBtn;
-    Button wuerfelBtn;
-
+    Button diceBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,25 +28,49 @@ public class MainActivity extends AppCompatActivity {
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_main);
 
+        // Play
+        startBtn = (Button) findViewById(R.id.start);
+        startBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, Map.class);
+                startActivity(intent);
+            }
+        });
 
-        button = (Button) findViewById(R.id.spielen);
-        spielenlistener s = new spielenlistener();
-        button.setOnClickListener(s);
-
+        // Network
         networkBtn = (Button) findViewById(R.id.network);
-        networkListener networkListener = new networkListener();
-        networkBtn.setOnClickListener(networkListener);
+        networkBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, Networking.class);
+                startActivity(intent);
+            }
+        });
 
+        // About
         aboutBtn = (Button) findViewById(R.id.about);
-        aboutListener aboutListener = new aboutListener();
-        aboutBtn.setOnClickListener(aboutListener);
+        aboutBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, About.class);
+                startActivity(intent);
+            }
+        });
 
+        // Options
         optionsBtn = (Button) findViewById(R.id.options);
-        optionsListener optionsListener = new optionsListener();
-        optionsBtn.setOnClickListener(optionsListener);
+        optionsBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, Options.class);
+                startActivity(intent);
+            }
+        });
 
-        wuerfelBtn = (Button) findViewById(R.id.wuerfel);
-        wuerfelBtn.setOnClickListener(new View.OnClickListener() {
+        // Dice
+        diceBtn = (Button) findViewById(R.id.dice);
+        diceBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, wuerfeltest.class);
@@ -60,43 +83,4 @@ public class MainActivity extends AppCompatActivity {
         background.setBackgroundColor(Color.rgb(0, 0, 0));
         Glide.with(this).load(R.raw.background).asGif().centerCrop().diskCacheStrategy(DiskCacheStrategy.SOURCE).into(background);
     }
-
-    private class spielenlistener implements View.OnClickListener {
-
-        @Override
-        public void onClick(View v) {
-
-            Intent intent = new Intent();
-            intent.setClass(MainActivity.this, Map.class);
-            startActivity(intent);
-        }
-    }
-
-    private class networkListener implements View.OnClickListener {
-
-        @Override
-        public void onClick(View view) {
-            Intent intent = new Intent(MainActivity.this, Networking.class);
-            startActivity(intent);
-        }
-    }
-
-    private class aboutListener implements View.OnClickListener {
-
-        @Override
-        public void onClick(View view) {
-            Intent intent = new Intent(MainActivity.this, About.class);
-            startActivity(intent);
-        }
-    }
-
-    private class optionsListener implements View.OnClickListener {
-
-        @Override
-        public void onClick(View view) {
-            Intent intent = new Intent(MainActivity.this, Options.class);
-            startActivity(intent);
-        }
-    }
 }
-
