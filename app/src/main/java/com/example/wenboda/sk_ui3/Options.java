@@ -1,8 +1,6 @@
 package com.example.wenboda.sk_ui3;
 
 import android.media.MediaPlayer;
-import android.support.annotation.IdRes;
-import android.support.v4.media.MediaBrowserCompatUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -13,28 +11,28 @@ import android.widget.ToggleButton;
 
 public class Options extends AppCompatActivity {
 
-    ToggleButton toggleButton;
-    TextView textView;
-    Boolean enabled;
-
+    ToggleButton toggleSoundBtn;
+    TextView textViewStatus;
     Button playSoundBtn;
+
+    Boolean soundStatus; // sound enabled = 1
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_options);
 
-        textView = (TextView) findViewById(R.id.textView3);
+        textViewStatus = (TextView) findViewById(R.id.textViewStatus);
 
         // https://developer.android.com/guide/topics/ui/controls/togglebutton.html
-        toggleButton = (ToggleButton) findViewById(R.id.toggleButton);
-        toggleButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        toggleSoundBtn = (ToggleButton) findViewById(R.id.soundButton);
+        toggleSoundBtn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                enabled = isChecked;
-                if(enabled) {
-                    textView.setText("Enabled");
+                soundStatus = isChecked;
+                if (soundStatus) {
+                    textViewStatus.setText("Enabled");
                 } else {
-                    textView.setText("Disabled");
+                    textViewStatus.setText("Disabled");
                 }
             }
         });
@@ -44,9 +42,9 @@ public class Options extends AppCompatActivity {
         playSoundBtn = (Button) findViewById(R.id.buttonPlaySound);
         playSoundBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                if(enabled) {
+                if (soundStatus) {
                     // enabled, play sound
-                    System.out.println("i am here");
+                    System.out.println("Sound should be played");
                     mp.start();
                 } else {
                     // disabled, don't play sound
@@ -55,11 +53,4 @@ public class Options extends AppCompatActivity {
         });
 
     }
-
-
-
-
-
-
-
 }
