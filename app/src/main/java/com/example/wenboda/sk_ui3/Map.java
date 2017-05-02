@@ -92,13 +92,20 @@ public class Map extends AppCompatActivity {
         turn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                degree += 90;
-                if (degree == 360)
-                    degree = 0;
+                if(degree==0) {
+                    degree=1;
+                    ship1.animate().rotationBy(90).start();
+                    ship2.animate().rotationBy(90).start();
+                    ship3.animate().rotationBy(90).start();
+                } else {
+                    degree=0;
+                    ship1.animate().rotationBy(270).start();
+                    ship2.animate().rotationBy(270).start();
+                    ship3.animate().rotationBy(270).start();
+                }
 
-                ship1.animate().rotationBy(90).start();
-                ship2.animate().rotationBy(90).start();
-                ship3.animate().rotationBy(90).start();
+
+
 
             }
         });
@@ -150,7 +157,7 @@ public class Map extends AppCompatActivity {
                         }
                         //mittleres Schiff
                         if (which_ship == 1) {
-                            if (degree == 180 || degree == 0) {
+                            if (degree == 0) {
                                 //check_position schaut dass das schiff nicht auserhalb der map oder vom rechten ende der map auf die linke seite gesetzt wird
                                 if (chek_position(pos, which_ship)&&!map[pos].equals(2 + "") && !map[pos + 1].equals(2 + "")) {
                                     delete(old_middle);
@@ -160,7 +167,7 @@ public class Map extends AppCompatActivity {
                                     map[pos] = 2 + "";
                                     old_middle[1] = pos;
                                 }
-                            } else if (degree == 90 || degree == 270) {
+                            } else if (degree == 1) {
                                 if (chek_position(pos, which_ship)&&!map[pos].equals(2 + "") && !map[pos - 8].equals(2 + "")) {
                                     delete(old_middle);
                                     map[pos - 8] = 2 + "";
@@ -175,7 +182,7 @@ public class Map extends AppCompatActivity {
                         }
                         //großes Schiff
                         if (which_ship == 2) {
-                            if (degree == 180 || degree == 0) {
+                            if (degree == 0) {
                                 if (chek_position(pos, which_ship)&&!map[pos].equals(2 + "") && !map[pos + 1].equals(2 + "") && !map[pos + 2].equals(2 + "")) {
                                     delete(old_big);
                                     // pos-1 weil wenn man das Bild bewegt ist der Zeiger genau mittig vom Bild
@@ -186,7 +193,7 @@ public class Map extends AppCompatActivity {
                                     map[pos + 1] = 2 + "";
                                     old_big[2] = pos + 1;
                                 }
-                            } else if (degree == 90 || degree == 270) {
+                            } else if (degree == 1) {
                                 if (chek_position(pos, which_ship)&& !map[pos - 8].equals(2 + "") && !map[pos].equals(2 + "") && !map[pos + 8].equals(2 + "")) {
                                     delete(old_big);
                                     map[pos - 8] = 2 + "";
@@ -200,7 +207,7 @@ public class Map extends AppCompatActivity {
 
                             }
                             count2=true;
-                            System.out.println("Placed ship successfully!");
+                            //System.out.println("Placed ship successfully!");
                         }
 
                         draw(map);

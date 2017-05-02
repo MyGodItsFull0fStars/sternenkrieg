@@ -33,6 +33,9 @@ public class Spielfeld extends AppCompatActivity {
     int width;
     int height;
 
+    int pointsPlayer=0;
+    int pointsEnemy=0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,29 +45,27 @@ public class Spielfeld extends AppCompatActivity {
 
         imageView = (ImageView) findViewById(R.id.grid_item_image);
 
-        String[] map1 = getIntent().getExtras().getStringArray("oldmap");
+        map1 = getIntent().getExtras().getStringArray("oldmap");
 
-       // gridView1.setAdapter(new MapLoad(this, map1));
-      //  map1 = new String[64];
         map2 = new String[64];
         for (int i = 0; i < 64; i++) {
             map2[i] = 0 + "";
         }
 
-        map2[31] = "a";
+        map2[31] = "a"; //just temporary fill for opponents ships
         map2[32] = "a";
         map2[33] = "a";
 
         Display display = getWindowManager().getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
-        System.out.println(size.x+" -- "+size.y);
-        width = size.x - 60;
-        height = size.y - 60;
+
+        width = size.x - 90;  //x=1794 -- y=1080
+        height = size.y - 120;
 
         gridView1 = (GridView) findViewById(R.id.player1_grid);
-        gridView1.getLayoutParams().height = height;
-        gridView1.getLayoutParams().width = height;
+        //gridView1.getLayoutParams().height = height;
+      //  gridView1.getLayoutParams().width = height;
         gridView1.setAdapter(new MapLoad(this, map1));
 
         gridView2 = (GridView) findViewById(R.id.player2_grid);
@@ -80,11 +81,10 @@ public class Spielfeld extends AppCompatActivity {
                 if (map1[position].equals("2")) {
                     map1[position] = 3 + "";
 
-                } else {
+                } else if (map2[position].equals("0")){
                 map1[position] = 5 + "";
             }
                 draw(map1, gridView1);
-
 
             }
         });
@@ -97,11 +97,28 @@ public class Spielfeld extends AppCompatActivity {
                 if(map2[position].equals("a")) {
                     map2[position] = 4 + "";
 
-                } else {
+                } else if (map2[position].equals("0")){
                     map2[position] = 1 + "";
                 }
                 draw(map2, gridView2);
 
+                Random rand = new Random();
+                int n = rand.nextInt(64);
+
+
+               // gridView1.getChildAt(31).performClick();
+
+                int isthegameoveryet = 0;
+                for (int i = 0; i < 64; i++) {
+                    if((map1[i].equals("2"))) {
+                        isthegameoveryet++;
+                    }
+                }
+
+
+                if(isthegameoveryet == 0) {
+                    System.out.println("Game Over bitches.");
+                }
 
             }
         });
