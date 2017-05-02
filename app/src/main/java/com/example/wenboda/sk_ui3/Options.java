@@ -30,9 +30,9 @@ public class Options extends AppCompatActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 soundStatus = isChecked;
                 if (soundStatus) {
-                    textViewStatus.setText("Enabled");
+                    textViewStatus.setText(getString(R.string.enabled));
                 } else {
-                    textViewStatus.setText("Disabled");
+                    textViewStatus.setText(getString(R.string.disabled));
                 }
             }
         });

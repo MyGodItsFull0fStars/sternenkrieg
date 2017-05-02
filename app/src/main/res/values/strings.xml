@@ -1,8 +1,29 @@
+<!-- Guides
+https://developer.android.com/guide/topics/resources/string-resource.html
+https://developer.android.com/guide/topics/resources/localization.html
+-->
 <resources>
     <string name="app_name">SK_UI3</string>
     <string name="service_id">Sternenkrieg</string>
     <string name="sk_label">SK_UI3</string>
+
+    <string name="connection_type">Host/Client</string>
     <string name="connection_type_host">Host</string>
     <string name="connection_type_client">Client</string>
+
+    <string name="about">About us</string>
+    <string name="aboutGame">About Sternenkrieg</string>
+    <string name="dice">Dice</string>
+    <string name="options">Options</string>
+    <string name="play">Play</string>
+    <string name="playSound">Play Sound</string>
     <string name="send">Send</string>
+    <string name="sound">Sound</string>
+    <string name="status">Status</string>
+
+    <string name="enabled">Enabled</string>
+    <string name="disabled">Disabled</string>
+
+    <string name="bg_desc">Background</string>
+    <string name="logo_desc">Sternenkrieg Logo</string>
 </resources>
