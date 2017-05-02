@@ -46,6 +46,7 @@ public class Options extends AppCompatActivity {
             public void onClick(View v) {
                 if(enabled) {
                     // enabled, play sound
+                    System.out.println("i am here");
                     mp.start();
                 } else {
                     // disabled, don't play sound

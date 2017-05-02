@@ -77,7 +77,12 @@ public class Spielfeld extends AppCompatActivity {
 
                 Toast.makeText(getApplicationContext(), "Pos: " + position + " Id: ",
                         Toast.LENGTH_SHORT).show();
-                map1[position] = 3 + "";
+                if (map1[position].equals("2")) {
+                    map1[position] = 3 + "";
+
+                } else {
+                map1[position] = 5 + "";
+            }
                 draw(map1, gridView1);
 
 
@@ -89,7 +94,12 @@ public class Spielfeld extends AppCompatActivity {
 
                 Toast.makeText(getApplicationContext(), "Pos: " + position + " Id: ",
                         Toast.LENGTH_SHORT).show();
-                map2[position] = 1 + "";
+                if(map2[position].equals("a")) {
+                    map2[position] = 4 + "";
+
+                } else {
+                    map2[position] = 1 + "";
+                }
                 draw(map2, gridView2);
 
 

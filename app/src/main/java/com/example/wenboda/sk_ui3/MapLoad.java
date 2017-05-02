@@ -74,13 +74,18 @@ public class MapLoad extends BaseAdapter{
             String mobile = mobileValues[position];
 
             if (mobile.equals("0")) {
-                imageView.setBackgroundColor(Color.WHITE);
+                imageView.setBackgroundColor(Color.WHITE); //no action
             } else if (mobile.equals("1")) {
-                imageView.setBackgroundColor(Color.MAGENTA);
+                imageView.setBackgroundColor(Color.MAGENTA); //miss for player
             } else if (mobile.equals("2")) {
-                imageView.setBackgroundColor(Color.RED);
-            }else if(mobile.equals("3"))
-                imageView.setBackgroundColor(Color.YELLOW);
+                imageView.setBackgroundColor(Color.RED); //your own ships
+            }else if(mobile.equals("3")) {
+                imageView.setBackgroundColor(Color.YELLOW); //hit for enemy
+            }else if(mobile.equals("4")) {
+                imageView.setBackgroundColor(Color.GREEN); //hit for player
+            }else if(mobile.equals("5"))
+                imageView.setBackgroundColor(Color.BLUE); //miss for enemy
+
 
         } else {
             gridView = (View) convertView;
