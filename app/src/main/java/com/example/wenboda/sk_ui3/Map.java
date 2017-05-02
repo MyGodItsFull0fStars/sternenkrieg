@@ -108,8 +108,8 @@ public class Map extends AppCompatActivity {
 
                 Toast.makeText(getApplicationContext(), "Pos: " + position + " Id: " ,
                         Toast.LENGTH_SHORT).show();
-                map[position] = 1 + "";
-                draw(map);
+               /* map[position] = 1 + "";
+                draw(map);*/
 
 
             }
