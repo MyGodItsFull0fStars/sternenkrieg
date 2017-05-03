@@ -24,7 +24,7 @@
             android:layout_alignParentTop="true"
             android:layout_marginBottom="0dp"
             android:layout_marginTop="0dp"
-            android:contentDescription="@string/bg_desc"/>
+            android:contentDescription="@string/bg_desc" />
 
 
         <LinearLayout
@@ -53,8 +53,6 @@
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/colorPrimary"
-
-
                 android:text="@string/play"
                 android:textColor="@color/common_signin_btn_dark_text_default"
                 android:textSize="20sp" />
@@ -63,8 +61,6 @@
                 android:id="@+id/about"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
-
-
                 android:backgroundTint="@color/colorPrimary"
                 android:text="@string/about"
                 android:textColor="@color/common_signin_btn_dark_text_default"
