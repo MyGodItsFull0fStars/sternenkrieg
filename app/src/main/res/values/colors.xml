@@ -3,4 +3,5 @@
     <color name="colorPrimary">#5f6fcb</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="common_signin_btn_dark_text_default">@android:color/white</color>
 </resources>
