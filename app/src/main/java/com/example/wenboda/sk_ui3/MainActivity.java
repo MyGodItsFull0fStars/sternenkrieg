@@ -12,6 +12,7 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.example.wenboda.sk_ui3.Socket.Socket;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -20,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
     Button optionsBtn;
     Button aboutBtn;
     Button diceBtn;
+    Button socket;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +77,17 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, wuerfeltest.class);
                 intent.putExtra("shake", false);
+                startActivity(intent);
+            }
+        });
+
+        // socket
+        socket = (Button)findViewById(R.id.Socket);
+        socket.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setClass(MainActivity.this, Socket.class);
                 startActivity(intent);
             }
         });

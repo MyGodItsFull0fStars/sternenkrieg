@@ -69,7 +69,7 @@ public class Servers extends AppCompatActivity {
             public void onClick(View v) {
                 OutputStream os = null;
                 try {
-                    os = socket.getOutputStream();//kriege socket outputstream
+                    os = socket.getOutputStream();//kriege activity_socket outputstream
                     String msg = et.getText().toString()+"\n";
 //                    System.out.println(msg);
                     os.write(msg.getBytes("utf-8"));

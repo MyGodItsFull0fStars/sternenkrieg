@@ -39,6 +39,9 @@
             android:label="SK_UI3" />
         <activity android:name=".Options" />
         <activity android:name=".About"></activity>
+        <activity android:name=".Socket.Client"></activity>
+        <activity android:name=".Socket.Servers"></activity>
+        <activity android:name=".Socket.Socket"></activity>
     </application>
 
 </manifest>
