@@ -1,8 +1,11 @@
 package com.example.wenboda.sk_ui3;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.graphics.Color;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -23,12 +26,21 @@ public class MainActivity extends AppCompatActivity {
     Button diceBtn;
     Button socket;
 
+    SharedPreferences sharedPreferences;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_main);
+
+        sharedPreferences = getSharedPreferences("prefs", Context.MODE_PRIVATE);
+
+        // Background music
+        // disabled for now, feel free to enable if you want to check
+        //Intent audioIntent = new Intent(this, PlayAudio.class);
+        //startService(audioIntent);
 
         // Play
         startBtn = (Button) findViewById(R.id.start);
@@ -95,5 +107,6 @@ public class MainActivity extends AppCompatActivity {
         ImageView background = (ImageView) findViewById(R.id.background);
         background.setBackgroundColor(Color.rgb(0, 0, 0));
         Glide.with(this).load(R.raw.background).asGif().centerCrop().diskCacheStrategy(DiskCacheStrategy.SOURCE).into(background);
+
     }
 }

@@ -38,10 +38,12 @@
             android:name=".Spielfeld"
             android:label="SK_UI3" />
         <activity android:name=".Options" />
-        <activity android:name=".About"></activity>
-        <activity android:name=".Socket.Client"></activity>
-        <activity android:name=".Socket.Servers"></activity>
-        <activity android:name=".Socket.Socket"></activity>
+        <activity android:name=".About" />
+        <activity android:name=".Socket.Client" />
+        <activity android:name=".Socket.Servers" />
+        <activity android:name=".Socket.Socket" />
+
+        <service android:name=".PlayAudio" android:enabled="true" />
     </application>
 
 </manifest>

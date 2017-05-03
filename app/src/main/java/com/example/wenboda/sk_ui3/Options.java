@@ -26,27 +26,38 @@ public class Options extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_options);
 
+        // get sharedPreferences with name "prefs"
         sharedPreferences = getSharedPreferences("prefs", Context.MODE_PRIVATE);
-        soundEnabled = sharedPreferences.getBoolean("sound", true);
+        // sound is disabled by default
+        soundEnabled = sharedPreferences.getBoolean("sound", false);
+
+        // if state of toggle button is different from soundEnabled, change it
+        toggleSoundBtn = (ToggleButton) findViewById(R.id.soundButton);
+        if(toggleSoundBtn.isChecked() != soundEnabled) {
+            toggleSoundBtn.toggle();
+            System.out.println("Sound Button toggled!");
+        }
 
         textViewStatus = (TextView) findViewById(R.id.textViewStatus);
 
         // https://developer.android.com/guide/topics/ui/controls/togglebutton.html
-        toggleSoundBtn = (ToggleButton) findViewById(R.id.soundButton);
         toggleSoundBtn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 soundEnabled = isChecked;
-                SharedPreferences sharedPreferences = getSharedPreferences("boolean", Context.MODE_PRIVATE);
+                // Put the setting into the sharedPreferences by using the editor
+                SharedPreferences sharedPreferences = getSharedPreferences("prefs", Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 System.out.println(sharedPreferences.getAll());
                 if (soundEnabled) {
+                    // Sound was enabled
                     textViewStatus.setText(getString(R.string.enabled));
                     editor.putBoolean("sound", true);
                 } else {
+                    // Sound was disabled
                     textViewStatus.setText(getString(R.string.disabled));
                     editor.putBoolean("sound", false);
                 }
-                editor.commit();
+                editor.apply();
                 System.out.println(sharedPreferences.getAll());
             }
         });
@@ -60,8 +71,6 @@ public class Options extends AppCompatActivity {
                     // enabled, play sound
                     System.out.println("Sound should be played");
                     mp.start();
-                } else {
-                    // disabled, don't play sound
                 }
             }
         });

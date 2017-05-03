@@ -19,20 +19,17 @@ public class About extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about);
 
-        //TODO // FIXME: 03.05.2017 
+        // Just a playSound example
         sharedPreferences = getSharedPreferences("prefs", Context.MODE_PRIVATE);
-        final boolean condition = sharedPreferences.getBoolean("sound", true);
         final MediaPlayer mp = MediaPlayer.create(this, R.raw.shake_dice);
 
         testSoundBtn = (Button) findViewById(R.id.testSound);
         testSoundBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                if (condition) {
+                if (sharedPreferences.getBoolean("sound", false)) {
                     // enabled, play sound
                     System.out.println("Sound should be played");
                     mp.start();
-                } else {
-                    // disabled, don't play sound
                 }
             }
         });
