@@ -24,6 +24,10 @@ https://developer.android.com/guide/topics/resources/localization.html
     <string name="enabled">Enabled</string>
     <string name="disabled">Disabled</string>
 
+    <string name="You">You</string>
+    <string name="Enemy">Enemy</string>
+    <string name="placeShips">Place your ships!</string>
+
     <string name="bg_desc">Background</string>
     <string name="logo_desc">Sternenkrieg Logo</string>
 </resources>

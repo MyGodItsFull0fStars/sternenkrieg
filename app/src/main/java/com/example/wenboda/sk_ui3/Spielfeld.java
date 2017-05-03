@@ -18,6 +18,7 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.lang.reflect.Array;
@@ -35,6 +36,7 @@ public class Spielfeld extends AppCompatActivity {
     String map2[];
     int width;
     int height;
+    int amountShips;
 
     int pointsPlayer=0;
     int pointsEnemy=0;
@@ -49,6 +51,8 @@ public class Spielfeld extends AppCompatActivity {
         imageView = (ImageView) findViewById(R.id.grid_item_image);
         options = (ImageView) findViewById(R.id.options);
 
+        amountShips=3;
+
         map1 = getIntent().getExtras().getStringArray("oldmap");
 
         map2 = new String[64];
@@ -56,9 +60,15 @@ public class Spielfeld extends AppCompatActivity {
             map2[i] = 0 + "";
         }
 
-        map2[31] = "a"; //just temporary fill for opponents ships
-        map2[32] = "a";
+        map2[32] = "a"; //just temporary fill for opponents ships
         map2[33] = "a";
+        map2[34] = "a";
+
+        map2[62] = "b";
+        map2[63] = "b";
+
+        map2[5] = "c";
+
 
         Display display = getWindowManager().getDefaultDisplay();
         Point size = new Point();
@@ -90,15 +100,22 @@ public class Spielfeld extends AppCompatActivity {
             }
                 draw(map1, gridView1);
 
+
+                gameOver("2", map1);
+
+                alert("2");
+
             }
         });
 
         gridView2.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
 
+                String shipType = map2[position];
+
                 Toast.makeText(getApplicationContext(), "Pos: " + position + " Id: ",
                         Toast.LENGTH_SHORT).show();
-                if(map2[position].equals("a")) {
+                if(map2[position].equals("a") || map2[position].equals("b") || map2[position].equals("c")) {
                     map2[position] = 4 + "";
 
                 } else if (map2[position].equals("0")){
@@ -112,17 +129,9 @@ public class Spielfeld extends AppCompatActivity {
 
                // gridView1.getChildAt(31).performClick();
 
-                int isthegameoveryet = 0;
-                for (int i = 0; i < 64; i++) {
-                    if((map1[i].equals("2"))) {
-                        isthegameoveryet++;
-                    }
-                }
 
-
-                if(isthegameoveryet == 0) {
-                    System.out.println("Game Over");
-                    alert();
+                if(gameOver(shipType, map2)){
+                    decrementAmount();
                 }
 
             }
@@ -135,26 +144,67 @@ public class Spielfeld extends AppCompatActivity {
         gridView.setAdapter(new MapLoad(this, array));
         }
 
-        public void alert(){
+        public void alert(String player){
 
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setMessage("Dein Gegner hat all deine Schiffe zerstört.")
-                    .setTitle("Game Over!")
-                    .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            // CONFIRM
-                        }
-                    })
-                    .setNegativeButton("von mir aus", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            // CANCEL
-                        }
-                    })
-            .show();
+            if(player.equals("2")) {
+                builder.setMessage("Your enemy destroyed all your ships.")
+                        .setTitle("Game Over!")
+                        .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                // CONFIRM
+                            }
+                        })
+                        .setNegativeButton("Whatever.", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                // CANCEL
+                            }
+                        })
+                        .show();
+            } else if(player.equals("a")){
+                builder.setMessage("You successfully destroyed all hostile ships!.")
+                        .setTitle("You win!")
+                        .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                // CONFIRM
+                            }
+                        })
+                        .setNegativeButton("I know, I am awesome.", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                // CANCEL
+                            }
+                        })
+                        .show();
+            }
 
             // Create the AlertDialog object and return it
                     builder.create();
 
+        }
+
+        public boolean gameOver(String ship, String[] map) {
+            int isthegameoveryet = 0;
+            for (int i = 0; i < 64; i++) {
+                if((map[i].equals(ship))) {
+                    isthegameoveryet++;
+                }
+            }
+
+            if(isthegameoveryet == 0) {
+               return true;
+            }
+
+            return false;
+        }
+
+        public void decrementAmount() {
+            amountShips--;
+            TextView tex = ((TextView)findViewById(R.id.amountShips));
+            tex.setText(amountShips+"/3");
+
+            if(amountShips==0){
+                alert("a");
+            }
         }
     }
 
