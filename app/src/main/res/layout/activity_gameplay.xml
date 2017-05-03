@@ -11,7 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
-        android:layout_marginLeft="33dp"
+        android:layout_marginLeft="40dp"
         android:layout_marginTop="8dp"
         android:text="@string/You"
         android:textSize="35sp"
@@ -48,27 +48,92 @@
         android:text="Points:"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.048"
+        app:layout_constraintHorizontal_bias="0.062"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.156" />
 
     <ImageView
+        android:id="@+id/options1"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginBottom="0dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginRight="0dp"
+        android:layout_marginTop="0dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.58"
+        app:layout_constraintLeft_toRightOf="@+id/player1"
+        app:layout_constraintRight_toLeftOf="@+id/player2"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.299"
+        app:srcCompat="@drawable/circle" />
+
+    <ImageView
+        android:id="@+id/options2"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginBottom="0dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginRight="0dp"
+        android:layout_marginTop="0dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.58"
+        app:layout_constraintLeft_toRightOf="@+id/player1"
+        app:layout_constraintRight_toLeftOf="@+id/player2"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.438"
+        app:srcCompat="@drawable/circle" />
+
+    <ImageView
+        android:id="@+id/options4"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginRight="0dp"
+        android:layout_marginTop="20dp"
+        android:visibility="invisible"
+        app:layout_constraintHorizontal_bias="0.58"
+        app:layout_constraintLeft_toRightOf="@+id/player1"
+        app:layout_constraintRight_toLeftOf="@+id/player2"
+        app:layout_constraintTop_toBottomOf="@+id/options3"
+        app:srcCompat="@drawable/circle" />
+
+    <ImageView
+        android:id="@+id/options3"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginBottom="0dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginRight="0dp"
+        android:layout_marginTop="0dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.58"
+        app:layout_constraintLeft_toRightOf="@+id/player1"
+        app:layout_constraintRight_toLeftOf="@+id/player2"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.586"
+        app:srcCompat="@drawable/circle" />
+
+    <ImageView
         android:id="@+id/options"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_marginBottom="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
         android:layout_marginTop="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.082"
-        app:srcCompat="@drawable/circle"
-        app:layout_constraintRight_toLeftOf="@+id/player2"
-        android:layout_marginRight="8dp"
+        app:layout_constraintHorizontal_bias="0.58"
         app:layout_constraintLeft_toRightOf="@+id/player1"
-        android:layout_marginLeft="8dp"
-        app:layout_constraintHorizontal_bias="0.59" />
+        app:layout_constraintRight_toLeftOf="@+id/player2"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.081"
+        app:srcCompat="@drawable/circle" />
 
     <TextView
         android:id="@+id/amountShips"
@@ -88,21 +153,6 @@
         app:layout_constraintVertical_bias="0.156" />
 
     <GridView
-        android:id="@+id/player2_grid"
-        android:layout_width="250dp"
-        android:layout_height="250dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginRight="37dp"
-        android:layout_marginTop="8dp"
-        android:maxHeight="250dp"
-        android:maxWidth="250dp"
-        android:numColumns="8"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.795" />
-
-    <GridView
         android:id="@+id/player1_grid"
         android:layout_width="250dp"
         android:layout_height="250dp"
@@ -114,9 +164,24 @@
         android:maxWidth="250dp"
         android:numColumns="8"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.435"
+        app:layout_constraintHorizontal_bias="0.29"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toLeftOf="@+id/player2_grid"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.795" />
+
+    <GridView
+        android:id="@+id/player2_grid"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginRight="26dp"
+        android:layout_marginTop="8dp"
+        android:maxHeight="250dp"
+        android:maxWidth="250dp"
+        android:numColumns="8"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.795" />
 

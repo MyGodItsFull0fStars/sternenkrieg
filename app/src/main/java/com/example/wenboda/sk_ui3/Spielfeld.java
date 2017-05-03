@@ -31,7 +31,7 @@ import java.util.*;
 public class Spielfeld extends AppCompatActivity {
     GridView gridView1;
     GridView gridView2;
-    ImageView imageView, options;
+    ImageView imageView, options, options1, options2, options3, options4;
     String map1[];
     String map2[];
     int width;
@@ -39,7 +39,8 @@ public class Spielfeld extends AppCompatActivity {
     int amountShips;
 
     int pointsPlayer=0;
-    int pointsEnemy=0;
+
+    boolean check;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +51,33 @@ public class Spielfeld extends AppCompatActivity {
 
         imageView = (ImageView) findViewById(R.id.grid_item_image);
         options = (ImageView) findViewById(R.id.options);
+
+        options1 = (ImageView) findViewById(R.id.options1);
+        options2 = (ImageView) findViewById(R.id.options2);
+        options3 = (ImageView) findViewById(R.id.options3);
+        options4 = (ImageView) findViewById(R.id.options4);
+
+
+        options.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if(check) {
+                    options1.setVisibility(View.INVISIBLE);
+                    options2.setVisibility(View.INVISIBLE);
+                    options3.setVisibility(View.INVISIBLE);
+                    options4.setVisibility(View.INVISIBLE);
+                    check = false;
+                } else {
+                    options1.setVisibility(View.VISIBLE);
+                    options2.setVisibility(View.VISIBLE);
+                    options3.setVisibility(View.VISIBLE);
+                    options4.setVisibility(View.VISIBLE);
+                    check = true;
+                }
+            }
+        });
+
 
         amountShips=3;
 
