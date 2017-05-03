@@ -67,8 +67,8 @@ public class MapLoad extends BaseAdapter{
 
             ImageView imageView = (ImageView) gridView
                     .findViewById(R.id.grid_item_image);
-            imageView.getLayoutParams().height=height/8 ;
-            imageView.getLayoutParams().width=height/8;
+            imageView.getLayoutParams().height=(height-350)/8;
+            imageView.getLayoutParams().width=(height-350)/8;
 
 
             String mobile = mobileValues[position];

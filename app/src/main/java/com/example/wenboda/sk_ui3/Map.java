@@ -53,6 +53,9 @@ public class Map extends AppCompatActivity {
         ship3 = (ImageView) findViewById(R.id.image_ship3);
         turn = (ImageView) findViewById(R.id.image_turn);
         play = (ImageView) findViewById(R.id.play);
+
+
+
         oldpos = 0;
 
         map = new String[64];
@@ -66,24 +69,26 @@ public class Map extends AppCompatActivity {
         height = size.y;
 
         gridView = (GridView) findViewById(R.id.gridView);
-        gridView.getLayoutParams().height = height;
-        gridView.getLayoutParams().width = height;
-        ship1.getLayoutParams().height = height / 8;
-        ship1.getLayoutParams().width = height / 8;
-        ship2.getLayoutParams().height = height / 8;
-        ship2.getLayoutParams().width = height / 4;
-        ship3.getLayoutParams().height = height / 8;
-        ship3.getLayoutParams().width = height / 3;
+        gridView.getLayoutParams().height = height-350;
+        gridView.getLayoutParams().width = height-350;
+        ship1.getLayoutParams().height = (height-350) / 8;
+        ship1.getLayoutParams().width = (height-350)/ 8;
+        ship2.getLayoutParams().height = (height-350)/ 8;
+        ship2.getLayoutParams().width = (height-350)/ 4;
+        ship3.getLayoutParams().height = (height-350)/ 8;
+        ship3.getLayoutParams().width = (height-350) / 3;
 
 
-            play.setOnClickListener((v) -> {
-                System.out.println("Clicked on Button!");
-                        if(count0 && count1 && count2) {
-                            Intent intent = new Intent();
-                            intent.setClass(Map.this, Spielfeld.class);
-                            intent.putExtra("oldmap", map);
-                            startActivity(intent);
-                        }
+            play.setOnClickListener(new View.OnClickListener() {
+            @Override
+                    public void onClick(View v) {
+                if (count0 && count1 && count2) {
+                    Intent intent = new Intent();
+                    intent.setClass(Map.this, Spielfeld.class);
+                    intent.putExtra("oldmap", map);
+                    startActivity(intent);
+                }
+            }
             });
 
 
@@ -153,7 +158,7 @@ public class Map extends AppCompatActivity {
 
                             }
                             count0=true;
-                            System.out.println("Placed ship successfully!");
+
                         }
                         //mittleres Schiff
                         if (which_ship == 1) {
@@ -178,7 +183,7 @@ public class Map extends AppCompatActivity {
 
                             }
                             count1=true;
-                            System.out.println("Placed ship successfully!");
+
                         }
                         //großes Schiff
                         if (which_ship == 2) {
@@ -207,7 +212,7 @@ public class Map extends AppCompatActivity {
 
                             }
                             count2=true;
-                            //System.out.println("Placed ship successfully!");
+
                         }
 
                         draw(map);
@@ -220,6 +225,10 @@ public class Map extends AppCompatActivity {
                         ship1.setVisibility(View.VISIBLE);
                         ship2.setVisibility(View.VISIBLE);
                         ship3.setVisibility(View.VISIBLE);
+
+                        if(count0&&count1&&count2){
+                            play.setImageDrawable(getResources().getDrawable(R.drawable.play));
+                        }
                         return (true);
 
                     }
@@ -312,9 +321,9 @@ public class Map extends AppCompatActivity {
     }
 
     public int position(int x, int y) {
-        int zehner = y * 8 / height;
+        int zehner = y * 8 / (height-350);
         zehner = zehner * 8;
-        int einer = x * 8 / height;
+        int einer = x * 8 / (height-350);
         int pos = zehner + einer;
         return pos;
     }

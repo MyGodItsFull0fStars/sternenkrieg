@@ -1,7 +1,9 @@
 package com.example.wenboda.sk_ui3;
 
 
+import android.app.AlertDialog;
 import android.content.ClipData;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Point;
@@ -13,6 +15,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -27,7 +30,7 @@ import java.util.*;
 public class Spielfeld extends AppCompatActivity {
     GridView gridView1;
     GridView gridView2;
-    ImageView imageView;
+    ImageView imageView, options;
     String map1[];
     String map2[];
     int width;
@@ -44,6 +47,7 @@ public class Spielfeld extends AppCompatActivity {
         setContentView(R.layout.activity_gameplay);
 
         imageView = (ImageView) findViewById(R.id.grid_item_image);
+        options = (ImageView) findViewById(R.id.options);
 
         map1 = getIntent().getExtras().getStringArray("oldmap");
 
@@ -60,17 +64,17 @@ public class Spielfeld extends AppCompatActivity {
         Point size = new Point();
         display.getSize(size);
 
-        width = size.x - 90;  //x=1794 -- y=1080
-        height = size.y - 120;
+        width = size.x;  //x=1794 -- y=1080
+        height = size.y;
 
         gridView1 = (GridView) findViewById(R.id.player1_grid);
-        //gridView1.getLayoutParams().height = height;
-      //  gridView1.getLayoutParams().width = height;
+        gridView1.getLayoutParams().height = height-350;
+        gridView1.getLayoutParams().width = height-350;
         gridView1.setAdapter(new MapLoad(this, map1));
 
         gridView2 = (GridView) findViewById(R.id.player2_grid);
-        gridView2.getLayoutParams().height = height;
-        gridView2.getLayoutParams().width = height;
+        gridView2.getLayoutParams().height = height-350;
+        gridView2.getLayoutParams().width = height-350;
         gridView2.setAdapter(new MapLoad(this, map2));
 
         gridView1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -117,7 +121,8 @@ public class Spielfeld extends AppCompatActivity {
 
 
                 if(isthegameoveryet == 0) {
-                    System.out.println("Game Over bitches.");
+                    System.out.println("Game Over");
+                    alert();
                 }
 
             }
@@ -128,6 +133,28 @@ public class Spielfeld extends AppCompatActivity {
 
       public void draw(String[] array, GridView gridView) {
         gridView.setAdapter(new MapLoad(this, array));
+        }
+
+        public void alert(){
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage("Dein Gegner hat all deine Schiffe zerstört.")
+                    .setTitle("Game Over!")
+                    .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            // CONFIRM
+                        }
+                    })
+                    .setNegativeButton("von mir aus", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            // CANCEL
+                        }
+                    })
+            .show();
+
+            // Create the AlertDialog object and return it
+                    builder.create();
+
         }
     }
 
