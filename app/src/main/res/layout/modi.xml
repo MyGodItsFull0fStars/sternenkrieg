@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.wenboda.sk_ui3.MainActivity">
+    tools:context="com.example.rebelartstudios.sternenkrieg.MainActivity">
 
     <LinearLayout
         android:id="@+id/linear1"

@@ -1,15 +1,8 @@
-package com.example.wenboda.sk_ui3;
+package com.example.rebelartstudios.sternenkrieg;
 
 
 import android.content.Context;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Movie;
-import android.os.SystemClock;
-import android.view.View;
 import android.webkit.WebView;
-
-import java.io.InputStream;
 
 /**
  * Created by anja on 19.04.17.

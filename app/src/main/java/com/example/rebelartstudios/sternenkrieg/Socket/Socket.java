@@ -1,4 +1,4 @@
-package com.example.wenboda.sk_ui3.Socket;
+package com.example.rebelartstudios.sternenkrieg.Socket;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -6,9 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 
-import com.example.wenboda.sk_ui3.MainActivity;
-import com.example.wenboda.sk_ui3.Map;
-import com.example.wenboda.sk_ui3.R;
+import com.example.rebelartstudios.sternenkrieg.R;
 
 /**
  * Created by wenboda on 2017/5/1.

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.wenboda.sk_ui3">
+    package="com.example.rebelartstudios.sternenkrieg">
 
     <application
         android:allowBackup="true"
@@ -9,7 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-        <activity android:name=".MainActivity">
+        <activity android:name="com.example.rebelartstudios.sternenkrieg.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -17,33 +17,33 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Spielen"
+            android:name="com.example.rebelartstudios.sternenkrieg.Spielen"
             android:label="@string/app_name" />
         <activity
-            android:name=".Modi"
+            android:name="com.example.rebelartstudios.sternenkrieg.Modi"
             android:label="@string/app_name" />
         <activity
-            android:name=".wuerfeltest"
+            android:name="com.example.rebelartstudios.sternenkrieg.wuerfeltest"
             android:label="@string/app_name" />
         <activity
-            android:name=".EndScreen"
+            android:name="com.example.rebelartstudios.sternenkrieg.EndScreen"
             android:label="@string/app_name" />
         <activity
-            android:name=".Map"
+            android:name="com.example.rebelartstudios.sternenkrieg.Map"
             android:label="@string/app_name" />
         <activity
-            android:name=".Networking"
+            android:name="com.example.rebelartstudios.sternenkrieg.Networking"
             android:label="@string/app_name" />
         <activity
-            android:name=".Spielfeld"
+            android:name="com.example.rebelartstudios.sternenkrieg.Spielfeld"
             android:label="SK_UI3" />
-        <activity android:name=".Options" />
-        <activity android:name=".About" />
-        <activity android:name=".Socket.Client" />
-        <activity android:name=".Socket.Servers" />
-        <activity android:name=".Socket.Socket" />
+        <activity android:name="com.example.rebelartstudios.sternenkrieg.Options" />
+        <activity android:name="com.example.rebelartstudios.sternenkrieg.About" />
+        <activity android:name="com.example.rebelartstudios.sternenkrieg.Socket.Client" />
+        <activity android:name="com.example.rebelartstudios.sternenkrieg.Socket.Servers" />
+        <activity android:name="com.example.rebelartstudios.sternenkrieg.Socket.Socket" />
 
-        <service android:name=".PlayAudio" android:enabled="true" />
+        <service android:name="com.example.rebelartstudios.sternenkrieg.PlayAudio" android:enabled="true" />
     </application>
 
 </manifest>

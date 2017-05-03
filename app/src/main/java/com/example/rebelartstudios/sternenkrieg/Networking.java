@@ -1,4 +1,4 @@
-package com.example.wenboda.sk_ui3;
+package com.example.rebelartstudios.sternenkrieg;
 
 import android.content.Context;
 import android.net.ConnectivityManager;

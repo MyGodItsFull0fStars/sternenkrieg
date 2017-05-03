@@ -1,10 +1,9 @@
-package com.example.wenboda.sk_ui3.Socket;
+package com.example.rebelartstudios.sternenkrieg.Socket;
 
 /**
  * Created by wenboda on 2017/4/26.
  */
 
-import android.annotation.SuppressLint;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
@@ -15,7 +14,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.wenboda.sk_ui3.R;
+import com.example.rebelartstudios.sternenkrieg.R;
 
 import java.io.BufferedReader;
 import java.io.IOException;
