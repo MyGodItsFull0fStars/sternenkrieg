@@ -18,10 +18,11 @@ public class StartThread extends Thread {
     boolean running = true;
     String ip;
 
-    public StartThread(String ip, ReceiveThread rt,boolean running ){
+    public StartThread(String ip, ReceiveThread rt,boolean running, Handler myHandler ){
         this.ip = ip;
         this.rt = rt;
         this.running = running;
+        this.myHandler = myHandler;
     }
 
 
@@ -33,7 +34,7 @@ public class StartThread extends Thread {
             socket = new Socket(ip, 12345); // Ipet:
 
             myHandler = new Handler();
-            rt = new ReceiveThread(socket, running);
+            rt = new ReceiveThread(socket, running, myHandler);
             rt.start();
             running = true;
             System.out.println(socket.isConnected());

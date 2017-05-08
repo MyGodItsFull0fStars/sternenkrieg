@@ -63,7 +63,7 @@ public class Client extends AppCompatActivity implements View.OnClickListener {
         switch (v.getId()){
             case R.id.btnStart:
 
-                st = new StartThread(IPet.getText().toString(), rt, running);
+                st = new StartThread(IPet.getText().toString(), rt, running, myhandler);
                 st.start();
                 setButtonOnStartState(false);
 

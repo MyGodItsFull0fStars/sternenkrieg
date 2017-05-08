@@ -35,7 +35,7 @@ public class Servers extends AppCompatActivity {
     private ServerSocket mServerSocket = null;
     private boolean running = false;
     private AcceptThread mAcceptThread;
-    private ReceiveThread mReceiveThread;
+    private ReceiveThreadServer mReceiveThread;
     private Handler mHandler = null;
 
     @Override
@@ -53,7 +53,7 @@ public class Servers extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                mAcceptThread = new AcceptThread(socket);
+                mAcceptThread = new AcceptThread(socket, mServerSocket, mHandler, mReceiveThread);
                 running = true;
                 mAcceptThread.start();
                 btnSend.setEnabled(true);

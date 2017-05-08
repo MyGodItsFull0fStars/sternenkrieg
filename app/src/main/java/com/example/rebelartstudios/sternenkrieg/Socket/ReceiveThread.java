@@ -17,12 +17,13 @@ public class ReceiveThread extends Thread{
 
     private InputStream is;
     boolean running;
-    Handler myhandler= new Handler();
+    Handler myhandler;
     String str = "";
 
-    public ReceiveThread(Socket socket, boolean running ) throws IOException {
+    public ReceiveThread(Socket socket, boolean running, Handler myhandler ) throws IOException {
         is = socket.getInputStream();
         this.running = running;
+        this.myhandler = myhandler;
        ;
     }
 

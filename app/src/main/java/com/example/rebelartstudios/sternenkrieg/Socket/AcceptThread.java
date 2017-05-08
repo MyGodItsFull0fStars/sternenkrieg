@@ -18,8 +18,11 @@ public class AcceptThread extends Thread{
     Handler mHandler;
     ReceiveThreadServer mReceiveThread1;
 
-    public AcceptThread(Socket socket){
+    public AcceptThread(Socket socket, ServerSocket mServerSocket, Handler mHandler,  ReceiveThreadServer mReceiveThread1){
         this.socket =socket;
+        this.mServerSocket = mServerSocket;
+        this.mHandler = mHandler;
+        this.mReceiveThread1 = mReceiveThread1;
     }
     @Override
 
