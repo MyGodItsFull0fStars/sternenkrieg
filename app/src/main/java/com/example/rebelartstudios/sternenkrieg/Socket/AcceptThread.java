@@ -38,7 +38,7 @@ public class AcceptThread extends Thread{
             try {
                 sleep(500);
             } catch (InterruptedException e) {
-                e.printStackTrace();
+//                e.printStackTrace();
             }
 
             Message msg = mHandler.obtainMessage();
@@ -49,7 +49,7 @@ public class AcceptThread extends Thread{
             mReceiveThread1 = new ReceiveThreadServer(socket);
             mReceiveThread1.start();
         } catch (IOException e) {
-            e.printStackTrace();
+//            e.printStackTrace();
         }
 //           }
     }

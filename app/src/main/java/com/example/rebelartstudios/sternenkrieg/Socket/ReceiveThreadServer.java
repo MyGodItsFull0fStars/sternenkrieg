@@ -39,12 +39,12 @@ public class ReceiveThreadServer extends Thread{
             try {
                 br = new BufferedReader(new InputStreamReader(is, "UTF-8"));
             } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
+//                e.printStackTrace();
             }
             try {
 
                 read = br.readLine();
-                System.out.println(read);
+//                System.out.println(read);
             } catch (IOException e) {
                 e.printStackTrace();
             } catch (NullPointerException e) {
@@ -52,7 +52,7 @@ public class ReceiveThreadServer extends Thread{
                 Message msg2 = mHandler.obtainMessage();
                 msg2.what = 2;
                 mHandler.sendMessage(msg2);
-                e.printStackTrace();
+//                e.printStackTrace();
                 break;
             }
 

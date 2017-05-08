@@ -34,18 +34,18 @@ public class ReceiveThread extends Thread{
             BufferedReader br = new BufferedReader(isr);
             try {
 
-                System.out.println(str = br.readLine());
+               str = br.readLine();
 
             } catch (NullPointerException e) {
                 running = false;
                 Message msg2 = myhandler.obtainMessage();
                 msg2.what = 2;
                 myhandler.sendMessage(msg2);
-                e.printStackTrace();
+//                e.printStackTrace();
                 break;
 
             } catch (IOException e) {
-                e.printStackTrace();
+//                e.printStackTrace();
             }
 
 
@@ -53,13 +53,13 @@ public class ReceiveThread extends Thread{
 
 
             msg.what = 1;
-//                }
+
             msg.obj = str;
             myhandler.sendMessage(msg);
             try {
                 sleep(400);
             } catch (InterruptedException e) {
-                e.printStackTrace();
+//                e.printStackTrace();
             }
 
         }
