@@ -63,7 +63,7 @@ public class Client extends AppCompatActivity implements View.OnClickListener {
         switch (v.getId()){
             case R.id.btnStart:
 
-                st = new StartThread();
+                st = new StartThread(IPet.getText().toString(), rt, running);
                 st.start();
                 setButtonOnStartState(false);
 
@@ -106,76 +106,82 @@ public class Client extends AppCompatActivity implements View.OnClickListener {
 
         }
     }
-    private class StartThread extends Thread{
-        @Override
-        public void run() {
-            try {
-
-                socket = new Socket(IPet.getText().toString(),12345);
-
-                rt = new ReceiveThread(socket);
-                rt.start();
-                running = true;
-                System.out.println(socket.isConnected());
-                if(socket.isConnected()){
-                    Message msg0 = myhandler.obtainMessage();
-                    msg0.what=0;
-                    myhandler.sendMessage(msg0);
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    private class ReceiveThread extends Thread{
-        private InputStream is;
-
-        public ReceiveThread(Socket socket) throws IOException {
-            is = socket.getInputStream();
-        }
-        @Override
-        public void run() {
-            while (running) {
-                InputStreamReader isr = new InputStreamReader(is);
-                BufferedReader br = new BufferedReader(isr);
-                try {
-
-                    System.out.println(str = br.readLine());
-
-                } catch (NullPointerException e) {
-                    running = false;
-                    Message msg2 = myhandler.obtainMessage();
-                    msg2.what = 2;
-                    myhandler.sendMessage(msg2);
-                    e.printStackTrace();
-                    break;
-
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-
-                Message msg = myhandler.obtainMessage();
-
-
-                msg.what = 1;
+//    public class StartThread extends Thread{
+//
+//        String ip;
+//        public StartThread(String ip){
+//            this.ip = ip;
+//        }
+//
+//        @Override
+//        public void run() {
+//            try {
+//
+//                socket = new Socket_main(ip, 12345); // Ipet:
+//
+//                rt = new ReceiveThread(socket);
+//                rt.start();
+//                running = true;
+//                System.out.println(socket.isConnected());
+//                if(socket.isConnected()){
+//                    Message msg0 = myhandler.obtainMessage();
+//                    msg0.what=0;
+//                    myhandler.sendMessage(msg0);
 //                }
-                msg.obj = str;
-                myhandler.sendMessage(msg);
-                try {
-                    sleep(400);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        }
+//    }
 
-            }
-            Message msg2 = myhandler.obtainMessage();
-            msg2.what = 2;
-            myhandler.sendMessage(msg2);
-
-        }
-    }
+//    public class ReceiveThread extends Thread{
+//        private InputStream is;
+//
+//        public ReceiveThread(Socket socket) throws IOException {
+//            is = socket.getInputStream();
+//        }
+//        @Override
+//        public void run() {
+//            while (running) {
+//                InputStreamReader isr = new InputStreamReader(is);
+//                BufferedReader br = new BufferedReader(isr);
+//                try {
+//
+//                    System.out.println(str = br.readLine());
+//
+//                } catch (NullPointerException e) {
+//                    running = false;
+//                    Message msg2 = myhandler.obtainMessage();
+//                    msg2.what = 2;
+//                    myhandler.sendMessage(msg2);
+//                    e.printStackTrace();
+//                    break;
+//
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//
+//
+//                Message msg = myhandler.obtainMessage();
+//
+//
+//                msg.what = 1;
+////                }
+//                msg.obj = str;
+//                myhandler.sendMessage(msg);
+//                try {
+//                    sleep(400);
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
+//
+//            }
+//            Message msg2 = myhandler.obtainMessage();
+//            msg2.what = 2;
+//            myhandler.sendMessage(msg2);
+//
+//        }
+//    }
 
     private void displayToast(String s)
     {

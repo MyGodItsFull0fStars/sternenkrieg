@@ -12,7 +12,7 @@ import com.example.rebelartstudios.sternenkrieg.R;
  * Created by wenboda on 2017/5/1.
  */
 
-public class Socket extends AppCompatActivity implements View.OnClickListener {
+public class Socket_main extends AppCompatActivity implements View.OnClickListener {
 
     Button S;
     Button C;
@@ -27,7 +27,7 @@ public class Socket extends AppCompatActivity implements View.OnClickListener {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
-                intent.setClass(Socket.this, Servers.class);
+                intent.setClass(Socket_main.this, Servers.class);
                 startActivity(intent);
             }
         });
@@ -36,7 +36,7 @@ public class Socket extends AppCompatActivity implements View.OnClickListener {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
-                intent.setClass(Socket.this, Client.class);
+                intent.setClass(Socket_main.this, Client.class);
                 startActivity(intent);
             }
         });

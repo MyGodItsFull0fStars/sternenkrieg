@@ -1,6 +1,16 @@
 package com.example.rebelartstudios.sternenkrieg;
 
+import android.os.Handler;
+
+import com.example.rebelartstudios.sternenkrieg.Socket.AcceptThread;
+import com.example.rebelartstudios.sternenkrieg.Socket.Client;
+import com.example.rebelartstudios.sternenkrieg.Socket.ReceiveThread;
+import com.example.rebelartstudios.sternenkrieg.Socket.Servers;
+import com.example.rebelartstudios.sternenkrieg.Socket.StartThread;
+
 import org.junit.Test;
+
+import java.net.Socket;
 
 import static org.junit.Assert.*;
 
@@ -14,4 +24,23 @@ public class ExampleUnitTest {
     public void addition_isCorrect() throws Exception {
         assertEquals(4, 2 + 2);
     }
+
+    ReceiveThread rt;
+    boolean running = true;
+    Socket socket = new Socket();
+
+
+    @Test
+    public void test_ClientServers(){
+        AcceptThread acceptThread = new AcceptThread(socket);
+        acceptThread.run();
+        String ip = "127.0.1.1";
+        StartThread startThread = new StartThread(ip, rt,running);
+        startThread.run();
+        boolean a = acceptThread.test();
+        assertEquals(true, a);
+    }
+
+
+
 }

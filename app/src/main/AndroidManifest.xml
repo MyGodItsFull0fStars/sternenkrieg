@@ -45,7 +45,7 @@
         <activity android:name="com.example.rebelartstudios.sternenkrieg.About" />
         <activity android:name="com.example.rebelartstudios.sternenkrieg.Socket.Client" />
         <activity android:name="com.example.rebelartstudios.sternenkrieg.Socket.Servers" />
-        <activity android:name="com.example.rebelartstudios.sternenkrieg.Socket.Socket" />
+        <activity android:name="com.example.rebelartstudios.sternenkrieg.Socket.Socket_main" />
 
         <service android:name="com.example.rebelartstudios.sternenkrieg.PlayAudio" android:enabled="true" />
     </application>
