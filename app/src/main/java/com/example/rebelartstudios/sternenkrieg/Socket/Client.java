@@ -1,12 +1,9 @@
 package com.example.rebelartstudios.sternenkrieg.Socket;
 
-/**
- * Created by wenboda on 2017/4/26.
- */
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -21,6 +18,10 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.Socket;
+
+/**
+ * Created by wenboda on 2017/4/26.
+ */
 
 public class Client extends AppCompatActivity implements View.OnClickListener {
     private TextView tv;
@@ -63,7 +64,7 @@ public class Client extends AppCompatActivity implements View.OnClickListener {
         switch (v.getId()){
             case R.id.btnStart:
 
-                st = new StartThread(IPet.getText().toString(), rt, running, myhandler);
+                st = new StartThread();
                 st.start();
                 setButtonOnStartState(false);
 
@@ -106,82 +107,76 @@ public class Client extends AppCompatActivity implements View.OnClickListener {
 
         }
     }
-//    public class StartThread extends Thread{
-//
-//        String ip;
-//        public StartThread(String ip){
-//            this.ip = ip;
-//        }
-//
-//        @Override
-//        public void run() {
-//            try {
-//
-//                socket = new Socket_main(ip, 12345); // Ipet:
-//
-//                rt = new ReceiveThread(socket);
-//                rt.start();
-//                running = true;
-//                System.out.println(socket.isConnected());
-//                if(socket.isConnected()){
-//                    Message msg0 = myhandler.obtainMessage();
-//                    msg0.what=0;
-//                    myhandler.sendMessage(msg0);
-//                }
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//        }
-//    }
+    private class StartThread extends Thread{
+        @Override
+        public void run() {
+            try {
 
-//    public class ReceiveThread extends Thread{
-//        private InputStream is;
-//
-//        public ReceiveThread(Socket socket) throws IOException {
-//            is = socket.getInputStream();
-//        }
-//        @Override
-//        public void run() {
-//            while (running) {
-//                InputStreamReader isr = new InputStreamReader(is);
-//                BufferedReader br = new BufferedReader(isr);
-//                try {
-//
-//                    System.out.println(str = br.readLine());
-//
-//                } catch (NullPointerException e) {
-//                    running = false;
-//                    Message msg2 = myhandler.obtainMessage();
-//                    msg2.what = 2;
-//                    myhandler.sendMessage(msg2);
-//                    e.printStackTrace();
-//                    break;
-//
-//                } catch (IOException e) {
-//                    e.printStackTrace();
+                socket = new Socket(IPet.getText().toString(),12345);
+
+                rt = new ReceiveThread(socket);
+                rt.start();
+                running = true;
+                System.out.println(socket.isConnected());
+                if(socket.isConnected()){
+                    Message msg0 = myhandler.obtainMessage();
+                    msg0.what=0;
+                    myhandler.sendMessage(msg0);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private class ReceiveThread extends Thread{
+        private InputStream is;
+
+        public ReceiveThread(Socket socket) throws IOException {
+            is = socket.getInputStream();
+        }
+        @Override
+        public void run() {
+            while (running) {
+                InputStreamReader isr = new InputStreamReader(is);
+                BufferedReader br = new BufferedReader(isr);
+                try {
+
+                    System.out.println(str = br.readLine());
+
+                } catch (NullPointerException e) {
+                    running = false;
+                    Message msg2 = myhandler.obtainMessage();
+                    msg2.what = 2;
+                    myhandler.sendMessage(msg2);
+                    e.printStackTrace();
+                    break;
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+
+                Message msg = myhandler.obtainMessage();
+
+
+                msg.what = 1;
 //                }
-//
-//
-//                Message msg = myhandler.obtainMessage();
-//
-//
-//                msg.what = 1;
-////                }
-//                msg.obj = str;
-//                myhandler.sendMessage(msg);
-//                try {
-//                    sleep(400);
-//                } catch (InterruptedException e) {
-//                    e.printStackTrace();
-//                }
-//
-//            }
-//            Message msg2 = myhandler.obtainMessage();
-//            msg2.what = 2;
-//            myhandler.sendMessage(msg2);
-//
-//        }
-//    }
+                msg.obj = str;
+                myhandler.sendMessage(msg);
+                try {
+                    sleep(400);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+            }
+            Message msg2 = myhandler.obtainMessage();
+            msg2.what = 2;
+            myhandler.sendMessage(msg2);
+
+        }
+    }
 
     private void displayToast(String s)
     {
