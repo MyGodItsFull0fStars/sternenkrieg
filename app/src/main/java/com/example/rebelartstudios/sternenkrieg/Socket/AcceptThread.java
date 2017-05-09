@@ -27,18 +27,18 @@ public class AcceptThread extends Thread{
     @Override
 
     public void run() {
-//           while (running) {
+
         try {
             mServerSocket = new ServerSocket(12345);//ein Server erstellen
             socket = mServerSocket.accept();//accept
-//                System.out.println("erfolg");
+
             if (socket != null){
                 test();
             }
             try {
                 sleep(500);
             } catch (InterruptedException e) {
-//                e.printStackTrace();
+                e.printStackTrace();
             }
 
             Message msg = mHandler.obtainMessage();
@@ -50,11 +50,15 @@ public class AcceptThread extends Thread{
             mReceiveThread1.start();
         } catch (IOException e) {
 //            e.printStackTrace();
+        }catch (NullPointerException e){
+
         }
-//           }
+
     }
+
 
     public boolean test(){
         return true;
     }
 }
+
