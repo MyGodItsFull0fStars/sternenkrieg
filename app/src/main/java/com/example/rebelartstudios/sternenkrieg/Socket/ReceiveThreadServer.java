@@ -22,7 +22,11 @@ public class ReceiveThreadServer extends Thread{
 
     public ReceiveThreadServer(Socket sk){
         try {
+
+
+
             is = sk.getInputStream();
+
         } catch (IOException e) {
             e.printStackTrace();
         }
