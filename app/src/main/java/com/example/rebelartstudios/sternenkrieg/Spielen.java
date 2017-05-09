@@ -2,6 +2,7 @@ package com.example.rebelartstudios.sternenkrieg;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.KeyEvent;
@@ -27,6 +28,7 @@ public class Spielen extends Activity {
         setContentView(R.layout.spielen);
         button = (Button)findViewById(R.id.Einzelspieler);
         back = (ImageButton) findViewById(R.id.Back);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         //networkBtn = (Button) findViewById(R.id.network);
 
         onclickl onclickModi = new onclickl();
