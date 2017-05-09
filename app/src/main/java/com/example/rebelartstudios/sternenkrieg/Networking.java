@@ -56,9 +56,9 @@ public class Networking extends AppCompatActivity implements GoogleApiClient.Con
 
     private static final long CONNECTION_TIME_OUT = 10000L;
 
-    //Wifi or Ethernet for TVs
-    private static int[] NETWORK_TYPES = {ConnectivityManager.TYPE_WIFI,
-            ConnectivityManager.TYPE_ETHERNET };
+
+    private static int[] NETWORK_TYPES = {ConnectivityManager.TYPE_WIFI};
+    // deleted ConnectivityManager.TYPE_ETHERNET
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,6 +119,8 @@ public class Networking extends AppCompatActivity implements GoogleApiClient.Con
         mTypeSpinner.setAdapter(adapter);
     }
 
+
+    // TODO: 09/05/2017
     private void setupMessageList() {
         mMessageAdapter = new ArrayAdapter<String>( this, android.R.layout.simple_list_item_1 );
         mListView.setAdapter( mMessageAdapter );
