@@ -130,11 +130,11 @@ public class Map extends AppCompatActivity {
 
                         //kleines Schiff
                         if (which_ship == 0) {
-                            if (!playerField[pos].equals(2 + "")) {
+                            if (!playerField[pos].equals(Integer.toString(2))) {
                                 //falls schon mal gesetzt wird die letzte Position gelöscht
                                 delete(old_small);
                                 //neue Position gesetzt
-                                playerField[pos] = 2 + "";
+                                playerField[pos] = Integer.toString(2);
                                 old_small[0] = pos;
 
 
@@ -146,20 +146,20 @@ public class Map extends AppCompatActivity {
                         if (which_ship == 1) {
                             if (degree == 0) {
                                 //check_position schaut dass das schiff nicht auserhalb der playerField oder vom rechten ende der playerField auf die linke seite gesetzt wird
-                                if (chek_position(pos, which_ship) && !playerField[pos].equals(2 + "") && !playerField[pos + 1].equals(2 + "")) {
+                                if (chek_position(pos, which_ship) && !playerField[pos].equals(Integer.toString(2)) && !playerField[pos + 1].equals(Integer.toString(2))) {
                                     delete(old_middle);
                                     // pos-1 weil wenn man das Bild bewegt ist der Zeiger genau mittig vom Bild
-                                    playerField[pos - 1] = 2 + "";
+                                    playerField[pos - 1] = Integer.toString(2);
                                     old_middle[0] = pos - 1;
-                                    playerField[pos] = 2 + "";
+                                    playerField[pos] = Integer.toString(2);
                                     old_middle[1] = pos;
                                 }
                             } else if (degree == 1) {
-                                if (chek_position(pos, which_ship) && !playerField[pos].equals(2 + "") && !playerField[pos - 8].equals(2 + "")) {
+                                if (chek_position(pos, which_ship) && !playerField[pos].equals(Integer.toString(2)) && !playerField[pos - 8].equals(Integer.toString(2))) {
                                     delete(old_middle);
-                                    playerField[pos - 8] = 2 + "";
+                                    playerField[pos - 8] = Integer.toString(2);
                                     old_middle[0] = pos - 8;
-                                    playerField[pos] = 2 + "";
+                                    playerField[pos] = Integer.toString(2);
                                     old_middle[1] = pos;
                                 }
 
@@ -170,24 +170,24 @@ public class Map extends AppCompatActivity {
                         //großes Schiff
                         if (which_ship == 2) {
                             if (degree == 0) {
-                                if (chek_position(pos, which_ship) && !playerField[pos].equals(2 + "") && !playerField[pos + 1].equals(2 + "") && !playerField[pos + 2].equals(2 + "")) {
+                                if (chek_position(pos, which_ship) && !playerField[pos].equals(Integer.toString(2)) && !playerField[pos + 1].equals(Integer.toString(2)) && !playerField[pos + 2].equals(Integer.toString(2))) {
                                     delete(old_big);
                                     // pos-1 weil wenn man das Bild bewegt ist der Zeiger genau mittig vom Bild
-                                    playerField[pos - 1] = 2 + "";
+                                    playerField[pos - 1] = Integer.toString(2);
                                     old_big[0] = pos - 1;
-                                    playerField[pos] = 2 + "";
+                                    playerField[pos] = Integer.toString(2);
                                     old_big[1] = pos;
-                                    playerField[pos + 1] = 2 + "";
+                                    playerField[pos + 1] = Integer.toString(2);
                                     old_big[2] = pos + 1;
                                 }
                             } else if (degree == 1) {
-                                if (chek_position(pos, which_ship) && !playerField[pos - 8].equals(2 + "") && !playerField[pos].equals(2 + "") && !playerField[pos + 8].equals(2 + "")) {
+                                if (chek_position(pos, which_ship) && !playerField[pos - 8].equals(Integer.toString(2)) && !playerField[pos].equals(Integer.toString(2)) && !playerField[pos + 8].equals(Integer.toString(2))) {
                                     delete(old_big);
-                                    playerField[pos - 8] = 2 + "";
+                                    playerField[pos - 8] = Integer.toString(2);
                                     old_big[0] = pos - 8;
-                                    playerField[pos] = 2 + "";
+                                    playerField[pos] = Integer.toString(2);
                                     old_big[1] = pos;
-                                    playerField[pos + 8] = 2 + "";
+                                    playerField[pos + 8] = Integer.toString(2);
                                     old_big[2] = pos + 8;
                                 }
 
