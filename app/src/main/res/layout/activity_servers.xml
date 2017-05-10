@@ -35,11 +35,15 @@
         android:id="@+id/btnAccept"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Erstellen" />
+        android:background="@color/colorPrimary"
+        android:text="Erstellen"
+        android:textColor="@color/common_signin_btn_dark_text_default" />
 
     <Button
         android:id="@+id/btnSend"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Send" />
+        android:background="@color/colorPrimary"
+        android:text="Send"
+        android:textColor="@color/common_signin_btn_dark_text_default" />
 </LinearLayout>
