@@ -32,7 +32,7 @@ public class Client1 extends AppCompatActivity implements View.OnClickListener {
     private Button btnStop;
     private StartThread st;
     private ReceiveThread rt;
-    String TAG = "Client";
+    String tag = "Client";
 
 
     @Override
@@ -82,6 +82,8 @@ public class Client1 extends AppCompatActivity implements View.OnClickListener {
                     e.printStackTrace();
                 }
                 break;
+            default:
+                break;
         }
 
     }
@@ -94,10 +96,11 @@ public class Client1 extends AppCompatActivity implements View.OnClickListener {
                 os = socket.getOutputStream();
                 os.write((et.getText().toString() + "\n").getBytes("utf-8"));
             } catch (IOException e) {
-                e.printStackTrace();
+                Log.e(tag, "IOException in WriteThread: " + e.toString());
             } catch (NullPointerException e) {
-                Log.e(TAG, "NullPointerException in WriteThread");
-                e.printStackTrace();
+                Log.e(tag, "NullPointerException in WriteThread: " + e.toString());
+
+
             }
 
         }
@@ -120,7 +123,7 @@ public class Client1 extends AppCompatActivity implements View.OnClickListener {
                     myhandler.sendMessage(msg0);
                 }
             } catch (IOException e) {
-                e.printStackTrace();
+                Log.e(tag, "IOException in StartThread: " + e.toString());
             }
         }
     }
@@ -146,11 +149,11 @@ public class Client1 extends AppCompatActivity implements View.OnClickListener {
                     Message msg2 = myhandler.obtainMessage();
                     msg2.what = 2;
                     myhandler.sendMessage(msg2);
-                    e.printStackTrace();
+                    Log.e(tag, "NullpointerException in ReceiveThread: " + e.toString());
                     break;
 
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    Log.e(tag, "IOException in ReceiveThread: " + e.toString());
                 }
 
 
@@ -164,7 +167,7 @@ public class Client1 extends AppCompatActivity implements View.OnClickListener {
                 try {
                     sleep(400);
                 } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    Log.e(tag, "InterruptedException in ReceiveThread: " + e.toString());
                 }
 
             }
