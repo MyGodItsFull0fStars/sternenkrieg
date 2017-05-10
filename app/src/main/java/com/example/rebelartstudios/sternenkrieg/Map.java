@@ -342,10 +342,8 @@ public class Map extends AppCompatActivity {
     }
 
     public void delete(int data[]) {
-        if (data != null) {
-            for (int x : data) {
-                playerField[x] = Integer.toString(0);
-            }
+        for (int x : data) {
+            playerField[x] = Integer.toString(0);
         }
         draw(playerField);
 
