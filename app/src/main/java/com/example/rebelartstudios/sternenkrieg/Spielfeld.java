@@ -34,7 +34,7 @@ public class Spielfeld extends AppCompatActivity {
 
     int pointsPlayer=0;
 
-    boolean check;
+    boolean check1, check2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,22 +56,40 @@ public class Spielfeld extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                if(check) {
+                if(check1) {
                     options1.setVisibility(View.INVISIBLE);
                     options2.setVisibility(View.INVISIBLE);
                     options3.setVisibility(View.INVISIBLE);
                     options4.setVisibility(View.INVISIBLE);
-                    check = false;
+                    check1 = false;
                 } else {
+                    options1.setImageDrawable(getResources().getDrawable(R.drawable.cheat_sternenkriege));
+                    options2.setImageDrawable(getResources().getDrawable(R.drawable.powerups_sternenkriege));
+                    options3.setImageDrawable(getResources().getDrawable(R.drawable.options_sternenkriege));
+                    options4.setImageDrawable(getResources().getDrawable(R.drawable.help_sternenkriege));
+
                     options1.setVisibility(View.VISIBLE);
                     options2.setVisibility(View.VISIBLE);
                     options3.setVisibility(View.VISIBLE);
                     options4.setVisibility(View.VISIBLE);
-                    check = true;
+                    check1 = true;
                 }
             }
         });
 
+        options2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                options1.setImageDrawable(getResources().getDrawable(R.drawable.scanner));
+                options2.setImageDrawable(getResources().getDrawable(R.drawable.doubleshot));
+                options3.setImageDrawable(getResources().getDrawable(R.drawable.explosionradius));
+                options4.setImageDrawable(getResources().getDrawable(R.drawable.armour));
+
+                check1=false;
+
+            }
+        });
 
         amountShips=3;
 
