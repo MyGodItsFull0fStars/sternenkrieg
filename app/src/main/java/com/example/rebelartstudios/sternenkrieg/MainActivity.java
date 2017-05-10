@@ -14,7 +14,6 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.example.rebelartstudios.sternenkrieg.Socket.Socket_main;
 
 public class MainActivity extends AppCompatActivity {
 

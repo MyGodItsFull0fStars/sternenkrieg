@@ -143,7 +143,7 @@ public class Networking extends AppCompatActivity implements GoogleApiClient.Con
             return;
 
         if( mIsHost ) {
-            sendMessage( "Shutting down host" );
+            sendMessage( "Shutting down Host" );
             Nearby.Connections.stopAdvertising( mGoogleApiClient );
             Nearby.Connections.stopAllEndpoints( mGoogleApiClient );
             mIsHost = false;

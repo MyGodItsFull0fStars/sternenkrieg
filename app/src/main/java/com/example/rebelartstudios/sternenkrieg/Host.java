@@ -1,8 +1,4 @@
-package com.example.rebelartstudios.sternenkrieg.Socket;
-
-/**
- * Created by wenboda on 2017/4/26.
- */
+package com.example.rebelartstudios.sternenkrieg;
 
 import android.os.Bundle;
 import android.os.Handler;
@@ -14,26 +10,27 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.rebelartstudios.sternenkrieg.R;
-
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-public class Servers extends AppCompatActivity {
+public class Host extends AppCompatActivity {
     private TextView tv = null;
     private EditText et = null;
     private TextView IPtv = null;
     private Button btnSend = null;
     private Button btnAcept = null;
-    private Socket socket =new Socket();
+    private Socket socket;
     private ServerSocket mServerSocket = null;
     private boolean running = false;
     private AcceptThread mAcceptThread;
-    private ReceiveThreadServer mReceiveThread;
+    private ReceiveThread mReceiveThread;
     private Handler mHandler = null;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +47,7 @@ public class Servers extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                mAcceptThread = new AcceptThread(socket, mServerSocket, mHandler, mReceiveThread);
+                mAcceptThread = new AcceptThread();
                 running = true;
                 mAcceptThread.start();
                 btnSend.setEnabled(true);
@@ -65,7 +62,7 @@ public class Servers extends AppCompatActivity {
             public void onClick(View v) {
                 OutputStream os = null;
                 try {
-                    os = socket.getOutputStream();//kriege activity_socket outputstream
+                    os = socket.getOutputStream();//kriege socket outputstream
                     String msg = et.getText().toString()+"\n";
 //                    System.out.println(msg);
                     os.write(msg.getBytes("utf-8"));
@@ -80,90 +77,83 @@ public class Servers extends AppCompatActivity {
         });
     }
     //Server
-//    public class AcceptThread extends Thread{
-//        @Override
-//        public void run() {
-////           while (running) {
-//            try {
-//                mServerSocket = new ServerSocket(12345);//ein Server erstellen
-//                socket = mServerSocket.accept();//accept
-////                System.out.println("erfolg");
-//                if (socket != null){
-//                    test();
-//                }
-//                try {
-//                    sleep(500);
-//                } catch (InterruptedException e) {
-//                    e.printStackTrace();
-//                }
-//
-//                Message msg = mHandler.obtainMessage();
-//                msg.what = 0;
-//                msg.obj = socket.getInetAddress().getHostAddress();
-//                mHandler.sendMessage(msg);
-//                //start receive Thread
-//                mReceiveThread = new ReceiveThread(socket);
-//                mReceiveThread.start();
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-////           }
-//        }
-//
-//        public boolean test(){
-//            return true;
-//        }
-//    }
+    private class AcceptThread extends Thread{
+        @Override
+        public void run() {
+//           while (running) {
+            try {
+                mServerSocket = new ServerSocket(12345);//ein Server erstellen
+                socket = mServerSocket.accept();//accept
+//                System.out.println("erfolg");
+                try {
+                    sleep(500);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+                Message msg = mHandler.obtainMessage();
+                msg.what = 0;
+                msg.obj = socket.getInetAddress().getHostAddress();
+                mHandler.sendMessage(msg);
+                //start receive Thread
+                mReceiveThread = new ReceiveThread(socket);
+                mReceiveThread.start();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+//           }
+        }
+    }
 
 
-//    public class ReceiveThread extends Thread{
-//        private InputStream is = null;
-//        private String read;
-//
-//        public ReceiveThread(Socket sk){
-//            try {
-//                is = sk.getInputStream();
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//        }
-//        @Override
-//        public void run() {
-//            while (running) {
-//                try {
-//                    sleep(500);
-//                } catch (InterruptedException e) {
-//                    e.printStackTrace();
-//                }
-//                BufferedReader br = null;
-//                try {
-//                    br = new BufferedReader(new InputStreamReader(is, "UTF-8"));
-//                } catch (UnsupportedEncodingException e) {
-//                    e.printStackTrace();
-//                }
-//                try {
-//
-//                    read = br.readLine();
-//                    System.out.println(read);
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                } catch (NullPointerException e) {
-//                    running = false;
-//                    Message msg2 = mHandler.obtainMessage();
-//                    msg2.what = 2;
-//                    mHandler.sendMessage(msg2);
-//                    e.printStackTrace();
-//                    break;
-//                }
-//
-//                Message msg = mHandler.obtainMessage();
-//                msg.what = 1;
-//                msg.obj = read;
-//                mHandler.sendMessage(msg);
-//
-//            }
-//        }
-//    }
+    private class ReceiveThread extends Thread{
+        private InputStream is = null;
+        private String read;
+
+        public ReceiveThread(Socket sk){
+            try {
+                is = sk.getInputStream();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        @Override
+        public void run() {
+            while (running) {
+                try {
+                    sleep(500);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                BufferedReader br = null;
+                try {
+                    br = new BufferedReader(new InputStreamReader(is, "UTF-8"));
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+                try {
+
+                    read = br.readLine();
+                    System.out.println(read);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (NullPointerException e) {
+                    running = false;
+                    Message msg2 = mHandler.obtainMessage();
+                    msg2.what = 2;
+                    mHandler.sendMessage(msg2);
+                    e.printStackTrace();
+                    break;
+                }
+
+                Message msg = mHandler.obtainMessage();
+                msg.what = 1;
+                msg.obj = read;
+                mHandler.sendMessage(msg);
+
+            }
+        }
+    }
 
     private void displayToast(String s)
     {

@@ -15,7 +15,7 @@ import java.net.Socket;
 import static org.junit.Assert.assertEquals;
 
 /**
- * Example local unit test, which will execute on the development machine (host).
+ * Example local unit test, which will execute on the development machine (Host).
  *
  * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
  */

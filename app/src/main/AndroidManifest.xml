@@ -1,11 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.rebelartstudios.sternenkrieg">
-
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.VIBRATE"></uses-permission>
+    <uses-permission android:name="android.permission.INTERNET"></uses-permission>
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -24,6 +21,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name="com.example.rebelartstudios.sternenkrieg.Spielen"
+            android:label="@string/app_name" />
         <activity
             android:name="com.example.rebelartstudios.sternenkrieg.Modi"
             android:label="@string/app_name" />
@@ -44,9 +44,12 @@
             android:label="SK_UI3" />
         <activity android:name="com.example.rebelartstudios.sternenkrieg.Options" />
         <activity android:name="com.example.rebelartstudios.sternenkrieg.About" />
-        <activity android:name="com.example.rebelartstudios.sternenkrieg.Socket.Client" />
-        <activity android:name="com.example.rebelartstudios.sternenkrieg.Socket.Servers" />
-        <activity android:name="com.example.rebelartstudios.sternenkrieg.Socket.Socket_main" />
+
+        <activity android:name="com.example.rebelartstudios.sternenkrieg.Socket_main" />
+        <activity android:name="com.example.rebelartstudios.sternenkrieg.Host">
+
+        </activity>
+        <activity android:name="com.example.rebelartstudios.sternenkrieg.Client1"></activity>
 
         <service android:name="com.example.rebelartstudios.sternenkrieg.PlayAudio" android:enabled="true" />
     </application>
