@@ -13,33 +13,34 @@
         android:id="@+id/image_ship1"
         android:layout_width="100dp"
         android:layout_height="79dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginTop="41dp"
+        android:layout_marginRight="35dp"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/image_turn"
-        app:srcCompat="@drawable/ship1" />
+        app:srcCompat="@drawable/ship1"
+        android:layout_marginTop="35dp"
+        app:layout_constraintTop_toBottomOf="@+id/image_turn" />
 
     <ImageView
         android:id="@+id/image_ship2"
         android:layout_width="119dp"
         android:layout_height="80dp"
-        android:layout_marginRight="7dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginRight="16dp"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/image_ship1"
-        app:srcCompat="@drawable/ship2" />
+        app:srcCompat="@drawable/ship2"
+        android:layout_marginTop="0dp"
+        app:layout_constraintTop_toBottomOf="@+id/image_ship1" />
 
     <ImageView
         android:id="@+id/image_ship3"
         android:layout_width="156dp"
         android:layout_height="102dp"
-        android:layout_marginRight="7dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginRight="-10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent"
+        app:srcCompat="@drawable/schiff_big"
+        android:layout_marginBottom="-7dp"
+        android:layout_marginTop="0dp"
         app:layout_constraintTop_toBottomOf="@+id/image_ship2"
-        app:layout_constraintVertical_bias="0.0"
-        app:srcCompat="@drawable/schiff_big" />
+        app:layout_constraintVertical_bias="0.0" />
 
     <GridView
         android:id="@+id/gridView"
@@ -64,12 +65,11 @@
         android:id="@+id/image_turn"
         android:layout_width="78dp"
         android:layout_height="54dp"
-        android:layout_marginRight="16dp"
+        android:layout_marginRight="29dp"
         android:layout_marginTop="16dp"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/rotate_other"
-        tools:layout_editor_absoluteX="290dp" />
+        app:srcCompat="@drawable/rotate_other" />
 
     <ImageView
         android:id="@+id/play"
