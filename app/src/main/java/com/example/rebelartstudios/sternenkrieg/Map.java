@@ -23,7 +23,7 @@ public class Map extends AppCompatActivity {
     GridView gridView;
     ImageView imageView;
     ImageView ship1, ship2, ship3, turn, play;
-    String map[] = new String[64];
+    String playerField[] = new String[64];
     int width;
     int height;
     int oldpos;
@@ -35,10 +35,46 @@ public class Map extends AppCompatActivity {
     boolean count0, count1, count2 = false;
 
 
-    public String[] getMap() {
-        map[23] = 2+"";
-        return map;
+    public String[] getPlayerField() {
+        playerField[23] = Integer.toString(2);
+        return playerField;
     }
+
+    private void initializeOnClickListenerOnButton() {
+        play.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (count0 && count1 && count2) {
+                    Intent intent = new Intent();
+                    intent.setClass(Map.this, Spielfeld.class);
+                    intent.putExtra("oldmap", playerField);
+                    startActivity(intent);
+                }
+            }
+        });
+
+        gridView.setAdapter(new MapLoad(this, playerField));
+
+        turn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (degree == 0) {
+                    degree = 1;
+                    ship1.animate().rotationBy(90).start();
+                    ship2.animate().rotationBy(90).start();
+                    ship3.animate().rotationBy(90).start();
+                } else {
+                    degree = 0;
+                    ship1.animate().rotationBy(270).start();
+                    ship2.animate().rotationBy(270).start();
+                    ship3.animate().rotationBy(270).start();
+                }
+
+
+            }
+        });
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,82 +82,28 @@ public class Map extends AppCompatActivity {
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         setContentView(R.layout.activity_map);
-
-        imageView = (ImageView) findViewById(R.id.grid_item_image);
-        ship1 = (ImageView) findViewById(R.id.image_ship1);
-        ship2 = (ImageView) findViewById(R.id.image_ship2);
-        ship3 = (ImageView) findViewById(R.id.image_ship3);
-        turn = (ImageView) findViewById(R.id.image_turn);
-        play = (ImageView) findViewById(R.id.play);
-
-
+        initializeImageViews();
+        initializePlayerField();
 
         oldpos = 0;
 
-        map = new String[64];
-        for (int i = 0; i < 64; i++) {
-            map[i] = 0 + "";
-        }
         Display display = getWindowManager().getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
         width = size.x;
         height = size.y;
 
-        gridView = (GridView) findViewById(R.id.gridView);
-        gridView.getLayoutParams().height = height-350;
-        gridView.getLayoutParams().width = height-350;
-        ship1.getLayoutParams().height = (height-350) / 8;
-        ship1.getLayoutParams().width = (height-350)/ 8;
-        ship2.getLayoutParams().height = (height-350)/ 8;
-        ship2.getLayoutParams().width = (height-350)/ 4;
-        ship3.getLayoutParams().height = (height-350)/ 8;
-        ship3.getLayoutParams().width = (height-350) / 3;
+        initializeShipView();
+        initializeOnClickListenerOnButton();
 
-
-            play.setOnClickListener(new View.OnClickListener() {
-            @Override
-                    public void onClick(View v) {
-                if (count0 && count1 && count2) {
-                    Intent intent = new Intent();
-                    intent.setClass(Map.this, Spielfeld.class);
-                    intent.putExtra("oldmap", map);
-                    startActivity(intent);
-                }
-            }
-            });
-
-
-        gridView.setAdapter(new MapLoad(this, map));
-
-        turn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(degree==0) {
-                    degree=1;
-                    ship1.animate().rotationBy(90).start();
-                    ship2.animate().rotationBy(90).start();
-                    ship3.animate().rotationBy(90).start();
-                } else {
-                    degree=0;
-                    ship1.animate().rotationBy(270).start();
-                    ship2.animate().rotationBy(270).start();
-                    ship3.animate().rotationBy(270).start();
-                }
-
-
-
-
-            }
-        });
 
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
 
-                Toast.makeText(getApplicationContext(), "Pos: " + position + " Id: " ,
+                Toast.makeText(getApplicationContext(), "Pos: " + position + " Id: ",
                         Toast.LENGTH_SHORT).show();
-               /* map[position] = 1 + "";
-                draw(map);*/
+               /* playerField[position] = 1 + "";
+                draw(playerField);*/
 
 
             }
@@ -148,74 +130,74 @@ public class Map extends AppCompatActivity {
 
                         //kleines Schiff
                         if (which_ship == 0) {
-                            if (!map[pos].equals(2 + "")) {
+                            if (!playerField[pos].equals(Integer.toString(2))) {
                                 //falls schon mal gesetzt wird die letzte Position gelöscht
                                 delete(old_small);
                                 //neue Position gesetzt
-                                map[pos] = 2 + "";
+                                playerField[pos] = Integer.toString(2);
                                 old_small[0] = pos;
 
 
                             }
-                            count0=true;
+                            count0 = true;
 
                         }
                         //mittleres Schiff
                         if (which_ship == 1) {
                             if (degree == 0) {
-                                //check_position schaut dass das schiff nicht auserhalb der map oder vom rechten ende der map auf die linke seite gesetzt wird
-                                if (chek_position(pos, which_ship)&&!map[pos].equals(2 + "") && !map[pos + 1].equals(2 + "")) {
+                                //check_position schaut dass das schiff nicht auserhalb der playerField oder vom rechten ende der playerField auf die linke seite gesetzt wird
+                                if (check_position(pos, which_ship) && !playerField[pos].equals(Integer.toString(2)) && !playerField[pos + 1].equals(Integer.toString(2))) {
                                     delete(old_middle);
                                     // pos-1 weil wenn man das Bild bewegt ist der Zeiger genau mittig vom Bild
-                                    map[pos - 1] = 2 + "";
+                                    playerField[pos - 1] = Integer.toString(2);
                                     old_middle[0] = pos - 1;
-                                    map[pos] = 2 + "";
+                                    playerField[pos] = Integer.toString(2);
                                     old_middle[1] = pos;
                                 }
                             } else if (degree == 1) {
-                                if (chek_position(pos, which_ship)&&!map[pos].equals(2 + "") && !map[pos - 8].equals(2 + "")) {
+                                if (check_position(pos, which_ship) && !playerField[pos].equals(Integer.toString(2)) && !playerField[pos - 8].equals(Integer.toString(2))) {
                                     delete(old_middle);
-                                    map[pos - 8] = 2 + "";
+                                    playerField[pos - 8] = Integer.toString(2);
                                     old_middle[0] = pos - 8;
-                                    map[pos] = 2 + "";
+                                    playerField[pos] = Integer.toString(2);
                                     old_middle[1] = pos;
                                 }
 
                             }
-                            count1=true;
+                            count1 = true;
 
                         }
                         //großes Schiff
                         if (which_ship == 2) {
                             if (degree == 0) {
-                                if (chek_position(pos, which_ship)&&!map[pos].equals(2 + "") && !map[pos + 1].equals(2 + "") && !map[pos + 2].equals(2 + "")) {
+                                if (check_position(pos, which_ship) && !playerField[pos].equals(Integer.toString(2)) && !playerField[pos + 1].equals(Integer.toString(2)) && !playerField[pos + 2].equals(Integer.toString(2))) {
                                     delete(old_big);
                                     // pos-1 weil wenn man das Bild bewegt ist der Zeiger genau mittig vom Bild
-                                    map[pos - 1] = 2 + "";
+                                    playerField[pos - 1] = Integer.toString(2);
                                     old_big[0] = pos - 1;
-                                    map[pos] = 2 + "";
+                                    playerField[pos] = Integer.toString(2);
                                     old_big[1] = pos;
-                                    map[pos + 1] = 2 + "";
+                                    playerField[pos + 1] = Integer.toString(2);
                                     old_big[2] = pos + 1;
                                 }
                             } else if (degree == 1) {
-                                if (chek_position(pos, which_ship)&& !map[pos - 8].equals(2 + "") && !map[pos].equals(2 + "") && !map[pos + 8].equals(2 + "")) {
+                                if (check_position(pos, which_ship) && !playerField[pos - 8].equals(Integer.toString(2)) && !playerField[pos].equals(Integer.toString(2)) && !playerField[pos + 8].equals(Integer.toString(2))) {
                                     delete(old_big);
-                                    map[pos - 8] = 2 + "";
+                                    playerField[pos - 8] = Integer.toString(2);
                                     old_big[0] = pos - 8;
-                                    map[pos] = 2 + "";
+                                    playerField[pos] = Integer.toString(2);
                                     old_big[1] = pos;
-                                    map[pos + 8] = 2 + "";
+                                    playerField[pos + 8] = Integer.toString(2);
                                     old_big[2] = pos + 8;
                                 }
 
 
                             }
-                            count2=true;
+                            count2 = true;
 
                         }
 
-                        draw(map);
+                        draw(playerField);
 
                         return (true);
 
@@ -226,7 +208,7 @@ public class Map extends AppCompatActivity {
                         ship2.setVisibility(View.VISIBLE);
                         ship3.setVisibility(View.VISIBLE);
 
-                        if(count0&&count1&&count2){
+                        if (count0 && count1 && count2) {
                             play.setImageDrawable(getResources().getDrawable(R.drawable.play));
                         }
                         return (true);
@@ -289,18 +271,19 @@ public class Map extends AppCompatActivity {
 
 
     }
-    public boolean chek_position(int pos,int size){
-        ArrayList<Integer> failures_right=new ArrayList<Integer>(Arrays.asList(7,15,23,31,39,47,55,63));
-        ArrayList<Integer> failures_leftt=new ArrayList<Integer>(Arrays.asList(8,16,24,32,40,48,56));
+
+    public boolean check_position(int pos, int size) {
+        ArrayList<Integer> failures_right = new ArrayList<Integer>(Arrays.asList(7, 15, 23, 31, 39, 47, 55, 63));
+        ArrayList<Integer> failures_left = new ArrayList<Integer>(Arrays.asList(8, 16, 24, 32, 40, 48, 56));
 
         String[] length = new String[size];
         if (degree == 180 || degree == 0) {
             if (size == 1) {
-                if (failures_right.contains(pos-1)||failures_leftt.contains(pos) || pos < 1 || pos > 62) {
+                if (failures_right.contains(pos - 1) || failures_left.contains(pos) || pos < 1 || pos > 62) {
                     return false;
                 }
             } else if (size == 2) {
-                if (failures_right.contains(pos-1) ||failures_right.contains(pos)|| failures_leftt.contains(pos) || pos < 1 || pos > 62) {
+                if (failures_right.contains(pos - 1) || failures_right.contains(pos) || failures_left.contains(pos) || pos < 1 || pos > 62) {
                     return false;
                 }
             }
@@ -320,24 +303,51 @@ public class Map extends AppCompatActivity {
         return true;
     }
 
+
+    // Initializes the ImageViews in the Maps Class
+    private void initializeImageViews() {
+        imageView = (ImageView) findViewById(R.id.grid_item_image);
+        ship1 = (ImageView) findViewById(R.id.image_ship1);
+        ship2 = (ImageView) findViewById(R.id.image_ship2);
+        ship3 = (ImageView) findViewById(R.id.image_ship3);
+        turn = (ImageView) findViewById(R.id.image_turn);
+        play = (ImageView) findViewById(R.id.play);
+    }
+
+    private void initializePlayerField() {
+        playerField = new String[64];
+        for (int i = 0; i < 64; i++) {
+            playerField[i] = Integer.toString(0);
+        }
+    }
+
+    private void initializeShipView() {
+        gridView = (GridView) findViewById(R.id.gridView);
+        gridView.getLayoutParams().height = height - 350;
+        gridView.getLayoutParams().width = height - 350;
+        ship1.getLayoutParams().height = (height - 350) / 8;
+        ship1.getLayoutParams().width = (height - 350) / 8;
+        ship2.getLayoutParams().height = (height - 350) / 8;
+        ship2.getLayoutParams().width = (height - 350) / 4;
+        ship3.getLayoutParams().height = (height - 350) / 8;
+        ship3.getLayoutParams().width = (height - 350) / 3;
+    }
+
     public int position(int x, int y) {
-        int zehner = y * 8 / (height-350);
+        int zehner = y * 8 / (height - 350);
         zehner = zehner * 8;
-        int einer = x * 8 / (height-350);
+        int einer = x * 8 / (height - 350);
         int pos = zehner + einer;
         return pos;
     }
 
     public void delete(int data[]) {
-        if (data.equals(null)) {
-
-        } else {
+        if (data != null) {
             for (int x : data) {
-                map[x] = 0 + "";
+                playerField[x] = Integer.toString(0);
             }
-
         }
-        draw(map);
+        draw(playerField);
 
     }
 

@@ -27,7 +27,7 @@
             android:name="com.example.rebelartstudios.sternenkrieg.Modi"
             android:label="@string/app_name" />
         <activity
-            android:name="com.example.rebelartstudios.sternenkrieg.wuerfeltest"
+            android:name="com.example.rebelartstudios.sternenkrieg.Wuerfeltest"
             android:label="@string/app_name" />
         <activity
             android:name="com.example.rebelartstudios.sternenkrieg.EndScreen"

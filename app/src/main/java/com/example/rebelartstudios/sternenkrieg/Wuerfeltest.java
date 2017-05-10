@@ -2,6 +2,7 @@ package com.example.rebelartstudios.sternenkrieg;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -14,7 +15,7 @@ import android.widget.TextView;
 
 import java.util.Random;
 
-public class wuerfeltest extends AppCompatActivity {
+public class Wuerfeltest extends AppCompatActivity {
 
     private SensorManager mSensorManager;
     private Sensor mSensor;
@@ -30,6 +31,7 @@ public class wuerfeltest extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wuerfeltest);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
 
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
