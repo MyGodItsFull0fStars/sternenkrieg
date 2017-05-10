@@ -317,7 +317,7 @@ public class Map extends AppCompatActivity {
     private void initializePlayerField() {
         playerField = new String[64];
         for (int i = 0; i < 64; i++) {
-            playerField[i] = 0 + "";
+            playerField[i] = Integer.toString(0);
         }
     }
 
@@ -344,7 +344,7 @@ public class Map extends AppCompatActivity {
     public void delete(int data[]) {
         if (!data.equals(null)) {
             for (int x : data) {
-                playerField[x] = 0 + "";
+                playerField[x] = Integer.toString(0);
             }
         }
         draw(playerField);
