@@ -123,9 +123,9 @@ public class Spielfeld extends AppCompatActivity {
                 draw(map1, gridView1);
 
 
-                gameOver("2", map1);
-
-                alert("2");
+              if (gameOver("2", map1)) {
+                  alert("2");
+              }
 
             }
         });
@@ -184,7 +184,7 @@ public class Spielfeld extends AppCompatActivity {
                         })
                         .show();
             } else if(player.equals("a")){
-                builder.setMessage("You successfully destroyed all hostile ships!.")
+                builder.setMessage("You successfully destroyed all hostile ships!")
                         .setTitle("You win!")
                         .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {

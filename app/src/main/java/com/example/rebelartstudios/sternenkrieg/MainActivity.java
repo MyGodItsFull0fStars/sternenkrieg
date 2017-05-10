@@ -52,14 +52,14 @@ public class MainActivity extends AppCompatActivity {
         });
 
         // Network
-        networkBtn = (Button) findViewById(R.id.network);
+       /* networkBtn = (Button) findViewById(R.id.network);
         networkBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, Networking.class);
                 startActivity(intent);
             }
-        });
+        });*/
 
         // About
         aboutBtn = (Button) findViewById(R.id.about);
