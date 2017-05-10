@@ -314,6 +314,7 @@ public class Map extends AppCompatActivity {
         play = (ImageView) findViewById(R.id.play);
     }
 
+
     private void initializePlayerField() {
         playerField = new String[64];
         for (int i = 0; i < 64; i++) {

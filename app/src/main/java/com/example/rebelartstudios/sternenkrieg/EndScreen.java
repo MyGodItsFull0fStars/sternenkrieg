@@ -22,10 +22,13 @@ public class EndScreen extends AppCompatActivity {
         who_is_starting = (TextView) findViewById(R.id.text_first);
 
         Intent intent = getIntent();
-        if (intent.getExtras().getBoolean("who_is_starting")) {
+        int value = intent.getIntExtra("who_is_starting",0);
+        if (value ==0) {
             who_is_starting.setText("You are first");
-        } else {
-            who_is_starting.setText("Enemy is first or tie");
+        } else if(value==1) {
+            who_is_starting.setText("Enemy is first");
+        }else if ( value==2){
+            who_is_starting.setText("Tie");
         }
         button.setOnClickListener(new View.OnClickListener() {
             @Override
