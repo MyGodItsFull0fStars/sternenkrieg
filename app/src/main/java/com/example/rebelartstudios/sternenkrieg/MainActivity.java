@@ -86,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
         diceBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, wuerfeltest.class);
+                Intent intent = new Intent(MainActivity.this, Wuerfeltest.class);
                 intent.putExtra("shake", false);
                 startActivity(intent);
             }

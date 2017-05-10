@@ -342,7 +342,7 @@ public class Map extends AppCompatActivity {
     }
 
     public void delete(int data[]) {
-        if (!data.equals(null)) {
+        if (data != null) {
             for (int x : data) {
                 playerField[x] = Integer.toString(0);
             }
