@@ -1,8 +1,10 @@
 package com.example.rebelartstudios.sternenkrieg;
+
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -29,18 +31,14 @@ public class Client1 extends AppCompatActivity implements View.OnClickListener {
     private Button btnStop;
     private StartThread st;
     private ReceiveThread rt;
+    String TAG = "Client";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_client);
-        tv = (TextView) findViewById(R.id.TV);
-        et = (EditText) findViewById(R.id.et);
-        IPet = (EditText) findViewById(R.id.IPet);
-
-        btnSend = (Button) findViewById(R.id.btnSend);
-        btnStart = (Button) findViewById(R.id.btnStart);
-        btnStop = (Button) findViewById(R.id.btnStop);
+        initializeButtonsViews();
 
         setButtonOnStartState(true);
 
@@ -54,7 +52,7 @@ public class Client1 extends AppCompatActivity implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.btnStart:
 
                 st = new StartThread();
@@ -85,35 +83,38 @@ public class Client1 extends AppCompatActivity implements View.OnClickListener {
         }
 
     }
-    private class Write extends Thread{
+
+    private class Write extends Thread {
         @Override
         public void run() {
             OutputStream os = null;
             try {
                 os = socket.getOutputStream();
-                os.write((et.getText().toString()+"\n").getBytes("utf-8"));
+                os.write((et.getText().toString() + "\n").getBytes("utf-8"));
             } catch (IOException e) {
                 e.printStackTrace();
-            } catch (NullPointerException e){
+            } catch (NullPointerException e) {
+                Log.e(TAG, "NullPointerException in WriteThread");
                 e.printStackTrace();
             }
 
         }
     }
-    private class StartThread extends Thread{
+
+    private class StartThread extends Thread {
         @Override
         public void run() {
             try {
 
-                socket = new Socket(IPet.getText().toString(),12345);
+                socket = new Socket(IPet.getText().toString(), 12345);
 
                 rt = new ReceiveThread(socket);
                 rt.start();
                 running = true;
                 System.out.println(socket.isConnected());
-                if(socket.isConnected()){
+                if (socket.isConnected()) {
                     Message msg0 = myhandler.obtainMessage();
-                    msg0.what=0;
+                    msg0.what = 0;
                     myhandler.sendMessage(msg0);
                 }
             } catch (IOException e) {
@@ -122,12 +123,13 @@ public class Client1 extends AppCompatActivity implements View.OnClickListener {
         }
     }
 
-    private class ReceiveThread extends Thread{
+    private class ReceiveThread extends Thread {
         private InputStream is;
 
         public ReceiveThread(Socket socket) throws IOException {
             is = socket.getInputStream();
         }
+
         @Override
         public void run() {
             while (running) {
@@ -171,12 +173,11 @@ public class Client1 extends AppCompatActivity implements View.OnClickListener {
         }
     }
 
-    private void displayToast(String s)
-    {
+    private void displayToast(String s) {
         Toast.makeText(this, s, Toast.LENGTH_SHORT).show();
     }
 
-    private void setButtonOnStartState(boolean flag){
+    private void setButtonOnStartState(boolean flag) {
         btnSend.setEnabled(!flag);
         btnStop.setEnabled(!flag);
         btnStart.setEnabled(flag);
@@ -184,7 +185,7 @@ public class Client1 extends AppCompatActivity implements View.OnClickListener {
     }
 
 
-    class MyHandler extends Handler{
+    class MyHandler extends Handler {
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what) {
@@ -207,4 +208,13 @@ public class Client1 extends AppCompatActivity implements View.OnClickListener {
         }
     }
 
+    private void initializeButtonsViews() {
+        tv = (TextView) findViewById(R.id.TV);
+        et = (EditText) findViewById(R.id.et);
+        IPet = (EditText) findViewById(R.id.IPet);
+
+        btnSend = (Button) findViewById(R.id.btnSend);
+        btnStart = (Button) findViewById(R.id.btnStart);
+        btnStop = (Button) findViewById(R.id.btnStop);
+    }
 }

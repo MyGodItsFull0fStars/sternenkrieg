@@ -24,7 +24,7 @@ public class Host extends AppCompatActivity {
     private EditText et = null;
     private TextView IPtv = null;
     private Button btnSend = null;
-    private Button btnAcept = null;
+    private Button btnAccept = null;
     private Socket socket;
     private ServerSocket mServerSocket = null;
     private boolean running = false;
@@ -32,49 +32,16 @@ public class Host extends AppCompatActivity {
     private ReceiveThread mReceiveThread;
     private Handler mHandler = null;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_servers);
-        tv = (TextView) findViewById(R.id.tv);
-        et = (EditText) findViewById(R.id.etSend);
-        IPtv = (TextView) findViewById(R.id.tvIP);
-        btnAcept = (Button) findViewById(R.id.btnAccept);
-        btnSend = (Button) findViewById(R.id.btnSend);
+        initializeButtons();
         mHandler = new MyHandler();
         btnSend.setEnabled(false);//lass Button Send unenabled
-        btnAcept.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                mAcceptThread = new AcceptThread();
-                running = true;
-                mAcceptThread.start();
-                btnSend.setEnabled(true);
-                IPtv.setText("Warte auf Verbindung");
-                btnAcept.setEnabled(false);
-
-            }
-        });
-        //Send
-        btnSend.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                OutputStream os = null;
-                try {
-                    os = socket.getOutputStream();//kriege socket outputstream
-                    String msg = et.getText().toString()+"\n";
-//                    System.out.println(msg);
-                    os.write(msg.getBytes("utf-8"));
-                    et.setText("");
-                    os.flush();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }catch (NullPointerException e) {
-                    displayToast("Kann nicht verbinden");
-                }
-            }
-        });
+        initializeOnClickListeners();
     }
     //Server
     private class AcceptThread extends Thread{
@@ -183,12 +150,53 @@ public class Host extends AppCompatActivity {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                    btnAcept.setEnabled(true);
+                    btnAccept.setEnabled(true);
                     btnSend.setEnabled(false);
                     break;
             }
         }
     }
+    private void initializeButtons(){
+        tv = (TextView) findViewById(R.id.tv);
+        et = (EditText) findViewById(R.id.etSend);
+        IPtv = (TextView) findViewById(R.id.tvIP);
+        btnAccept = (Button) findViewById(R.id.btnAccept);
+        btnSend = (Button) findViewById(R.id.btnSend);
+    }
 
+    private void initializeOnClickListeners(){
+        btnAccept.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                mAcceptThread = new AcceptThread();
+                running = true;
+                mAcceptThread.start();
+                btnSend.setEnabled(true);
+                IPtv.setText("Warte auf Verbindung");
+                btnAccept.setEnabled(false);
+
+            }
+        });
+        //Send
+        btnSend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                OutputStream os = null;
+                try {
+                    os = socket.getOutputStream();//kriege socket outputstream
+                    String msg = et.getText().toString()+"\n";
+//                    System.out.println(msg);
+                    os.write(msg.getBytes("utf-8"));
+                    et.setText("");
+                    os.flush();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }catch (NullPointerException e) {
+                    displayToast("Kann nicht verbinden");
+                }
+            }
+        });
+    }
 
 }
