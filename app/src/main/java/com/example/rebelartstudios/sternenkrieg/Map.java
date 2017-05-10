@@ -59,15 +59,7 @@ public class Map extends AppCompatActivity {
         width = size.x;
         height = size.y;
 
-        gridView = (GridView) findViewById(R.id.gridView);
-        gridView.getLayoutParams().height = height - 350;
-        gridView.getLayoutParams().width = height - 350;
-        ship1.getLayoutParams().height = (height - 350) / 8;
-        ship1.getLayoutParams().width = (height - 350) / 8;
-        ship2.getLayoutParams().height = (height - 350) / 8;
-        ship2.getLayoutParams().width = (height - 350) / 4;
-        ship3.getLayoutParams().height = (height - 350) / 8;
-        ship3.getLayoutParams().width = (height - 350) / 3;
+        initializeShipView();
 
 
         play.setOnClickListener(new View.OnClickListener() {
@@ -327,6 +319,18 @@ public class Map extends AppCompatActivity {
         for (int i = 0; i < 64; i++) {
             playerField[i] = 0 + "";
         }
+    }
+
+    private void initializeShipView(){
+        gridView = (GridView) findViewById(R.id.gridView);
+        gridView.getLayoutParams().height = height - 350;
+        gridView.getLayoutParams().width = height - 350;
+        ship1.getLayoutParams().height = (height - 350) / 8;
+        ship1.getLayoutParams().width = (height - 350) / 8;
+        ship2.getLayoutParams().height = (height - 350) / 8;
+        ship2.getLayoutParams().width = (height - 350) / 4;
+        ship3.getLayoutParams().height = (height - 350) / 8;
+        ship3.getLayoutParams().width = (height - 350) / 3;
     }
 
     public int position(int x, int y) {
