@@ -60,14 +60,14 @@ public class Map extends AppCompatActivity {
             public void onClick(View v) {
                 if (degree == 0) {
                     degree = 1;
-                    ship1.animate().rotationBy(90).start();
-                    ship2.animate().rotationBy(90).start();
-                    ship3.animate().rotationBy(90).start();
-                } else {
-                    degree = 0;
                     ship1.animate().rotationBy(270).start();
                     ship2.animate().rotationBy(270).start();
                     ship3.animate().rotationBy(270).start();
+                } else {
+                    degree = 0;
+                    ship1.animate().rotationBy(90).start();
+                    ship2.animate().rotationBy(90).start();
+                    ship3.animate().rotationBy(90).start();
                 }
 
 
