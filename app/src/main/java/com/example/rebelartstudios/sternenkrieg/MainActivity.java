@@ -38,11 +38,30 @@ public class MainActivity extends AppCompatActivity {
 
         // Background music
         // disabled for now, feel free to enable if you want to check
-        //Intent audioIntent = new Intent(this, PlayAudio.class);
-        //startService(audioIntent);
+        // Intent audioIntent = new Intent(this, PlayAudio.class);
+        // startService(audioIntent);
+        initializeButtons();
+        initializeOnClickListeners();
+        initializeBackground();
 
-        // Play
+    }
+
+    private void initializeBackground() {
+        ImageView background = (ImageView) findViewById(R.id.background);
+        background.setBackgroundColor(Color.rgb(0, 0, 0));
+        Glide.with(this).load(R.raw.background).asGif().centerCrop().diskCacheStrategy(DiskCacheStrategy.SOURCE).into(background);
+    }
+
+    private void initializeButtons(){
         startBtn = (Button) findViewById(R.id.start);
+        aboutBtn = (Button) findViewById(R.id.about);
+        optionsBtn = (Button) findViewById(R.id.options);
+        diceBtn = (Button) findViewById(R.id.dice);
+        socket = (Button)findViewById(R.id.Socket);
+    }
+
+    private void initializeOnClickListeners(){
+        // Play
         startBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -51,18 +70,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        // Network
-        networkBtn = (Button) findViewById(R.id.network);
-        networkBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, Networking.class);
-                startActivity(intent);
-            }
-        });
 
         // About
-        aboutBtn = (Button) findViewById(R.id.about);
         aboutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -72,7 +81,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
         // Options
-        optionsBtn = (Button) findViewById(R.id.options);
         optionsBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -82,7 +90,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
         // Dice
-        diceBtn = (Button) findViewById(R.id.dice);
         diceBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -92,19 +99,16 @@ public class MainActivity extends AppCompatActivity {
         });
 
         // socket
-        socket = (Button)findViewById(R.id.Socket);
         socket.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent();
-                intent.setClass(MainActivity.this, Socket_main.class);
+                Intent intent = new Intent(MainActivity.this, Socket_main.class);
                 startActivity(intent);
             }
         });
-
-        ImageView background = (ImageView) findViewById(R.id.background);
-        background.setBackgroundColor(Color.rgb(0, 0, 0));
-        Glide.with(this).load(R.raw.background).asGif().centerCrop().diskCacheStrategy(DiskCacheStrategy.SOURCE).into(background);
-
     }
+
+
 }
+
+

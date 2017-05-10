@@ -78,15 +78,6 @@
                 android:textSize="20sp" />
 
             <Button
-                android:id="@+id/network"
-                android:layout_width="300dp"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@color/colorPrimary"
-                android:text="@string/connection_type"
-                android:textColor="@color/common_signin_btn_dark_text_default"
-                android:textSize="20sp" />
-
-            <Button
                 android:id="@+id/dice"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"

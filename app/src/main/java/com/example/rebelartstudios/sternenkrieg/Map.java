@@ -209,7 +209,7 @@ public class Map extends AppCompatActivity {
                         ship3.setVisibility(View.VISIBLE);
 
                         if (count0 && count1 && count2) {
-                            play.setImageDrawable(getResources().getDrawable(R.drawable.play));
+                            play.setImageDrawable(getResources().getDrawable(R.drawable.arrow_right_other));
                         }
                         return (true);
 
@@ -313,6 +313,7 @@ public class Map extends AppCompatActivity {
         turn = (ImageView) findViewById(R.id.image_turn);
         play = (ImageView) findViewById(R.id.play);
     }
+
 
     private void initializePlayerField() {
         playerField = new String[64];

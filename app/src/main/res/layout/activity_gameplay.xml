@@ -69,7 +69,7 @@
         app:layout_constraintRight_toLeftOf="@+id/player2"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.299"
-        app:srcCompat="@drawable/circle" />
+        app:srcCompat="@drawable/cheat_sternenkriege" />
 
     <ImageView
         android:id="@+id/options2"
@@ -86,7 +86,7 @@
         app:layout_constraintRight_toLeftOf="@+id/player2"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.438"
-        app:srcCompat="@drawable/circle" />
+        app:srcCompat="@drawable/powerups_sternenkriege" />
 
     <ImageView
         android:id="@+id/options4"
@@ -100,7 +100,7 @@
         app:layout_constraintLeft_toRightOf="@+id/player1"
         app:layout_constraintRight_toLeftOf="@+id/player2"
         app:layout_constraintTop_toBottomOf="@+id/options3"
-        app:srcCompat="@drawable/circle" />
+        app:srcCompat="@drawable/help_sternenkriege" />
 
     <ImageView
         android:id="@+id/options3"
@@ -117,7 +117,7 @@
         app:layout_constraintRight_toLeftOf="@+id/player2"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.586"
-        app:srcCompat="@drawable/circle" />
+        app:srcCompat="@drawable/options_sternenkriege" />
 
     <ImageView
         android:id="@+id/options"
@@ -133,7 +133,7 @@
         app:layout_constraintRight_toLeftOf="@+id/player2"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.081"
-        app:srcCompat="@drawable/circle" />
+        app:srcCompat="@drawable/ship_sternenkriege" />
 
     <TextView
         android:id="@+id/amountShips"
