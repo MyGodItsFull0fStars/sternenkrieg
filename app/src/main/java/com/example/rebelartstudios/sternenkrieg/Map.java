@@ -40,27 +40,7 @@ public class Map extends AppCompatActivity {
         return playerField;
     }
 
-
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-        setContentView(R.layout.activity_map);
-        initializeImageViews();
-        initializePlayerField();
-
-        oldpos = 0;
-
-        Display display = getWindowManager().getDefaultDisplay();
-        Point size = new Point();
-        display.getSize(size);
-        width = size.x;
-        height = size.y;
-
-        initializeShipView();
-
+    private void initializeOnClickListenerOnButton() {
         play.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -93,6 +73,28 @@ public class Map extends AppCompatActivity {
 
             }
         });
+    }
+
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        setContentView(R.layout.activity_map);
+        initializeImageViews();
+        initializePlayerField();
+
+        oldpos = 0;
+
+        Display display = getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        width = size.x;
+        height = size.y;
+
+        initializeShipView();
+        initializeOnClickListenerOnButton();
 
 
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -319,7 +321,7 @@ public class Map extends AppCompatActivity {
         }
     }
 
-    private void initializeShipView(){
+    private void initializeShipView() {
         gridView = (GridView) findViewById(R.id.gridView);
         gridView.getLayoutParams().height = height - 350;
         gridView.getLayoutParams().width = height - 350;
