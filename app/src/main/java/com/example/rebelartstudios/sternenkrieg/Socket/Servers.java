@@ -4,10 +4,10 @@ package com.example.rebelartstudios.sternenkrieg.Socket;
  * Created by wenboda on 2017/4/26.
  */
 
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,12 +16,8 @@ import android.widget.Toast;
 
 import com.example.rebelartstudios.sternenkrieg.R;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -37,6 +33,7 @@ public class Servers extends AppCompatActivity {
     private AcceptThread mAcceptThread;
     private ReceiveThreadServer mReceiveThread;
     private Handler mHandler = null;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
