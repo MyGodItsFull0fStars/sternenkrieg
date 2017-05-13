@@ -31,6 +31,13 @@
         android:layout_height="wrap_content"
         android:hint="Information angaben" />
 
+    <TextView
+        android:id="@+id/ip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Host"
+        android:textSize="30sp"/>
+
     <Button
         android:id="@+id/btnAccept"
         android:layout_width="match_parent"
@@ -46,4 +53,13 @@
         android:background="@color/colorPrimary"
         android:text="Send"
         android:textColor="@color/common_signin_btn_dark_text_default" />
+
+    <Button
+        android:id="@+id/btnHostEnd"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:text="End"
+        android:textColor="@color/common_signin_btn_dark_text_default" />
+
 </LinearLayout>

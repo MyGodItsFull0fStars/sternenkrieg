@@ -1,6 +1,9 @@
-package com.example.rebelartstudios.sternenkrieg;
+package com.example.rebelartstudios.sternenkrieg.Network;
 
+import android.content.Context;
 import android.content.pm.ActivityInfo;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -11,12 +14,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.BufferedReader;
+import com.example.rebelartstudios.sternenkrieg.R;
+
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -26,12 +27,16 @@ public class Host extends AppCompatActivity {
     private TextView IPtv = null;
     private Button btnSend = null;
     private Button btnAccept = null;
-    private Socket socket;
+    public Socket socket = new Socket();
     private ServerSocket mServerSocket = null;
-    private boolean running = false;
+    boolean running = false;
     private AcceptThread mAcceptThread;
-    private ReceiveThread mReceiveThread;
+    private ReceiveThreadHost mReceiveThreadHost;
     private Handler mHandler = null;
+    private Button btnServersEnd = null;
+    private TextView ip;
+    String ipS ;
+    OutputStream os = null;
 
 
 
@@ -40,89 +45,38 @@ public class Host extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         setContentView(R.layout.activity_servers);
-        initializeButtons();
+
         mHandler = new MyHandler();
+
+
+
+
+        WifiManager wifiManager = (WifiManager)getSystemService(Context.WIFI_SERVICE);
+        if (!wifiManager.isWifiEnabled()) {
+            wifiManager.setWifiEnabled(true);
+        }
+
+        WifiInfo wifiInfo = wifiManager.getConnectionInfo();
+        int ipAddress = wifiInfo.getIpAddress();
+        ipS = intToIp(ipAddress);
+
+
+
+        initializeButtons();
         btnSend.setEnabled(false);//lass Button Send unenabled
         initializeOnClickListeners();
-    }
-    //Server
-    private class AcceptThread extends Thread{
-        @Override
-        public void run() {
-//           while (running) {
-            try {
-                mServerSocket = new ServerSocket(12345);//ein Server erstellen
-                socket = mServerSocket.accept();//accept
-//                System.out.println("erfolg");
-                try {
-                    sleep(500);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
 
-                Message msg = mHandler.obtainMessage();
-                msg.what = 0;
-                msg.obj = socket.getInetAddress().getHostAddress();
-                mHandler.sendMessage(msg);
-                //start receive Thread
-                mReceiveThread = new ReceiveThread(socket);
-                mReceiveThread.start();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-//           }
-        }
+
+    }
+    private String intToIp(int i) {
+
+        return (i & 0xFF ) + "." +
+                ((i >> 8 ) & 0xFF) + "." +
+                ((i >> 16 ) & 0xFF) + "." +
+                ( i >> 24 & 0xFF) ;
     }
 
 
-    private class ReceiveThread extends Thread{
-        private InputStream is = null;
-        private String read;
-
-        public ReceiveThread(Socket sk){
-            try {
-                is = sk.getInputStream();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        @Override
-        public void run() {
-            while (running) {
-                try {
-                    sleep(500);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                BufferedReader br = null;
-                try {
-                    br = new BufferedReader(new InputStreamReader(is, "UTF-8"));
-                } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
-                }
-                try {
-
-                    read = br.readLine();
-                    System.out.println(read);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (NullPointerException e) {
-                    running = false;
-                    Message msg2 = mHandler.obtainMessage();
-                    msg2.what = 2;
-                    mHandler.sendMessage(msg2);
-                    e.printStackTrace();
-                    break;
-                }
-
-                Message msg = mHandler.obtainMessage();
-                msg.what = 1;
-                msg.obj = read;
-                mHandler.sendMessage(msg);
-
-            }
-        }
-    }
 
     private void displayToast(String s)
     {
@@ -130,12 +84,20 @@ public class Host extends AppCompatActivity {
     }
 
     class MyHandler extends Handler{
-        @Override
+
         public void handleMessage(Message msg) {
             switch (msg.what){
                 case 1:
                     String str = (String) msg.obj;
                     tv.setText(str);
+                    try{
+                        if(str.equals("Exit")){
+                            ExitHost();
+                        }
+                    }catch (NullPointerException e){
+                        e.printStackTrace();
+                        System.out.printf("nicht");
+                    }
                     break;
                 case 0:
                     IPtv.setText("Client"+msg.obj+"Verbunden");
@@ -164,19 +126,31 @@ public class Host extends AppCompatActivity {
         IPtv = (TextView) findViewById(R.id.tvIP);
         btnAccept = (Button) findViewById(R.id.btnAccept);
         btnSend = (Button) findViewById(R.id.btnSend);
+        btnServersEnd = (Button) findViewById(R.id.btnHostEnd);
+        ip = (TextView) findViewById(R.id.ip);
+
+        if(ipS.equals("0.0.0.0")){
+            ip.setText("不要用模拟器测试，否则是0。0。0。0");// diese Funktion geht nur Handy mit Wifi. Emulator geht nicht
+        }else {
+            ip.setText(ipS);
+        }
     }
 
     private void initializeOnClickListeners(){
         btnAccept.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                mAcceptThread = new AcceptThread();
                 running = true;
+
+                mAcceptThread = new AcceptThread(running,mServerSocket,socket,mHandler, mReceiveThreadHost);
+
+
                 mAcceptThread.start();
                 btnSend.setEnabled(true);
-                IPtv.setText("Warte auf Verbindung");
                 btnAccept.setEnabled(false);
+                btnServersEnd.setEnabled(true);
+                IPtv.setText("Warte auf Verbindung");
+
 
             }
         });
@@ -184,14 +158,16 @@ public class Host extends AppCompatActivity {
         btnSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                OutputStream os = null;
+
                 try {
+                    socket = mAcceptThread.getSocket();
                     os = socket.getOutputStream();//kriege socket outputstream
                     String msg = et.getText().toString()+"\n";
 //                    System.out.println(msg);
                     os.write(msg.getBytes("utf-8"));
                     et.setText("");
                     os.flush();
+
                 } catch (IOException e) {
                     e.printStackTrace();
                 }catch (NullPointerException e) {
@@ -199,6 +175,39 @@ public class Host extends AppCompatActivity {
                 }
             }
         });
+
+        View.OnClickListener exit = new onclicklistenerExit();
+        btnServersEnd.setOnClickListener(exit);
     }
+
+    public class onclicklistenerExit implements View.OnClickListener{
+        public void onClick(View view){
+            ExitHost();
+        }
+    }
+
+
+    public void ExitHost(){
+        try {
+            mAcceptThread.setRunning(false);
+            mAcceptThread.setSocket(null);
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+            displayToast("nicht Erfolg");
+        }
+        try{
+            mAcceptThread.interrupt();
+            mAcceptThread.closeServers();
+            IPtv.setText("Host beendet");
+            btnSend.setEnabled(false);
+            btnServersEnd.setEnabled(false);
+            btnAccept.setEnabled(true);
+        }catch (NullPointerException e){
+            e.printStackTrace();
+        }
+
+    }
+
+
 
 }

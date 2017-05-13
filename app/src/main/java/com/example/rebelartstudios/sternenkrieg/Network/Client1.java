@@ -1,10 +1,10 @@
-package com.example.rebelartstudios.sternenkrieg;
+package com.example.rebelartstudios.sternenkrieg.Network;
 
 import android.content.pm.ActivityInfo;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -12,10 +12,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.BufferedReader;
+import com.example.rebelartstudios.sternenkrieg.R;
+
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.Socket;
 
@@ -31,8 +30,10 @@ public class Client1 extends AppCompatActivity implements View.OnClickListener {
     private Button btnStart;
     private Button btnStop;
     private StartThread st;
-    private ReceiveThread rt;
+    private ReceiveThreadClient rt;
     String tag = "Client";
+    String ip;
+    boolean Exit = true;
 
 
     @Override
@@ -44,11 +45,12 @@ public class Client1 extends AppCompatActivity implements View.OnClickListener {
 
         setButtonOnStartState(true);
 
+
         btnSend.setOnClickListener(this);
         btnStart.setOnClickListener(this);
         btnStop.setOnClickListener(this);
 
-        myhandler = new MyHandler();
+        myhandler = new myHandlerClient();
 
     }
 
@@ -57,24 +59,32 @@ public class Client1 extends AppCompatActivity implements View.OnClickListener {
         switch (v.getId()) {
             case R.id.btnStart:
 
-                st = new StartThread();
+                running = true;
+                st = new StartThread(socket,ip, rt, myhandler);
                 st.start();
                 setButtonOnStartState(false);
 
                 break;
             case R.id.btnSend:
 
-                Thread wirte = new Write();
+                Thread wirte = new Write(true);
 
                 wirte.start();
                 et.setText("");
 
                 break;
             case R.id.btnStop:
-                running = false;
+
+                rt = st.getRt();
+                rt.setRunning(false);
+                wirte = new Write(false);
+                wirte.start();
+
                 setButtonOnStartState(true);
                 try {
+                    socket = st.getSocket();
                     socket.close();
+                    socket = null;
                 } catch (NullPointerException e) {
                     e.printStackTrace();
                     displayToast("nicht Erfolg");
@@ -89,12 +99,25 @@ public class Client1 extends AppCompatActivity implements View.OnClickListener {
     }
 
     private class Write extends Thread {
-        @Override
+
+        boolean Exit;
+
+        public Write(boolean Exit){
+            this.Exit = Exit;
+        }
         public void run() {
             OutputStream os = null;
             try {
+                socket = st.getSocket();
                 os = socket.getOutputStream();
-                os.write((et.getText().toString() + "\n").getBytes("utf-8"));
+                if(Exit){
+                    System.out.println(et.getText().toString());
+                    os.write((et.getText().toString() + "\n").getBytes("utf-8"));
+
+                }else {
+                    os.write(("Exit" + "\n").getBytes("utf-8"));
+                }
+
             } catch (IOException e) {
                 Log.e(tag, "IOException in WriteThread: " + e.toString());
             } catch (NullPointerException e) {
@@ -102,78 +125,6 @@ public class Client1 extends AppCompatActivity implements View.OnClickListener {
 
 
             }
-
-        }
-    }
-
-    private class StartThread extends Thread {
-        @Override
-        public void run() {
-            try {
-
-                socket = new Socket(IPet.getText().toString(), 12345);
-
-                rt = new ReceiveThread(socket);
-                rt.start();
-                running = true;
-                System.out.println(socket.isConnected());
-                if (socket.isConnected()) {
-                    Message msg0 = myhandler.obtainMessage();
-                    msg0.what = 0;
-                    myhandler.sendMessage(msg0);
-                }
-            } catch (IOException e) {
-                Log.e(tag, "IOException in StartThread: " + e.toString());
-            }
-        }
-    }
-
-    private class ReceiveThread extends Thread {
-        private InputStream is;
-
-        public ReceiveThread(Socket socket) throws IOException {
-            is = socket.getInputStream();
-        }
-
-        @Override
-        public void run() {
-            while (running) {
-                InputStreamReader isr = new InputStreamReader(is);
-                BufferedReader br = new BufferedReader(isr);
-                try {
-
-                    System.out.println(str = br.readLine());
-
-                } catch (NullPointerException e) {
-                    running = false;
-                    Message msg2 = myhandler.obtainMessage();
-                    msg2.what = 2;
-                    myhandler.sendMessage(msg2);
-                    Log.e(tag, "NullpointerException in ReceiveThread: " + e.toString());
-                    break;
-
-                } catch (IOException e) {
-                    Log.e(tag, "IOException in ReceiveThread: " + e.toString());
-                }
-
-
-                Message msg = myhandler.obtainMessage();
-
-
-                msg.what = 1;
-//                }
-                msg.obj = str;
-                myhandler.sendMessage(msg);
-                try {
-                    sleep(400);
-                } catch (InterruptedException e) {
-                    Log.e(tag, "InterruptedException in ReceiveThread: " + e.toString());
-                }
-
-            }
-            Message msg2 = myhandler.obtainMessage();
-            msg2.what = 2;
-            myhandler.sendMessage(msg2);
 
         }
     }
@@ -190,13 +141,13 @@ public class Client1 extends AppCompatActivity implements View.OnClickListener {
     }
 
 
-    class MyHandler extends Handler {
+    class myHandlerClient extends Handler {
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case 1:
                     String str = (String) msg.obj;
-                    System.out.println(msg.obj);
+                    System.out.println("Client: "+msg.obj);
                     tv.setText(str);
                     break;
                 case 0:
@@ -221,5 +172,7 @@ public class Client1 extends AppCompatActivity implements View.OnClickListener {
         btnSend = (Button) findViewById(R.id.btnSend);
         btnStart = (Button) findViewById(R.id.btnStart);
         btnStop = (Button) findViewById(R.id.btnStop);
+
+        this.ip = IPet.getText().toString();
     }
 }
