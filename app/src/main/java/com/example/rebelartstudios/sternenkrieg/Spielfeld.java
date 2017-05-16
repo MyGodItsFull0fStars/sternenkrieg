@@ -35,6 +35,7 @@ public class Spielfeld extends AppCompatActivity {
     int width;
     int height;
     int amountShips;
+    int highScore=0;
 
     int pointsPlayer=0;
 
@@ -154,9 +155,11 @@ public class Spielfeld extends AppCompatActivity {
                 if (map1[position].equals("2")) {
                     map1[position] = 3 + "";
                     vib.vibrate(500);
+                    highScore=highScore+100;
 
                 } else if (map2[position].equals("0")){
                 map1[position] = 5 + "";
+                    highScore=highScore-10;
             }
                 draw(map1, gridView1);
 
@@ -178,6 +181,7 @@ public class Spielfeld extends AppCompatActivity {
                 if(map2[position].equals("a") || map2[position].equals("b") || map2[position].equals("c")) {
                     map2[position] = 4 + "";
                     vib.vibrate(500);
+                    highScore=highScore-30;
 
 
                 } else if (map2[position].equals("0")){
@@ -215,6 +219,9 @@ public class Spielfeld extends AppCompatActivity {
                         .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 // CONFIRM
+                                Intent intent = new Intent(Spielfeld.this, HighScore.class);
+                                intent.putExtra("highScore", highScore);
+                                startActivity(intent);
                             }
                         })
                         .setNegativeButton("Whatever.", new DialogInterface.OnClickListener() {
@@ -229,6 +236,9 @@ public class Spielfeld extends AppCompatActivity {
                         .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 // CONFIRM
+                                Intent intent = new Intent(Spielfeld.this, HighScore.class);
+                                intent.putExtra("highScore", highScore);
+                                startActivity(intent);
                             }
                         })
                         .setNegativeButton("I know, I am awesome.", new DialogInterface.OnClickListener() {
