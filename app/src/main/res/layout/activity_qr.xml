@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="1">
+
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:elevation="0dp"
+        android:onClick="onClick"
+        android:text="@string/scan_qr_code"
+        android:textColor="@color/common_signin_btn_dark_text_focused"
+        android:textSize="20sp" />
+
+    <Button
+        android:id="@+id/generateQR"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:onClick="onClickGenerateQR"
+        android:text="@string/generate_qr"
+        android:textColor="@color/common_signin_btn_dark_text_default"
+        android:textSize="20sp" />
+
+    <ImageView
+        android:id="@+id/img_result_qr"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.96"
+        app:srcCompat="@android:drawable/divider_horizontal_bright" />
+
+</LinearLayout>

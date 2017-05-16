@@ -19,12 +19,22 @@ public class Socket_main extends AppCompatActivity implements View.OnClickListen
     Button S;
     Button C;
 
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_socket);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-        S = (Button)findViewById(R.id.server);
-        C = (Button)findViewById(R.id.client);
+        initializeFindByView();
+        initializeButton();
+    }
+
+    private void initializeFindByView() {
+        S = (Button) findViewById(R.id.server);
+        C = (Button) findViewById(R.id.client);
+
+    }
+
+    private void initializeButton() {
 
         S.setOnClickListener(new View.OnClickListener() {
             @Override

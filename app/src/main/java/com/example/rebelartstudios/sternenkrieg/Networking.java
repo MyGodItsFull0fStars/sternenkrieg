@@ -29,6 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 // TODO: 25/04/2017 Add comments to methods
+
 public class Networking extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
         Connections.ConnectionRequestListener,
