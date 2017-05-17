@@ -2,6 +2,7 @@ package com.example.rebelartstudios.sternenkrieg.Network;
 
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -17,6 +18,7 @@ public class AcceptThread extends Thread {
     Socket socket;
     Handler mHandler;
     ReceiveThreadHost mReceiveThreadHost;
+    String tag = "Host";
 
 
     public AcceptThread(boolean running, ServerSocket mServerSocket, Socket socket, Handler mHandler, ReceiveThreadHost mReceiveThreadHost){
@@ -40,7 +42,7 @@ public class AcceptThread extends Thread {
                 try {
                     sleep(500);
                 } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    Log.e(tag, "IOException in AcceptThreadHost: " + e.toString());
                 }
 
                 Message msg = mHandler.obtainMessage();
@@ -52,11 +54,11 @@ public class AcceptThread extends Thread {
                 mReceiveThreadHost = new ReceiveThreadHost(socket, running,mHandler);
                 mReceiveThreadHost.start();
             } catch (IOException e) {
-                e.printStackTrace();
+                Log.e(tag, "IOException in AcceptThreadHost: " + e.toString());
                 try {
                     sleep(3000);
                 } catch (InterruptedException e1) {
-                    e1.printStackTrace();
+                    Log.e(tag, "IOException in AcceptThreadHost: " + e.toString());
                 }
                 System.out.println("geht nicht");
             }

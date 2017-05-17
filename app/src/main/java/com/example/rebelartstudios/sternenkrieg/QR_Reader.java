@@ -69,6 +69,7 @@ public class QR_Reader extends AppCompatActivity implements ZXingScannerView.Res
     @Override
     protected void onPause() {
         super.onPause();
+
         mScannerView.stopCamera();
     }
 

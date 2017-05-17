@@ -37,7 +37,7 @@ public class ReceiveThreadClient extends Thread {
             BufferedReader br = new BufferedReader(isr);
             try {
 
-                System.out.println(str = br.readLine());
+                str = br.readLine();
 
 
             } catch (NullPointerException e) {
