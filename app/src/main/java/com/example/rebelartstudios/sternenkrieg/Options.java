@@ -9,10 +9,13 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
 public class Options extends AppCompatActivity {
+    ImageView back;
+
 
     SharedPreferences sharedPreferences;
 
@@ -28,6 +31,17 @@ public class Options extends AppCompatActivity {
         setContentView(R.layout.activity_options);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
+
+        back = (ImageView) findViewById(R.id.back);
+        back.setVisibility(View.VISIBLE);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                    Options.super.onBackPressed();
+
+
+            }
+        });
         // get sharedPreferences with name "prefs"
         sharedPreferences = getSharedPreferences("prefs", Context.MODE_PRIVATE);
         // sound is disabled by default

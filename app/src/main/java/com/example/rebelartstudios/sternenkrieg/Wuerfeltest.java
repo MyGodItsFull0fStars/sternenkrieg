@@ -131,7 +131,7 @@ public class Wuerfeltest extends AppCompatActivity {
                     who_is_starting = 0;
                 } else if(value < value_enemy){
                     who_is_starting = 1;
-                }else if(value == value_enemy){
+                }else  {
                     who_is_starting=2;
                 }
 

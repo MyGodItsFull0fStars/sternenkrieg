@@ -29,6 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 // TODO: 25/04/2017 Add comments to methods
+
 public class Networking extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
         Connections.ConnectionRequestListener,
@@ -143,7 +144,7 @@ public class Networking extends AppCompatActivity implements GoogleApiClient.Con
             return;
 
         if( mIsHost ) {
-            sendMessage( "Shutting down host" );
+            sendMessage( "Shutting down Host" );
             Nearby.Connections.stopAdvertising( mGoogleApiClient );
             Nearby.Connections.stopAllEndpoints( mGoogleApiClient );
             mIsHost = false;

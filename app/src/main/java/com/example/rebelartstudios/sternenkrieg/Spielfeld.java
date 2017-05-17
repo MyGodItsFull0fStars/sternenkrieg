@@ -2,10 +2,14 @@ package com.example.rebelartstudios.sternenkrieg;
 
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Point;
+import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Display;
 import android.view.View;
@@ -31,10 +35,13 @@ public class Spielfeld extends AppCompatActivity {
     int width;
     int height;
     int amountShips;
+    int highScore=0;
 
     int pointsPlayer=0;
 
-    boolean check1, check2;
+    boolean check;
+    Vibrator vib;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,16 +59,18 @@ public class Spielfeld extends AppCompatActivity {
         options4 = (ImageView) findViewById(R.id.options4);
 
 
+        vib = (Vibrator) this.getSystemService(Context.VIBRATOR_SERVICE);
+
         options.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                if(check1) {
+                if(check) {
                     options1.setVisibility(View.INVISIBLE);
                     options2.setVisibility(View.INVISIBLE);
                     options3.setVisibility(View.INVISIBLE);
                     options4.setVisibility(View.INVISIBLE);
-                    check1 = false;
+                    check = false;
                 } else {
                     options1.setImageDrawable(getResources().getDrawable(R.drawable.cheat_sternenkriege));
                     options2.setImageDrawable(getResources().getDrawable(R.drawable.powerups_sternenkriege));
@@ -72,7 +81,7 @@ public class Spielfeld extends AppCompatActivity {
                     options2.setVisibility(View.VISIBLE);
                     options3.setVisibility(View.VISIBLE);
                     options4.setVisibility(View.VISIBLE);
-                    check1 = true;
+                    check = true;
                 }
             }
         });
@@ -86,7 +95,18 @@ public class Spielfeld extends AppCompatActivity {
                 options3.setImageDrawable(getResources().getDrawable(R.drawable.explosionradius));
                 options4.setImageDrawable(getResources().getDrawable(R.drawable.armour));
 
-                check1=false;
+                check=false;
+
+            }
+        });
+
+        options3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setClass(Spielfeld.this, Options.class);
+               // intent.putExtra("gameOn", 1);
+                startActivity(intent);
 
             }
         });
@@ -130,13 +150,16 @@ public class Spielfeld extends AppCompatActivity {
         gridView1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
 
-                Toast.makeText(getApplicationContext(), "Pos: " + position + " Id: ",
-                        Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(), "Pos: " + position + " Id: ",
+                  //      Toast.LENGTH_SHORT).show();
                 if (map1[position].equals("2")) {
                     map1[position] = 3 + "";
+                    vib.vibrate(500);
+                    highScore=highScore-30;
 
                 } else if (map2[position].equals("0")){
                 map1[position] = 5 + "";
+                    highScore=highScore+10;
             }
                 draw(map1, gridView1);
 
@@ -153,13 +176,17 @@ public class Spielfeld extends AppCompatActivity {
 
                 String shipType = map2[position];
 
-                Toast.makeText(getApplicationContext(), "Pos: " + position + " Id: ",
-                        Toast.LENGTH_SHORT).show();
+               // Toast.makeText(getApplicationContext(), "Pos: " + position + " Id: ",
+                 //       Toast.LENGTH_SHORT).show();
                 if(map2[position].equals("a") || map2[position].equals("b") || map2[position].equals("c")) {
                     map2[position] = 4 + "";
+                    vib.vibrate(500);
+                    highScore+=80;
+
 
                 } else if (map2[position].equals("0")){
                     map2[position] = 1 + "";
+                    highScore-=20;
                 }
                 draw(map2, gridView2);
 
@@ -193,6 +220,9 @@ public class Spielfeld extends AppCompatActivity {
                         .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 // CONFIRM
+                                Intent intent = new Intent(Spielfeld.this, HighScore.class);
+                                intent.putExtra("highScore", highScore);
+                                startActivity(intent);
                             }
                         })
                         .setNegativeButton("Whatever.", new DialogInterface.OnClickListener() {
@@ -207,6 +237,9 @@ public class Spielfeld extends AppCompatActivity {
                         .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 // CONFIRM
+                                Intent intent = new Intent(Spielfeld.this, HighScore.class);
+                                intent.putExtra("highScore", highScore);
+                                startActivity(intent);
                             }
                         })
                         .setNegativeButton("I know, I am awesome.", new DialogInterface.OnClickListener() {

@@ -40,40 +40,7 @@ public class Map extends AppCompatActivity {
         return playerField;
     }
 
-    private void initializeOnClickListenerOnButton() {
-        play.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (count0 && count1 && count2) {
-                    Intent intent = new Intent();
-                    intent.setClass(Map.this, Spielfeld.class);
-                    intent.putExtra("oldmap", playerField);
-                    startActivity(intent);
-                }
-            }
-        });
 
-        gridView.setAdapter(new MapLoad(this, playerField));
-
-        turn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (degree == 0) {
-                    degree = 1;
-                    ship1.animate().rotationBy(90).start();
-                    ship2.animate().rotationBy(90).start();
-                    ship3.animate().rotationBy(90).start();
-                } else {
-                    degree = 0;
-                    ship1.animate().rotationBy(270).start();
-                    ship2.animate().rotationBy(270).start();
-                    ship3.animate().rotationBy(270).start();
-                }
-
-
-            }
-        });
-    }
 
 
     @Override
@@ -332,6 +299,41 @@ public class Map extends AppCompatActivity {
         ship2.getLayoutParams().width = (height - 350) / 4;
         ship3.getLayoutParams().height = (height - 350) / 8;
         ship3.getLayoutParams().width = (height - 350) / 3;
+    }
+
+    private void initializeOnClickListenerOnButton() {
+        play.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (count0 && count1 && count2) {
+                    Intent intent = new Intent();
+                    intent.setClass(Map.this, Spielfeld.class);
+                    intent.putExtra("oldmap", playerField);
+                    startActivity(intent);
+                }
+            }
+        });
+
+        gridView.setAdapter(new MapLoad(this, playerField));
+
+        turn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (degree == 0) {
+                    degree = 1;
+                    ship1.animate().rotationBy(270).start();
+                    ship2.animate().rotationBy(270).start();
+                    ship3.animate().rotationBy(270).start();
+                } else {
+                    degree = 0;
+                    ship1.animate().rotationBy(90).start();
+                    ship2.animate().rotationBy(90).start();
+                    ship3.animate().rotationBy(90).start();
+                }
+
+
+            }
+        });
     }
 
     public int position(int x, int y) {

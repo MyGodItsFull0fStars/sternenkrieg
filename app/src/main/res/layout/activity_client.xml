@@ -20,7 +20,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="Nicht verbinden"
+            android:hint="@string/nicht_verbunden"
             android:id="@+id/TV"
             android:textSize="30sp"/>
     </LinearLayout>
@@ -34,7 +34,9 @@
             android:layout_height="wrap_content"
             android:hint="10.0.2.2"
             android:textSize="20sp"
-            android:id="@+id/IPet"/>
+            android:id="@+id/IPet"
+            android:text="192.168.1.8"/>
+
 
     </LinearLayout>
     <LinearLayout
@@ -46,7 +48,7 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Start verbinden "
+            android:text="@string/start_verbinden"
             android:id="@+id/btnStart"
             android:layout_weight="1"
             />
@@ -54,7 +56,7 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Send Message"
+            android:text="@string/send_message"
             android:id="@+id/btnSend"
             android:layout_weight="1"
             />
@@ -62,9 +64,16 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Verbinden abbrechen"
+            android:text="@string/verbindung_abbrechen"
             android:id="@+id/btnStop"
             android:layout_weight="1"
+            />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/qr_code"
+            android:id="@+id/QRClient"
+            android:onClick="onClickQR"
             />
     </LinearLayout>
 
@@ -79,4 +88,6 @@
             android:id="@+id/et"
             />
     </LinearLayout>
-</LinearLayout>
+
+
+    </LinearLayout>

@@ -1,21 +1,15 @@
 package com.example.rebelartstudios.sternenkrieg;
 
-import android.os.Handler;
-
-import com.example.rebelartstudios.sternenkrieg.Socket.AcceptThread;
-import com.example.rebelartstudios.sternenkrieg.Socket.ReceiveThread;
-import com.example.rebelartstudios.sternenkrieg.Socket.ReceiveThreadServer;
-import com.example.rebelartstudios.sternenkrieg.Socket.StartThread;
-
 import org.junit.Test;
 
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.logging.Handler;
 
-import static org.junit.Assert.assertEquals;
+import static junit.framework.Assert.assertEquals;
 
 /**
- * Example local unit test, which will execute on the development machine (host).
+ * Example local unit test, which will execute on the development machine (Host).
  *
  * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
  */

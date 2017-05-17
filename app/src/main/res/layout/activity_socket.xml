@@ -6,15 +6,19 @@
 
 
     <Button
+        android:id="@+id/server"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/server"
-        android:text="Servers" />
+        android:background="@color/colorPrimary"
+        android:text="Server"
+        android:textColor="@color/common_signin_btn_dark_text_default" />
 
     <Button
+        android:id="@+id/client"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/client"
-        android:text="Client"/>
+        android:background="@color/colorPrimary"
+        android:text="Client"
+        android:textColor="@color/common_signin_btn_dark_text_default" />
 
 </LinearLayout>
