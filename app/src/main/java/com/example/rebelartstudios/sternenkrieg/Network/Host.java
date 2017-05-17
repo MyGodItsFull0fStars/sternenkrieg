@@ -1,6 +1,7 @@
 package com.example.rebelartstudios.sternenkrieg.Network;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
@@ -14,6 +15,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.rebelartstudios.sternenkrieg.QR_Reader;
 import com.example.rebelartstudios.sternenkrieg.R;
 
 import java.io.IOException;
@@ -27,6 +29,7 @@ public class Host extends AppCompatActivity {
     private TextView IPtv = null;
     private Button btnSend = null;
     private Button btnAccept = null;
+    private Button btnQR = null;
     public Socket socket = new Socket();
     private ServerSocket mServerSocket = null;
     boolean running = false;
@@ -35,9 +38,8 @@ public class Host extends AppCompatActivity {
     private Handler mHandler = null;
     private Button btnServersEnd = null;
     private TextView ip;
-    String ipS ;
+    String ipS;
     OutputStream os = null;
-
 
 
     @Override
@@ -49,9 +51,7 @@ public class Host extends AppCompatActivity {
         mHandler = new MyHandler();
 
 
-
-
-        WifiManager wifiManager = (WifiManager)getSystemService(Context.WIFI_SERVICE);
+        WifiManager wifiManager = (WifiManager) getSystemService(Context.WIFI_SERVICE);
         if (!wifiManager.isWifiEnabled()) {
             wifiManager.setWifiEnabled(true);
         }
@@ -61,46 +61,44 @@ public class Host extends AppCompatActivity {
         ipS = intToIp(ipAddress);
 
 
-
         initializeButtons();
-        btnSend.setEnabled(false);//lass Button Send unenabled
+        btnSend.setEnabled(false); // lass Button Send unenabled
         initializeOnClickListeners();
 
 
     }
+
     private String intToIp(int i) {
 
-        return (i & 0xFF ) + "." +
-                ((i >> 8 ) & 0xFF) + "." +
-                ((i >> 16 ) & 0xFF) + "." +
-                ( i >> 24 & 0xFF) ;
+        return (i & 0xFF) + "." +
+                ((i >> 8) & 0xFF) + "." +
+                ((i >> 16) & 0xFF) + "." +
+                (i >> 24 & 0xFF);
     }
 
 
-
-    private void displayToast(String s)
-    {
+    private void displayToast(String s) {
         Toast.makeText(this, s, Toast.LENGTH_SHORT).show();
     }
 
-    class MyHandler extends Handler{
+    class MyHandler extends Handler {
 
         public void handleMessage(Message msg) {
-            switch (msg.what){
+            switch (msg.what) {
                 case 1:
                     String str = (String) msg.obj;
                     tv.setText(str);
-                    try{
-                        if(str.equals("Exit")){
+                    try {
+                        if (str.equals("Exit")) {
                             ExitHost();
                         }
-                    }catch (NullPointerException e){
+                    } catch (NullPointerException e) {
                         e.printStackTrace();
                         System.out.printf("nicht");
                     }
                     break;
                 case 0:
-                    IPtv.setText("Client"+msg.obj+"Verbunden");
+                    IPtv.setText("Client" + msg.obj + "Verbunden");
                     displayToast("Erfolg");
                     break;
                 case 2:
@@ -120,7 +118,8 @@ public class Host extends AppCompatActivity {
             }
         }
     }
-    private void initializeButtons(){
+
+    private void initializeButtons() {
         tv = (TextView) findViewById(R.id.tv);
         et = (EditText) findViewById(R.id.etSend);
         IPtv = (TextView) findViewById(R.id.tvIP);
@@ -128,21 +127,22 @@ public class Host extends AppCompatActivity {
         btnSend = (Button) findViewById(R.id.btnSend);
         btnServersEnd = (Button) findViewById(R.id.btnHostEnd);
         ip = (TextView) findViewById(R.id.ip);
+        btnQR = (Button) findViewById(R.id.qr_button);
 
-        if(ipS.equals("0.0.0.0")){
+        if (ipS.equals("0.0.0.0")) {
             ip.setText("不要用模拟器测试，否则是0。0。0。0");// diese Funktion geht nur Handy mit Wifi. Emulator geht nicht
-        }else {
+        } else {
             ip.setText(ipS);
         }
     }
 
-    private void initializeOnClickListeners(){
+    private void initializeOnClickListeners() {
         btnAccept.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 running = true;
 
-                mAcceptThread = new AcceptThread(running,mServerSocket,socket,mHandler, mReceiveThreadHost);
+                mAcceptThread = new AcceptThread(running, mServerSocket, socket, mHandler, mReceiveThreadHost);
 
 
                 mAcceptThread.start();
@@ -162,7 +162,7 @@ public class Host extends AppCompatActivity {
                 try {
                     socket = mAcceptThread.getSocket();
                     os = socket.getOutputStream();//kriege socket outputstream
-                    String msg = et.getText().toString()+"\n";
+                    String msg = et.getText().toString() + "\n";
 //                    System.out.println(msg);
                     os.write(msg.getBytes("utf-8"));
                     et.setText("");
@@ -170,9 +170,18 @@ public class Host extends AppCompatActivity {
 
                 } catch (IOException e) {
                     e.printStackTrace();
-                }catch (NullPointerException e) {
+                } catch (NullPointerException e) {
                     displayToast("Kann nicht verbinden");
                 }
+            }
+        });
+
+        btnQR.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Host.this, QR_Reader.class);
+                intent.putExtra("IP", ipS);
+                startActivity(intent);
             }
         });
 
@@ -180,14 +189,14 @@ public class Host extends AppCompatActivity {
         btnServersEnd.setOnClickListener(exit);
     }
 
-    public class onclicklistenerExit implements View.OnClickListener{
-        public void onClick(View view){
+    private class onclicklistenerExit implements View.OnClickListener {
+        public void onClick(View view) {
             ExitHost();
         }
     }
 
 
-    public void ExitHost(){
+    public void ExitHost() {
         try {
             mAcceptThread.setRunning(false);
             mAcceptThread.setSocket(null);
@@ -195,19 +204,18 @@ public class Host extends AppCompatActivity {
             e.printStackTrace();
             displayToast("nicht Erfolg");
         }
-        try{
+        try {
             mAcceptThread.interrupt();
             mAcceptThread.closeServers();
             IPtv.setText("Host beendet");
             btnSend.setEnabled(false);
             btnServersEnd.setEnabled(false);
             btnAccept.setEnabled(true);
-        }catch (NullPointerException e){
+        } catch (NullPointerException e) {
             e.printStackTrace();
         }
 
     }
-
 
 
 }

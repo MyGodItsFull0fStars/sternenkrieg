@@ -29,7 +29,7 @@
         android:id="@+id/etSend"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:hint="Information angaben" />
+        android:hint="Information angeben" />
 
     <TextView
         android:id="@+id/ip"
@@ -38,28 +38,66 @@
         android:hint="Host"
         android:textSize="30sp"/>
 
-    <Button
-        android:id="@+id/btnAccept"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
-        android:text="Erstellen"
-        android:textColor="@color/common_signin_btn_dark_text_default" />
+        android:layout_height="match_parent">
 
-    <Button
-        android:id="@+id/btnSend"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
-        android:text="Send"
-        android:textColor="@color/common_signin_btn_dark_text_default" />
+        <Button
+            android:id="@+id/btnAccept"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:background="@color/colorPrimary"
+            android:text="Erstellen"
+            android:textColor="@color/common_signin_btn_dark_text_default"
+            android:textSize="20sp"
+            android:layout_above="@+id/qr_button"
+            android:layout_alignLeft="@+id/btnHostEnd"
+            android:layout_alignStart="@+id/btnHostEnd" />
 
-    <Button
-        android:id="@+id/btnHostEnd"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
-        android:text="End"
-        android:textColor="@color/common_signin_btn_dark_text_default" />
+        <Button
+            android:id="@+id/btnSend"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary"
+            android:text="Send"
+            android:textColor="@color/common_signin_btn_dark_text_default"
+            android:textSize="20sp"
+            android:layout_alignBaseline="@+id/btnAccept"
+            android:layout_alignBottom="@+id/btnAccept"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="32dp"
+            android:layout_marginEnd="32dp" />
+
+        <Button
+            android:id="@+id/qr_button"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="36dp"
+            android:background="@color/colorPrimary"
+            android:text="QR"
+            android:textColor="@color/common_signin_btn_dark_text_default"
+            android:textSize="20sp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignLeft="@+id/btnSend"
+            android:layout_alignStart="@+id/btnSend" />
+
+        <Button
+            android:id="@+id/btnHostEnd"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary"
+            android:text="End"
+            android:textColor="@color/common_signin_btn_dark_text_default"
+            android:textSize="20sp"
+            android:layout_alignBaseline="@+id/qr_button"
+            android:layout_alignBottom="@+id/qr_button"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginLeft="32dp"
+            android:layout_marginStart="32dp" />
+
+    </RelativeLayout>
 
 </LinearLayout>

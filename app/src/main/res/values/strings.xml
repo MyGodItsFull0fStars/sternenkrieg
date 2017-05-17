@@ -30,4 +30,6 @@ https://developer.android.com/guide/topics/resources/localization.html
 
     <string name="bg_desc">Background</string>
     <string name="logo_desc">Sternenkrieg Logo</string>
+    <string name="scan_qr_code">Scan QR Code</string>
+    <string name="generate_qr">Generate QR</string>
 </resources>
