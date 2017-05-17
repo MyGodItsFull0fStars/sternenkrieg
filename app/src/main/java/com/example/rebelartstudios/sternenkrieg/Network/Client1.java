@@ -1,5 +1,6 @@
 package com.example.rebelartstudios.sternenkrieg.Network;
 
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.os.Handler;
@@ -12,6 +13,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.rebelartstudios.sternenkrieg.QR_Reader;
 import com.example.rebelartstudios.sternenkrieg.R;
 
 import java.io.IOException;
@@ -34,7 +36,7 @@ public class Client1 extends AppCompatActivity implements View.OnClickListener {
     String tag = "Client";
     String ip;
     boolean Exit = true;
-
+    Button btnQR;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,8 +51,10 @@ public class Client1 extends AppCompatActivity implements View.OnClickListener {
         btnSend.setOnClickListener(this);
         btnStart.setOnClickListener(this);
         btnStop.setOnClickListener(this);
+        btnQR.setOnClickListener(this);
 
         myhandler = new myHandlerClient();
+
 
     }
 
@@ -60,7 +64,7 @@ public class Client1 extends AppCompatActivity implements View.OnClickListener {
             case R.id.btnStart:
 
                 running = true;
-                st = new StartThread(socket,ip, rt, myhandler);
+                st = new StartThread(socket, ip, rt, myhandler);
                 st.start();
                 setButtonOnStartState(false);
 
@@ -92,6 +96,9 @@ public class Client1 extends AppCompatActivity implements View.OnClickListener {
                     e.printStackTrace();
                 }
                 break;
+            case R.id.QRClient:
+                Intent intent = new Intent(Client1.this, QR_Reader.class);
+                startActivity(intent);
             default:
                 break;
         }
@@ -102,19 +109,20 @@ public class Client1 extends AppCompatActivity implements View.OnClickListener {
 
         boolean Exit;
 
-        public Write(boolean Exit){
+        public Write(boolean Exit) {
             this.Exit = Exit;
         }
+
         public void run() {
             OutputStream os = null;
             try {
                 socket = st.getSocket();
                 os = socket.getOutputStream();
-                if(Exit){
+                if (Exit) {
                     System.out.println(et.getText().toString());
                     os.write((et.getText().toString() + "\n").getBytes("utf-8"));
 
-                }else {
+                } else {
                     os.write(("Exit" + "\n").getBytes("utf-8"));
                 }
 
@@ -147,7 +155,7 @@ public class Client1 extends AppCompatActivity implements View.OnClickListener {
             switch (msg.what) {
                 case 1:
                     String str = (String) msg.obj;
-                    System.out.println("Client: "+msg.obj);
+                    System.out.println("Client: " + msg.obj);
                     tv.setText(str);
                     break;
                 case 0:
@@ -158,11 +166,14 @@ public class Client1 extends AppCompatActivity implements View.OnClickListener {
                     tv.setText(null);
                     setButtonOnStartState(true);
                     break;
-
+                default:
+                    break;
             }
 
         }
     }
+
+
 
     private void initializeButtonsViews() {
         tv = (TextView) findViewById(R.id.TV);
@@ -172,6 +183,7 @@ public class Client1 extends AppCompatActivity implements View.OnClickListener {
         btnSend = (Button) findViewById(R.id.btnSend);
         btnStart = (Button) findViewById(R.id.btnStart);
         btnStop = (Button) findViewById(R.id.btnStop);
+        btnQR = (Button) findViewById(R.id.QRClient);
 
         this.ip = IPet.getText().toString();
     }
