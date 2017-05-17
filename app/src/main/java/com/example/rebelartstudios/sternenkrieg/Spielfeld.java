@@ -150,16 +150,16 @@ public class Spielfeld extends AppCompatActivity {
         gridView1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
 
-                Toast.makeText(getApplicationContext(), "Pos: " + position + " Id: ",
-                        Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(), "Pos: " + position + " Id: ",
+                  //      Toast.LENGTH_SHORT).show();
                 if (map1[position].equals("2")) {
                     map1[position] = 3 + "";
                     vib.vibrate(500);
-                    highScore=highScore+100;
+                    highScore=highScore-30;
 
                 } else if (map2[position].equals("0")){
                 map1[position] = 5 + "";
-                    highScore=highScore-10;
+                    highScore=highScore+10;
             }
                 draw(map1, gridView1);
 
@@ -176,16 +176,17 @@ public class Spielfeld extends AppCompatActivity {
 
                 String shipType = map2[position];
 
-                Toast.makeText(getApplicationContext(), "Pos: " + position + " Id: ",
-                        Toast.LENGTH_SHORT).show();
+               // Toast.makeText(getApplicationContext(), "Pos: " + position + " Id: ",
+                 //       Toast.LENGTH_SHORT).show();
                 if(map2[position].equals("a") || map2[position].equals("b") || map2[position].equals("c")) {
                     map2[position] = 4 + "";
                     vib.vibrate(500);
-                    highScore=highScore-30;
+                    highScore+=80;
 
 
                 } else if (map2[position].equals("0")){
                     map2[position] = 1 + "";
+                    highScore-=20;
                 }
                 draw(map2, gridView2);
 
