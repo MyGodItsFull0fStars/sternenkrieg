@@ -1,6 +1,8 @@
 package com.example.rebelartstudios.sternenkrieg;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.media.MediaPlayer;
@@ -9,7 +11,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
@@ -22,6 +26,7 @@ public class Options extends AppCompatActivity {
     ToggleButton toggleSoundBtn;
     TextView textViewStatus;
     Button playSoundBtn;
+    Button name;
 
     Boolean soundEnabled; // sound enabled = 1
 
@@ -33,6 +38,7 @@ public class Options extends AppCompatActivity {
 
 
         back = (ImageView) findViewById(R.id.back);
+        name = (Button) findViewById(R.id.btn_namechanger);
         back.setVisibility(View.VISIBLE);
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -40,6 +46,12 @@ public class Options extends AppCompatActivity {
                     Options.super.onBackPressed();
 
 
+            }
+        });
+        name.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                name_generator();
             }
         });
         // get sharedPreferences with name "prefs"
@@ -91,5 +103,31 @@ public class Options extends AppCompatActivity {
             }
         });
 
+    }
+    public void name_generator(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        final EditText one = new EditText(this);
+        LinearLayout lay = new LinearLayout(this);
+        lay.setOrientation(LinearLayout.VERTICAL);
+        lay.addView(one);
+        builder.setView(lay);
+        builder.setMessage("Enter your Name")
+                .setTitle("Name")
+
+                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        String name = one.getText().toString();
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putString("username", name);
+                        editor.apply();
+                        // CONFIRM
+                    }
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // CANCEL
+                    }
+                })
+                .show();
     }
 }

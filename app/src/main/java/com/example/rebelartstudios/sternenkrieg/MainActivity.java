@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -29,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
     Button aboutBtn;
     Button diceBtn;
     Button socket;
+    TextView txt_username;
 
     SharedPreferences sharedPreferences;
 
@@ -38,11 +40,15 @@ public class MainActivity extends AppCompatActivity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_main);
+        txt_username = (TextView) findViewById(R.id.text_username);
 
-        sharedPreferences = getSharedPreferences("prefs", Context.MODE_PRIVATE);
+        sharedPreferences = getSharedPreferences("name", Context.MODE_PRIVATE);
         String username = sharedPreferences.getString("username", null);
-        if(username==null){
+        if (username == null) {
             name_generator();
+        } else {
+            txt_username.setText(username);
+            txt_username.setTextColor(Color.WHITE);
         }
 
 
@@ -62,15 +68,15 @@ public class MainActivity extends AppCompatActivity {
         Glide.with(this).load(R.raw.background).asGif().centerCrop().diskCacheStrategy(DiskCacheStrategy.SOURCE).into(background);
     }
 
-    private void initializeButtons(){
+    private void initializeButtons() {
         startBtn = (Button) findViewById(R.id.start);
         aboutBtn = (Button) findViewById(R.id.about);
         optionsBtn = (Button) findViewById(R.id.options);
         diceBtn = (Button) findViewById(R.id.dice);
-        socket = (Button)findViewById(R.id.Socket);
+        socket = (Button) findViewById(R.id.Socket);
     }
 
-    private void initializeOnClickListeners(){
+    private void initializeOnClickListeners() {
         // Play
         startBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -99,11 +105,12 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        // Dice
+        // Highscore
         diceBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, Wuerfeltest.class);
+                Intent intent = new Intent(MainActivity.this, HighScore.class);
+                intent.putExtra("onlyhighscore", false);
                 startActivity(intent);
             }
         });
@@ -118,7 +125,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public void name_generator(){
+    public void name_generator() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         final EditText one = new EditText(this);
         LinearLayout lay = new LinearLayout(this);
@@ -134,6 +141,8 @@ public class MainActivity extends AppCompatActivity {
                         SharedPreferences.Editor editor = sharedPreferences.edit();
                         editor.putString("username", name);
                         editor.apply();
+                        txt_username.setText(name);
+                        txt_username.setTextColor(Color.WHITE);
                         // CONFIRM
                     }
                 })
