@@ -56,14 +56,15 @@ public class Map extends AppCompatActivity {
 
         Display display = getWindowManager().getDefaultDisplay();
         Point size = new Point();
+
+        //werden für die größer der Map benötigt
         display.getSize(size);
         width = size.x;
         height = size.y;
 
         initializeShipView();
         initializeOnClickListenerOnButton();
-
-
+        //ClickListener gibt die Position #Kachel zurück
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
 
@@ -188,7 +189,7 @@ public class Map extends AppCompatActivity {
             }
 
         });
-
+        //ShadowBuilder erzeugt eine Animation, wenn man das schiff los lässt
         ship1.setOnTouchListener(new View.OnTouchListener()
 
         {
@@ -238,12 +239,13 @@ public class Map extends AppCompatActivity {
 
 
     }
-
+    //schaut das das Schiff nicht über die Map hinaus gesetzt wird
     public boolean check_position(int pos, int size) {
         ArrayList<Integer> failures_right = new ArrayList<Integer>(Arrays.asList(7, 15, 23, 31, 39, 47, 55, 63));
         ArrayList<Integer> failures_left = new ArrayList<Integer>(Arrays.asList(8, 16, 24, 32, 40, 48, 56));
 
         String[] length = new String[size];
+        //linkes und rechtes Ende der Map
         if (degree == 180 || degree == 0) {
             if (size == 1) {
                 if (failures_right.contains(pos - 1) || failures_left.contains(pos) || pos < 1 || pos > 62) {
@@ -255,6 +257,7 @@ public class Map extends AppCompatActivity {
                 }
             }
         }
+        //Oben und Unten
         if (degree == 90 || degree == 270) {
             if (size == 1) {
                 if (pos < 8 || pos > 63) {

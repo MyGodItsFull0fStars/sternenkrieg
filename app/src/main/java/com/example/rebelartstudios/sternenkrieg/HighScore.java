@@ -29,7 +29,7 @@ public class HighScore extends AppCompatActivity {
     SharedPreferences namesettings;
     boolean read = true;
     boolean write = true;
-    boolean onlyhighscore = true;
+    boolean onlyhighscore = true; //für Hauptmenü benötigt
     Button delete_highscore;
     String highscore;
     Intent intent;
@@ -46,23 +46,33 @@ public class HighScore extends AppCompatActivity {
         namesettings = getApplicationContext().getSharedPreferences("name", 0);
         list = new ArrayList<>();
         String username = namesettings.getString("username", "Unbekannt");
+        int levelscore = namesettings.getInt("levelscore",0);
         listAdapter = new ArrayAdapter<String>(this, R.layout.high_score_row);
 
         intent = getIntent();
         int points = intent.getIntExtra("highScore", 0);
         String highscore = username + " " + points;
 
+        //Calculating level
+
+
+        //Gespeicherte Werte werden eingelesen
         if (read) {
             list = read_highscore(highscore);
             listAdapter.addAll(list);
+            int score = levelscore+points;
+            calc(score);
         }
 
+        //Die letzt Highscore wird dauerhaft gespeichert
         if (write) {
             save_highscore(highscore);
         }
 
+        //Highscore wird erzeugt
         list_highScore.setAdapter(listAdapter);
 
+        //Bei Button klick wird alles von "highscoredata" gelöscht, Username bleibt aber
         delete_highscore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -72,12 +82,40 @@ public class HighScore extends AppCompatActivity {
 
     }
 
+    private void calc(int score) {
+        namesettings = getApplicationContext().getSharedPreferences("name", 0);
+        int level=1;
+        while(true){
+            int levelgrenze=(1000+400*(level-1))*level;
+            if(score>=levelgrenze){
+                level++;
+            }else{
+                int differenz= levelgrenze-(1000+400*(level-2))*level-1;
+                int scoreoverlvl = levelgrenze-score;
+                int prozent = (scoreoverlvl/differenz)*100;
+
+                namesettings.edit().putInt("level",level);
+                namesettings.edit().putInt("prozent",prozent);
+                namesettings.edit().commit();
+                Toast toast = Toast.makeText(getApplicationContext(),"Level: "+level+" proz: "+prozent, Toast.LENGTH_SHORT);
+                toast.show();
+                break;
+            }
+
+        }
+
+
+    }
+
     public ArrayList<String> read_highscore(String highscore) {
         counter = settings.getInt("counter", 0);
+        //SharedPreference kann leider nur primitive Datentypen und String speichern
         for (int i = 0; i < counter; i++) {
             list.add(settings.getString("highscore" + i + "", "Unbekannt"));
         }
         onlyhighscore = intent.getBooleanExtra("onlyhighscore", true);
+
+        //Wenn man über das Hauptmenü zur Highscore kommt
         if (onlyhighscore) {
             list.add(highscore);
         }else{

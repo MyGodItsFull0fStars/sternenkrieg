@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -31,6 +32,8 @@ public class MainActivity extends AppCompatActivity {
     Button diceBtn;
     Button socket;
     TextView txt_username;
+    TextView txt_level;
+    ProgressBar level_progress;
 
     SharedPreferences sharedPreferences;
 
@@ -41,14 +44,22 @@ public class MainActivity extends AppCompatActivity {
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_main);
         txt_username = (TextView) findViewById(R.id.text_username);
+        txt_level = (TextView) findViewById(R.id.txt_level);
+        level_progress= (ProgressBar) findViewById(R.id.progressBar_level);
+
 
         sharedPreferences = getSharedPreferences("name", Context.MODE_PRIVATE);
         String username = sharedPreferences.getString("username", null);
+        int level = sharedPreferences.getInt("level",1);
+        int prozent= sharedPreferences.getInt("prozent",0);
         if (username == null) {
             name_generator();
         } else {
             txt_username.setText(username);
             txt_username.setTextColor(Color.WHITE);
+            txt_level.setText("Level:"+level);
+            txt_level.setTextColor(Color.WHITE);
+            level_progress.setProgress(prozent);
         }
 
 
