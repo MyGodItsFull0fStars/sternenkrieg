@@ -83,21 +83,23 @@ public class HighScore extends AppCompatActivity {
     }
 
     private void calc(int score) {
-        namesettings = getApplicationContext().getSharedPreferences("name", 0);
+        SharedPreferences.Editor editor = namesettings.edit();
         int level=1;
         while(true){
             int levelgrenze=(1000+400*(level-1))*level;
             if(score>=levelgrenze){
                 level++;
             }else{
-                int differenz= levelgrenze-(1000+400*(level-2))*level-1;
+                int differenz= levelgrenze-(1000+400*(level-2))*(level-1);
                 int scoreoverlvl = levelgrenze-score;
-                int prozent = (scoreoverlvl/differenz)*100;
-
-                namesettings.edit().putInt("level",level);
-                namesettings.edit().putInt("prozent",prozent);
-                namesettings.edit().commit();
-                Toast toast = Toast.makeText(getApplicationContext(),"Level: "+level+" proz: "+prozent, Toast.LENGTH_SHORT);
+                double prozent2 = 100-((double)scoreoverlvl/(double)differenz)*100;
+                int prozent= (int) prozent2;
+                editor.putInt("level",level);
+                editor.putInt("prozent",prozent);
+                editor.putInt("levelscore", score);
+                editor.apply();
+                Toast toast = Toast.makeText(getApplicationContext(),"Levelgrenze: "+differenz+" scorelcl: "+scoreoverlvl+" %: "+prozent
+                        +" double: "+ prozent2, Toast.LENGTH_LONG);
                 toast.show();
                 break;
             }

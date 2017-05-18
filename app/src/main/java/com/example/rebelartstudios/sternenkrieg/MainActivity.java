@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -52,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
         String username = sharedPreferences.getString("username", null);
         int level = sharedPreferences.getInt("level",1);
         int prozent= sharedPreferences.getInt("prozent",0);
+
         if (username == null) {
             name_generator();
         } else {
@@ -59,7 +61,10 @@ public class MainActivity extends AppCompatActivity {
             txt_username.setTextColor(Color.WHITE);
             txt_level.setText("Level:"+level);
             txt_level.setTextColor(Color.WHITE);
+            level_progress.getProgressDrawable().setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN);
+            level_progress.setProgress(0);
             level_progress.setProgress(prozent);
+
         }
 
 
