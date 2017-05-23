@@ -45,6 +45,7 @@ public class AcceptThread extends Thread {
                     sleep(500);
                 } catch (InterruptedException e) {
                     Log.e(tag, "InterruptedException in AcceptThreadHost: " + e.toString());
+                    Thread.currentThread().interrupt();
                 }
 
                 Message msg = mHandler.obtainMessage();
@@ -61,14 +62,16 @@ public class AcceptThread extends Thread {
                     sleep(3000);
                 } catch (InterruptedException e1) {
                     Log.e(tag, "InterruptedException in AcceptThreadHost: " + e.toString());
+                    Thread.currentThread().interrupt();
                 }
-                System.out.println("geht nicht");
+//                System.out.println("geht nicht");
             }
         }
         try{
             mReceiveThreadHost.setRunning(false);
         }catch (NullPointerException e){
-            e.printStackTrace();
+            Log.e(tag, "NULLException in AcceptThreadHost: " + e.toString());
+            Thread.currentThread().interrupt();
         }
 
     }
@@ -86,9 +89,11 @@ public class AcceptThread extends Thread {
         try {
             mServerSocket.close();
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.e(tag, "IOException in AcceptThreadHost: " + e.toString());
+            Thread.currentThread().interrupt();
         }catch (NullPointerException e){
-            e.printStackTrace();
+            Log.e(tag, "NULLPointerException in AcceptThreadHost: " + e.toString());
+            Thread.currentThread().interrupt();
         }
     }
 
