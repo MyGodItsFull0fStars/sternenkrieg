@@ -31,7 +31,8 @@ public class ReceiveThreadHost extends Thread {
         try {
             is = sk.getInputStream();
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.e(tag, "IOException in AcceptThreadHost: " + e.toString());
+            Thread.currentThread().interrupt();
         }
     }
     @Override
@@ -41,33 +42,43 @@ public class ReceiveThreadHost extends Thread {
             try {
                 sleep(5);
             } catch (InterruptedException e) {
-                Log.e(tag, "InterruptedException in ReceiveThreadHost: " + e.toString());
+                Log.e(tag, "InterruptedException in AcceptThreadHost: " + e.toString());
+                Thread.currentThread().interrupt();
             }
             BufferedReader br = null;
 
             try {
                 br = new BufferedReader(new InputStreamReader(is, "UTF-8"));
             } catch (UnsupportedEncodingException e) {
-                Log.e(tag, "UnsupportedEncodingException in ReceiveThreadHost: " + e.toString());
+                Log.e(tag, "UnsupportedException in AcceptThreadHost: " + e.toString());
+                Thread.currentThread().interrupt();
             }
 
             try {
 
                 read = br.readLine();
-                System.out.println((String)read+running);
+//                System.out.println((String)read+running);
             } catch (IOException e) {
-                Log.e(tag, "IOException in ReceiveThreadHost: " + e.toString());
-                System.out.println(!running);
+                Log.e(tag, "IOException in AcceptThreadHost: " + e.toString());
+                Thread.currentThread().interrupt();
             } catch (NullPointerException e) {
                 running = false;
                 Message msg2 = mHandler.obtainMessage();
                 msg2.what = 2;
                 mHandler.sendMessage(msg2);
-                Log.e(tag, "NULLException in ReceiveThreadHost: " + e.toString());
+                Log.e(tag, "NullpointerException in AcceptThreadHost: " + e.toString());
+                Thread.currentThread().interrupt();
                 break;
+            }finally {
+                try {
+                    br.close();
+                } catch (IOException e) {
+                    Log.e(tag, "IOException in AcceptThreadHost: " + e.toString());
+                    Thread.currentThread().interrupt();
+                }
             }
 
-//            Message msg = mHandler.obtainMessage();
+
             Message msg = new Message();
             msg.what = 1;
             msg.obj = read;

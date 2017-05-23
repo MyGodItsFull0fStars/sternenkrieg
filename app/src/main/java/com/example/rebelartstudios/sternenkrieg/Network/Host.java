@@ -31,7 +31,7 @@ public class Host extends AppCompatActivity {
     private Button btnSend = null;
     private Button btnAccept = null;
     private Button btnQR = null;
-    public Socket socket = new Socket();
+    private Socket socket = new Socket();
     private ServerSocket mServerSocket = null;
     boolean running = false;
     private AcceptThread mAcceptThread;
