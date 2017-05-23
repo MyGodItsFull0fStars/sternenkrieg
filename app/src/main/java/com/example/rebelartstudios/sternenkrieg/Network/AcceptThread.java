@@ -19,6 +19,7 @@ public class AcceptThread extends Thread {
     Handler mHandler;
     ReceiveThreadHost mReceiveThreadHost;
     String tag = "Host";
+    boolean testB = false;
 
 
     public AcceptThread(boolean running, ServerSocket mServerSocket, Socket socket, Handler mHandler, ReceiveThreadHost mReceiveThreadHost){
@@ -38,7 +39,8 @@ public class AcceptThread extends Thread {
             try {
                 mServerSocket = new ServerSocket(54321);//ein Server erstellen
                 socket = mServerSocket.accept();//accept
-
+                this.testB = true;
+                test();
                 try {
                     sleep(500);
                 } catch (InterruptedException e) {
@@ -88,5 +90,9 @@ public class AcceptThread extends Thread {
         }catch (NullPointerException e){
             e.printStackTrace();
         }
+    }
+
+    public boolean test(){
+        return testB;
     }
 }
