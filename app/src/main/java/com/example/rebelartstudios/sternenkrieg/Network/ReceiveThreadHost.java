@@ -74,7 +74,11 @@ public class ReceiveThreadHost extends Thread {
                     br.close();
                 } catch (IOException e) {
                     Log.e(tag, "IOException in AcceptThreadHost: " + e.toString());
-                    Thread.currentThread().interrupt();
+                    throw new RuntimeException(e);
+
+                }catch (NullPointerException e){
+                    Log.e(tag, "IOException in AcceptThreadHost: " + e.toString());
+                    throw new RuntimeException(e);
                 }
             }
 
