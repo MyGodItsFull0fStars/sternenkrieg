@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -40,6 +41,7 @@ public class Host extends AppCompatActivity {
     private TextView ip;
     String ipS;
     OutputStream os = null;
+    String tag = "Host";
 
 
     @Override
@@ -159,20 +161,30 @@ public class Host extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                try {
-                    socket = mAcceptThread.getSocket();
-                    os = socket.getOutputStream();//kriege socket outputstream
-                    String msg = et.getText().toString() + "\n";
-//                    System.out.println(msg);
-                    os.write(msg.getBytes("utf-8"));
-                    et.setText("");
-                    os.flush();
 
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (NullPointerException e) {
-                    displayToast("Kann nicht verbinden");
-                }
+                socket = mAcceptThread.getSocket();
+
+                String info = et.getText().toString();
+                writeHost wh = new writeHost(socket, os, info);
+
+                wh.start();
+
+                et.setText("");
+
+//                try {
+//                    socket = mAcceptThread.getSocket();
+//                    os = socket.getOutputStream();//kriege socket outputstream
+//                    String msg = et.getText().toString() + "\n";
+////                    System.out.println(msg);
+//                    os.write(msg.getBytes("utf-8"));
+//                    et.setText("");
+//                    os.flush();
+//
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                } catch (NullPointerException e) {
+//                    displayToast("Kann nicht verbinden");
+//                }
             }
         });
 
@@ -201,7 +213,7 @@ public class Host extends AppCompatActivity {
             mAcceptThread.setRunning(false);
             mAcceptThread.setSocket(null);
         } catch (NullPointerException e) {
-            e.printStackTrace();
+            Log.e(tag, "NullPointerException in Client: " + e.toString());
             displayToast("nicht Erfolg");
         }
         try {
@@ -212,7 +224,7 @@ public class Host extends AppCompatActivity {
             btnServersEnd.setEnabled(false);
             btnAccept.setEnabled(true);
         } catch (NullPointerException e) {
-            e.printStackTrace();
+            Log.e(tag, "NullPointerException in Client: " + e.toString());
         }
 
     }

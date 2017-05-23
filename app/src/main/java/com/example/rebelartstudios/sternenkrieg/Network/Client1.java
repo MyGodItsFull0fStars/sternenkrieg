@@ -17,7 +17,6 @@ import com.example.rebelartstudios.sternenkrieg.QR_Reader;
 import com.example.rebelartstudios.sternenkrieg.R;
 
 import java.io.IOException;
-import java.io.OutputStream;
 import java.net.Socket;
 
 public class Client1 extends AppCompatActivity implements View.OnClickListener {
@@ -60,18 +59,19 @@ public class Client1 extends AppCompatActivity implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
+        st = new StartThread(socket, ip, rt, myhandler);
         switch (v.getId()) {
             case R.id.btnStart:
 
                 running = true;
-                st = new StartThread(socket, ip, rt, myhandler);
                 st.start();
                 setButtonOnStartState(false);
 
                 break;
             case R.id.btnSend:
 
-                Thread wirte = new Write(true);
+                String info = et.getText().toString();
+                Thread wirte = new writeClient(true,socket,st,info);
 
                 wirte.start();
                 et.setText("");
@@ -81,7 +81,8 @@ public class Client1 extends AppCompatActivity implements View.OnClickListener {
 
                 rt = st.getRt();
                 rt.setRunning(false);
-                wirte = new Write(false);
+                String Exit = "Exit";
+                wirte = new writeClient(false,socket,st,Exit);
                 wirte.start();
 
                 setButtonOnStartState(true);
@@ -90,10 +91,10 @@ public class Client1 extends AppCompatActivity implements View.OnClickListener {
                     socket.close();
                     socket = null;
                 } catch (NullPointerException e) {
-                    e.printStackTrace();
+                    Log.e(tag, "NullPointerException in Client: " + e.toString());
                     displayToast("nicht Erfolg");
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    Log.e(tag, "IOException in Client: " + e.toString());
                 }
                 break;
             case R.id.QRClient:
@@ -105,37 +106,37 @@ public class Client1 extends AppCompatActivity implements View.OnClickListener {
 
     }
 
-    private class Write extends Thread {
-
-        boolean Exit;
-
-        public Write(boolean Exit) {
-            this.Exit = Exit;
-        }
-
-        public void run() {
-            OutputStream os = null;
-            try {
-                socket = st.getSocket();
-                os = socket.getOutputStream();
-                if (Exit) {
-                    System.out.println(et.getText().toString());
-                    os.write((et.getText().toString() + "\n").getBytes("utf-8"));
-
-                } else {
-                    os.write(("Exit" + "\n").getBytes("utf-8"));
-                }
-
-            } catch (IOException e) {
-                Log.e(tag, "IOException in WriteThread: " + e.toString());
-            } catch (NullPointerException e) {
-                Log.e(tag, "NullPointerException in WriteThread: " + e.toString());
-
-
-            }
-
-        }
-    }
+//    private class writeClient extends Thread {
+//
+//        boolean Exit;
+//
+//        public writeClient(boolean Exit) {
+//            this.Exit = Exit;
+//        }
+//
+//        public void run() {
+//            OutputStream os = null;
+//            try {
+//                socket = st.getSocket();
+//                os = socket.getOutputStream();
+//                if (Exit) {
+//                    System.out.println(et.getText().toString());
+//                    os.write((et.getText().toString() + "\n").getBytes("utf-8"));
+//
+//                } else {
+//                    os.write(("Exit" + "\n").getBytes("utf-8"));
+//                }
+//
+//            } catch (IOException e) {
+//                Log.e(tag, "IOException in WriteThread: " + e.toString());
+//            } catch (NullPointerException e) {
+//                Log.e(tag, "NullPointerException in WriteThread: " + e.toString());
+//
+//
+//            }
+//
+//        }
+//    }
 
     private void displayToast(String s) {
         Toast.makeText(this, s, Toast.LENGTH_SHORT).show();

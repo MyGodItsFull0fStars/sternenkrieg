@@ -42,7 +42,7 @@ public class AcceptThread extends Thread {
                 try {
                     sleep(500);
                 } catch (InterruptedException e) {
-                    Log.e(tag, "IOException in AcceptThreadHost: " + e.toString());
+                    Log.e(tag, "InterruptedException in AcceptThreadHost: " + e.toString());
                 }
 
                 Message msg = mHandler.obtainMessage();
@@ -58,7 +58,7 @@ public class AcceptThread extends Thread {
                 try {
                     sleep(3000);
                 } catch (InterruptedException e1) {
-                    Log.e(tag, "IOException in AcceptThreadHost: " + e.toString());
+                    Log.e(tag, "InterruptedException in AcceptThreadHost: " + e.toString());
                 }
                 System.out.println("geht nicht");
             }

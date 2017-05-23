@@ -2,6 +2,7 @@ package com.example.rebelartstudios.sternenkrieg.Network;
 
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -21,6 +22,7 @@ public class ReceiveThreadHost extends Thread {
     private String read;
     private boolean running;
     private Handler mHandler;
+    String tag = "Host";
 
     public ReceiveThreadHost(Socket sk, boolean running, Handler mHandler){
         this.running = running;
@@ -39,14 +41,14 @@ public class ReceiveThreadHost extends Thread {
             try {
                 sleep(5);
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                Log.e(tag, "InterruptedException in ReceiveThreadHost: " + e.toString());
             }
             BufferedReader br = null;
 
             try {
                 br = new BufferedReader(new InputStreamReader(is, "UTF-8"));
             } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
+                Log.e(tag, "UnsupportedEncodingException in ReceiveThreadHost: " + e.toString());
             }
 
             try {
@@ -54,14 +56,14 @@ public class ReceiveThreadHost extends Thread {
                 read = br.readLine();
                 System.out.println((String)read+running);
             } catch (IOException e) {
-                e.printStackTrace();
+                Log.e(tag, "IOException in ReceiveThreadHost: " + e.toString());
                 System.out.println(!running);
             } catch (NullPointerException e) {
                 running = false;
                 Message msg2 = mHandler.obtainMessage();
                 msg2.what = 2;
                 mHandler.sendMessage(msg2);
-                e.printStackTrace();
+                Log.e(tag, "NULLException in ReceiveThreadHost: " + e.toString());
                 break;
             }
 
