@@ -95,8 +95,8 @@ public class Host extends AppCompatActivity {
                             ExitHost();
                         }
                     } catch (NullPointerException e) {
-                        e.printStackTrace();
-                        System.out.printf("nicht");
+                        Log.e(tag, "NullpointerException in ReceiveThreadHost: " + e.toString());
+
                     }
                     break;
                 case 0:
@@ -112,7 +112,7 @@ public class Host extends AppCompatActivity {
                         socket.close();
                         mServerSocket.close();
                     } catch (IOException e) {
-                        e.printStackTrace();
+                        Log.e(tag, "IOException in ReceiveThreadHost: " + e.toString());
                     }
                     btnAccept.setEnabled(true);
                     btnSend.setEnabled(false);
@@ -215,6 +215,8 @@ public class Host extends AppCompatActivity {
         } catch (NullPointerException e) {
             Log.e(tag, "NullPointerException in Client: " + e.toString());
             displayToast("nicht Erfolg");
+            throw new RuntimeException(e);
+
         }
         try {
             mAcceptThread.interrupt();
@@ -225,6 +227,7 @@ public class Host extends AppCompatActivity {
             btnAccept.setEnabled(true);
         } catch (NullPointerException e) {
             Log.e(tag, "NullPointerException in Client: " + e.toString());
+            displayToast("nicht Erfolg");
         }
 
     }
