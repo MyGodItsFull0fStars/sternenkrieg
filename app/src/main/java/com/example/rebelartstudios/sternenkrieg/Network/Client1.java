@@ -34,8 +34,10 @@ public class Client1 extends AppCompatActivity implements View.OnClickListener {
     private ReceiveThreadClient rt;
     String tag = "Client";
     String ip;
+    String ipFromQR;
     boolean Exit = true;
     Button btnQR;
+    Bundle extras;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,8 +56,18 @@ public class Client1 extends AppCompatActivity implements View.OnClickListener {
 
         myhandler = new myHandlerClient();
 
+        extras = getIntent().getExtras();
+
+        if (extras == null) {
+            ipFromQR = "127.0.0.0"; // localhost
+        } else {
+            IPet.setText(extras.getString("QR"));
+            this.ip = IPet.toString();
+        }
 
     }
+
+
 
     @Override
     public void onClick(View v) {

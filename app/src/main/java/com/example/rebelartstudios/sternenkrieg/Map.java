@@ -36,7 +36,7 @@ public class Map extends AppCompatActivity {
 
 
     public String[] getPlayerField() {
-        playerField[23] = Integer.toString(2);
+        // playerField[23] = Integer.toString(2);
         return playerField;
     }
 

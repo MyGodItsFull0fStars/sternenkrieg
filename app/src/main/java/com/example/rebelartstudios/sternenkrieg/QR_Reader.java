@@ -1,5 +1,6 @@
 package com.example.rebelartstudios.sternenkrieg;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.example.rebelartstudios.sternenkrieg.Network.Client1;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.Result;
 import com.google.zxing.WriterException;
@@ -23,10 +25,17 @@ import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
 public class QR_Reader extends AppCompatActivity implements ZXingScannerView.ResultHandler {
     private ZXingScannerView mScannerView;
+    String TAG = "QR_Reader";
 
     String ip;
     Bundle extras;
 
+    /**
+     * onCreate Method
+     * The String the value ip gets is either the standard localhost
+     * or gets the IP address from the Host Class, which gets the native IP from the phone
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,8 +44,7 @@ public class QR_Reader extends AppCompatActivity implements ZXingScannerView.Res
 
         if (extras == null) {
             ip = "127.0.0.0"; // localhost
-        }
-        else {
+        } else {
             ip = extras.getString("IP");
         }
     }
@@ -44,11 +52,12 @@ public class QR_Reader extends AppCompatActivity implements ZXingScannerView.Res
     /**
      * OnClickListener for the Button Scan QR Code
      * Opens window and activates the camera to scan a QR Code and when succeeded, prints the Code as Alert ATM.
-     *
+     * <p>
      * Caution! Some phones still need to manually activate the camera in the Android Settings for this application
      * for the QR Code Reader to work properly.
+     * <p>
      *
-     * TODO Add this info to the README.md
+     *
      * @param v
      */
     public void onClick(View v) {
@@ -60,11 +69,13 @@ public class QR_Reader extends AppCompatActivity implements ZXingScannerView.Res
 
     /**
      * OnClickListener for the Button createQR code
+     *
      * @param v
      */
     public void onClickGenerateQR(View v) {
         createQRCode(ip);
     }
+
 
     @Override
     protected void onPause() {
@@ -73,7 +84,11 @@ public class QR_Reader extends AppCompatActivity implements ZXingScannerView.Res
         mScannerView.stopCamera();
     }
 
-
+    /**
+     * Handles the scanned QR Code
+     * Send the result as an Intent extra to Client Server IP TextView
+     * @param result
+     */
     @Override
     public void handleResult(Result result) {
         Log.w("handleResult", result.getText());
@@ -83,16 +98,26 @@ public class QR_Reader extends AppCompatActivity implements ZXingScannerView.Res
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
 
+        Intent intent = new Intent(QR_Reader.this, Client1.class);
+        intent.putExtra("QR", result.getText());
+        startActivity(intent);
+
         mScannerView.resumeCameraPreview(this);
     }
 
 
+    /**
+     * Creates the QR Code and adds it to an ImageView to print it to the screen
+     *
+     * @param content
+     */
     private void createQRCode(String content) {
         QRCodeWriter writer = new QRCodeWriter();
         try {
             BitMatrix bitMatrix = writer.encode(content, BarcodeFormat.QR_CODE, 512, 512);
             int width = bitMatrix.getWidth();
             int height = bitMatrix.getHeight();
+            // Creation of the QR Code
             Bitmap bmp = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
             for (int x = 0; x < width; x++) {
                 for (int y = 0; y < height; y++) {
@@ -103,7 +128,7 @@ public class QR_Reader extends AppCompatActivity implements ZXingScannerView.Res
             ((ImageView) findViewById(R.id.img_result_qr)).setImageBitmap(bmp);
 
         } catch (WriterException e) {
-            e.printStackTrace();
+            Log.e(TAG, "QR Code code creation failed.");
         }
     }
 }
