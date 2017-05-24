@@ -4,4 +4,8 @@
         <item>@string/connection_type_host</item>
         <item>@string/connection_type_client</item>
     </array>
+    <array name="languages">
+        <item>@string/de</item>
+        <item>@string/en</item>
+    </array>
 </resources>

@@ -10,11 +10,14 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
@@ -28,6 +31,8 @@ public class Options extends AppCompatActivity {
     TextView textViewName;
     Button playSoundBtn;
     Button name;
+
+    Spinner spinnerLanguage;
 
     String tag = "Options";
 
@@ -108,6 +113,31 @@ public class Options extends AppCompatActivity {
 
         textViewName.setText(sharedPreferences.getString("username", "kein Name"));
 
+        spinnerLanguage = (Spinner) findViewById(R.id.spinnerLanguage);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.languages, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerLanguage.setAdapter(adapter);
+        spinnerLanguage.setSelection(0); // default
+
+        spinnerLanguage.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
+                // TODO language stuff
+                switch (position) {
+                    case 0: // german
+                        break;
+                    case 1: // english
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            public void onNothingSelected(AdapterView<?> adapterView) {
+                return;
+            }
+
+        });
+
     }
 
     public void generateName() {
@@ -122,7 +152,7 @@ public class Options extends AppCompatActivity {
 
                 .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        String name = one.getText().toString();
+                        String name = one.getText().toString(); // TODO name check
                         SharedPreferences.Editor editor = sharedPreferences.edit();
                         editor.putString("username", name);
                         editor.apply();

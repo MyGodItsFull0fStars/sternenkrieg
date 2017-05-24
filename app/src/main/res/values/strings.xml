@@ -37,4 +37,7 @@ https://developer.android.com/guide/topics/resources/localization.html
     <string name="send_message">Send Message</string>
     <string name="verbindung_abbrechen">Verbindung abbrechen</string>
     <string name="qr_code">QR Code</string>
+
+    <string name="de">Deutsch</string>
+    <string name="en">English</string>
 </resources>
