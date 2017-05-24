@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.rebelartstudios.sternenkrieg.Map;
 import com.example.rebelartstudios.sternenkrieg.QR_Reader;
 import com.example.rebelartstudios.sternenkrieg.R;
 
@@ -38,6 +39,8 @@ public class Client1 extends AppCompatActivity implements View.OnClickListener {
     boolean Exit = true;
     Button btnQR;
     Bundle extras;
+    Button btnBeretien;
+    boolean ifstart = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +56,7 @@ public class Client1 extends AppCompatActivity implements View.OnClickListener {
         btnStart.setOnClickListener(this);
         btnStop.setOnClickListener(this);
         btnQR.setOnClickListener(this);
+        btnBeretien.setOnClickListener(this);
 
         myhandler = new myHandlerClient();
 
@@ -72,10 +76,9 @@ public class Client1 extends AppCompatActivity implements View.OnClickListener {
     @Override
     public void onClick(View v) {
 
-
         switch (v.getId()) {
             case R.id.btnStart:
-
+                ip = IPet.getText().toString();
                 st = new StartThread(socket, ip, rt, myhandler);
                 st.start();
                 setButtonOnStartState(false);
@@ -85,76 +88,35 @@ public class Client1 extends AppCompatActivity implements View.OnClickListener {
 
                 String info = et.getText().toString();
                 socket = st.getSocket();
-                Thread wirte = new writeClient(true,socket,st,info);
+                Thread wirte = new writeClient(true, socket, info);
 
                 wirte.start();
                 et.setText("");
 
                 break;
             case R.id.btnStop:
-
-                rt = st.getRt();
-                try{ rt.setRunning(false);
-                    String Exit = "Exit";
-                    wirte = new writeClient(false,socket,st,Exit);
-                    wirte.start();
-                }catch(NullPointerException e){
-                    Log.e(tag, "NullPointerException in Client: " + e.toString());
-                }
-
-
-                setButtonOnStartState(true);
-                try {
-                    socket = st.getSocket();
-                    socket.close();
-                    socket = null;
-                } catch (NullPointerException e) {
-                    Log.e(tag, "NullPointerException in Client: " + e.toString());
-                    displayToast("nicht Erfolg");
-                } catch (IOException e) {
-                    Log.e(tag, "IOException in Client: " + e.toString());
-                }
+                exit();
                 break;
             case R.id.QRClient:
                 Intent intent = new Intent(Client1.this, QR_Reader.class);
                 startActivity(intent);
+            case R.id.btn_bereiten:
+                socket = st.getSocket();
+
+                try {
+                    info = "//Bereiten";
+                    wirte = new writeClient(true, socket, info);
+                    wirte.start();
+                } catch (NullPointerException e) {
+                    Log.e(tag, "NullPointerException in Client: " + e.toString());
+                }
+
             default:
                 break;
         }
 
     }
 
-//    private class writeClient extends Thread {
-//
-//        boolean Exit;
-//
-//        public writeClient(boolean Exit) {
-//            this.Exit = Exit;
-//        }
-//
-//        public void run() {
-//            OutputStream os = null;
-//            try {
-//                socket = st.getSocket();
-//                os = socket.getOutputStream();
-//                if (Exit) {
-//                    System.out.println(et.getText().toString());
-//                    os.write((et.getText().toString() + "\n").getBytes("utf-8"));
-//
-//                } else {
-//                    os.write(("Exit" + "\n").getBytes("utf-8"));
-//                }
-//
-//            } catch (IOException e) {
-//                Log.e(tag, "IOException in WriteThread: " + e.toString());
-//            } catch (NullPointerException e) {
-//                Log.e(tag, "NullPointerException in WriteThread: " + e.toString());
-//
-//
-//            }
-//
-//        }
-//    }
 
     private void displayToast(String s) {
         Toast.makeText(this, s, Toast.LENGTH_SHORT).show();
@@ -178,11 +140,22 @@ public class Client1 extends AppCompatActivity implements View.OnClickListener {
     class myHandlerClient extends Handler {
         @Override
         public void handleMessage(Message msg) {
+
+
             switch (msg.what) {
                 case 1:
+
                     String str = (String) msg.obj;
                     System.out.println("Client: " + msg.obj);
                     tv.setText(str);
+                    if (str.equals("Exit")) {
+                        exit();
+                    } else if (str.equals("//Starten")) {
+                        Intent intent = new Intent(Client1.this, Map.class);
+                        ifstart = false;
+                        startActivity(intent);
+
+                    }
                     break;
                 case 0:
                     displayToast("Erfolg");
@@ -197,6 +170,7 @@ public class Client1 extends AppCompatActivity implements View.OnClickListener {
             }
 
         }
+
     }
 
 
@@ -213,7 +187,32 @@ public class Client1 extends AppCompatActivity implements View.OnClickListener {
         btnStart = (Button) findViewById(R.id.btnStart);
         btnStop = (Button) findViewById(R.id.btnStop);
         btnQR = (Button) findViewById(R.id.QRClient);
+        btnBeretien = (Button)findViewById(R.id.btn_bereiten);
 
         this.ip = IPet.getText().toString();
+    }
+
+    private void exit(){
+        rt = st.getRt();
+        try{ rt.setRunning(false);
+            String Exit = "Exit";
+            Thread wirte = new writeClient(false,socket,Exit);
+            wirte.start();
+        }catch(NullPointerException e){
+            Log.e(tag, "NullPointerException in Client: " + e.toString());
+        }
+
+
+        setButtonOnStartState(true);
+        try {
+            socket = st.getSocket();
+            socket.close();
+            socket = null;
+        } catch (NullPointerException e) {
+            Log.e(tag, "NullPointerException in Client: " + e.toString());
+            displayToast("nicht Erfolg");
+        } catch (IOException e) {
+            Log.e(tag, "IOException in Client: " + e.toString());
+        }
     }
 }

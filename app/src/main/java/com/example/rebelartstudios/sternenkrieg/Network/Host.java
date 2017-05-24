@@ -16,6 +16,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.rebelartstudios.sternenkrieg.Map;
 import com.example.rebelartstudios.sternenkrieg.QR_Reader;
 import com.example.rebelartstudios.sternenkrieg.R;
 
@@ -42,6 +43,8 @@ public class Host extends AppCompatActivity {
     String ipS;
     OutputStream os = null;
     String tag = "Host";
+    Button btnStarten;
+    boolean ifstart = true;
 
 
     @Override
@@ -86,39 +89,44 @@ public class Host extends AppCompatActivity {
     class MyHandler extends Handler {
 
         public void handleMessage(Message msg) {
-            switch (msg.what) {
-                case 1:
-                    String str = (String) msg.obj;
-                    tv.setText(str);
-                    try {
-                        if (str.equals("Exit")) {
-                            ExitHost();
+
+
+                switch (msg.what) {
+                    case 1:
+                        String str = (String) msg.obj;
+                        tv.setText(str);
+                        try {
+                            if (str.equals("Exit")) {
+                                ExitHost();
+                            }else if (str.equals("//Bereiten")){
+                                btnStarten.setEnabled(true);
+                            }
+                        } catch (NullPointerException e) {
+                            Log.e(tag, "NullpointerException in ReceiveThreadHost: " + e.toString());
+
                         }
-                    } catch (NullPointerException e) {
-                        Log.e(tag, "NullpointerException in ReceiveThreadHost: " + e.toString());
+                        break;
+                    case 0:
+                        IPtv.setText("Client" + msg.obj + "Verbunden");
+                        displayToast("Erfolg");
+                        break;
+                    case 2:
+                        displayToast("Client getrennt");
 
-                    }
-                    break;
-                case 0:
-                    IPtv.setText("Client" + msg.obj + "Verbunden");
-                    displayToast("Erfolg");
-                    break;
-                case 2:
-                    displayToast("Client getrennt");
-
-                    tv.setText(null);//
-                    IPtv.setText(null);
-                    try {
-                        socket.close();
-                        mServerSocket.close();
-                    } catch (IOException e) {
-                        Log.e(tag, "IOException in ReceiveThreadHost: " + e.toString());
-                    }
-                    btnAccept.setEnabled(true);
-                    btnSend.setEnabled(false);
-                    break;
+                        tv.setText(null);//
+                        IPtv.setText(null);
+                        try {
+                            socket.close();
+                            mServerSocket.close();
+                        } catch (IOException e) {
+                            Log.e(tag, "IOException in ReceiveThreadHost: " + e.toString());
+                        }
+                        btnAccept.setEnabled(true);
+                        btnSend.setEnabled(false);
+                        break;
+                }
             }
-        }
+
     }
 
     private void initializeButtons() {
@@ -130,6 +138,8 @@ public class Host extends AppCompatActivity {
         btnServersEnd = (Button) findViewById(R.id.btnHostEnd);
         ip = (TextView) findViewById(R.id.ip);
         btnQR = (Button) findViewById(R.id.qr_button);
+        btnStarten = (Button)findViewById(R.id.btn_starten);
+
 
         if (ipS.equals("0.0.0.0")) {
             ip.setText("不要用模拟器测试，否则是0。0。0。0");// diese Funktion geht nur Handy mit Wifi. Emulator geht nicht
@@ -139,69 +149,71 @@ public class Host extends AppCompatActivity {
     }
 
     private void initializeOnClickListeners() {
-        btnAccept.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                running = true;
 
-                mAcceptThread = new AcceptThread(running, mServerSocket, socket, mHandler, mReceiveThreadHost);
+            btnAccept.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    running = true;
 
-
-                mAcceptThread.start();
-                btnSend.setEnabled(true);
-                btnAccept.setEnabled(false);
-                btnServersEnd.setEnabled(true);
-                IPtv.setText("Warte auf Verbindung");
+                    mAcceptThread = new AcceptThread(running, mServerSocket, socket, mHandler, mReceiveThreadHost);
 
 
-            }
-        });
-        //Send
-        btnSend.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+                    mAcceptThread.start();
+                    btnSend.setEnabled(true);
+                    btnAccept.setEnabled(false);
+                    btnServersEnd.setEnabled(true);
+                    IPtv.setText("Warte auf Verbindung");
 
 
-                socket = mAcceptThread.getSocket();
+                }
+            });
+            //Send
+            btnSend.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
 
-                String info = et.getText().toString();
-                writeHost wh = new writeHost(socket, os, info);
 
-                wh.start();
+                    socket = mAcceptThread.getSocket();
 
-                et.setText("");
+                    String info = et.getText().toString();
+                    writeHost wh = new writeHost(socket, os, info);
 
-//                try {
-//                    socket = mAcceptThread.getSocket();
-//                    os = socket.getOutputStream();//kriege socket outputstream
-//                    String msg = et.getText().toString() + "\n";
-////                    System.out.println(msg);
-//                    os.write(msg.getBytes("utf-8"));
-//                    et.setText("");
-//                    os.flush();
-//
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                } catch (NullPointerException e) {
-//                    displayToast("Kann nicht verbinden");
-//                }
-            }
-        });
+                    wh.start();
 
-        btnQR.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Host.this, QR_Reader.class);
-                intent.putExtra("IP", ipS);
-                startActivity(intent);
-            }
-        });
+                    et.setText("");
 
-        View.OnClickListener exit = new onclicklistenerExit();
-        btnServersEnd.setOnClickListener(exit);
+                }
+            });
+
+            btnQR.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(Host.this, QR_Reader.class);
+                    intent.putExtra("IP", ipS);
+                    startActivity(intent);
+                }
+            });
+
+            btnStarten.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String info = "//Starten";
+                    socket = mAcceptThread.getSocket();
+                    writeHost writeHost = new writeHost(socket, os, info);
+                    writeHost.start();
+                    Intent intent = new Intent(Host.this, Map.class);
+                    ifstart = false;
+                    startActivity(intent);
+                }
+            });
+
+            View.OnClickListener exit = new onclicklistenerExit();
+            btnServersEnd.setOnClickListener(exit);
+
     }
 
     private class onclicklistenerExit implements View.OnClickListener {
+
         public void onClick(View view) {
             ExitHost();
         }
@@ -209,6 +221,12 @@ public class Host extends AppCompatActivity {
 
 
     public void ExitHost() {
+
+        String info = "//Exit";
+        socket = mAcceptThread.getSocket();
+        writeHost writeHost = new writeHost(socket,os,info);
+        writeHost.start();
+
         try {
             mAcceptThread.setRunning(false);
             mAcceptThread.setSocket(null);
