@@ -8,8 +8,8 @@
 
     <ImageView
         android:id="@+id/background_stars"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="800dp"
+        android:layout_height="500dp"
         android:layout_marginBottom="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginStart="8dp"
@@ -19,7 +19,8 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.517" />
+        app:layout_constraintVertical_bias="0.517"
+        tools:layout_editor_absoluteX="-59dp" />
 
     <TextView
         android:id="@+id/player1"
@@ -27,52 +28,55 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginLeft="40dp"
+        android:layout_marginStart="40dp"
         android:layout_marginTop="8dp"
         android:text="@string/You"
+        android:textColor="#FFFFFF"
         android:textSize="35sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.026"
-        android:layout_marginStart="40dp" />
+        app:layout_constraintVertical_bias="0.026" />
 
     <TextView
         android:id="@+id/player2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="16dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="Enemy"
+        android:textColor="#FFFFFF"
         android:textSize="35sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="0.924"
         app:layout_constraintLeft_toRightOf="@+id/player1"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.026"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="16dp" />
+        app:layout_constraintVertical_bias="0.026" />
 
     <TextView
         android:id="@+id/pointsPlayer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="Points:"
+        android:textColor="#FFFFFF"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="0.062"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.156"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp" />
+        app:layout_constraintVertical_bias="0.156" />
 
     <ImageView
         android:id="@+id/options1"
@@ -148,19 +152,20 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
         android:layout_marginLeft="48dp"
         android:layout_marginRight="8dp"
+        android:layout_marginStart="48dp"
         android:layout_marginTop="8dp"
         android:text="3/3"
+        android:textColor="#FFFFFF"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="0.912"
         app:layout_constraintLeft_toRightOf="@+id/pointsPlayer"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.156"
-        android:layout_marginStart="48dp"
-        android:layout_marginEnd="8dp" />
+        app:layout_constraintVertical_bias="0.156" />
 
     <GridView
         android:id="@+id/player1_grid"

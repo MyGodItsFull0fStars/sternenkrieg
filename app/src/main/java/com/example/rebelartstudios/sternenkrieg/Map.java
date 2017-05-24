@@ -114,7 +114,7 @@ public class Map extends AppCompatActivity {
                         if (which_ship == 1) {
                             if (degree == 0) {
                                 //check_position schaut dass das schiff nicht auserhalb der playerField oder vom rechten ende der playerField auf die linke seite gesetzt wird
-                                if (check_position(pos, which_ship) && !playerField[pos].equals(Integer.toString(2)) && !playerField[pos + 1].equals(Integer.toString(2))) {
+                                if (check_position(pos, which_ship) && !playerField[pos].equals(Integer.toString(2)) && !playerField[pos - 1].equals(Integer.toString(2))) {
                                     delete(old_middle);
                                     // pos-1 weil wenn man das Bild bewegt ist der Zeiger genau mittig vom Bild
                                     playerField[pos - 1] = Integer.toString(2);

@@ -65,7 +65,7 @@ public class MapLoad extends BaseAdapter{
 
             String mobile = mobileValues[position];
 
-            if (mobile.equals("0")) {
+            if (mobile.equals("0") || mobile.equals("a") || mobile.equals("b") || mobile.equals("c")) {
                 imageView.setBackgroundColor(Color.WHITE); //no action
             } else if (mobile.equals("1")) {
                 imageView.setBackgroundColor(Color.MAGENTA); //miss for player

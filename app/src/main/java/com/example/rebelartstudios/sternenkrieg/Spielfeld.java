@@ -78,12 +78,12 @@ public class Spielfeld extends AppCompatActivity {
                 ImageView background = (ImageView) findViewById(R.id.background_stars);
 
                // background.setBackgroundColor(Color.rgb(0, 50, 200));
-               if(mLightQuantity >= 100) {
-                background.setBackgroundColor(Color.rgb(0, 50, 200));
-                  //  background.setBackgroundResource(R.drawable.sky_bright);
+               if(mLightQuantity >= 300) {
+                //background.setBackgroundColor(Color.rgb(0, 50, 200));
+                   background.setBackgroundResource(R.drawable.sky_bright);
                 } else {
-                  //  background.setBackgroundResource(R.drawable.sky_dark);
-                   background.setBackgroundColor(Color.rgb(0, 0, 100));
+                   background.setBackgroundResource(R.drawable.sky_dark);
+                  // background.setBackgroundColor(Color.rgb(0, 0, 100));
                 }
 
             }
