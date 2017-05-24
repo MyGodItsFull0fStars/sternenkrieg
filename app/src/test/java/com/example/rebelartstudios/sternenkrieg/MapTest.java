@@ -25,6 +25,5 @@ public class MapTest {
     public void basicTest(){
         Assert.assertEquals(array, map.getPlayerField());
         Assert.assertEquals(array, map.playerField);
-
     }
 }

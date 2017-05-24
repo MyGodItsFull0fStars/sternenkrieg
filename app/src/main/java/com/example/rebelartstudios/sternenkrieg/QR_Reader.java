@@ -1,5 +1,6 @@
 package com.example.rebelartstudios.sternenkrieg;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.example.rebelartstudios.sternenkrieg.Network.Client1;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.Result;
 import com.google.zxing.WriterException;
@@ -28,6 +30,12 @@ public class QR_Reader extends AppCompatActivity implements ZXingScannerView.Res
     String ip;
     Bundle extras;
 
+    /**
+     * onCreate Method
+     * The String the value ip gets is either the standard localhost
+     * or gets the IP address from the Host Class, which gets the native IP from the phone
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,7 +56,7 @@ public class QR_Reader extends AppCompatActivity implements ZXingScannerView.Res
      * Caution! Some phones still need to manually activate the camera in the Android Settings for this application
      * for the QR Code Reader to work properly.
      * <p>
-     * TODO Add this info to the README.md
+     *
      *
      * @param v
      */
@@ -77,7 +85,8 @@ public class QR_Reader extends AppCompatActivity implements ZXingScannerView.Res
     }
 
     /**
-     * Handles the scanned QR Code and now
+     * Handles the scanned QR Code
+     * Send the result as an Intent extra to Client Server IP TextView
      * @param result
      */
     @Override
@@ -88,6 +97,10 @@ public class QR_Reader extends AppCompatActivity implements ZXingScannerView.Res
         builder.setMessage(result.getText());
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
+
+        Intent intent = new Intent(QR_Reader.this, Client1.class);
+        intent.putExtra("QR", result.getText());
+        startActivity(intent);
 
         mScannerView.resumeCameraPreview(this);
     }
@@ -104,6 +117,7 @@ public class QR_Reader extends AppCompatActivity implements ZXingScannerView.Res
             BitMatrix bitMatrix = writer.encode(content, BarcodeFormat.QR_CODE, 512, 512);
             int width = bitMatrix.getWidth();
             int height = bitMatrix.getHeight();
+            // Creation of the QR Code
             Bitmap bmp = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
             for (int x = 0; x < width; x++) {
                 for (int y = 0; y < height; y++) {
