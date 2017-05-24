@@ -61,7 +61,7 @@ public class Spielfeld extends AppCompatActivity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         setContentView(R.layout.activity_gameplay);
 
-        /* --- START SENSOR TEST -- */
+        /* --- START LIGHT SENSOR -- */
 
         // Obtain references to the SensorManager and the Light Sensor
         mSensorManager = (SensorManager)getSystemService(SENSOR_SERVICE);
@@ -77,13 +77,13 @@ public class Spielfeld extends AppCompatActivity {
 
                 ImageView background = (ImageView) findViewById(R.id.background_stars);
 
-               // background.setBackgroundColor(Color.rgb(0, 50, 200));
+
                if(mLightQuantity >= 300) {
-                //background.setBackgroundColor(Color.rgb(0, 50, 200));
+
                    background.setBackgroundResource(R.drawable.sky_bright);
                 } else {
                    background.setBackgroundResource(R.drawable.sky_dark);
-                  // background.setBackgroundColor(Color.rgb(0, 0, 100));
+
                 }
 
             }
@@ -99,7 +99,7 @@ public class Spielfeld extends AppCompatActivity {
         // one of the SensorManager.SENSOR_DELAY_* constants.
         mSensorManager.registerListener(listener, mLightSensor, SensorManager.SENSOR_DELAY_UI);
 
-        /* --- END OF SENSOR TEST --- */
+        /* --- END OF LIGHT SENSOR --- */
 
 
         imageView = (ImageView) findViewById(R.id.grid_item_image);
