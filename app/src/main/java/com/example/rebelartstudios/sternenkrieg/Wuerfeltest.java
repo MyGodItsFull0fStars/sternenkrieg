@@ -3,15 +3,13 @@ package com.example.rebelartstudios.sternenkrieg;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.graphics.Point;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.view.Display;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -93,8 +91,7 @@ public class Wuerfeltest extends AppCompatActivity {
         }
     };
 
-    public void shake() {
-        value = rng.nextInt(6) + 1;
+    private void changeDiceImage(int value){
         switch (value) {
             case 1:
                 imageDice.setImageResource(R.drawable.one);
@@ -115,6 +112,11 @@ public class Wuerfeltest extends AppCompatActivity {
                 imageDice.setImageResource(R.drawable.six);
                 break;
         }
+    }
+
+    public void shake() {
+        value = rng.nextInt(6) + 1;
+        changeDiceImage(value);
         text_score.setText("You got:" + value + " Waiting for enemy");
         new CountDownTimer(3000 + 1000 * (rng.nextInt(3) + 1), 1000) {
 
@@ -139,17 +141,7 @@ public class Wuerfeltest extends AppCompatActivity {
 
                     @Override
                     public void onTick(long millisUntilFinished) {
-                        switch (counter) {
-                            case 1:
-                                imageDice.setImageResource(R.drawable.eins);
-                                break;
-                            case 2:
-                                imageDice.setImageResource(R.drawable.zwei);
-                                break;
-                            case 3:
-                                imageDice.setImageResource(R.drawable.drei);
-                                break;
-                        }
+                        changeDiceImage(counter);
                         counter--;
                     }
 

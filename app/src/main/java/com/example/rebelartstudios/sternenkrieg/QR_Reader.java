@@ -23,6 +23,7 @@ import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
 public class QR_Reader extends AppCompatActivity implements ZXingScannerView.ResultHandler {
     private ZXingScannerView mScannerView;
+    String TAG = "QR_Reader";
 
     String ip;
     Bundle extras;
@@ -35,8 +36,7 @@ public class QR_Reader extends AppCompatActivity implements ZXingScannerView.Res
 
         if (extras == null) {
             ip = "127.0.0.0"; // localhost
-        }
-        else {
+        } else {
             ip = extras.getString("IP");
         }
     }
@@ -44,11 +44,12 @@ public class QR_Reader extends AppCompatActivity implements ZXingScannerView.Res
     /**
      * OnClickListener for the Button Scan QR Code
      * Opens window and activates the camera to scan a QR Code and when succeeded, prints the Code as Alert ATM.
-     *
+     * <p>
      * Caution! Some phones still need to manually activate the camera in the Android Settings for this application
      * for the QR Code Reader to work properly.
-     *
+     * <p>
      * TODO Add this info to the README.md
+     *
      * @param v
      */
     public void onClick(View v) {
@@ -60,11 +61,13 @@ public class QR_Reader extends AppCompatActivity implements ZXingScannerView.Res
 
     /**
      * OnClickListener for the Button createQR code
+     *
      * @param v
      */
     public void onClickGenerateQR(View v) {
         createQRCode(ip);
     }
+
 
     @Override
     protected void onPause() {
@@ -73,7 +76,10 @@ public class QR_Reader extends AppCompatActivity implements ZXingScannerView.Res
         mScannerView.stopCamera();
     }
 
-
+    /**
+     * Handles the scanned QR Code and now
+     * @param result
+     */
     @Override
     public void handleResult(Result result) {
         Log.w("handleResult", result.getText());
@@ -87,6 +93,11 @@ public class QR_Reader extends AppCompatActivity implements ZXingScannerView.Res
     }
 
 
+    /**
+     * Creates the QR Code and adds it to an ImageView to print it to the screen
+     *
+     * @param content
+     */
     private void createQRCode(String content) {
         QRCodeWriter writer = new QRCodeWriter();
         try {
@@ -103,7 +114,7 @@ public class QR_Reader extends AppCompatActivity implements ZXingScannerView.Res
             ((ImageView) findViewById(R.id.img_result_qr)).setImageBitmap(bmp);
 
         } catch (WriterException e) {
-            e.printStackTrace();
+            Log.e(TAG, "QR Code code creation failed.");
         }
     }
 }
