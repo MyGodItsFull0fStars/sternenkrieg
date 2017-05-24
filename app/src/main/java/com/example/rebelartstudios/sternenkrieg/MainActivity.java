@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
         level_progress= (ProgressBar) findViewById(R.id.progressBar_level);
 
 
-        sharedPreferences = getSharedPreferences("name", Context.MODE_PRIVATE);
+        sharedPreferences = getSharedPreferences("prefs", Context.MODE_PRIVATE);
         String username = sharedPreferences.getString("username", null);
         int level = sharedPreferences.getInt("level",1);
         int prozent= sharedPreferences.getInt("prozent",0);
@@ -169,6 +169,13 @@ public class MainActivity extends AppCompatActivity {
                 })
                 .show();
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        txt_username.setText(sharedPreferences.getString("username", null));
+    }
+
 
 
 }

@@ -43,7 +43,7 @@ public class HighScore extends AppCompatActivity {
         delete_highscore = (Button) findViewById(R.id.btn_delete_highscore);
 
         settings = getApplicationContext().getSharedPreferences("highscoredata", 0);
-        namesettings = getApplicationContext().getSharedPreferences("name", 0);
+        namesettings = getApplicationContext().getSharedPreferences("prefs", 0);
         list = new ArrayList<>();
         String username = namesettings.getString("username", "Unbekannt");
         int levelscore = namesettings.getInt("levelscore",0);

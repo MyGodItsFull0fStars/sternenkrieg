@@ -21,11 +21,11 @@ import android.widget.ToggleButton;
 public class Options extends AppCompatActivity {
     ImageView back;
 
-
     SharedPreferences sharedPreferences;
 
     ToggleButton toggleSoundBtn;
     TextView textViewStatus;
+    TextView textViewName;
     Button playSoundBtn;
     Button name;
 
@@ -39,6 +39,8 @@ public class Options extends AppCompatActivity {
         setContentView(R.layout.activity_options);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
+        textViewStatus = (TextView) findViewById(R.id.textViewStatus);
+        textViewName = (TextView) findViewById(R.id.textViewName);
 
         back = (ImageView) findViewById(R.id.back);
         name = (Button) findViewById(R.id.btn_namechanger);
@@ -46,17 +48,17 @@ public class Options extends AppCompatActivity {
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                    Options.super.onBackPressed();
-
-
+                Options.super.onBackPressed();
             }
         });
+
         name.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                name_generator();
+                generateName();
             }
         });
+
         // get sharedPreferences with name "prefs"
         sharedPreferences = getSharedPreferences("prefs", Context.MODE_PRIVATE);
         // sound is disabled by default
@@ -64,12 +66,10 @@ public class Options extends AppCompatActivity {
 
         // if state of toggle button is different from soundEnabled, change it
         toggleSoundBtn = (ToggleButton) findViewById(R.id.soundButton);
-        if(toggleSoundBtn.isChecked() != soundEnabled) {
+        if (toggleSoundBtn.isChecked() != soundEnabled) {
             toggleSoundBtn.toggle();
-            Log.w(tag,"Sound Button toggled!");
+            Log.w(tag, "Sound Button toggled!");
         }
-
-        textViewStatus = (TextView) findViewById(R.id.textViewStatus);
 
         // https://developer.android.com/guide/topics/ui/controls/togglebutton.html
         toggleSoundBtn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -89,7 +89,7 @@ public class Options extends AppCompatActivity {
                     editor.putBoolean("sound", false);
                 }
                 editor.apply();
-                Log.w(tag,sharedPreferences.getAll().toString());
+                Log.w(tag, sharedPreferences.getAll().toString());
             }
         });
 
@@ -100,14 +100,17 @@ public class Options extends AppCompatActivity {
             public void onClick(View v) {
                 if (soundEnabled) {
                     // enabled, play sound
-                    Log.w(tag,"Sound should be played");
+                    Log.w(tag, "Sound should be played");
                     mp.start();
                 }
             }
         });
 
+        textViewName.setText(sharedPreferences.getString("username", "kein Name"));
+
     }
-    public void name_generator(){
+
+    public void generateName() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         final EditText one = new EditText(this);
         LinearLayout lay = new LinearLayout(this);
@@ -123,6 +126,7 @@ public class Options extends AppCompatActivity {
                         SharedPreferences.Editor editor = sharedPreferences.edit();
                         editor.putString("username", name);
                         editor.apply();
+                        textViewName.setText(sharedPreferences.getString("username", "kein Name2"));
                         // CONFIRM
                     }
                 })
