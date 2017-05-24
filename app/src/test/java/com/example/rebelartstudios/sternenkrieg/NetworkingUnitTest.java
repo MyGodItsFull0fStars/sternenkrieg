@@ -54,8 +54,6 @@ public class NetworkingUnitTest {
 
     @Test
     public void test_Receive(){
-
-
 //        assertEquals(acceptThread.get,socketH);
         assertEquals(startThread.getRt(),receiveThreadClient);
     }

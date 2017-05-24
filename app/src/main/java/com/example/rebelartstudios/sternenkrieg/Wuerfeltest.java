@@ -42,13 +42,15 @@ public class Wuerfeltest extends AppCompatActivity {
 
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        initializeViews();
+
+        mSensorManager.registerListener(AccelSensorListener, mSensor, SensorManager.SENSOR_DELAY_NORMAL);
+    }
+
+    private void initializeViews(){
         imageDice = (ImageView) findViewById(R.id.imageDice);
         text_score = (TextView) findViewById(R.id.text_score);
         text_score_enemy = (TextView) findViewById(R.id.text_enemy_score);
-
-        mSensorManager.registerListener(AccelSensorListener, mSensor, SensorManager.SENSOR_DELAY_NORMAL);
-
-
     }
 
     private SensorEventListener AccelSensorListener = new SensorEventListener() {
@@ -91,7 +93,10 @@ public class Wuerfeltest extends AppCompatActivity {
         }
     };
 
-    private void changeDiceImage(int value){
+    /**
+     * Changes the dice image using an integer value corresponding with the dice number
+     */
+    public void changeDiceImage(int value){
         switch (value) {
             case 1:
                 imageDice.setImageResource(R.drawable.one);
@@ -111,6 +116,8 @@ public class Wuerfeltest extends AppCompatActivity {
             case 6:
                 imageDice.setImageResource(R.drawable.six);
                 break;
+            default:
+                break;
         }
     }
 
@@ -127,14 +134,15 @@ public class Wuerfeltest extends AppCompatActivity {
 
             @Override
             public void onFinish() {
-                int value_enemy = rng.nextInt(6) + 1;
+                final int value_enemy = rng.nextInt(6) + 1;
                 text_score_enemy.setText("Enemy got:" + value_enemy);
-                if (value > value_enemy) {
+
+                if (value > value_enemy) {      // Player starts
                     who_is_starting = 0;
-                } else if(value < value_enemy){
+                } else if(value < value_enemy){ // Enemy starts
                     who_is_starting = 1;
                 }else  {
-                    who_is_starting=2;
+                    who_is_starting=2;          // Deuce, both must roll the dice again
                 }
 
                 new CountDownTimer(4500, 1000) {

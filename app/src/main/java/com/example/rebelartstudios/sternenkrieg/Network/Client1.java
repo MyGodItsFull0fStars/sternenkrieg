@@ -160,6 +160,11 @@ public class Client1 extends AppCompatActivity implements View.OnClickListener {
         Toast.makeText(this, s, Toast.LENGTH_SHORT).show();
     }
 
+
+    /**
+     * Enables or disables the buttons using a boolean
+     * @param flag
+     */
     private void setButtonOnStartState(boolean flag) {
         btnSend.setEnabled(!flag);
         btnStop.setEnabled(!flag);
@@ -167,7 +172,9 @@ public class Client1 extends AppCompatActivity implements View.OnClickListener {
         IPet.setEnabled(flag);
     }
 
-
+    /**
+     * Handles the messaging, as well as the feedback while connecting/disconnecting with the server
+     */
     class myHandlerClient extends Handler {
         @Override
         public void handleMessage(Message msg) {
@@ -193,7 +200,10 @@ public class Client1 extends AppCompatActivity implements View.OnClickListener {
     }
 
 
-
+    /**
+     * Initialization of the Buttons, TextView and EditTexts
+     * Also the value ip gets the content from IPet
+     */
     private void initializeButtonsViews() {
         tv = (TextView) findViewById(R.id.TV);
         et = (EditText) findViewById(R.id.et);

@@ -6,8 +6,9 @@ import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.media.MediaPlayer;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
@@ -27,6 +28,8 @@ public class Options extends AppCompatActivity {
     TextView textViewStatus;
     Button playSoundBtn;
     Button name;
+
+    String tag = "Options";
 
     Boolean soundEnabled; // sound enabled = 1
 
@@ -63,7 +66,7 @@ public class Options extends AppCompatActivity {
         toggleSoundBtn = (ToggleButton) findViewById(R.id.soundButton);
         if(toggleSoundBtn.isChecked() != soundEnabled) {
             toggleSoundBtn.toggle();
-            System.out.println("Sound Button toggled!");
+            Log.w(tag,"Sound Button toggled!");
         }
 
         textViewStatus = (TextView) findViewById(R.id.textViewStatus);
@@ -75,7 +78,7 @@ public class Options extends AppCompatActivity {
                 // Put the setting into the sharedPreferences by using the editor
                 SharedPreferences sharedPreferences = getSharedPreferences("prefs", Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
-                System.out.println(sharedPreferences.getAll());
+                Log.w(tag, sharedPreferences.getAll().toString());
                 if (soundEnabled) {
                     // Sound was enabled
                     textViewStatus.setText(getString(R.string.enabled));
@@ -86,7 +89,7 @@ public class Options extends AppCompatActivity {
                     editor.putBoolean("sound", false);
                 }
                 editor.apply();
-                System.out.println(sharedPreferences.getAll());
+                Log.w(tag,sharedPreferences.getAll().toString());
             }
         });
 
@@ -97,7 +100,7 @@ public class Options extends AppCompatActivity {
             public void onClick(View v) {
                 if (soundEnabled) {
                     // enabled, play sound
-                    System.out.println("Sound should be played");
+                    Log.w(tag,"Sound should be played");
                     mp.start();
                 }
             }
