@@ -39,7 +39,7 @@ public class Spielfeld extends AppCompatActivity {
 
     int pointsPlayer=0;
 
-    boolean check;
+    boolean check; //checks whether powerups are currently displayed;
     Vibrator vib;
 
 
@@ -53,6 +53,7 @@ public class Spielfeld extends AppCompatActivity {
         imageView = (ImageView) findViewById(R.id.grid_item_image);
         options = (ImageView) findViewById(R.id.options);
 
+        /* set option-buttons */
         options1 = (ImageView) findViewById(R.id.options1);
         options2 = (ImageView) findViewById(R.id.options2);
         options3 = (ImageView) findViewById(R.id.options3);
@@ -64,7 +65,7 @@ public class Spielfeld extends AppCompatActivity {
         options.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+            /* determine whether options or powerups should be displayed */
                 if(check) {
                     options1.setVisibility(View.INVISIBLE);
                     options2.setVisibility(View.INVISIBLE);
@@ -89,7 +90,7 @@ public class Spielfeld extends AppCompatActivity {
         options2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+            /* show power-ups - options2==powerups */
                 options1.setImageDrawable(getResources().getDrawable(R.drawable.scanner));
                 options2.setImageDrawable(getResources().getDrawable(R.drawable.doubleshot));
                 options3.setImageDrawable(getResources().getDrawable(R.drawable.explosionradius));
@@ -103,6 +104,7 @@ public class Spielfeld extends AppCompatActivity {
         options3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                /* go to options-menu */
                 Intent intent = new Intent();
                 intent.setClass(Spielfeld.this, Options.class);
                // intent.putExtra("gameOn", 1);
@@ -113,7 +115,7 @@ public class Spielfeld extends AppCompatActivity {
 
         amountShips=3;
 
-        map1 = getIntent().getExtras().getStringArray("oldmap");
+        map1 = getIntent().getExtras().getStringArray("oldmap"); //get information of placed ships from previous screen
 
         map2 = new String[64];
         for (int i = 0; i < 64; i++) {
@@ -134,6 +136,7 @@ public class Spielfeld extends AppCompatActivity {
         Point size = new Point();
         display.getSize(size);
 
+        /* initialize grids according based on screen size */
         width = size.x;  //x=1794 -- y=1080
         height = size.y;
 
@@ -152,19 +155,22 @@ public class Spielfeld extends AppCompatActivity {
 
                 //Toast.makeText(getApplicationContext(), "Pos: " + position + " Id: ",
                   //      Toast.LENGTH_SHORT).show();
+
+                /* enemy hits one of player's ships */
                 if (map1[position].equals("2")) {
                     map1[position] = 3 + "";
                     vib.vibrate(500);
                     highScore=highScore-30;
 
+                    /* opponent misses */
                 } else if (map2[position].equals("0")){
                 map1[position] = 5 + "";
                     highScore=highScore+10;
             }
-                draw(map1, gridView1);
+                draw(map1, gridView1); // update map
 
 
-              if (gameOver("2", map1)) {
+              if (gameOver("2", map1)) { //determine whether all ships are already destroyed
                   alert("2");
               }
 
@@ -178,17 +184,20 @@ public class Spielfeld extends AppCompatActivity {
 
                // Toast.makeText(getApplicationContext(), "Pos: " + position + " Id: ",
                  //       Toast.LENGTH_SHORT).show();
+
+                /* hit ship of enemy */
                 if(map2[position].equals("a") || map2[position].equals("b") || map2[position].equals("c")) {
                     map2[position] = 4 + "";
                     vib.vibrate(500);
                     highScore+=80;
 
-
+                /* miss enemy's ships */
                 } else if (map2[position].equals("0")){
                     map2[position] = 1 + "";
                     highScore-=20;
                 }
-                draw(map2, gridView2);
+
+                draw(map2, gridView2); // update map
 
                 Random rand = new Random();
                 int n = rand.nextInt(64);
@@ -197,7 +206,7 @@ public class Spielfeld extends AppCompatActivity {
                // gridView1.getChildAt(31).performClick();
 
 
-                if(gameOver(shipType, map2)){
+                if(gameOver(shipType, map2)){ //check whether a complete ship of the enemy has been destroyed
                     decrementAmount();
                 }
 
@@ -212,7 +221,8 @@ public class Spielfeld extends AppCompatActivity {
         }
 
         public void alert(String player){
-
+            /* "player" determines which message should be displayed
+                2 = enemy won; a = player won */
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             if(player.equals("2")) {
                 builder.setMessage("Your enemy destroyed all your ships.")
@@ -256,6 +266,9 @@ public class Spielfeld extends AppCompatActivity {
         }
 
         public boolean gameOver(String ship, String[] map) {
+            /* checks if String "ship" (either checks whether player has any ships left or if an
+            etire ship of the opponent has been destroyed) is still present in array "map";
+            if not, method returns true */
             int isthegameoveryet = 0;
             for (int i = 0; i < 64; i++) {
                 if((map[i].equals(ship))) {
@@ -270,7 +283,7 @@ public class Spielfeld extends AppCompatActivity {
             return false;
         }
 
-        public void decrementAmount() {
+        public void decrementAmount() { //if one entire ship of enemy has been destroyed, update Score
             amountShips--;
             TextView tex = ((TextView)findViewById(R.id.amountShips));
             tex.setText(amountShips+"/3");
