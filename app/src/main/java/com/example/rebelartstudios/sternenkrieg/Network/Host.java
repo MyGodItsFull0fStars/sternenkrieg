@@ -215,7 +215,7 @@ public class Host extends AppCompatActivity {
         } catch (NullPointerException e) {
             Log.e(tag, "NullPointerException in Client: " + e.toString());
             displayToast("nicht Erfolg");
-            throw new RuntimeException(e);
+
 
         }
         try {

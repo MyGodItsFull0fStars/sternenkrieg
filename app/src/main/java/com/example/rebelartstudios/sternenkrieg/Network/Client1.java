@@ -30,7 +30,7 @@ public class Client1 extends AppCompatActivity implements View.OnClickListener {
     private Button btnSend;
     private Button btnStart;
     private Button btnStop;
-    private StartThread st;
+    private StartThread st ;
     private ReceiveThreadClient rt;
     String tag = "Client";
     String ip;
@@ -71,11 +71,12 @@ public class Client1 extends AppCompatActivity implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        st = new StartThread(socket, ip, rt, myhandler);
+
+
         switch (v.getId()) {
             case R.id.btnStart:
 
-                running = true;
+                st = new StartThread(socket, ip, rt, myhandler);
                 st.start();
                 setButtonOnStartState(false);
 
@@ -83,6 +84,7 @@ public class Client1 extends AppCompatActivity implements View.OnClickListener {
             case R.id.btnSend:
 
                 String info = et.getText().toString();
+                socket = st.getSocket();
                 Thread wirte = new writeClient(true,socket,st,info);
 
                 wirte.start();
@@ -92,10 +94,14 @@ public class Client1 extends AppCompatActivity implements View.OnClickListener {
             case R.id.btnStop:
 
                 rt = st.getRt();
-                rt.setRunning(false);
-                String Exit = "Exit";
-                wirte = new writeClient(false,socket,st,Exit);
-                wirte.start();
+                try{ rt.setRunning(false);
+                    String Exit = "Exit";
+                    wirte = new writeClient(false,socket,st,Exit);
+                    wirte.start();
+                }catch(NullPointerException e){
+                    Log.e(tag, "NullPointerException in Client: " + e.toString());
+                }
+
 
                 setButtonOnStartState(true);
                 try {

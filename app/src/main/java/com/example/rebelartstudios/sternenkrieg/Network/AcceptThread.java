@@ -39,8 +39,8 @@ public class AcceptThread extends Thread {
             try {
                 mServerSocket = new ServerSocket(54321);//ein Server erstellen
                 socket = mServerSocket.accept();//accept
-                this.testB = true;
-                test();
+//                this.testB = true;
+//                test();
                 try {
                     sleep(500);
                 } catch (InterruptedException e) {
@@ -64,7 +64,7 @@ public class AcceptThread extends Thread {
                     Log.e(tag, "InterruptedException in AcceptThreadHost: " + e.toString());
                     Thread.currentThread().interrupt();
                 }
-//                System.out.println("geht nicht");
+                System.out.println("geht nicht");
             }
         }
         try{

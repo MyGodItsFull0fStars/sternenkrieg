@@ -21,13 +21,17 @@ public class writeClient extends Thread {
 
     public writeClient(boolean Exit, Socket socket, StartThread st, String info) {
         this.Exit = Exit;
+        this.socket = socket;
+        this.st = st;
+        this.info = info;
 
     }
 
     public void run() {
         OutputStream os = null;
+        System.out.printf(info);
         try {
-            socket = st.getSocket();
+//            socket = st.getSocket();
             os = socket.getOutputStream();
             if (Exit) {
                 System.out.println(info);
