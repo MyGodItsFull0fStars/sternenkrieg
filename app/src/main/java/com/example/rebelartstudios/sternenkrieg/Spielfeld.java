@@ -6,10 +6,16 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.graphics.Color;
 import android.graphics.Point;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Vibrator;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Display;
 import android.view.View;
@@ -17,6 +23,7 @@ import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -42,6 +49,10 @@ public class Spielfeld extends AppCompatActivity {
     boolean check; //checks whether powerups are currently displayed;
     Vibrator vib;
 
+    private SensorManager mSensorManager;
+    private Sensor mLightSensor;
+    private float mLightQuantity;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +60,47 @@ public class Spielfeld extends AppCompatActivity {
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         setContentView(R.layout.activity_gameplay);
+
+        /* --- START SENSOR TEST -- */
+
+        // Obtain references to the SensorManager and the Light Sensor
+        mSensorManager = (SensorManager)getSystemService(SENSOR_SERVICE);
+        mLightSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
+
+        // Implement a listener to receive updates
+        SensorEventListener listener = new SensorEventListener() {
+            @Override
+            public void onSensorChanged(SensorEvent event) {
+                mLightQuantity = event.values[0];
+                TextView tex = ((TextView)findViewById(R.id.amountShips));
+                tex.setText(mLightQuantity+"");
+
+                ImageView background = (ImageView) findViewById(R.id.background_stars);
+
+               // background.setBackgroundColor(Color.rgb(0, 50, 200));
+               if(mLightQuantity >= 100) {
+                background.setBackgroundColor(Color.rgb(0, 50, 200));
+                  //  background.setBackgroundResource(R.drawable.sky_bright);
+                } else {
+                  //  background.setBackgroundResource(R.drawable.sky_dark);
+                   background.setBackgroundColor(Color.rgb(0, 0, 100));
+                }
+
+            }
+
+            @Override
+            public void onAccuracyChanged(Sensor sensor, int accuracy) {
+
+            }
+
+        };
+
+        // Register the listener with the light sensor -- choosing
+        // one of the SensorManager.SENSOR_DELAY_* constants.
+        mSensorManager.registerListener(listener, mLightSensor, SensorManager.SENSOR_DELAY_UI);
+
+        /* --- END OF SENSOR TEST --- */
+
 
         imageView = (ImageView) findViewById(R.id.grid_item_image);
         options = (ImageView) findViewById(R.id.options);
