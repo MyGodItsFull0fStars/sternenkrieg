@@ -210,7 +210,7 @@ public class MainActivity extends AppCompatActivity {
         // update username when coming back from Options activity
         txt_username.setText(sharedPreferences.getString("username", null));
 
-        musicStuff();
+        //musicStuff();
     }
 
 }

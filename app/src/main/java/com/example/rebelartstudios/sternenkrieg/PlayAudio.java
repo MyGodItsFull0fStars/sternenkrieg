@@ -22,9 +22,14 @@ public class PlayAudio extends Service {
     }
 
     public void onCreate() {
+        sharedPreferences = getSharedPreferences("prefs", Context.MODE_PRIVATE);
         soundEnabled = sharedPreferences.getBoolean("sound", false);
-        mp = MediaPlayer.create(this, R.raw.mystic);
-        mp.setLooping(true);
+        if (soundEnabled) {
+            mp = MediaPlayer.create(this, R.raw.mystic);
+            mp.setLooping(true);
+        } else {
+
+        }
     }
 
     public void onDestroy() {
