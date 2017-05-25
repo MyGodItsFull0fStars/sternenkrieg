@@ -1,15 +1,19 @@
 package com.example.rebelartstudios.sternenkrieg;
 
 import android.app.AlertDialog;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -67,15 +71,45 @@ public class MainActivity extends AppCompatActivity {
 
         }
 
-
         // Background music
         // disabled for now, feel free to enable if you want to check
-        // Intent audioIntent = new Intent(this, PlayAudio.class);
-        // startService(audioIntent);
+        //musicStuff();
+
         initializeButtons();
         initializeOnClickListeners();
         initializeBackground();
 
+    }
+
+    private void musicStuff() {
+        // TODO not working yet
+        ServiceConnection soundConnection = new ServiceConnection() {
+            @Override
+            public void onServiceConnected(ComponentName name, IBinder service) {
+                Log.d("SoundConnection", "connected");
+            }
+
+            @Override
+            public void onServiceDisconnected(ComponentName name) {
+                Log.d("SoundConnection", "disconnected");
+            }
+        };
+
+        boolean soundEnabled = sharedPreferences.getBoolean("sound", false);
+        Intent audioIntent = new Intent(this, PlayAudio.class);
+        boolean on = soundEnabled;
+
+        if(soundEnabled) {
+            bindService(audioIntent, soundConnection, Context.BIND_AUTO_CREATE);
+            startService(audioIntent);
+            on = true;
+        } else {
+            if(on) {
+                stopService(audioIntent);
+                unbindService(soundConnection);
+            }
+            on = false;
+        }
     }
 
     private void initializeBackground() {
@@ -173,10 +207,11 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
+        // update username when coming back from Options activity
         txt_username.setText(sharedPreferences.getString("username", null));
+
+        musicStuff();
     }
-
-
 
 }
 
