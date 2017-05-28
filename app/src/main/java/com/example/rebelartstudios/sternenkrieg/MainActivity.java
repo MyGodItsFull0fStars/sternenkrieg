@@ -26,18 +26,18 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
-import static com.example.rebelartstudios.sternenkrieg.R.drawable.two;
-
 public class MainActivity extends AppCompatActivity {
 
     Button startBtn;
-    Button networkBtn;
     Button optionsBtn;
     Button aboutBtn;
     Button diceBtn;
-    Button socket;
+    Button socketBtn;
+    Button powerupBtn;
+
     TextView txt_username;
     TextView txt_level;
+
     ProgressBar level_progress;
 
     SharedPreferences sharedPreferences;
@@ -48,10 +48,10 @@ public class MainActivity extends AppCompatActivity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_main);
-        txt_username = (TextView) findViewById(R.id.text_username);
-        txt_level = (TextView) findViewById(R.id.txt_level);
-        level_progress= (ProgressBar) findViewById(R.id.progressBar_level);
 
+        initializeClasses();
+        initializeOnClickListeners();
+        initializeBackground();
 
         sharedPreferences = getSharedPreferences("prefs", Context.MODE_PRIVATE);
         String username = sharedPreferences.getString("username", null);
@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
         int prozent= sharedPreferences.getInt("prozent",0);
 
         if (username == null) {
-            name_generator();
+            generateName();
         } else {
             txt_username.setText(username);
             txt_username.setTextColor(Color.WHITE);
@@ -68,48 +68,21 @@ public class MainActivity extends AppCompatActivity {
             level_progress.getProgressDrawable().setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN);
             level_progress.setProgress(0);
             level_progress.setProgress(prozent);
-
         }
 
         // Background music
         // disabled for now, feel free to enable if you want to check
         //musicStuff();
 
-        initializeButtons();
-        initializeOnClickListeners();
-        initializeBackground();
-
     }
 
-    private void musicStuff() {
-        // TODO not working yet
-        ServiceConnection soundConnection = new ServiceConnection() {
-            @Override
-            public void onServiceConnected(ComponentName name, IBinder service) {
-                Log.d("SoundConnection", "connected");
-            }
+    @Override
+    public void onResume() {
+        super.onResume();
+        // update username when coming back from Options activity
+        txt_username.setText(sharedPreferences.getString("username", null));
 
-            @Override
-            public void onServiceDisconnected(ComponentName name) {
-                Log.d("SoundConnection", "disconnected");
-            }
-        };
-
-        boolean soundEnabled = sharedPreferences.getBoolean("sound", false);
-        Intent audioIntent = new Intent(this, PlayAudio.class);
-        boolean on = soundEnabled;
-
-        if(soundEnabled) {
-            bindService(audioIntent, soundConnection, Context.BIND_AUTO_CREATE);
-            startService(audioIntent);
-            on = true;
-        } else {
-            if(on) {
-                stopService(audioIntent);
-                unbindService(soundConnection);
-            }
-            on = false;
-        }
+        //musicStuff();
     }
 
     private void initializeBackground() {
@@ -118,12 +91,17 @@ public class MainActivity extends AppCompatActivity {
         Glide.with(this).load(R.raw.background).asGif().centerCrop().diskCacheStrategy(DiskCacheStrategy.SOURCE).into(background);
     }
 
-    private void initializeButtons() {
+    private void initializeClasses() {
         startBtn = (Button) findViewById(R.id.start);
         aboutBtn = (Button) findViewById(R.id.about);
         optionsBtn = (Button) findViewById(R.id.options);
         diceBtn = (Button) findViewById(R.id.dice);
-        socket = (Button) findViewById(R.id.Socket);
+        socketBtn = (Button) findViewById(R.id.Socket);
+        powerupBtn = (Button) findViewById(R.id.powerup);
+
+        txt_username = (TextView) findViewById(R.id.text_username);
+        txt_level = (TextView) findViewById(R.id.txt_level);
+        level_progress= (ProgressBar) findViewById(R.id.progressBar_level);
     }
 
     private void initializeOnClickListeners() {
@@ -165,17 +143,26 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        // socket
-        socket.setOnClickListener(new View.OnClickListener() {
+        // socketBtn
+        socketBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, Socket_main.class);
                 startActivity(intent);
             }
         });
+
+        // powerupBtn
+        powerupBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, PowerUp.class);
+                startActivity(intent);
+            }
+        });
     }
 
-    public void name_generator() {
+    public void generateName() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         final EditText one = new EditText(this);
         LinearLayout lay = new LinearLayout(this);
@@ -204,13 +191,35 @@ public class MainActivity extends AppCompatActivity {
                 .show();
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        // update username when coming back from Options activity
-        txt_username.setText(sharedPreferences.getString("username", null));
+    private void musicStuff() {
+        // TODO not working yet
+        ServiceConnection soundConnection = new ServiceConnection() {
+            @Override
+            public void onServiceConnected(ComponentName name, IBinder service) {
+                Log.d("SoundConnection", "connected");
+            }
 
-        //musicStuff();
+            @Override
+            public void onServiceDisconnected(ComponentName name) {
+                Log.d("SoundConnection", "disconnected");
+            }
+        };
+
+        boolean soundEnabled = sharedPreferences.getBoolean("sound", false);
+        Intent audioIntent = new Intent(this, PlayAudio.class);
+        boolean on = soundEnabled;
+
+        if(soundEnabled) {
+            bindService(audioIntent, soundConnection, Context.BIND_AUTO_CREATE);
+            startService(audioIntent);
+            on = true;
+        } else {
+            if(on) {
+                stopService(audioIntent);
+                unbindService(soundConnection);
+            }
+            on = false;
+        }
     }
 
 }
