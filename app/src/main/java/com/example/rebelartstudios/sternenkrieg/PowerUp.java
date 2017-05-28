@@ -11,8 +11,18 @@ import android.widget.TextView;
 
 public class PowerUp extends AppCompatActivity {
 
-    final static int MAX_POINTS = 1000; // maximum PowerUp points
+    final static int MAX_POINTS = 10000; // maximum PowerUp points
     static int currentPoints = 100; // 100 for testing purpose
+
+    int pu1max = 3; // PowerUp 1 may be used up to 3 times
+    int pu2max = 2;
+    int pu3max = 10;
+    int pu4max = 1;
+
+    int pu1cur = 0;
+    int pu2cur = 0;
+    int pu3cur = 0;
+    int pu4cur = 0;
 
     Button pu1Btn;
     Button pu2Btn;
@@ -22,7 +32,7 @@ public class PowerUp extends AppCompatActivity {
 
     static TextView textViewPoints;
 
-    String tag = "PowerUps";
+    String tag = "PowerUp";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +40,10 @@ public class PowerUp extends AppCompatActivity {
         setContentView(R.layout.activity_powerups);
 
         initialize();
+        pu1Btn.setText(pu1max-pu1cur + "x PU1");
+        pu2Btn.setText(pu2max-pu2cur + "x PU2");
+        pu3Btn.setText(pu3max-pu3cur + "x PU3");
+        pu4Btn.setText(pu4max-pu4cur + "x PU4");
 
         updateCurrentPoints();
 
@@ -37,12 +51,19 @@ public class PowerUp extends AppCompatActivity {
             public void onClick(View v) {
                 Log.d(tag, "PU1 chosen, Current Points: "+getCurrentPoints());
 
-                if(remPoints(10)) {
-                    Log.d(tag, "PU1: -10 points, Current points: "+getCurrentPoints());
+                if(pu1cur < pu1max) {
+                    if(remPoints(10)) {
+                        Log.d(tag, "PU1: -10 points, Current points: "+getCurrentPoints());
+                        pu1cur++;
+                        pu1Btn.setText(pu1max-pu1cur + "x PU1");
+                    } else {
+                        dialog("Zu wenig Punkte");
+                        Log.d(tag, "PU1: called dialog");
+                    }
                 } else {
-                    dialog();
-                    Log.d(tag, "PU1: called dialog");
+                    dialog("Maximum erreicht");
                 }
+
             }
         });
 
@@ -53,7 +74,7 @@ public class PowerUp extends AppCompatActivity {
                 if(remPoints(50)) {
                     Log.d(tag, "PU2: -20 points, Current points: "+getCurrentPoints());
                 } else {
-                    dialog();
+                    dialog("Zu wenig Punkte");
                     Log.d(tag, "PU2: called dialog");
                 }
             }
@@ -61,6 +82,14 @@ public class PowerUp extends AppCompatActivity {
 
         pu3Btn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                int num = (int) (Math.random()*500+300);
+                Log.d(tag, "PU3 Number: "+num);
+                pu3cur++;
+                if(remPoints(num)) {
+                    dialog("Yay");
+                } else {
+                    dialog("Nay");
+                }
 
             }
         });
@@ -88,7 +117,7 @@ public class PowerUp extends AppCompatActivity {
         textViewPoints = (TextView) findViewById(R.id.textViewPoints);
     }
 
-    public static boolean addPoints(int points) {
+    public boolean addPoints(int points) {
         if(currentPoints + points <= MAX_POINTS) {
             currentPoints += points;
             updateCurrentPoints();
@@ -97,7 +126,7 @@ public class PowerUp extends AppCompatActivity {
         return false;
     }
 
-    public static boolean remPoints(int points) {
+    public boolean remPoints(int points) {
         if(currentPoints - points >= 0) {
             currentPoints -= points;
             updateCurrentPoints();
@@ -122,9 +151,41 @@ public class PowerUp extends AppCompatActivity {
         return MAX_POINTS;
     }
 
-    public AlertDialog dialog() {
+    public int getPu1max() {
+        return pu1max;
+    }
+
+    public int getPu2max() {
+        return pu2max;
+    }
+
+    public int getPu3max() {
+        return pu3max;
+    }
+
+    public int getPu4max() {
+        return pu4max;
+    }
+
+    public int getPu1cur() {
+        return pu1cur;
+    }
+
+    public int getPu2cur() {
+        return pu2cur;
+    }
+
+    public int getPu3cur() {
+        return pu3cur;
+    }
+
+    public int getPu4cur() {
+        return pu4cur;
+    }
+
+    public AlertDialog dialog(String text) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Error").setMessage("Zu wenig Punkte");
+        builder.setTitle("Error").setMessage(text);
         builder.setPositiveButton("Okay", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -132,9 +193,8 @@ public class PowerUp extends AppCompatActivity {
             }
         });
         builder.show();
-        AlertDialog dialog = builder.create();
 
-        return dialog;
+        return builder.create();
     }
 
 }
