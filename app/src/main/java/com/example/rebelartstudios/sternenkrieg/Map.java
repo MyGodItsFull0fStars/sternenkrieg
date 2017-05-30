@@ -19,6 +19,10 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+/**
+ * Map Class gets started after clicking the MainActivity class.
+ * In this class, the player sets the position of the ships using drag and drop.
+ */
 public class Map extends AppCompatActivity {
     GridView gridView;
     ImageView imageView;
@@ -33,10 +37,16 @@ public class Map extends AppCompatActivity {
     int[] old_middle = new int[2];
     int[] old_big = new int[3];
     boolean count0, count1, count2 = false;
+    String setPlayerPositionTWO = "2";
+    String setPlayerPositionZERO = "0";
 
 
+    /**
+     * Returns the player field as a String array
+     * @return
+     */
     public String[] getPlayerField() {
-        // playerField[23] = Integer.toString(2);
+        // playerField[23] = setPlayerPositionTWO;
         return playerField;
     }
 
@@ -98,11 +108,11 @@ public class Map extends AppCompatActivity {
 
                         //kleines Schiff
                         if (which_ship == 0) {
-                            if (!playerField[pos].equals(Integer.toString(2))) {
+                            if (!playerField[pos].equals(setPlayerPositionTWO)) {
                                 //falls schon mal gesetzt wird die letzte Position gelöscht
                                 delete(old_small);
                                 //neue Position gesetzt
-                                playerField[pos] = Integer.toString(2);
+                                playerField[pos] = setPlayerPositionTWO;
                                 old_small[0] = pos;
 
 
@@ -114,20 +124,20 @@ public class Map extends AppCompatActivity {
                         if (which_ship == 1) {
                             if (degree == 0) {
                                 //check_position schaut dass das schiff nicht auserhalb der playerField oder vom rechten ende der playerField auf die linke seite gesetzt wird
-                                if (check_position(pos, which_ship) && !playerField[pos].equals(Integer.toString(2)) && !playerField[pos - 1].equals(Integer.toString(2))) {
+                                if (check_position(pos, which_ship) && !playerField[pos].equals(setPlayerPositionTWO) && !playerField[pos - 1].equals(setPlayerPositionTWO)) {
                                     delete(old_middle);
                                     // pos-1 weil wenn man das Bild bewegt ist der Zeiger genau mittig vom Bild
-                                    playerField[pos - 1] = Integer.toString(2);
+                                    playerField[pos - 1] = setPlayerPositionTWO;
                                     old_middle[0] = pos - 1;
-                                    playerField[pos] = Integer.toString(2);
+                                    playerField[pos] = setPlayerPositionTWO;
                                     old_middle[1] = pos;
                                 }
                             } else if (degree == 1) {
-                                if (check_position(pos, which_ship) && !playerField[pos].equals(Integer.toString(2)) && !playerField[pos - 8].equals(Integer.toString(2))) {
+                                if (check_position(pos, which_ship) && !playerField[pos].equals(setPlayerPositionTWO) && !playerField[pos - 8].equals(setPlayerPositionTWO)) {
                                     delete(old_middle);
-                                    playerField[pos - 8] = Integer.toString(2);
+                                    playerField[pos - 8] = setPlayerPositionTWO;
                                     old_middle[0] = pos - 8;
-                                    playerField[pos] = Integer.toString(2);
+                                    playerField[pos] = setPlayerPositionTWO;
                                     old_middle[1] = pos;
                                 }
 
@@ -138,24 +148,24 @@ public class Map extends AppCompatActivity {
                         //großes Schiff
                         if (which_ship == 2) {
                             if (degree == 0) {
-                                if (check_position(pos, which_ship) && !playerField[pos].equals(Integer.toString(2)) && !playerField[pos + 1].equals(Integer.toString(2)) && !playerField[pos + 2].equals(Integer.toString(2))) {
+                                if (check_position(pos, which_ship) && !playerField[pos].equals(setPlayerPositionTWO) && !playerField[pos + 1].equals(setPlayerPositionTWO) && !playerField[pos + 2].equals(setPlayerPositionTWO)) {
                                     delete(old_big);
                                     // pos-1 weil wenn man das Bild bewegt ist der Zeiger genau mittig vom Bild
-                                    playerField[pos - 1] = Integer.toString(2);
+                                    playerField[pos - 1] = setPlayerPositionTWO;
                                     old_big[0] = pos - 1;
-                                    playerField[pos] = Integer.toString(2);
+                                    playerField[pos] = setPlayerPositionTWO;
                                     old_big[1] = pos;
-                                    playerField[pos + 1] = Integer.toString(2);
+                                    playerField[pos + 1] = setPlayerPositionTWO;
                                     old_big[2] = pos + 1;
                                 }
                             } else if (degree == 1) {
-                                if (check_position(pos, which_ship) && !playerField[pos - 8].equals(Integer.toString(2)) && !playerField[pos].equals(Integer.toString(2)) && !playerField[pos + 8].equals(Integer.toString(2))) {
+                                if (check_position(pos, which_ship) && !playerField[pos - 8].equals(setPlayerPositionTWO) && !playerField[pos].equals(setPlayerPositionTWO) && !playerField[pos + 8].equals(setPlayerPositionTWO)) {
                                     delete(old_big);
-                                    playerField[pos - 8] = Integer.toString(2);
+                                    playerField[pos - 8] = setPlayerPositionTWO;
                                     old_big[0] = pos - 8;
-                                    playerField[pos] = Integer.toString(2);
+                                    playerField[pos] = setPlayerPositionTWO;
                                     old_big[1] = pos;
-                                    playerField[pos + 8] = Integer.toString(2);
+                                    playerField[pos + 8] = setPlayerPositionTWO;
                                     old_big[2] = pos + 8;
                                 }
 
@@ -274,7 +284,10 @@ public class Map extends AppCompatActivity {
     }
 
 
-    // Initializes the ImageViews in the Maps Class
+    /**
+     * Initializes the ImageViews in the maps activity class when starting the
+     * onCreate() method
+     */
     private void initializeImageViews() {
         imageView = (ImageView) findViewById(R.id.grid_item_image);
         ship1 = (ImageView) findViewById(R.id.image_ship1);
@@ -285,13 +298,20 @@ public class Map extends AppCompatActivity {
     }
 
 
+    /**
+     * Initializes the player field in the onCreate() method
+     * player field starts as an "empty" array, containing only zeroes.
+     */
     private void initializePlayerField() {
         playerField = new String[64];
         for (int i = 0; i < 64; i++) {
-            playerField[i] = Integer.toString(0);
+            playerField[i] = setPlayerPositionZERO;
         }
     }
 
+    /**
+     * Initializes the ShipViews in the onCreate() method
+     */
     private void initializeShipView() {
         gridView = (GridView) findViewById(R.id.gridView);
         gridView.getLayoutParams().height = height - 350;
@@ -304,7 +324,12 @@ public class Map extends AppCompatActivity {
         ship3.getLayoutParams().width = (height - 350) / 3;
     }
 
+    /**
+     * Initializes the onClickListeners for the buttons, gridview
+     * in the maps activity class
+     */
     private void initializeOnClickListenerOnButton() {
+
         play.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -319,6 +344,9 @@ public class Map extends AppCompatActivity {
 
         gridView.setAdapter(new MapLoad(this, playerField));
 
+        /*
+        When this button gets clicked, the ships rotate around the Y axis
+         */
         turn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -347,10 +375,15 @@ public class Map extends AppCompatActivity {
         return pos;
     }
 
+    /**
+     * Receives an integer array containing the positions, which will be deleted
+     * in the player field
+     * @param data
+     */
     public void delete(int data[]) {
         if (data != null) {
             for (int x : data) {
-                playerField[x] = Integer.toString(0);
+                playerField[x] = setPlayerPositionZERO;
             }
         }
         draw(playerField);

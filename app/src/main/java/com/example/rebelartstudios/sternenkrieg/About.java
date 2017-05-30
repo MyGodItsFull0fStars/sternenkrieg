@@ -6,6 +6,7 @@ import android.content.pm.ActivityInfo;
 import android.media.MediaPlayer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -30,7 +31,7 @@ public class About extends AppCompatActivity {
             public void onClick(View v) {
                 if (sharedPreferences.getBoolean("sound", false)) {
                     // enabled, play sound
-                    System.out.println("Sound should be played");
+                    Log.w("SOUND", "Sound should be played");
                     mp.start();
                 }
             }

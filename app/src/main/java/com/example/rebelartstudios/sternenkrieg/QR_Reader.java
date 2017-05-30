@@ -21,6 +21,15 @@ import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
 /**
  * Created by christianbauer on 16/05/2017.
+ *
+ * QR Reader activity containing two use cases:
+ *
+ * ONE: The host wants to generate a QR code, using the IP address of used host device
+ *      and displays it on the screen of the device.
+ *
+ * TWO: The client wants to receive the hosts IP as a QR code using the clients camera
+ *      When successfully scanning a QR code, this code will be put as an intent extra and
+ *      will be handed over to the client activity class for further use in the IP TextView
  */
 
 public class QR_Reader extends AppCompatActivity implements ZXingScannerView.ResultHandler {
@@ -87,6 +96,7 @@ public class QR_Reader extends AppCompatActivity implements ZXingScannerView.Res
     /**
      * Handles the scanned QR Code
      * Send the result as an Intent extra to Client Server IP TextView
+     * to use it as input to receive the ip adress of host
      * @param result
      */
     @Override

@@ -6,16 +6,13 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.graphics.Color;
 import android.graphics.Point;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Vibrator;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Display;
 import android.view.View;
@@ -23,11 +20,9 @@ import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import java.util.*;
+import java.util.Random;
 
 /**
  * Created by anja on 25.04.17.
@@ -42,9 +37,9 @@ public class Spielfeld extends AppCompatActivity {
     int width;
     int height;
     int amountShips;
-    int highScore=0;
+    int highScore = 0;
 
-    int pointsPlayer=0;
+    int pointsPlayer = 0;
 
     boolean check; //checks whether powerups are currently displayed;
     Vibrator vib;
@@ -64,7 +59,7 @@ public class Spielfeld extends AppCompatActivity {
         /* --- START LIGHT SENSOR -- */
 
         // Obtain references to the SensorManager and the Light Sensor
-        mSensorManager = (SensorManager)getSystemService(SENSOR_SERVICE);
+        mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         mLightSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
 
         // Implement a listener to receive updates
@@ -72,17 +67,17 @@ public class Spielfeld extends AppCompatActivity {
             @Override
             public void onSensorChanged(SensorEvent event) {
                 mLightQuantity = event.values[0];
-                TextView tex = ((TextView)findViewById(R.id.amountShips));
-                tex.setText(mLightQuantity+"");
+                TextView tex = ((TextView) findViewById(R.id.amountShips));
+                tex.setText(mLightQuantity + "");
 
                 ImageView background = (ImageView) findViewById(R.id.background_stars);
 
 
-               if(mLightQuantity >= 300) {
+                if (mLightQuantity >= 300) {
 
-                   background.setBackgroundResource(R.drawable.sky_bright);
+                    background.setBackgroundResource(R.drawable.sky_bright);
                 } else {
-                   background.setBackgroundResource(R.drawable.sky_dark);
+                    background.setBackgroundResource(R.drawable.sky_dark);
 
                 }
 
@@ -118,7 +113,7 @@ public class Spielfeld extends AppCompatActivity {
             @Override
             public void onClick(View v) {
             /* determine whether options or powerups should be displayed */
-                if(check) {
+                if (check) {
                     options1.setVisibility(View.INVISIBLE);
                     options2.setVisibility(View.INVISIBLE);
                     options3.setVisibility(View.INVISIBLE);
@@ -148,7 +143,7 @@ public class Spielfeld extends AppCompatActivity {
                 options3.setImageDrawable(getResources().getDrawable(R.drawable.explosionradius));
                 options4.setImageDrawable(getResources().getDrawable(R.drawable.armour));
 
-                check=false;
+                check = false;
 
             }
         });
@@ -159,13 +154,13 @@ public class Spielfeld extends AppCompatActivity {
                 /* go to options-menu */
                 Intent intent = new Intent();
                 intent.setClass(Spielfeld.this, Options.class);
-               // intent.putExtra("gameOn", 1);
+                // intent.putExtra("gameOn", 1);
                 startActivity(intent);
 
             }
         });
 
-        amountShips=3;
+        amountShips = 3;
 
         map1 = getIntent().getExtras().getStringArray("oldmap"); //get information of placed ships from previous screen
 
@@ -193,38 +188,38 @@ public class Spielfeld extends AppCompatActivity {
         height = size.y;
 
         gridView1 = (GridView) findViewById(R.id.player1_grid);
-        gridView1.getLayoutParams().height = height-350;
-        gridView1.getLayoutParams().width = height-350;
+        gridView1.getLayoutParams().height = height - 350;
+        gridView1.getLayoutParams().width = height - 350;
         gridView1.setAdapter(new MapLoad(this, map1));
 
         gridView2 = (GridView) findViewById(R.id.player2_grid);
-        gridView2.getLayoutParams().height = height-350;
-        gridView2.getLayoutParams().width = height-350;
+        gridView2.getLayoutParams().height = height - 350;
+        gridView2.getLayoutParams().width = height - 350;
         gridView2.setAdapter(new MapLoad(this, map2));
 
         gridView1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
 
                 //Toast.makeText(getApplicationContext(), "Pos: " + position + " Id: ",
-                  //      Toast.LENGTH_SHORT).show();
+                //      Toast.LENGTH_SHORT).show();
 
                 /* enemy hits one of player's ships */
                 if (map1[position].equals("2")) {
                     map1[position] = 3 + "";
                     vib.vibrate(500);
-                    highScore=highScore-30;
+                    highScore = highScore - 30;
 
                     /* opponent misses */
-                } else if (map2[position].equals("0")){
-                map1[position] = 5 + "";
-                    highScore=highScore+10;
-            }
+                } else if (map2[position].equals("0")) {
+                    map1[position] = 5 + "";
+                    highScore = highScore + 10;
+                }
                 draw(map1, gridView1); // update map
 
 
-              if (gameOver("2", map1)) { //determine whether all ships are already destroyed
-                  alert("2");
-              }
+                if (gameOver("2", map1)) { //determine whether all ships are already destroyed
+                    alert("2");
+                }
 
             }
         });
@@ -234,19 +229,19 @@ public class Spielfeld extends AppCompatActivity {
 
                 String shipType = map2[position];
 
-               // Toast.makeText(getApplicationContext(), "Pos: " + position + " Id: ",
-                 //       Toast.LENGTH_SHORT).show();
+                // Toast.makeText(getApplicationContext(), "Pos: " + position + " Id: ",
+                //       Toast.LENGTH_SHORT).show();
 
                 /* hit ship of enemy */
-                if(map2[position].equals("a") || map2[position].equals("b") || map2[position].equals("c")) {
+                if (map2[position].equals("a") || map2[position].equals("b") || map2[position].equals("c")) {
                     map2[position] = 4 + "";
                     vib.vibrate(500);
-                    highScore+=80;
+                    highScore += 80;
 
                 /* miss enemy's ships */
-                } else if (map2[position].equals("0")){
+                } else if (map2[position].equals("0")) {
                     map2[position] = 1 + "";
-                    highScore-=20;
+                    highScore -= 20;
                 }
 
                 draw(map2, gridView2); // update map
@@ -255,10 +250,10 @@ public class Spielfeld extends AppCompatActivity {
                 int n = rand.nextInt(64);
 
 
-               // gridView1.getChildAt(31).performClick();
+                // gridView1.getChildAt(31).performClick();
 
 
-                if(gameOver(shipType, map2)){ //check whether a complete ship of the enemy has been destroyed
+                if (gameOver(shipType, map2)) { //check whether a complete ship of the enemy has been destroyed
                     decrementAmount();
                 }
 
@@ -268,83 +263,83 @@ public class Spielfeld extends AppCompatActivity {
 
     }
 
-      public void draw(String[] array, GridView gridView) {
+    public void draw(String[] array, GridView gridView) {
         gridView.setAdapter(new MapLoad(this, array));
-        }
+    }
 
-        public void alert(String player){
+    public void alert(String player) {
             /* "player" determines which message should be displayed
                 2 = enemy won; a = player won */
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            if(player.equals("2")) {
-                builder.setMessage("Your enemy destroyed all your ships.")
-                        .setTitle("Game Over!")
-                        .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                // CONFIRM
-                                Intent intent = new Intent(Spielfeld.this, HighScore.class);
-                                intent.putExtra("highScore", highScore);
-                                startActivity(intent);
-                            }
-                        })
-                        .setNegativeButton("Whatever.", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                // CANCEL
-                            }
-                        })
-                        .show();
-            } else if(player.equals("a")){
-                builder.setMessage("You successfully destroyed all hostile ships!")
-                        .setTitle("You win!")
-                        .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                // CONFIRM
-                                Intent intent = new Intent(Spielfeld.this, HighScore.class);
-                                intent.putExtra("highScore", highScore);
-                                startActivity(intent);
-                            }
-                        })
-                        .setNegativeButton("I know, I am awesome.", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                // CANCEL
-                            }
-                        })
-                        .show();
-            }
-
-            // Create the AlertDialog object and return it
-                    builder.create();
-
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        if (player.equals("2")) {
+            builder.setMessage("Your enemy destroyed all your ships.")
+                    .setTitle("Game Over!")
+                    .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            // CONFIRM
+                            Intent intent = new Intent(Spielfeld.this, HighScore.class);
+                            intent.putExtra("highScore", highScore);
+                            startActivity(intent);
+                        }
+                    })
+                    .setNegativeButton("Whatever.", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            // CANCEL
+                        }
+                    })
+                    .show();
+        } else if (player.equals("a")) {
+            builder.setMessage("You successfully destroyed all hostile ships!")
+                    .setTitle("You win!")
+                    .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            // CONFIRM
+                            Intent intent = new Intent(Spielfeld.this, HighScore.class);
+                            intent.putExtra("highScore", highScore);
+                            startActivity(intent);
+                        }
+                    })
+                    .setNegativeButton("I know, I am awesome.", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            // CANCEL
+                        }
+                    })
+                    .show();
         }
 
-        public boolean gameOver(String ship, String[] map) {
+        // Create the AlertDialog object and return it
+        builder.create();
+
+    }
+
+    public boolean gameOver(String ship, String[] map) {
             /* checks if String "ship" (either checks whether player has any ships left or if an
             etire ship of the opponent has been destroyed) is still present in array "map";
             if not, method returns true */
-            int isthegameoveryet = 0;
-            for (int i = 0; i < 64; i++) {
-                if((map[i].equals(ship))) {
-                    isthegameoveryet++;
-                }
+        int isthegameoveryet = 0;
+        for (int i = 0; i < 64; i++) {
+            if ((map[i].equals(ship))) {
+                isthegameoveryet++;
             }
-
-            if(isthegameoveryet == 0) {
-               return true;
-            }
-
-            return false;
         }
 
-        public void decrementAmount() { //if one entire ship of enemy has been destroyed, update Score
-            amountShips--;
-            TextView tex = ((TextView)findViewById(R.id.amountShips));
-            tex.setText(amountShips+"/3");
+        if (isthegameoveryet == 0) {
+            return true;
+        }
 
-            if(amountShips==0){
-                alert("a");
-            }
+        return false;
+    }
+
+    public void decrementAmount() { //if one entire ship of enemy has been destroyed, update Score
+        amountShips--;
+        TextView tex = ((TextView) findViewById(R.id.amountShips));
+        tex.setText(amountShips + "/3");
+
+        if (amountShips == 0) {
+            alert("a");
         }
     }
+}
 
 
 

@@ -91,6 +91,10 @@ public class MainActivity extends AppCompatActivity {
         Glide.with(this).load(R.raw.background).asGif().centerCrop().diskCacheStrategy(DiskCacheStrategy.SOURCE).into(background);
     }
 
+    /**
+     * Initialization of Buttons, TextViews and ProgressBar for MainActivity
+     * Called in the onCreate() method at start of activity
+     */
     private void initializeClasses() {
         startBtn = (Button) findViewById(R.id.start);
         aboutBtn = (Button) findViewById(R.id.about);
@@ -104,6 +108,9 @@ public class MainActivity extends AppCompatActivity {
         level_progress= (ProgressBar) findViewById(R.id.progressBar_level);
     }
 
+    /**
+     * Sets all OnClickListeners for the buttons in current class using intents
+     */
     private void initializeOnClickListeners() {
         // Play
         startBtn.setOnClickListener(new View.OnClickListener() {
