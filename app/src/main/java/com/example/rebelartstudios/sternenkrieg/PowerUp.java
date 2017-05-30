@@ -12,7 +12,7 @@ import android.widget.TextView;
 public class PowerUp extends AppCompatActivity {
 
     final static int MAX_POINTS = 10000; // maximum PowerUp points
-    static int currentPoints = 100; // 100 for testing purpose
+    int currentPoints = 100; // 100 for testing purpose
 
     int pu1max = 3; // PowerUp 1 may be used up to 3 times
     int pu2max = 2;
@@ -30,7 +30,7 @@ public class PowerUp extends AppCompatActivity {
     Button pu4Btn;
     Button cheatBtn;
 
-    static TextView textViewPoints;
+    TextView textViewPoints;
 
     String tag = "PowerUp";
 
@@ -135,15 +135,15 @@ public class PowerUp extends AppCompatActivity {
         return false;
     }
 
-    public static int getCurrentPoints() {
+    public int getCurrentPoints() {
         return currentPoints;
     }
 
-    public static String getCurrentPointsAsString() {
+    public String getCurrentPointsAsString() {
         return Integer.toString(currentPoints);
     }
 
-    public static void updateCurrentPoints() {
+    public void updateCurrentPoints() {
         textViewPoints.setText(getCurrentPointsAsString());
     }
 

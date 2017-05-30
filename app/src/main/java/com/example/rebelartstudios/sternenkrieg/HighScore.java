@@ -1,23 +1,17 @@
 package com.example.rebelartstudios.sternenkrieg;
 
-import android.content.Context;
+
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
-
-import org.json.JSONArray;
-
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
-import java.util.TreeMap;
 
 public class HighScore extends AppCompatActivity {
 
@@ -31,7 +25,6 @@ public class HighScore extends AppCompatActivity {
     boolean write = true;
     boolean onlyhighscore = true; //für Hauptmenü benötigt
     Button delete_highscore;
-    String highscore;
     Intent intent;
 
     @Override
