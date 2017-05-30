@@ -24,6 +24,11 @@ public class MapActivityTest {
 
     @Rule public final ActivityTestRule<Map> mapActivityTestRule = new ActivityTestRule<Map>(Map.class);
 
+
+    /**
+     * Tests if the turn button is clickable
+     * Performs the click 4 times to check if it works properly
+     */
     @Test
     public void testTurnButtonClickable(){
 
@@ -32,7 +37,4 @@ public class MapActivityTest {
         }
     }
 
-    public void testGridViewClickable(){
-        onView(withId(R.id.grid_item_image)).perform(click());
-    }
 }
