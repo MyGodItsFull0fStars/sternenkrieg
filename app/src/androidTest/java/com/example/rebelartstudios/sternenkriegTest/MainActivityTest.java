@@ -33,6 +33,10 @@ public class MainActivityTest{
     @Rule
     public final ActivityTestRule<MainActivity> main  = new ActivityTestRule<MainActivity>(MainActivity.class);
 
+
+
+
+
     /**
      * Test to check if the button to start the game map activity is clickable
      */
@@ -80,6 +84,5 @@ public class MainActivityTest{
     public void testAboutButton(){
         onView(withId(R.id.about)).perform(click());
     }
-
 
 }
