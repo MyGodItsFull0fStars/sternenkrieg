@@ -66,6 +66,8 @@ public class Spielfeld extends AppCompatActivity {
     private float mLightQuantity;
 
     /******Networking******/
+    // this Views can be also a chat system. That mean player can talk with other player with it.
+    // But now we can use it to check if the Socket program right.
     Button send;
     TextView player2_say;
     EditText player1_say;
@@ -400,8 +402,8 @@ public class Spielfeld extends AppCompatActivity {
         }
     }
 
-/***************Network*******************/
-
+/***************Network******************************/
+// build network must be called in Oncreate, to build a new Socket connect.
     public void networkbuild(){
         boolean running = true;
         if (Phost){
@@ -466,7 +468,7 @@ public class Spielfeld extends AppCompatActivity {
             player1_say.setText("");
         }
     }
-    /**************************************/
+    /***************Netzworking***********************/
 }
 
 
