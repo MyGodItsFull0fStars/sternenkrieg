@@ -59,11 +59,13 @@ public class PowerUp extends AppCompatActivity {
         currentPoints = sharedPreferences.getInt("currentPoints", 100);
 
         Bundle b = getIntent().getExtras();
-        dicePoints = b.getInt("points");
-        if(addPoints(dicePoints)) {
-            Log.d(tag, dicePoints + " Points added!");
-        } else {
-            Log.d(tag, "No points added!");
+        if(b != null) {
+            dicePoints = b.getInt("points");
+            if(addPoints(dicePoints)) {
+                Log.d(tag, dicePoints + " Points added!");
+            } else {
+                Log.d(tag, "No points added!");
+            }
         }
 
         pu1Btn.setOnClickListener(new View.OnClickListener() {
