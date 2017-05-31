@@ -12,10 +12,14 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -39,6 +43,8 @@ public class Map extends AppCompatActivity {
     boolean count0, count1, count2 = false;
     String setPlayerPositionTWO = "2";
     String setPlayerPositionZERO = "0";
+
+
 
 
     /**

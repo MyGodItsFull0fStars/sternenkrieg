@@ -153,6 +153,8 @@ public class Client1 extends AppCompatActivity implements View.OnClickListener {
                     } else if (str.equals("//Starten")) {
                         Intent intent = new Intent(Client1.this, Map.class);
                         ifstart = false;
+                        exit();
+                        intent.putExtra("ip",ip);
                         startActivity(intent);
 
                     }
