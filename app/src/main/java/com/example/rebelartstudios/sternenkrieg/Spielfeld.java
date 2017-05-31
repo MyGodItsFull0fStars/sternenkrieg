@@ -13,8 +13,10 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.os.Vibrator;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.view.WindowManager;
@@ -24,12 +26,17 @@ import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.rebelartstudios.sternenkrieg.Network.AcceptThread;
 import com.example.rebelartstudios.sternenkrieg.Network.ReceiveThreadClient;
 import com.example.rebelartstudios.sternenkrieg.Network.ReceiveThreadHost;
 import com.example.rebelartstudios.sternenkrieg.Network.StartThread;
+import com.example.rebelartstudios.sternenkrieg.Network.writeClient;
+import com.example.rebelartstudios.sternenkrieg.Network.writeHost;
 
+import java.io.IOException;
+import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Random;
@@ -65,11 +72,15 @@ public class Spielfeld extends AppCompatActivity {
     Socket socket;
     ServerSocket mServerSocket = null;
     Handler myhandler;
-    boolean Phost = false;
+    boolean Phost = false; // if this is host then Phost is ture; if not is false.
     String message;
     ReceiveThreadHost receiveThreadHost;
     String ip;
     ReceiveThreadClient receiveThreadClient;
+    String tag = "Spiefeld";
+    AcceptThread mAcceptThread;
+    StartThread startThread;
+    OutputStream os = null;
     /*******Networking*****/
 
     @Override
@@ -282,7 +293,9 @@ public class Spielfeld extends AppCompatActivity {
 
             }
         });
-
+        send  = (Button)findViewById(R.id.player1_send);
+        player2_say = (TextView)findViewById(R.id.player2_say);
+        player1_say = (EditText )findViewById(R.id.player1_say);
         /****Networking****/
         // if the player is host.
         Intent intent = getIntent();
@@ -294,6 +307,18 @@ public class Spielfeld extends AppCompatActivity {
             this.ip = intent.getStringExtra("ip");
         }
         myhandler = new Myhandler();
+        networkbuild();
+        send.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String info = player1_say.getText().toString();
+                if (Phost){ //If this is host, so use writeHost to sand message.
+                    messageSend(info,Phost);
+                }else{// Client.
+                    messageSend(info,!Phost);
+                }
+            }
+        });
         /****Networking***/
 
     }
@@ -375,21 +400,73 @@ public class Spielfeld extends AppCompatActivity {
         }
     }
 
+/***************Network*******************/
+
     public void networkbuild(){
         boolean running = true;
         if (Phost){
-            AcceptThread mAcceptThread = new AcceptThread(running,mServerSocket,socket,myhandler,receiveThreadHost);
+            mAcceptThread = new AcceptThread(running,mServerSocket,socket,myhandler,receiveThreadHost);
         }else {
-            StartThread startThread = new StartThread(socket,ip,receiveThreadClient,myhandler);
+            startThread = new StartThread(socket,ip,receiveThreadClient,myhandler);
         }
 
     }
-
+    // There are the Message from other player. We can work with "message" to change our map, uppower and ship.
     class Myhandler extends Handler{
 
 
+        public void handleMessage(Message msg) {
+
+
+            switch (msg.what) {
+                case 1:
+                    message = (String) msg.obj;
+                    player2_say.setText(message);
+                    break;
+                case 0:
+                    displayToast("Erfolg");
+                    break;
+                case 2:
+                    displayToast("Client getrennt");
+
+                    player2_say.setText(null);//
+                    try {
+                        socket.close();
+                        mServerSocket.close();
+                    } catch (IOException e) {
+                        Log.e(tag, "IOException in ReceiveThreadHost: " + e.toString());
+                    }
+
+                    break;
+            }
+        }
 
     }
+    private void displayToast(String s) {
+        Toast.makeText(this, s, Toast.LENGTH_SHORT).show();
+    }
+
+    // Here is the messageSend methode. By call this methode can player message send.
+    public void messageSend(String message,boolean obhost){
+        if (obhost) {
+            socket = mAcceptThread.getSocket();
+
+
+            writeHost wh = new writeHost(socket, os, message);
+
+            wh.start();
+
+            player1_say.setText("");
+        }else{
+
+            socket = startThread.getSocket();
+            Thread wirte = new writeClient(true, socket, message);
+
+            wirte.start();
+            player1_say.setText("");
+        }
+    }
+    /**************************************/
 }
 
 
