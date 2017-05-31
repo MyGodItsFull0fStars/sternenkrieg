@@ -10,13 +10,14 @@ import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.Random;
 
-public class Wuerfeltest extends AppCompatActivity {
+public class Dice extends AppCompatActivity {
 
     private SensorManager mSensorManager;
     private Sensor mSensor;
@@ -31,6 +32,7 @@ public class Wuerfeltest extends AppCompatActivity {
     private float last_x, last_y, last_z;
     private static final int SHAKE_THRESHOLD = 690;
 
+    private int mode = 0; // 1 = game start, 2 = powerup
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,12 +41,15 @@ public class Wuerfeltest extends AppCompatActivity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         initializeViews();
 
         mSensorManager.registerListener(AccelSensorListener, mSensor, SensorManager.SENSOR_DELAY_NORMAL);
+
+        Bundle b = getIntent().getExtras();
+        mode = b.getInt("mode");
+        Log.d(this.getLocalClassName(), ""+mode);
     }
 
     private void initializeViews(){
@@ -82,8 +87,6 @@ public class Wuerfeltest extends AppCompatActivity {
                     last_z = z;
                 }
             }
-
-
         }
 
 
@@ -122,50 +125,77 @@ public class Wuerfeltest extends AppCompatActivity {
     }
 
     public void shake() {
-        value = rng.nextInt(6) + 1;
-        changeDiceImage(value);
-        text_score.setText("You got:" + value + " Waiting for enemy");
-        new CountDownTimer(3000 + 1000 * (rng.nextInt(3) + 1), 1000) {
-
-            @Override
-            public void onTick(long millisUntilFinished) {
-
-            }
-
-            @Override
-            public void onFinish() {
-                final int value_enemy = rng.nextInt(6) + 1;
-                text_score_enemy.setText("Enemy got:" + value_enemy);
-
-                if (value > value_enemy) {      // Player starts
-                    who_is_starting = 0;
-                } else if(value < value_enemy){ // Enemy starts
-                    who_is_starting = 1;
-                }else  {
-                    who_is_starting=2;          // Deuce, both must roll the dice again
-                }
-
-                new CountDownTimer(4500, 1000) {
+        switch(mode) {
+            case 1:
+                value = rng.nextInt(6) + 1;
+                changeDiceImage(value);
+                text_score.setText("You got:" + value + " Waiting for enemy");
+                new CountDownTimer(3000 + 1000 * (rng.nextInt(3) + 1), 1000) {
 
                     @Override
                     public void onTick(long millisUntilFinished) {
-                        changeDiceImage(counter);
-                        counter--;
+
                     }
 
                     @Override
                     public void onFinish() {
-                        Intent nextScreen = new Intent(getApplicationContext(), EndScreen.class);
-                        nextScreen.putExtra("who_is_starting", who_is_starting);
-                        startActivity(nextScreen);
+                        final int value_enemy = rng.nextInt(6) + 1;
+                        text_score_enemy.setText("Enemy got:" + value_enemy);
 
+                        if (value > value_enemy) {      // Player starts
+                            who_is_starting = 0;
+                        } else if(value < value_enemy){ // Enemy starts
+                            who_is_starting = 1;
+                        }else  {
+                            who_is_starting=2;          // Deuce, both must roll the dice again
+                        }
+
+                        new CountDownTimer(4500, 1000) {
+
+                            @Override
+                            public void onTick(long millisUntilFinished) {
+                                changeDiceImage(counter);
+                                counter--;
+                            }
+
+                            @Override
+                            public void onFinish() {
+                                Intent nextScreen = new Intent(getApplicationContext(), EndScreen.class);
+                                nextScreen.putExtra("who_is_starting", who_is_starting);
+                                startActivity(nextScreen);
+
+                            }
+                        }.start();
                     }
                 }.start();
-            }
-        }.start();
+                break;
 
+            case 2:
+                value = rng.nextInt(6) + 1;
+                changeDiceImage(value);
+                text_score.setText("You got:" + value);
+
+                new CountDownTimer(3000, 1000){
+
+                    @Override
+                    public void onTick(long millisUntilFinished) {
+
+                    }
+
+                    @Override
+                    public void onFinish() {
+                        Intent intent = new Intent(Dice.this, PowerUp.class);
+                        intent.putExtra("points", value);
+                        startActivity(intent);
+                    }
+
+                }.start();
+                break;
+
+            default:
+                break;
+        }
 
     }
-
 
 }

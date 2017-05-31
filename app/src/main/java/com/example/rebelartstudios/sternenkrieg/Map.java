@@ -24,7 +24,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
- * Map Class gets started after clicking the MainActivity class.
+ * Map Class gets started after clicking the Main class.
  * In this class, the player sets the position of the ships using drag and drop.
  */
 public class Map extends AppCompatActivity {

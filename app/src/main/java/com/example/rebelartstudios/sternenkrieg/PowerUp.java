@@ -1,7 +1,10 @@
 package com.example.rebelartstudios.sternenkrieg;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -11,8 +14,12 @@ import android.widget.TextView;
 
 public class PowerUp extends AppCompatActivity {
 
-    final static int MAX_POINTS = 10000; // maximum PowerUp points
+    SharedPreferences sharedPreferences;
+
+    final int MAX_POINTS = 10000; // maximum PowerUp points
     int currentPoints = 100; // 100 for testing purpose
+
+    int dicePoints;
 
     int pu1max = 3; // PowerUp 1 may be used up to 3 times
     int pu2max = 2;
@@ -46,6 +53,18 @@ public class PowerUp extends AppCompatActivity {
         pu4Btn.setText(pu4max-pu4cur + "x PU4");
 
         updateCurrentPoints();
+
+        sharedPreferences = getSharedPreferences("powerup", Context.MODE_PRIVATE);
+        // sound is disabled by default
+        currentPoints = sharedPreferences.getInt("currentPoints", 100);
+
+        Bundle b = getIntent().getExtras();
+        dicePoints = b.getInt("points");
+        if(addPoints(dicePoints)) {
+            Log.d(tag, dicePoints + " Points added!");
+        } else {
+            Log.d(tag, "No points added!");
+        }
 
         pu1Btn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -121,6 +140,7 @@ public class PowerUp extends AppCompatActivity {
         if(currentPoints + points <= MAX_POINTS) {
             currentPoints += points;
             updateCurrentPoints();
+            savePoints();
             return true;
         }
         return false;
@@ -130,6 +150,7 @@ public class PowerUp extends AppCompatActivity {
         if(currentPoints - points >= 0) {
             currentPoints -= points;
             updateCurrentPoints();
+            savePoints();
             return true;
         }
         return false;
@@ -147,7 +168,19 @@ public class PowerUp extends AppCompatActivity {
         textViewPoints.setText(getCurrentPointsAsString());
     }
 
-    public static int getMaxPoints() {
+    public void savePoints() {
+        SharedPreferences sharedPreferences = getSharedPreferences("powerup", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        Log.w(tag, sharedPreferences.getAll().toString());
+
+        editor.putInt("currentPoints", getCurrentPoints());
+        editor.apply();
+
+        Log.w(tag, sharedPreferences.getAll().toString());
+    }
+
+    public int getMaxPoints() {
         return MAX_POINTS;
     }
 

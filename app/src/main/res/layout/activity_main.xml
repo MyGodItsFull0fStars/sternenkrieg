@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.rebelartstudios.sternenkrieg.MainActivity">
+    tools:context="com.example.rebelartstudios.sternenkrieg.Main">
 
     <RelativeLayout
         android:layout_width="wrap_content"
@@ -116,7 +116,7 @@
                 android:layout_width="250dp"
                 android:layout_height="45dp"
                 android:backgroundTint="@color/colorPrimary"
-                android:text="Highscore"
+                android:text="Dice (score)"
                 android:textColor="@color/common_signin_btn_dark_text_default"
                 android:textSize="20sp" />
 

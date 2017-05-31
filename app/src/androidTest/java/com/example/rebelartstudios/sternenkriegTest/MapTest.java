@@ -20,7 +20,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 
 
 @RunWith(AndroidJUnit4.class)
-public class MapActivityTest {
+public class MapTest {
 
     @Rule public final ActivityTestRule<Map> mapActivityTestRule = new ActivityTestRule<Map>(Map.class);
 

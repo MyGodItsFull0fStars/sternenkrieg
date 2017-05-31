@@ -26,7 +26,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
-public class MainActivity extends AppCompatActivity {
+public class Main extends AppCompatActivity {
 
     Button startBtn;
     Button optionsBtn;
@@ -92,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * Initialization of Buttons, TextViews and ProgressBar for MainActivity
+     * Initialization of Buttons, TextViews and ProgressBar for Main
      * Called in the onCreate() method at start of activity
      */
     private void initializeClasses() {
@@ -116,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
         startBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, Map.class);
+                Intent intent = new Intent(Main.this, Map.class);
                 startActivity(intent);
             }
         });
@@ -126,7 +126,7 @@ public class MainActivity extends AppCompatActivity {
         aboutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, About.class);
+                Intent intent = new Intent(Main.this, About.class);
                 startActivity(intent);
             }
         });
@@ -135,17 +135,19 @@ public class MainActivity extends AppCompatActivity {
         optionsBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, Options.class);
+                Intent intent = new Intent(Main.this, Options.class);
                 startActivity(intent);
             }
         });
 
-        // Highscore
+        // Dice
         diceBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, HighScore.class);
-                intent.putExtra("onlyhighscore", false);
+                //Intent intent = new Intent(Main.this, HighScore.class);
+                //intent.putExtra("onlyhighscore", false);
+                Intent intent = new Intent(Main.this, Dice.class);
+                intent.putExtra("mode", 2);
                 startActivity(intent);
             }
         });
@@ -154,7 +156,7 @@ public class MainActivity extends AppCompatActivity {
         socketBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, Socket_main.class);
+                Intent intent = new Intent(Main.this, Socket_main.class);
                 startActivity(intent);
             }
         });
@@ -163,7 +165,7 @@ public class MainActivity extends AppCompatActivity {
         powerupBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, PowerUp.class);
+                Intent intent = new Intent(Main.this, PowerUp.class);
                 startActivity(intent);
             }
         });

@@ -4,7 +4,7 @@ import android.support.test.filters.LargeTest;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
-import com.example.rebelartstudios.sternenkrieg.MainActivity;
+import com.example.rebelartstudios.sternenkrieg.Main;
 import com.example.rebelartstudios.sternenkrieg.R;
 
 import org.junit.Rule;
@@ -21,7 +21,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 
 /**
  *
- * MainActivity test class
+ * Main test class
  * Starting with testing the buttons, and later will add the test for
  * the Players name
  *
@@ -29,9 +29,9 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
  */
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class MainActivityTest{
+public class MainTest {
     @Rule
-    public final ActivityTestRule<MainActivity> main  = new ActivityTestRule<MainActivity>(MainActivity.class);
+    public final ActivityTestRule<Main> main  = new ActivityTestRule<Main>(Main.class);
 
 
 

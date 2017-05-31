@@ -31,7 +31,7 @@ public class Modi extends Activity {
         btn_gotocube.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent nextScreen = new Intent(getApplicationContext(), Wuerfeltest.class);
+                Intent nextScreen = new Intent(getApplicationContext(), Dice.class);
                 nextScreen.putExtra("shake", true);
                 startActivity(nextScreen);
             }
