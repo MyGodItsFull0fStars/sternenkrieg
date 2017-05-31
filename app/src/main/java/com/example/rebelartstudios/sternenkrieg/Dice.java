@@ -127,10 +127,13 @@ public class Dice extends AppCompatActivity {
     public void shake() {
         switch(mode) {
             case 1:
-                value = rng.nextInt(6) + 1;
+                // TODO fix values
+                //value = rng.nextInt(6) + 1;
+                value = 6; // TODO this is only to make sure we start
                 changeDiceImage(value);
                 text_score.setText("You got:" + value + " Waiting for enemy");
-                new CountDownTimer(3000 + 1000 * (rng.nextInt(3) + 1), 1000) {
+                // new CountDownTimer(3000 + 1000 * (rng.nextInt(3) + 1), 1000) {
+                new CountDownTimer(2000, 1000) { // TODO temp change to speed up
 
                     @Override
                     public void onTick(long millisUntilFinished) {
@@ -139,7 +142,8 @@ public class Dice extends AppCompatActivity {
 
                     @Override
                     public void onFinish() {
-                        final int value_enemy = rng.nextInt(6) + 1;
+                        //final int value_enemy = rng.nextInt(6) + 1;
+                        final int value_enemy = 1; // TODO this is only to make sure we start
                         text_score_enemy.setText("Enemy got:" + value_enemy);
 
                         if (value > value_enemy) {      // Player starts
@@ -150,7 +154,7 @@ public class Dice extends AppCompatActivity {
                             who_is_starting=2;          // Deuce, both must roll the dice again
                         }
 
-                        new CountDownTimer(4500, 1000) {
+                        new CountDownTimer(2000, 1000) { // TODO 2000 instead of 4500 to speed up
 
                             @Override
                             public void onTick(long millisUntilFinished) {

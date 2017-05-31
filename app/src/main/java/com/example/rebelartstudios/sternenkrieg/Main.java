@@ -116,7 +116,9 @@ public class Main extends AppCompatActivity {
         startBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Main.this, Map.class);
+                //Intent intent = new Intent(Main.this, Map.class);
+                Intent intent = new Intent(Main.this, Dice.class);
+                intent.putExtra("mode", 1);
                 startActivity(intent);
             }
         });
