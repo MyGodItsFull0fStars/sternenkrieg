@@ -203,6 +203,8 @@ public class Host extends AppCompatActivity {
                     writeHost.start();
                     Intent intent = new Intent(Host.this, Map.class);
                     ifstart = false;
+                    ExitHost();
+                    intent.putExtra("host","1");
                     startActivity(intent);
                 }
             });

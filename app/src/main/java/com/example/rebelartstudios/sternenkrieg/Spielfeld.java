@@ -12,16 +12,26 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Vibrator;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Display;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.rebelartstudios.sternenkrieg.Network.AcceptThread;
+import com.example.rebelartstudios.sternenkrieg.Network.ReceiveThreadClient;
+import com.example.rebelartstudios.sternenkrieg.Network.ReceiveThreadHost;
+import com.example.rebelartstudios.sternenkrieg.Network.StartThread;
+
+import java.net.ServerSocket;
+import java.net.Socket;
 import java.util.Random;
 
 /**
@@ -48,6 +58,19 @@ public class Spielfeld extends AppCompatActivity {
     private Sensor mLightSensor;
     private float mLightQuantity;
 
+    /******Networking******/
+    Button send;
+    TextView player2_say;
+    EditText player1_say;
+    Socket socket;
+    ServerSocket mServerSocket = null;
+    Handler myhandler;
+    boolean Phost = false;
+    String message;
+    ReceiveThreadHost receiveThreadHost;
+    String ip;
+    ReceiveThreadClient receiveThreadClient;
+    /*******Networking*****/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -260,6 +283,18 @@ public class Spielfeld extends AppCompatActivity {
             }
         });
 
+        /****Networking****/
+        // if the player is host.
+        Intent intent = getIntent();
+        if (intent.getStringExtra("host").equals("1")){
+            Phost = true;
+        }
+        //if the player is client, then needs the ip to build a new socket.
+        if (Phost = false){
+            this.ip = intent.getStringExtra("ip");
+        }
+        myhandler = new Myhandler();
+        /****Networking***/
 
     }
 
@@ -338,6 +373,22 @@ public class Spielfeld extends AppCompatActivity {
         if (amountShips == 0) {
             alert("a");
         }
+    }
+
+    public void networkbuild(){
+        boolean running = true;
+        if (Phost){
+            AcceptThread mAcceptThread = new AcceptThread(running,mServerSocket,socket,myhandler,receiveThreadHost);
+        }else {
+            StartThread startThread = new StartThread(socket,ip,receiveThreadClient,myhandler);
+        }
+
+    }
+
+    class Myhandler extends Handler{
+
+
+
     }
 }
 

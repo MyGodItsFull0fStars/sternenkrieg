@@ -32,22 +32,24 @@ public class StartThread extends Thread {
 
     public void run() {
 
-        try {
-            socket = new Socket(ip, 54321);
-
-            rt = new ReceiveThreadClient(socket, running, myhandler);
-            rt.start();
-            running = true;
-            System.out.println(socket.isConnected());
-            if (socket.isConnected()) {
-                Message msg0 = myhandler.obtainMessage();
-                msg0.what = 0;
-                myhandler.sendMessage(msg0);
+        boolean tryconnect = true;
+        while (tryconnect) {
+            try {
+                socket = new Socket(ip, 54321);
+                tryconnect = false;
+                rt = new ReceiveThreadClient(socket, running, myhandler);
+                rt.start();
+                running = true;
+                System.out.println(socket.isConnected());
+                if (socket.isConnected()) {
+                    Message msg0 = myhandler.obtainMessage();
+                    msg0.what = 0;
+                    myhandler.sendMessage(msg0);
+                }
+            } catch (IOException e) {
+                Log.e(tag, "IOException in StartThread: " + e.toString());
             }
-        } catch (IOException e) {
-            Log.e(tag, "IOException in StartThread: " + e.toString());
         }
-
 
     }
 

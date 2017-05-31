@@ -14,7 +14,7 @@ public class ExampleUnitTest {
 //
 //    ReceiveThread rt;
 //    boolean running = true;
-//    Socket socket = new Socket();
+//    SocketSingleton socket = new SocketSingleton();
 //    ServerSocket mServerSocket;
 //    Handler mHandler;
 //    ReceiveThreadServer mReceiveThread1;
