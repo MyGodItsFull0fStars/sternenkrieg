@@ -32,10 +32,10 @@ https://developer.android.com/guide/topics/resources/localization.html
     <string name="logo_desc">Sternenkrieg Logo</string>
     <string name="scan_qr_code">Scan QR Code</string>
     <string name="generate_qr">Generate QR</string>
-    <string name="nicht_verbunden">Nicht verbunden</string>
-    <string name="start_verbinden">Start verbinden</string>
+    <string name="nicht_verbunden">Not connected</string>
+    <string name="start_verbinden">Start connection</string>
     <string name="send_message">Send Message</string>
-    <string name="verbindung_abbrechen">Verbindung abbrechen</string>
+    <string name="verbindung_abbrechen">Abort connection</string>
     <string name="qr_code">QR Code</string>
 
     <string name="de">Deutsch</string>

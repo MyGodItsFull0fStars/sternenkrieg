@@ -1,0 +1,43 @@
+<!-- Guides
+https://developer.android.com/guide/topics/resources/string-resource.html
+https://developer.android.com/guide/topics/resources/localization.html
+-->
+<resources>
+    <string name="app_name">Sternenkrieg</string>
+    <string name="service_id">Sternenkrieg</string>
+    <string name="sk_label">Sternenkrieg</string>
+
+    <string name="connection_type">Host/Client</string>
+    <string name="connection_type_host">Host</string>
+    <string name="connection_type_client">Client</string>
+
+    <string name="about">Über uns</string>
+    <string name="aboutGame">Über Sternenkrieg</string>
+    <string name="dice">Würfel</string>
+    <string name="options">Optionen</string>
+    <string name="play">Spielen</string>
+    <string name="playSound">Sound abspielen</string>
+    <string name="send">Senden</string>
+    <string name="sound">Sound</string>
+    <string name="status">Status</string>
+
+    <string name="enabled">Aktiviert</string>
+    <string name="disabled">Deaktiviert</string>
+
+    <string name="You">Du</string>
+    <string name="Enemy">Gegner</string>
+    <string name="placeShips">Platziere deine Schiffe!</string>
+
+    <string name="bg_desc">Hintergrund</string>
+    <string name="logo_desc">Sternenkrieg Logo</string>
+    <string name="scan_qr_code">QR Code scannen</string>
+    <string name="generate_qr">QR generieren</string>
+    <string name="nicht_verbunden">Nicht verbunden</string>
+    <string name="start_verbinden">Start verbinden</string>
+    <string name="send_message">Nachricht senden</string>
+    <string name="verbindung_abbrechen">Verbindung abbrechen</string>
+    <string name="qr_code">QR Code</string>
+
+    <string name="de">Deutsch</string>
+    <string name="en">Englisch</string>
+</resources>
