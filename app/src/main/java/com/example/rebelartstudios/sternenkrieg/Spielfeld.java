@@ -270,11 +270,24 @@ public class Spielfeld extends AppCompatActivity {
 
                                     draw(map1, gridView1);
 
+                                    for(int i=0; i < map1.length; i++){
+                                        switch (map1[i]) {
+                                            case"g": map1[i]="d";
+                                                break;
+                                            case "h": map1[i]="e";
+                                                break;
+                                            case "i": map1[i]="f";
+                                                break;
+                                            default: break;
+                                        }
+
+                                    }
+
+                                    clickMap();
                                 }
                             });
-
-                                }
-                        }
+                            }
+                    }
                 });
             }
         });
@@ -324,8 +337,6 @@ public class Spielfeld extends AppCompatActivity {
         map2[5] = "c";
 
 
-
-
         Display display = getWindowManager().getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
@@ -344,32 +355,7 @@ public class Spielfeld extends AppCompatActivity {
         gridView2.getLayoutParams().width = height - 350;
         gridView2.setAdapter(new MapLoad(this, map2));
 
-        gridView1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-
-                //Toast.makeText(getApplicationContext(), "Pos: " + position + " Id: ",
-                //      Toast.LENGTH_SHORT).show();
-
-                /* enemy hits one of player's ships */
-                if (map1[position].equals("d") || map1[position].equals("e") || map1[position].equals("f")) {
-                    map1[position] = 3 + "";
-                    vib.vibrate(500);
-                    highScore = highScore - 30;
-
-                    /* opponent misses */
-                } else if (map1[position].equals("0")) {
-                    map1[position] = 5 + "";
-                    highScore = highScore + 10;
-                }
-                draw(map1, gridView1); // update map
-
-
-                if (gameOver("d", map1) && gameOver("e", map1) && gameOver("f", map1)) { //determine whether all ships are already destroyed
-                    alert("2");
-                }
-
-            }
-        });
+       clickMap();
 
         gridView2.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
@@ -444,6 +430,35 @@ public class Spielfeld extends AppCompatActivity {
     }
 
 
+
+    public void clickMap() {
+        gridView1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+
+                //Toast.makeText(getApplicationContext(), "Pos: " + position + " Id: ",
+                //      Toast.LENGTH_SHORT).show();
+
+                /* enemy hits one of player's ships */
+                if (map1[position].equals("d") || map1[position].equals("e") || map1[position].equals("f")) {
+                    map1[position] = 3 + "";
+                    vib.vibrate(500);
+                    highScore = highScore - 30;
+
+                    /* opponent misses */
+                } else if (map1[position].equals("0")) {
+                    map1[position] = 5 + "";
+                    highScore = highScore + 10;
+                }
+                draw(map1, gridView1); // update map
+
+
+                if (gameOver("d", map1) && gameOver("e", map1) && gameOver("f", map1)) { //determine whether all ships are already destroyed
+                    alert("2");
+                }
+
+            }
+        });
+    }
 
     public void draw(String[] array, GridView gridView) {
         gridView.setAdapter(new MapLoad(this, array));
