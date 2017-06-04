@@ -16,9 +16,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.rebelartstudios.sternenkrieg.Map;
+import com.example.rebelartstudios.sternenkrieg.Dice;
 import com.example.rebelartstudios.sternenkrieg.QR_Reader;
 import com.example.rebelartstudios.sternenkrieg.R;
+import com.example.rebelartstudios.sternenkrieg.Spielfeld;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -201,11 +202,12 @@ public class Host extends AppCompatActivity {
                     socket = mAcceptThread.getSocket();
                     writeHost writeHost = new writeHost(socket, os, info);
                     writeHost.start();
-                    Intent intent = new Intent(Host.this, Map.class);
+                    Intent intentD = new Intent(Host.this, Dice.class);
+                    Intent intentS = new Intent(Host.this, Spielfeld.class);
                     ifstart = false;
-                    ExitHost();
-                    intent.putExtra("host","1");
-                    startActivity(intent);
+                    close();
+                    intentD.putExtra("host","1");
+                    startActivity(intentD);
                 }
             });
 
@@ -229,28 +231,34 @@ public class Host extends AppCompatActivity {
         writeHost writeHost = new writeHost(socket,os,info);
         writeHost.start();
 
-        try {
-            mAcceptThread.setRunning(false);
-            mAcceptThread.setSocket(null);
-        } catch (NullPointerException e) {
-            Log.e(tag, "NullPointerException in Client: " + e.toString());
-            displayToast("nicht Erfolg");
-
-
-        }
-        try {
-            mAcceptThread.interrupt();
-            mAcceptThread.closeServers();
-            IPtv.setText("Host beendet");
-            btnSend.setEnabled(false);
-            btnServersEnd.setEnabled(false);
-            btnAccept.setEnabled(true);
-        } catch (NullPointerException e) {
-            Log.e(tag, "NullPointerException in Client: " + e.toString());
-            displayToast("nicht Erfolg");
-        }
+        close();
+        IPtv.setText("Host beendet");
+        btnSend.setEnabled(false);
+        btnServersEnd.setEnabled(false);
+        btnAccept.setEnabled(true);
 
     }
 
+    public void close(){
+
+        try {
+            mAcceptThread.setRunning(false);
+            mAcceptThread.setSocket(null);
+
+        } catch (NullPointerException e) {
+            Log.e(tag, "NullPointerException in Client: " + e.toString());
+            displayToast("nicht Erfolg");
+
+
+        }
+        try {
+            mAcceptThread.closeServers();
+            mAcceptThread.interrupt();
+
+        } catch (NullPointerException e) {
+            Log.e(tag, "NullPointerException in Client: " + e.toString());
+            displayToast("nicht Erfolg");
+        }
+    }
 
 }

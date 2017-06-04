@@ -87,7 +87,9 @@ public class AcceptThread extends Thread {
     }
     public void closeServers(){
         try {
+            socket.close();
             mServerSocket.close();
+            mReceiveThreadHost.close();
         } catch (IOException e) {
             Log.e(tag, "IOException in AcceptThreadHost: " + e.toString());
             Thread.currentThread().interrupt();

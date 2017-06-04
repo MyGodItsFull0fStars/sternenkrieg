@@ -84,5 +84,8 @@ public class ReceiveThreadHost extends Thread {
     public void setRunning(boolean running){
         this.running = running;
     }
+    public void close(){
+        this.running = false;
+    }
 
 }

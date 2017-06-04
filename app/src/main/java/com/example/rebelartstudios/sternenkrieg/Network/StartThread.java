@@ -21,6 +21,7 @@ public class StartThread extends Thread {
     boolean running = true;
     Handler myhandler;
     String tag = "Client";
+    boolean tryconnect = true;
 
     public StartThread(Socket socket, String ip, ReceiveThreadClient rt, Handler myhandler){
         this.socket = socket;
@@ -32,7 +33,7 @@ public class StartThread extends Thread {
 
     public void run() {
 
-        boolean tryconnect = true;
+
         while (tryconnect) {
             try {
                 socket = new Socket(ip, 54321);
@@ -61,6 +62,19 @@ public class StartThread extends Thread {
     }
     public ReceiveThreadClient getRt(){
         return this.rt;
+    }
+    public void closeSocket(){
+        try {
+            this.socket.close();
+            this.socket = null;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+    public void setTryconnect(boolean tryconnect){
+        this.tryconnect = tryconnect;
+        rt.setRunning(false);
     }
 
 }

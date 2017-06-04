@@ -83,6 +83,7 @@ public class Spielfeld extends AppCompatActivity {
     AcceptThread mAcceptThread;
     StartThread startThread;
     OutputStream os = null;
+    boolean Net = false;
     /*******Networking*****/
 
     @Override
@@ -295,32 +296,39 @@ public class Spielfeld extends AppCompatActivity {
 
             }
         });
+
+        /****Networking****/
+
         send  = (Button)findViewById(R.id.player1_send);
         player2_say = (TextView)findViewById(R.id.player2_say);
         player1_say = (EditText )findViewById(R.id.player1_say);
-        /****Networking****/
-        // if the player is host.
-        Intent intent = getIntent();
-        if (intent.getStringExtra("host").equals("1")){
-            Phost = true;
-        }
-        //if the player is client, then needs the ip to build a new socket.
-        if (Phost = false){
-            this.ip = intent.getStringExtra("ip");
-        }
-        myhandler = new Myhandler();
-        networkbuild();
-        send.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String info = player1_say.getText().toString();
-                if (Phost){ //If this is host, so use writeHost to sand message.
-                    messageSend(info,Phost);
-                }else{// Client.
-                    messageSend(info,!Phost);
-                }
+
+        if (Net){
+            // if the player is host.
+            Intent intent = getIntent();
+            if (intent.getStringExtra("host").equals("1")){
+                Phost = true;
             }
-        });
+            //if the player is client, then needs the ip to build a new socket.
+            if (Phost = false){
+                this.ip = intent.getStringExtra("ip");
+            }
+            myhandler = new Myhandler();
+            networkbuild();
+            send.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String info = player1_say.getText().toString();
+                    if (Phost){ //If this is host, so use writeHost to sand message.
+                        messageSend(info,Phost);
+                    }else{// Client.
+                        messageSend(info,!Phost);
+                    }
+                }
+            });
+        }else {
+            displayToast("Kein Internet verbinden");
+        }
         /****Networking***/
 
     }

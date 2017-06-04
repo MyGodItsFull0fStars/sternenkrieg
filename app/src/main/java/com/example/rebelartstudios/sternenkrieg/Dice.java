@@ -9,12 +9,21 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.rebelartstudios.sternenkrieg.Network.AcceptThread;
+import com.example.rebelartstudios.sternenkrieg.Network.ReceiveThreadClient;
+import com.example.rebelartstudios.sternenkrieg.Network.ReceiveThreadHost;
+import com.example.rebelartstudios.sternenkrieg.Network.StartThread;
+
+import java.io.OutputStream;
+import java.net.ServerSocket;
+import java.net.Socket;
 import java.util.Random;
 
 public class Dice extends AppCompatActivity {
@@ -202,4 +211,17 @@ public class Dice extends AppCompatActivity {
 
     }
 
+    Socket socket;
+    ServerSocket mServerSocket = null;
+    Handler myhandler;
+    boolean Phost = false; // if this is host then Phost is ture; if not is false.
+    String message;
+    ReceiveThreadHost receiveThreadHost;
+    String ip;
+    ReceiveThreadClient receiveThreadClient;
+    String tag = "Spiefeld";
+    AcceptThread mAcceptThread;
+    StartThread startThread;
+    OutputStream os = null;
+    boolean Net = false;
 }

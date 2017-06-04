@@ -153,7 +153,7 @@ public class Client1 extends AppCompatActivity implements View.OnClickListener {
                     } else if (str.equals("//Starten")) {
                         Intent intent = new Intent(Client1.this, Map.class);
                         ifstart = false;
-                        exit();
+                        close();
                         intent.putExtra("ip",ip);
                         startActivity(intent);
 
@@ -206,10 +206,17 @@ public class Client1 extends AppCompatActivity implements View.OnClickListener {
 
 
         setButtonOnStartState(true);
+        close();
+    }
+
+    public void close(){
         try {
             socket = st.getSocket();
             socket.close();
             socket = null;
+            st.setTryconnect(false);
+
+            st.interrupt();
         } catch (NullPointerException e) {
             Log.e(tag, "NullPointerException in Client: " + e.toString());
             displayToast("nicht Erfolg");
