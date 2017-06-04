@@ -69,7 +69,7 @@ public class MapLoad extends BaseAdapter{
                 imageView.setBackgroundColor(Color.WHITE); //no action
             } else if (mobile.equals("1")) {
                 imageView.setBackgroundColor(Color.MAGENTA); //miss for player
-            } else if (mobile.equals("2")) {
+            } else if (mobile.equals("2") || mobile.equals("d") || mobile.equals("e") || mobile.equals("f")) {
                 imageView.setBackgroundColor(Color.RED); //your own ships
             }else if(mobile.equals("3")) {
                 imageView.setBackgroundColor(Color.YELLOW); //hit for enemy

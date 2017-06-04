@@ -41,7 +41,9 @@ public class Map extends AppCompatActivity {
     int[] old_middle = new int[2];
     int[] old_big = new int[3];
     boolean count0, count1, count2 = false;
-    String setPlayerPositionTWO = "2";
+    String setPlayerPositionD = "d";
+    String setPlayerPositionE = "e";
+    String setPlayerPositionF = "f";
     String setPlayerPositionZERO = "0";
 
 
@@ -114,11 +116,11 @@ public class Map extends AppCompatActivity {
 
                         //kleines Schiff
                         if (which_ship == 0) {
-                            if (!playerField[pos].equals(setPlayerPositionTWO)) {
+                            if (!playerField[pos].equals(setPlayerPositionE) && !playerField[pos].equals(setPlayerPositionF)) {
                                 //falls schon mal gesetzt wird die letzte Position gelöscht
                                 delete(old_small);
                                 //neue Position gesetzt
-                                playerField[pos] = setPlayerPositionTWO;
+                                playerField[pos] = setPlayerPositionD;
                                 old_small[0] = pos;
 
 
@@ -126,24 +128,25 @@ public class Map extends AppCompatActivity {
                             count0 = true;
 
                         }
+
                         //mittleres Schiff
                         if (which_ship == 1) {
                             if (degree == 0) {
-                                //check_position schaut dass das schiff nicht auserhalb der playerField oder vom rechten ende der playerField auf die linke seite gesetzt wird
-                                if (check_position(pos, which_ship) && !playerField[pos].equals(setPlayerPositionTWO) && !playerField[pos - 1].equals(setPlayerPositionTWO)) {
+                                //check_position schaut dass das schiff nicht außerhalb der playerField oder vom rechten ende der playerField auf die linke seite gesetzt wird
+                                if (check_position(pos, which_ship, degree)) {
                                     delete(old_middle);
                                     // pos-1 weil wenn man das Bild bewegt ist der Zeiger genau mittig vom Bild
-                                    playerField[pos - 1] = setPlayerPositionTWO;
+                                    playerField[pos - 1] = setPlayerPositionE;
                                     old_middle[0] = pos - 1;
-                                    playerField[pos] = setPlayerPositionTWO;
+                                    playerField[pos] = setPlayerPositionE;
                                     old_middle[1] = pos;
                                 }
                             } else if (degree == 1) {
-                                if (check_position(pos, which_ship) && !playerField[pos].equals(setPlayerPositionTWO) && !playerField[pos - 8].equals(setPlayerPositionTWO)) {
+                                if (check_position(pos, which_ship, degree)) {
                                     delete(old_middle);
-                                    playerField[pos - 8] = setPlayerPositionTWO;
+                                    playerField[pos - 8] = setPlayerPositionE;
                                     old_middle[0] = pos - 8;
-                                    playerField[pos] = setPlayerPositionTWO;
+                                    playerField[pos] = setPlayerPositionE;
                                     old_middle[1] = pos;
                                 }
 
@@ -154,24 +157,24 @@ public class Map extends AppCompatActivity {
                         //großes Schiff
                         if (which_ship == 2) {
                             if (degree == 0) {
-                                if (check_position(pos, which_ship) && !playerField[pos].equals(setPlayerPositionTWO) && !playerField[pos + 1].equals(setPlayerPositionTWO) && !playerField[pos + 2].equals(setPlayerPositionTWO)) {
+                                if (check_position(pos, which_ship, degree) ) {
                                     delete(old_big);
                                     // pos-1 weil wenn man das Bild bewegt ist der Zeiger genau mittig vom Bild
-                                    playerField[pos - 1] = setPlayerPositionTWO;
+                                    playerField[pos - 1] = setPlayerPositionF;
                                     old_big[0] = pos - 1;
-                                    playerField[pos] = setPlayerPositionTWO;
+                                    playerField[pos] = setPlayerPositionF;
                                     old_big[1] = pos;
-                                    playerField[pos + 1] = setPlayerPositionTWO;
+                                    playerField[pos + 1] = setPlayerPositionF;
                                     old_big[2] = pos + 1;
                                 }
                             } else if (degree == 1) {
-                                if (check_position(pos, which_ship) && !playerField[pos - 8].equals(setPlayerPositionTWO) && !playerField[pos].equals(setPlayerPositionTWO) && !playerField[pos + 8].equals(setPlayerPositionTWO)) {
+                                if (check_position(pos, which_ship, degree)) {
                                     delete(old_big);
-                                    playerField[pos - 8] = setPlayerPositionTWO;
+                                    playerField[pos - 8] = setPlayerPositionF;
                                     old_big[0] = pos - 8;
-                                    playerField[pos] = setPlayerPositionTWO;
+                                    playerField[pos] = setPlayerPositionF;
                                     old_big[1] = pos;
-                                    playerField[pos + 8] = setPlayerPositionTWO;
+                                    playerField[pos + 8] = setPlayerPositionF;
                                     old_big[2] = pos + 8;
                                 }
 
@@ -255,8 +258,9 @@ public class Map extends AppCompatActivity {
 
 
     }
+
     //schaut das das Schiff nicht über die Map hinaus gesetzt wird
-    public boolean check_position(int pos, int size) {
+    public boolean check_position(int pos, int size, int deg) {
         ArrayList<Integer> failures_right = new ArrayList<Integer>(Arrays.asList(7, 15, 23, 31, 39, 47, 55, 63));
         ArrayList<Integer> failures_left = new ArrayList<Integer>(Arrays.asList(8, 16, 24, 32, 40, 48, 56));
 
@@ -285,6 +289,32 @@ public class Map extends AppCompatActivity {
                 }
             }
 
+        }
+
+        if(which_ship==2) {
+            if(deg==0){
+                if (playerField[pos - 1].equals(setPlayerPositionD) || playerField[pos].equals(setPlayerPositionD) || playerField[pos + 1].equals(setPlayerPositionD)
+                        || playerField[pos - 1].equals(setPlayerPositionE) || playerField[pos].equals(setPlayerPositionE) || playerField[pos + 1].equals(setPlayerPositionE)) {
+                    return false;
+                }
+            } else {
+                if (playerField[pos - 8].equals(setPlayerPositionD) || playerField[pos].equals(setPlayerPositionD) || playerField[pos + 8].equals(setPlayerPositionD)
+                        || playerField[pos - 8].equals(setPlayerPositionE) || playerField[pos].equals(setPlayerPositionE) || playerField[pos + 8].equals(setPlayerPositionE)) {
+                    return false;
+                }
+            }
+        } else if(which_ship==1) {
+            if(deg==0){
+                if (playerField[pos - 1].equals(setPlayerPositionD) || playerField[pos].equals(setPlayerPositionD)
+                        || playerField[pos - 1].equals(setPlayerPositionF) || playerField[pos].equals(setPlayerPositionF)) {
+                    return false;
+                }
+            }else {
+                if (playerField[pos - 8].equals(setPlayerPositionD) || playerField[pos].equals(setPlayerPositionD)
+                        || playerField[pos - 8].equals(setPlayerPositionF) || playerField[pos].equals(setPlayerPositionF)) {
+                    return false;
+                }
+            }
         }
         return true;
     }

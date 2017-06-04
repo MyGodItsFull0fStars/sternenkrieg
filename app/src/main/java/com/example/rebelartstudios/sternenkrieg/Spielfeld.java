@@ -39,6 +39,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.LinkedList;
 import java.util.Random;
 
 /**
@@ -171,6 +172,61 @@ public class Spielfeld extends AppCompatActivity {
             }
         });
 
+
+        options1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                options1.setVisibility(View.INVISIBLE);
+                options2.setVisibility(View.INVISIBLE);
+                options3.setVisibility(View.INVISIBLE);
+                options4.setVisibility(View.INVISIBLE);
+
+                check = false;
+                LinkedList<Integer> countD = new LinkedList<>();
+                LinkedList<Integer> countE = new LinkedList<>();
+                LinkedList<Integer> countF = new LinkedList<>();
+
+                for(int i = 0; i < map1.length; i++) {
+                    switch (map1[i]) {
+                        case "d": countD.add(i);
+                            break;
+                        case "e": countE.add(i);
+                            break;
+                        case "f": countF.add(i);
+                            break;
+                        default:
+                            break;
+                    }
+
+                    if(countD.size()==1) {
+                        for(int j=0; j < countD.size(); j++) {
+                            map1[countD.get(j)] = 4 + "";
+                        }
+                        countD.clear();
+
+                    }
+
+                    if(countE.size()==2) {
+                        for(int j=0; j < countE.size(); j++) {
+                            map1[countE.get(j)] = 4 + "";
+                        }
+                        countE.clear();
+                    }
+
+                    if(countF.size()==3) {
+                        for(int j=0; j < countF.size(); j++) {
+                            map1[countF.get(j)] = 4 + "";
+                        }
+                        countF.clear();
+                    }
+                }
+
+                draw(map1, gridView1);
+            }
+        });
+
         options2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -216,6 +272,8 @@ public class Spielfeld extends AppCompatActivity {
         map2[5] = "c";
 
 
+
+
         Display display = getWindowManager().getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
@@ -241,20 +299,20 @@ public class Spielfeld extends AppCompatActivity {
                 //      Toast.LENGTH_SHORT).show();
 
                 /* enemy hits one of player's ships */
-                if (map1[position].equals("2")) {
+                if (map1[position].equals("d") || map1[position].equals("e") || map1[position].equals("f")) {
                     map1[position] = 3 + "";
                     vib.vibrate(500);
                     highScore = highScore - 30;
 
                     /* opponent misses */
-                } else if (map2[position].equals("0")) {
+                } else if (map1[position].equals("0")) {
                     map1[position] = 5 + "";
                     highScore = highScore + 10;
                 }
                 draw(map1, gridView1); // update map
 
 
-                if (gameOver("2", map1)) { //determine whether all ships are already destroyed
+                if (gameOver("d", map1) && gameOver("e", map1) && gameOver("f", map1)) { //determine whether all ships are already destroyed
                     alert("2");
                 }
 
