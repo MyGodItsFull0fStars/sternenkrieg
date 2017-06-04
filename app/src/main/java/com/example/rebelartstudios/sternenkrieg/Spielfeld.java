@@ -231,61 +231,20 @@ public class Spielfeld extends AppCompatActivity {
                 gridView1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
 
-                            final int posi=position;
+                           // final int posi=position;
                             final String posis = map1[position];
 
-                            for(int i=0; i < map1.length; i++){
-                                if(map1[i].equals(posis)){
+                        if(posis.equals("g") || posis.equals("h") || posis.equals("i")) {
+                            for(int i=0; i < map1.length; i++) {
+                                if (map1[i].equals(posis)) {
 
-                                    map1[i]=4+"";
+                                    map1[i] = 4 + "";
                                 }
+                                draw(map1, gridView1);
+                            }
 
+                            relocate(posis);
 
-                            draw(map1, gridView1);
-                            gridView1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                                public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-
-                                    for(int i=0; i < map1.length; i++){
-                                        if(map1[i].equals("4")){
-                                            map1[i]=0+"";
-                                        }
-                                    }
-
-                                    switch(posis) {
-                                        case "g":
-                                            map1[position]="d";
-                                            break;
-                                        case "h":
-                                            map1[position]="e";
-                                            map1[position+1]="e";
-                                            break;
-                                        case "i":
-                                            map1[position]="f";
-                                            map1[position+1]="f";
-                                            map1[position-1]="f";
-                                            break;
-                                        default:
-                                            break;
-                                    }
-
-                                    draw(map1, gridView1);
-
-                                    for(int i=0; i < map1.length; i++){
-                                        switch (map1[i]) {
-                                            case"g": map1[i]="d";
-                                                break;
-                                            case "h": map1[i]="e";
-                                                break;
-                                            case "i": map1[i]="f";
-                                                break;
-                                            default: break;
-                                        }
-
-                                    }
-
-                                    clickMap();
-                                }
-                            });
                             }
                     }
                 });
@@ -458,6 +417,97 @@ public class Spielfeld extends AppCompatActivity {
 
             }
         });
+    }
+
+    public void relocate(final String posis) {
+        gridView1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+
+                for(int i=0; i < map1.length; i++){
+                    if(map1[i].equals("4")){
+                        map1[i]=0+"";
+                    }
+                }
+                boolean shipPlaced = false;
+
+                switch(posis) {
+                    case "g":
+                        if( relocateShip(position, posis)) {
+                            map1[position] = "d";
+                            shipPlaced = true;
+
+                        }
+                        break;
+                    case "h":
+                        if( relocateShip(position, posis)) {
+                            map1[position] = "e";
+                            map1[position + 1] = "e";
+                            shipPlaced=true;
+                        }
+                        break;
+                    case "i":
+                        if( relocateShip(position, posis)) {
+                            map1[position] = "f";
+                            map1[position + 1] = "f";
+                            map1[position - 1] = "f";
+                            shipPlaced=true;
+                        }
+                        break;
+                    default:
+                        break;
+                }
+
+                if(shipPlaced) {
+
+                    for(int i=0; i < map1.length; i++){
+                        switch (map1[i]) {
+                            case"g": map1[i]="d";
+                                break;
+                            case "h": map1[i]="e";
+                                break;
+                            case "i": map1[i]="f";
+                                break;
+                            default: break;
+                        }
+
+                    }
+                    draw(map1, gridView1);
+
+
+                    clickMap();
+                }
+            }
+        });
+    }
+
+    public boolean relocateShip(int position, String posis) {
+
+        ArrayList<Integer> failures_right_big = new ArrayList<Integer>(Arrays.asList(7, 15, 23, 31, 39, 47, 55, 63));
+
+
+        ArrayList<Integer> failures_right = new ArrayList<Integer>(Arrays.asList(8, 16, 24, 32, 40, 48, 56, 64));
+        ArrayList<Integer> failures_left = new ArrayList<Integer>(Arrays.asList(8, 16, 24, 32, 40, 48, 56));
+
+        switch(posis) {
+            case "g":
+                return true;
+            case "h":
+               if(failures_left.contains(position+1) || failures_right.contains(position+1)) {
+               // if(position+1==64||position+1==56){
+                    return false;
+                } else {
+                    return true;
+                }
+            case "i":
+                if(failures_right_big.contains(position - 1) || failures_right_big.contains(position) || failures_left.contains(position) || position < 1 || position > 62) {
+                    return false;
+                } else {
+                    return true;
+                }
+            default:
+                return true;
+        }
+
     }
 
     public void draw(String[] array, GridView gridView) {
