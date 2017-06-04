@@ -75,8 +75,10 @@ public class MapLoad extends BaseAdapter{
                 imageView.setBackgroundColor(Color.YELLOW); //hit for enemy
             }else if(mobile.equals("4")) {
                 imageView.setBackgroundColor(Color.GREEN); //hit for player
-            }else if(mobile.equals("5"))
+            }else if(mobile.equals("5")) {
                 imageView.setBackgroundColor(Color.BLUE); //miss for enemy
+            }else if(mobile.equals("g") || mobile.equals("h") || mobile.equals("i"))
+            imageView.setBackgroundColor(Color.CYAN); //hit for player
 
 
         } else {

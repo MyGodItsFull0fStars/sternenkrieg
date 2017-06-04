@@ -39,6 +39,8 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Random;
 
@@ -202,7 +204,7 @@ public class Spielfeld extends AppCompatActivity {
 
                     if(countD.size()==1) {
                         for(int j=0; j < countD.size(); j++) {
-                            map1[countD.get(j)] = 4 + "";
+                            map1[countD.get(j)] = "g";
                         }
                         countD.clear();
 
@@ -210,20 +212,70 @@ public class Spielfeld extends AppCompatActivity {
 
                     if(countE.size()==2) {
                         for(int j=0; j < countE.size(); j++) {
-                            map1[countE.get(j)] = 4 + "";
+                            map1[countE.get(j)] = "h";
                         }
                         countE.clear();
                     }
 
                     if(countF.size()==3) {
                         for(int j=0; j < countF.size(); j++) {
-                            map1[countF.get(j)] = 4 + "";
+                            map1[countF.get(j)] = "i";
                         }
                         countF.clear();
                     }
                 }
 
                 draw(map1, gridView1);
+
+
+                gridView1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+
+                            final int posi=position;
+                            final String posis = map1[position];
+
+                            for(int i=0; i < map1.length; i++){
+                                if(map1[i].equals(posis)){
+
+                                    map1[i]=4+"";
+                                }
+
+
+                            draw(map1, gridView1);
+                            gridView1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+
+                                    for(int i=0; i < map1.length; i++){
+                                        if(map1[i].equals("4")){
+                                            map1[i]=0+"";
+                                        }
+                                    }
+
+                                    switch(posis) {
+                                        case "g":
+                                            map1[position]="d";
+                                            break;
+                                        case "h":
+                                            map1[position]="e";
+                                            map1[position+1]="e";
+                                            break;
+                                        case "i":
+                                            map1[position]="f";
+                                            map1[position+1]="f";
+                                            map1[position-1]="f";
+                                            break;
+                                        default:
+                                            break;
+                                    }
+
+                                    draw(map1, gridView1);
+
+                                }
+                            });
+
+                                }
+                        }
+                });
             }
         });
 
@@ -390,6 +442,8 @@ public class Spielfeld extends AppCompatActivity {
         /****Networking***/
 
     }
+
+
 
     public void draw(String[] array, GridView gridView) {
         gridView.setAdapter(new MapLoad(this, array));
