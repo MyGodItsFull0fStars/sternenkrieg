@@ -481,6 +481,7 @@ public class Spielfeld extends AppCompatActivity {
     }
 
     public boolean relocateShip(int position, String posis) {
+        //TODO: check if ship can actually be placed here, e.g. if there is not another ship and if this position hasn't been targeted by the enemy before
 
         ArrayList<Integer> failures_right_big = new ArrayList<Integer>(Arrays.asList(7, 15, 23, 31, 39, 47, 55, 63));
 
