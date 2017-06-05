@@ -16,28 +16,38 @@ public class writeHost extends Thread {
     OutputStream os = null;
     String info;
     String tag = "host";
+    boolean t;
 
-    public writeHost(Socket socket, OutputStream os, String info){
+    public writeHost(Socket socket, OutputStream os, String info,boolean t){
         this.socket = socket;
         this.os = os;
         this. info = info;
+        this.t = t;
     }
 
     @Override
     public void run() {
+
+
         try {
+
+            if (t){
+                sleep(1000);
+            }
 
             os = socket.getOutputStream();//kriege socket outputstream
             String msg = info + "\n";
-//                    System.out.println(msg);
+            System.out.println("WriteHost: "+msg);
             os.write(msg.getBytes("utf-8"));
 
             os.flush();
 
         } catch (IOException e) {
-            Log.e(tag, "IOException in AcceptThreadHost: " + e.toString());
+            Log.e(tag, "IOException in writeHost: " + e.toString());
         } catch (NullPointerException e) {
-            Log.e(tag, "NUllException in AcceptThreadHost: " + e.toString());
+            Log.e(tag, "NUllException in writeHost: " + e.toString());
+        } catch (InterruptedException e) {
+            Log.e(tag, "InterruptedException in writeHost: " + e.toString());
         }
     }
 

@@ -22,12 +22,14 @@ public class StartThread extends Thread {
     Handler myhandler;
     String tag = "Client";
     boolean tryconnect = true;
+    int port;
 
-    public StartThread(Socket socket, String ip, ReceiveThreadClient rt, Handler myhandler){
+    public StartThread(Socket socket, String ip, ReceiveThreadClient rt, Handler myhandler,int port){
         this.socket = socket;
         this.ip = ip;
         this.rt = rt;
         this.myhandler = myhandler;
+        this.port = port;
 
     }
 
@@ -36,7 +38,10 @@ public class StartThread extends Thread {
 
         while (tryconnect) {
             try {
-                socket = new Socket(ip, 54321);
+
+                socket = new Socket(ip, port);
+                System.out.println(socket);
+                System.out.println("Connect succsess");
                 tryconnect = false;
                 rt = new ReceiveThreadClient(socket, running, myhandler);
                 rt.start();

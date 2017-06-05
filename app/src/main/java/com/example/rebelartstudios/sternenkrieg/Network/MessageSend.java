@@ -16,7 +16,7 @@ public class MessageSend {
     public void sendMessage(){
         String info = "//Starten";
         socket = mAcceptThread.getSocket();
-        writeHost writeHost = new writeHost(socket,os,info);
+        writeHost writeHost = new writeHost(socket,os,info,false);
         writeHost.start();
 
     }

@@ -35,9 +35,9 @@ public class Netz {
     public void networkbuild(){
         boolean running = true;
         if (Phost){
-            mAcceptThread = new AcceptThread(running,mServerSocket,socket,myhandler,receiveThreadHost);
+            mAcceptThread = new AcceptThread(running,mServerSocket,socket,myhandler,receiveThreadHost,66666);
         }else {
-            startThread = new StartThread(socket,ip,receiveThreadClient,myhandler);
+            startThread = new StartThread(socket,ip,receiveThreadClient,myhandler,66666);
         }
 
     }
@@ -46,7 +46,7 @@ public class Netz {
             socket = mAcceptThread.getSocket();
 
 
-            writeHost wh = new writeHost(socket, os, message);
+            writeHost wh = new writeHost(socket, os, message,false);
 
             wh.start();
 
@@ -54,7 +54,7 @@ public class Netz {
         }else{
 
             socket = startThread.getSocket();
-            Thread wirte = new writeClient(true, socket, message);
+            Thread wirte = new writeClient(true, socket, message,false);
 
             wirte.start();
 
