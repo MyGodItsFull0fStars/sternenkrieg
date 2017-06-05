@@ -18,12 +18,14 @@ public class writeClient extends Thread {
     StartThread st;
     String tag = "Client";
     String info;
+    boolean t;
 
-    public writeClient(boolean Exit, Socket socket,  String info) {
+    public writeClient(boolean Exit, Socket socket,  String info, boolean t) {
         this.Exit = Exit;
         this.socket = socket;
 
         this.info = info;
+        this.t = t;
 
     }
 
@@ -31,10 +33,14 @@ public class writeClient extends Thread {
         OutputStream os = null;
         System.out.printf(info);
         try {
+
+            if (t){
+                sleep(1000);
+            }
 //            socket = st.getSocket();
             os = socket.getOutputStream();
             if (Exit) {
-                System.out.println(info);
+                System.out.println("wirte Client: "+info);
                 os.write((info + "\n").getBytes("utf-8"));
 
             } else {
@@ -47,6 +53,8 @@ public class writeClient extends Thread {
             Log.e(tag, "NullPointerException in WriteThread: " + e.toString());
 
 
+        } catch (InterruptedException e) {
+            Log.e(tag, "InterruptedException in WriteThread: " + e.toString());
         }
 
     }

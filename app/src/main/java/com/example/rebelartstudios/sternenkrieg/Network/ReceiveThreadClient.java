@@ -63,7 +63,7 @@ public class ReceiveThreadClient extends Thread {
             msg.obj = str;
             myhandler.sendMessage(msg);
             try {
-                sleep(400);
+                sleep(500);
             } catch (InterruptedException e) {
                 Log.e(tag, "InterruptedException in ReceiveThreadHost: " + e.toString());
                 Thread.currentThread().interrupt();

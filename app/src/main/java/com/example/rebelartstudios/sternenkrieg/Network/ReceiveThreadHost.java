@@ -23,8 +23,10 @@ public class ReceiveThreadHost extends Thread {
     private boolean running;
     private Handler mHandler;
     String tag = "Host";
+    Socket sk;
 
     public ReceiveThreadHost(Socket sk, boolean running, Handler mHandler){
+        this.sk =sk;
         this.running = running;
         this.mHandler = mHandler;
 
@@ -38,9 +40,10 @@ public class ReceiveThreadHost extends Thread {
     @Override
     public void run() {
 
+        System.out.println("ReceiveTH running = "+ running);
         while (running) {
             try {
-                sleep(5);
+                sleep(500);
             } catch (InterruptedException e) {
                 Log.e(tag, "InterruptedException in AcceptThreadHost: " + e.toString());
                 Thread.currentThread().interrupt();
@@ -77,6 +80,7 @@ public class ReceiveThreadHost extends Thread {
             msg.obj = read;
             mHandler.sendMessage(msg);
 
+
         }
 
     }
@@ -86,6 +90,9 @@ public class ReceiveThreadHost extends Thread {
     }
     public void close(){
         this.running = false;
+    }
+    public Socket getSk(){
+        return sk;
     }
 
 }

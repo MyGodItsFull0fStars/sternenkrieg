@@ -27,6 +27,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 public class Host extends AppCompatActivity {
+
     private TextView tv = null;
     private EditText et = null;
     private TextView IPtv = null;
@@ -35,10 +36,10 @@ public class Host extends AppCompatActivity {
     private Button btnQR = null;
     private Socket socket = new Socket();
     private ServerSocket mServerSocket = null;
-    boolean running = false;
+    boolean running = true;
     private AcceptThread mAcceptThread;
     private ReceiveThreadHost mReceiveThreadHost;
-    private Handler mHandler = null;
+    public Handler mHandler = null;
     private Button btnServersEnd = null;
     private TextView ip;
     String ipS;
@@ -72,6 +73,8 @@ public class Host extends AppCompatActivity {
         initializeOnClickListeners();
 
 
+
+
     }
 
     private String intToIp(int i) {
@@ -85,6 +88,10 @@ public class Host extends AppCompatActivity {
 
     private void displayToast(String s) {
         Toast.makeText(this, s, Toast.LENGTH_SHORT).show();
+    }
+
+    public Handler getmHandler(){
+        return mHandler;
     }
 
     class MyHandler extends Handler {
@@ -154,9 +161,13 @@ public class Host extends AppCompatActivity {
             btnAccept.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+
+//                    Intent startIntent = new Intent(Host.this, ServersSocket.class);
+//
+//                    startService(startIntent);
                     running = true;
 
-                    mAcceptThread = new AcceptThread(running, mServerSocket, socket, mHandler, mReceiveThreadHost);
+                    mAcceptThread = new AcceptThread(running, mServerSocket, socket, mHandler, mReceiveThreadHost,54321);
 
 
                     mAcceptThread.start();
@@ -177,7 +188,7 @@ public class Host extends AppCompatActivity {
                     socket = mAcceptThread.getSocket();
 
                     String info = et.getText().toString();
-                    writeHost wh = new writeHost(socket, os, info);
+                    writeHost wh = new writeHost(socket, os, info,false);
 
                     wh.start();
 
@@ -200,13 +211,17 @@ public class Host extends AppCompatActivity {
                 public void onClick(View v) {
                     String info = "//Starten";
                     socket = mAcceptThread.getSocket();
-                    writeHost writeHost = new writeHost(socket, os, info);
+                    writeHost writeHost = new writeHost(socket, os, info,false);
                     writeHost.start();
                     Intent intentD = new Intent(Host.this, Dice.class);
                     Intent intentS = new Intent(Host.this, Spielfeld.class);
                     ifstart = false;
                     close();
                     intentD.putExtra("host","1");
+                    intentD.putExtra("Net" ,"t");
+                    intentS.putExtra("host","1");
+                    intentS.putExtra("Net" ,"t");
+                    intentD.putExtra("mode", 1);
                     startActivity(intentD);
                 }
             });
@@ -228,7 +243,7 @@ public class Host extends AppCompatActivity {
 
         String info = "//Exit";
         socket = mAcceptThread.getSocket();
-        writeHost writeHost = new writeHost(socket,os,info);
+        writeHost writeHost = new writeHost(socket,os,info,false);
         writeHost.start();
 
         close();
@@ -242,7 +257,9 @@ public class Host extends AppCompatActivity {
     public void close(){
 
         try {
+
             mAcceptThread.setRunning(false);
+
             mAcceptThread.setSocket(null);
 
         } catch (NullPointerException e) {
@@ -252,12 +269,17 @@ public class Host extends AppCompatActivity {
 
         }
         try {
-            mAcceptThread.closeServers();
+
+            mAcceptThread.getmReceiveThreadHost().close();
+            mAcceptThread.getmServerSocket().close();
+            mAcceptThread.getSocket().close();
             mAcceptThread.interrupt();
 
         } catch (NullPointerException e) {
             Log.e(tag, "NullPointerException in Client: " + e.toString());
-            displayToast("nicht Erfolg");
+
+        } catch (IOException e) {
+            Log.e(tag, "IOPointerException in Client: " + e.toString());
         }
     }
 

@@ -71,10 +71,11 @@ public class Spielfeld extends AppCompatActivity {
     /******Networking******/
     // this Views can be also a chat system. That mean player can talk with other player with it.
     // But now we can use it to check if the Socket program right.
+    // what we do next: set Start Button and make connect.
     Button send;
     TextView player2_say;
     EditText player1_say;
-    Socket socket;
+    Socket socket = new Socket();
     ServerSocket mServerSocket = null;
     Handler myhandler;
     boolean Phost = false; // if this is host then Phost is ture; if not is false.
@@ -87,6 +88,8 @@ public class Spielfeld extends AppCompatActivity {
     StartThread startThread;
     OutputStream os = null;
     boolean Net = false;
+    boolean sended;
+    boolean came;
     /*******Networking*****/
 
     @Override
@@ -358,14 +361,28 @@ public class Spielfeld extends AppCompatActivity {
         player2_say = (TextView)findViewById(R.id.player2_say);
         player1_say = (EditText )findViewById(R.id.player1_say);
 
+        Intent intent = getIntent();
+
+        try{
+            if (intent.getStringExtra("Net").equals("t")){
+                Net  = true;
+            }
+        }catch (NullPointerException e){
+            Log.e(tag, "NullPointerException in Dice: " + e.toString());
+        }
+
+
         if (Net){
             // if the player is host.
-            Intent intent = getIntent();
-            if (intent.getStringExtra("host").equals("1")){
-                Phost = true;
+            try{
+                if (intent.getStringExtra("host").equals("1")){
+                    Phost = true;
+                }
+            }catch (NullPointerException e){
+                Log.e(tag, "NullPointerException in Dice: " + e.toString());
             }
             //if the player is client, then needs the ip to build a new socket.
-            if (Phost = false){
+            if (Phost == false){
                 this.ip = intent.getStringExtra("ip");
             }
             myhandler = new Myhandler();
@@ -592,9 +609,11 @@ public class Spielfeld extends AppCompatActivity {
     public void networkbuild(){
         boolean running = true;
         if (Phost){
-            mAcceptThread = new AcceptThread(running,mServerSocket,socket,myhandler,receiveThreadHost);
+            mAcceptThread = new AcceptThread(running,mServerSocket,socket,myhandler,receiveThreadHost,112233);
+            mAcceptThread.start();
         }else {
-            startThread = new StartThread(socket,ip,receiveThreadClient,myhandler);
+            startThread = new StartThread(socket,ip,receiveThreadClient,myhandler,112233);
+            startThread.start();
         }
 
     }
@@ -614,15 +633,8 @@ public class Spielfeld extends AppCompatActivity {
                     displayToast("Erfolg");
                     break;
                 case 2:
-                    displayToast("Client getrennt");
+                    displayToast("!");
 
-                    player2_say.setText(null);//
-                    try {
-                        socket.close();
-                        mServerSocket.close();
-                    } catch (IOException e) {
-                        Log.e(tag, "IOException in ReceiveThreadHost: " + e.toString());
-                    }
 
                     break;
             }
@@ -639,7 +651,7 @@ public class Spielfeld extends AppCompatActivity {
             socket = mAcceptThread.getSocket();
 
 
-            writeHost wh = new writeHost(socket, os, message);
+            writeHost wh = new writeHost(socket, os, message,true);
 
             wh.start();
 
@@ -647,10 +659,58 @@ public class Spielfeld extends AppCompatActivity {
         }else{
 
             socket = startThread.getSocket();
-            Thread wirte = new writeClient(true, socket, message);
+            Thread wirte = new writeClient(true, socket, message,true);
 
             wirte.start();
             player1_say.setText("");
+        }
+    }
+    public void close(){
+
+
+
+        if (Phost){
+
+            try {
+
+                mAcceptThread.setRunning(false);
+
+                mAcceptThread.setSocket(null);
+
+            } catch (NullPointerException e) {
+                Log.e(tag, "NullPointerException in Client: " + e.toString());
+                displayToast("nicht Erfolg");
+
+
+            }
+            try {
+
+                mAcceptThread.getmReceiveThreadHost().close();
+                mAcceptThread.getmServerSocket().close();
+                mAcceptThread.getSocket().close();
+                mAcceptThread.interrupt();
+
+            } catch (NullPointerException e) {
+                Log.e(tag, "NullPointerException in Client: " + e.toString());
+
+            } catch (IOException e) {
+                Log.e(tag, "IOPointerException in Client: " + e.toString());
+            }
+        }else{
+            try {
+                startThread.setRunning(false);
+                socket = startThread.getSocket();
+                socket.close();
+                socket = null;
+                startThread.setTryconnect(false);
+
+                startThread.interrupt();
+            } catch (NullPointerException e) {
+                Log.e(tag, "NullPointerException in Client: " + e.toString());
+                displayToast("nicht Erfolg");
+            } catch (IOException e) {
+                Log.e(tag, "IOException in Client: " + e.toString());
+            }
         }
     }
     /***************Netzworking***********************/
