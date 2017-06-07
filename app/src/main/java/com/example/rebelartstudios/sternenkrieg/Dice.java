@@ -8,7 +8,6 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
@@ -47,6 +46,7 @@ public class Dice extends AppCompatActivity {
     private long lastUpdate = 0;
     private float last_x, last_y, last_z;
     private static final int SHAKE_THRESHOLD = 690;
+    private int gegnervalue;
 
     private int mode = 0; // 1 = game start, 2 = powerup
     /********************Netz**************************/
@@ -236,52 +236,23 @@ public class Dice extends AppCompatActivity {
             case 1:
                 // TODO fix values
                 //value = rng.nextInt(6) + 1;
-                value = 6; // TODO this is only to make sure we start
+                value = rng.nextInt(6)+1;// TODO this is only to make sure we start
+// verbessern
+                messageSend(value+"",Phost,true);
                 changeDiceImage(value);
                 text_score.setText("You got:" + value + " Waiting for enemy");
-                // new CountDownTimer(3000 + 1000 * (rng.nextInt(3) + 1), 1000) {
-                new CountDownTimer(2000, 1000) { // TODO temp change to speed up
+                boolean run = true;
+                while(run){
 
-                    @Override
-                    public void onTick(long millisUntilFinished) {
-
+                    if (sended && came){
+                        run = false;
+                        onFinish();
                     }
+                }
 
-                    @Override
-                    public void onFinish() {
-                        //final int value_enemy = rng.nextInt(6) + 1;
-                        final int value_enemy = 1; // TODO this is only to make sure we start
-                        text_score_enemy.setText("Enemy got:" + value_enemy);
-
-                        if (value > value_enemy) {      // Player starts
-                            who_is_starting = 0;
-                        } else if(value < value_enemy){ // Enemy starts
-                            who_is_starting = 1;
-                        }else  {
-                            who_is_starting=2;          // Deuce, both must roll the dice again
-                        }
-
-                        new CountDownTimer(2000, 1000) { // TODO 2000 instead of 4500 to speed up
-
-                            @Override
-                            public void onTick(long millisUntilFinished) {
-                                changeDiceImage(counter);
-                                counter--;
-                            }
-
-                            @Override
-                            public void onFinish() {
-                                Intent nextScreen = new Intent(getApplicationContext(), EndScreen.class);
-                                nextScreen.putExtra("who_is_starting", who_is_starting);
-
-                                close();
-
-                                startActivity(nextScreen);
-
-                            }
-                        }.start();
-                    }
-                }.start();
+//                Thread fertigThread = new fertig();
+//                fertigThread.start();
+//                onFinish();
                 break;
 
             case 2:
@@ -289,21 +260,6 @@ public class Dice extends AppCompatActivity {
                 changeDiceImage(value);
                 text_score.setText("You got:" + value);
 
-                new CountDownTimer(3000, 1000){
-
-                    @Override
-                    public void onTick(long millisUntilFinished) {
-
-                    }
-
-                    @Override
-                    public void onFinish() {
-                        Intent intent = new Intent(Dice.this, PowerUp.class);
-                        intent.putExtra("points", value);
-                        startActivity(intent);
-                    }
-
-                }.start();
                 break;
 
             default:
@@ -311,6 +267,29 @@ public class Dice extends AppCompatActivity {
         }
 
     }
+
+
+
+    public void onFinish() {
+        //final int value_enemy = rng.nextInt(6) + 1;
+        final int value_enemy = gegnervalue; // TODO this is only to make sure we start
+        text_score_enemy.setText("Enemy got:" + value_enemy);
+
+        if (value > value_enemy) {      // Player starts
+            who_is_starting = 0;
+        } else if (value < value_enemy) { // Enemy starts
+            who_is_starting = 1;
+        } else {
+            who_is_starting = 2;          // Deuce, both must roll the dice again
+        }
+        Intent nextScreen = new Intent(getApplicationContext(), EndScreen.class);
+        nextScreen.putExtra("who_is_starting", who_is_starting);
+
+        close();
+
+        startActivity(nextScreen);
+
+        }
 
 
     /********************Netz**************************/
@@ -342,6 +321,10 @@ public class Dice extends AppCompatActivity {
             switch (msg.what) {
                 case 1:
                     message = (String) msg.obj;
+                    if(!(message == null)){
+                        gegnervalue = Integer.parseInt(message);
+                    }
+
                     displayToast(message);
                     came = true;
                     System.out.println(message);
@@ -366,6 +349,7 @@ public class Dice extends AppCompatActivity {
     public void messageSend(String message,boolean obhost, boolean t){
         if (obhost) {
 
+            System.out.println("123");
             Socket socket1 = mAcceptThread.getSocket();
 
 
