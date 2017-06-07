@@ -237,22 +237,14 @@ public class Dice extends AppCompatActivity {
                 // TODO fix values
                 //value = rng.nextInt(6) + 1;
                 value = rng.nextInt(6)+1;// TODO this is only to make sure we start
-// verbessern
                 messageSend(value+"",Phost,true);
                 changeDiceImage(value);
                 text_score.setText("You got:" + value + " Waiting for enemy");
-                boolean run = true;
-                while(run){
-
-                    if (sended && came){
-                        run = false;
-                        onFinish();
-                    }
+                if (Phost){
+                    value = 6;
+                    gegnervalue = 1;
+                    onFinish();
                 }
-
-//                Thread fertigThread = new fertig();
-//                fertigThread.start();
-//                onFinish();
                 break;
 
             case 2:
@@ -328,6 +320,7 @@ public class Dice extends AppCompatActivity {
                     displayToast(message);
                     came = true;
                     System.out.println(message);
+                    sollfinish();
                     break;
                 case 0:
                     displayToast("Erfolg");
@@ -359,6 +352,7 @@ public class Dice extends AppCompatActivity {
             sended = true;
 
             wh.start();
+            sollfinish();
 
 
         }else{
@@ -367,9 +361,15 @@ public class Dice extends AppCompatActivity {
             System.out.println("S message socket : "+socket1);
             writeClient wirte = new writeClient(true, socket1, message,t);
             sended = true;
-
             wirte.start();
+            sollfinish();
 
+        }
+    }
+
+    private void sollfinish(){
+        if (sended == true && came == true){
+            onFinish();
         }
     }
 
