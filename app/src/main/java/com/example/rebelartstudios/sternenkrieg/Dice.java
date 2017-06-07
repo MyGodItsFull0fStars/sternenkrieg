@@ -97,9 +97,11 @@ public class Dice extends AppCompatActivity {
 
         if (Net){
             // if the player is host.
+            send.setVisibility(View.VISIBLE);
             try{
                 if (intent.getStringExtra("host").equals("1")){
                     Phost = true;
+                    startdice.setVisibility(View.VISIBLE);
                 }
             }catch (NullPointerException e){
                 Log.e(tag, "NullPointerException in Dice: " + e.toString());
@@ -109,6 +111,7 @@ public class Dice extends AppCompatActivity {
             System.out.println("Phost = " + Phost);
 
             if (Phost == false){
+
                     this.ip = intent.getStringExtra("ip");
             }
 
@@ -125,12 +128,16 @@ public class Dice extends AppCompatActivity {
         startdice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                boolean running = true;
-                System.out.println("Host,host,hot "+ i++);
+                if (Phost) {
+                    boolean running = true;
+                    System.out.println("Host,host,hot " + i++);
 
-                mAcceptThread = new AcceptThread(running,mServerSocket,socket,myhandler,receiveThreadHost,12345);
-                mAcceptThread.start();
-                System .out.println("Host socket: "+mAcceptThread.getSocket());
+                    mAcceptThread = new AcceptThread(running, mServerSocket, socket, myhandler, receiveThreadHost, 12345);
+                    mAcceptThread.start();
+                    System.out.println("Host socket: " + mAcceptThread.getSocket());
+                }else{
+                    displayToast("just");
+                }
             }
         });
         send.setOnClickListener(new View.OnClickListener() {
@@ -336,6 +343,7 @@ public class Dice extends AppCompatActivity {
                 case 1:
                     message = (String) msg.obj;
                     displayToast(message);
+                    came = true;
                     System.out.println(message);
                     break;
                 case 0:
@@ -364,6 +372,7 @@ public class Dice extends AppCompatActivity {
             System.out.println("A message socket : "+socket1);
 
             writeHost wh = new writeHost(socket1, os, message, t);
+            sended = true;
 
             wh.start();
 
@@ -373,6 +382,7 @@ public class Dice extends AppCompatActivity {
             socket1 = startThread.getSocket();
             System.out.println("S message socket : "+socket1);
             writeClient wirte = new writeClient(true, socket1, message,t);
+            sended = true;
 
             wirte.start();
 

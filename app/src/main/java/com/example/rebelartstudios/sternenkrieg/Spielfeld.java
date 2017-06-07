@@ -72,6 +72,7 @@ public class Spielfeld extends AppCompatActivity {
     // this Views can be also a chat system. That mean player can talk with other player with it.
     // But now we can use it to check if the Socket program right.
     // what we do next: set Start Button and make connect.
+    Button start_play;
     Button send;
     TextView player2_say;
     EditText player1_say;
@@ -356,6 +357,7 @@ public class Spielfeld extends AppCompatActivity {
         });
 
         /****Networking****/
+        start_play = (Button)findViewById(R.id.Start_play);
 
         send  = (Button)findViewById(R.id.player1_send);
         player2_say = (TextView)findViewById(R.id.player2_say);
@@ -377,6 +379,7 @@ public class Spielfeld extends AppCompatActivity {
             try{
                 if (intent.getStringExtra("host").equals("1")){
                     Phost = true;
+                    start_play.setVisibility(View.VISIBLE);
                 }
             }catch (NullPointerException e){
                 Log.e(tag, "NullPointerException in Dice: " + e.toString());
@@ -401,6 +404,16 @@ public class Spielfeld extends AppCompatActivity {
         }else {
             displayToast("Kein Internet verbinden");
         }
+
+        start_play.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                boolean running  =true;
+                mAcceptThread = new AcceptThread(running,mServerSocket,socket,myhandler,receiveThreadHost,112233);
+                mAcceptThread.start();
+                start_play.setVisibility(View.GONE);
+            }
+        });
         /****Networking***/
 
     }
@@ -609,8 +622,8 @@ public class Spielfeld extends AppCompatActivity {
     public void networkbuild(){
         boolean running = true;
         if (Phost){
-            mAcceptThread = new AcceptThread(running,mServerSocket,socket,myhandler,receiveThreadHost,112233);
-            mAcceptThread.start();
+//            mAcceptThread = new AcceptThread(running,mServerSocket,socket,myhandler,receiveThreadHost,112233);
+//            mAcceptThread.start();
         }else {
             startThread = new StartThread(socket,ip,receiveThreadClient,myhandler,112233);
             startThread.start();
