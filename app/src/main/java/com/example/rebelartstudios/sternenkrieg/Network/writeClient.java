@@ -31,7 +31,7 @@ public class writeClient extends Thread {
 
     public void run() {
         OutputStream os = null;
-        System.out.printf(info);
+        Log.w("CLIENT", info);
         try {
 
             if (t){
@@ -40,7 +40,7 @@ public class writeClient extends Thread {
 //            socket = st.getSocket();
             os = socket.getOutputStream();
             if (Exit) {
-                System.out.println("wirte Client: "+info);
+                Log.w("CLIENT", "write Client: " + info );
                 os.write((info + "\n").getBytes("utf-8"));
 
             } else {

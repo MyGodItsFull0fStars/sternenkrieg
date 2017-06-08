@@ -13,11 +13,15 @@ import android.widget.ImageView;
 
 public class MapLoad extends BaseAdapter{
     private Context context;
-    private final String[] mobileValues;
+    private  String[] mobileValues;
 
 
     public MapLoad(Context context, String[] mobileValues) {
         this.context = context;
+        this.mobileValues = mobileValues;
+    }
+
+    public void setMobileValues(String[] mobileValues){
         this.mobileValues = mobileValues;
     }
 
