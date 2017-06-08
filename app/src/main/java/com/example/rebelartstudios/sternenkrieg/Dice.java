@@ -142,7 +142,17 @@ public class Dice extends AppCompatActivity {
 
     @Override
     protected void onDestroy(){
+        destroyImageView();
         super.onDestroy();
+
+    }
+
+    private void destroyImageView(){
+        imageDice.destroyDrawingCache();
+        imageDice.getBackground().setCallback(null);
+        imageDice.setImageBitmap(null);
+        imageDice.setImageDrawable(null);
+        imageDice.setBackgroundResource(0);
     }
 
 

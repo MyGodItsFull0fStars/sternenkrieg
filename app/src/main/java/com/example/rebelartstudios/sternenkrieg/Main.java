@@ -88,9 +88,18 @@ public class Main extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
-        background.destroyDrawingCache();
+        destroyBackgroundImageView();
         super.onDestroy();
     }
+
+    private void destroyBackgroundImageView(){
+        background.destroyDrawingCache();
+        background.setImageBitmap(null);
+        background.setImageDrawable(null);
+        background.setBackgroundResource(0);
+    }
+
+
 
     private void initializeBackground() {
         background = (ImageView) findViewById(R.id.background);
