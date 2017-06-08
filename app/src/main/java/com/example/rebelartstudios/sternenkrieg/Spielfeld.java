@@ -521,16 +521,18 @@ public class Spielfeld extends AppCompatActivity {
 
         switch(posis) {
             case "g":
-                return true;
+                if(checkAvailability(position, posis)){
+                return true;}
             case "h":
-               if(failures_left.contains(position+1) || failures_right.contains(position+1)) {
+               if(failures_left.contains(position+1) || failures_right.contains(position+1) || checkAvailability(position, posis) || checkAvailability(position+1, posis)) {
                // if(position+1==64||position+1==56){
                     return false;
                 } else {
                     return true;
                 }
             case "i":
-                if(failures_right_big.contains(position - 1) || failures_right_big.contains(position) || failures_left.contains(position) || position < 1 || position > 62) {
+                if(failures_right_big.contains(position - 1) || failures_right_big.contains(position) || failures_left.contains(position) || position < 1 || position > 62
+                        || checkAvailability(position, posis) || checkAvailability(position-1, posis) || checkAvailability(position+1, posis)) {
                     return false;
                 } else {
                     return true;
@@ -541,6 +543,32 @@ public class Spielfeld extends AppCompatActivity {
 
     }
 
+    public boolean checkAvailability(int position, String posis){
+        if(map1[position].equals(posis)){ return true;}
+
+            switch (map1[position]) {
+                case "d":
+                    return false;
+                case "e":
+                    return false;
+                case "f":
+                    return false;
+                case "g":
+                    return false;
+                case "h":
+                    return false;
+                case "i":
+                    return false;
+                case "3":
+                    return false;
+                case "5":
+                    return false;
+                default:
+                    return true;
+            }
+
+
+    }
     public void draw(String[] array, GridView gridView) {
         gridView.setAdapter(new MapLoad(this, array));
     }
