@@ -33,7 +33,7 @@ public class EndScreen extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent nextScreen = new Intent(getApplicationContext(), Map.class);
+                Intent nextScreen = new Intent(EndScreen.this, Map.class);
                 startActivity(nextScreen);
             }
         });

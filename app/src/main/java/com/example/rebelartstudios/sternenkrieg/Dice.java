@@ -8,7 +8,6 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
@@ -222,12 +221,20 @@ public class Dice extends AppCompatActivity {
             case 1:
                 // TODO fix values
                 //value = rng.nextInt(6) + 1;
-                value = rng.nextInt(6) + 1;// TODO this is only to make sure we start
-                System.out.println("Gewürfelt: " + value);
-                messageSend(value + "", Phost, true);
-                changeDiceImage(value);
-                text_score.setText("You got:" + value + " Waiting for enemy");
-
+                if (!Net){
+                    value = 6;
+                    gegnervalue = 1;
+                    changeDiceImage(value);
+                    System.out.println("Gewürfelt: " + value);
+                    text_score.setText("You got:" + value + " Waiting for enemy");
+                    onFinish();
+                }else {
+                    value = rng.nextInt(6) + 1;// TODO this is only to make sure we start
+                    System.out.println("Gewürfelt: " + value);
+                    messageSend(value + "", Phost, true);
+                    changeDiceImage(value);
+                    text_score.setText("You got:" + value + " Waiting for enemy");
+                }
                 break;
 
             case 2:
