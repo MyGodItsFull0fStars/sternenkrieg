@@ -69,6 +69,7 @@ public class Dice extends AppCompatActivity {
     boolean sended = false;
     boolean came = false;
     boolean waitToClose = false;
+    Bundle b;
 
     /********************Netz**************************/
     @Override
@@ -84,7 +85,7 @@ public class Dice extends AppCompatActivity {
 
         mSensorManager.registerListener(AccelSensorListener, mSensor, SensorManager.SENSOR_DELAY_NORMAL);
 
-        Bundle b = getIntent().getExtras();
+        b = getIntent().getExtras();
         mode = b.getInt("mode");
         Log.d(this.getLocalClassName(), "" + mode);
         /********************Netz**************************/
@@ -120,7 +121,7 @@ public class Dice extends AppCompatActivity {
             networkbuild();
 
         } else {
-            displayToast("Kein Internet verbinden");
+            displayToast("Kein Internetverbindung");
         }
         connection();
 
@@ -221,14 +222,14 @@ public class Dice extends AppCompatActivity {
             case 1:
                 // TODO fix values
                 //value = rng.nextInt(6) + 1;
-                if (!Net){
-                    value = 6;
+                if (!Net) {
+                    value = rng.nextInt(6) + 1;
                     gegnervalue = 1;
                     changeDiceImage(value);
                     System.out.println("Gewürfelt: " + value);
                     text_score.setText("You got:" + value + " Waiting for enemy");
                     onFinish();
-                }else {
+                } else {
                     value = rng.nextInt(6) + 1;// TODO this is only to make sure we start
                     System.out.println("Gewürfelt: " + value);
                     messageSend(value + "", Phost, true);
@@ -277,8 +278,6 @@ public class Dice extends AppCompatActivity {
             }
         });
     }
-
-
 
 
     /********************Netz**************************/
@@ -367,13 +366,12 @@ public class Dice extends AppCompatActivity {
     }
 
     private void sollfinish() {
-        if (sended&& came) {
+        if (sended && came) {
             onFinish();
         }
     }
 
     public void close() {
-
 
         if (Phost) {
 
