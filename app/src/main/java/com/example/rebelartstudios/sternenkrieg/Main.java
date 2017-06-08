@@ -34,6 +34,7 @@ public class Main extends AppCompatActivity {
     Button diceBtn;
     Button socketBtn;
     Button powerupBtn;
+    ImageView background;
 
     TextView txt_username;
     TextView txt_level;
@@ -55,15 +56,15 @@ public class Main extends AppCompatActivity {
 
         sharedPreferences = getSharedPreferences("prefs", Context.MODE_PRIVATE);
         String username = sharedPreferences.getString("username", null);
-        int level = sharedPreferences.getInt("level",1);
-        int prozent= sharedPreferences.getInt("prozent",0);
+        int level = sharedPreferences.getInt("level", 1);
+        int prozent = sharedPreferences.getInt("prozent", 0);
 
         if (username == null) {
             generateName();
         } else {
             txt_username.setText(username);
             txt_username.setTextColor(Color.WHITE);
-            txt_level.setText("Level:"+level);
+            txt_level.setText("Level:" + level);
             txt_level.setTextColor(Color.WHITE);
             level_progress.getProgressDrawable().setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN);
             level_progress.setProgress(0);
@@ -85,8 +86,23 @@ public class Main extends AppCompatActivity {
         //musicStuff();
     }
 
+    @Override
+    protected void onDestroy() {
+        destroyBackgroundImageView();
+        super.onDestroy();
+    }
+
+    private void destroyBackgroundImageView(){
+        background.destroyDrawingCache();
+        background.setImageBitmap(null);
+        background.setImageDrawable(null);
+        background.setBackgroundResource(0);
+    }
+
+
+
     private void initializeBackground() {
-        ImageView background = (ImageView) findViewById(R.id.background);
+        background = (ImageView) findViewById(R.id.background);
         background.setBackgroundColor(Color.rgb(0, 0, 0));
         Glide.with(this).load(R.raw.background).asGif().centerCrop().diskCacheStrategy(DiskCacheStrategy.SOURCE).into(background);
     }
@@ -105,7 +121,7 @@ public class Main extends AppCompatActivity {
 
         txt_username = (TextView) findViewById(R.id.text_username);
         txt_level = (TextView) findViewById(R.id.txt_level);
-        level_progress= (ProgressBar) findViewById(R.id.progressBar_level);
+        level_progress = (ProgressBar) findViewById(R.id.progressBar_level);
     }
 
     /**
@@ -117,7 +133,7 @@ public class Main extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //Intent intent = new Intent(Main.this, Map.class);
-                Intent intent = new Intent(Main.this, Dice.class);
+                Intent intent = new Intent(Main.this, Map.class);
                 intent.putExtra("mode", 1);
                 startActivity(intent);
             }
@@ -220,12 +236,12 @@ public class Main extends AppCompatActivity {
         Intent audioIntent = new Intent(this, PlayAudio.class);
         boolean on = soundEnabled;
 
-        if(soundEnabled) {
+        if (soundEnabled) {
             bindService(audioIntent, soundConnection, Context.BIND_AUTO_CREATE);
             startService(audioIntent);
             on = true;
         } else {
-            if(on) {
+            if (on) {
                 stopService(audioIntent);
                 unbindService(soundConnection);
             }

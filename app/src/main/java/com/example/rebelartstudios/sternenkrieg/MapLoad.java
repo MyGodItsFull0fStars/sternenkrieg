@@ -11,7 +11,7 @@ import android.view.WindowManager;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
-public class MapLoad extends BaseAdapter{
+public class MapLoad extends BaseAdapter {
     private Context context;
     private final String[] mobileValues;
 
@@ -59,8 +59,8 @@ public class MapLoad extends BaseAdapter{
 
             ImageView imageView = (ImageView) gridView
                     .findViewById(R.id.grid_item_image);
-            imageView.getLayoutParams().height=(height-350)/8;
-            imageView.getLayoutParams().width=(height-350)/8;
+            imageView.getLayoutParams().height = (height - 350) / 8;
+            imageView.getLayoutParams().width = (height - 350) / 8;
 
 
             String mobile = mobileValues[position];
@@ -71,14 +71,14 @@ public class MapLoad extends BaseAdapter{
                 imageView.setBackgroundColor(Color.MAGENTA); //miss for player
             } else if (mobile.equals("2") || mobile.equals("d") || mobile.equals("e") || mobile.equals("f")) {
                 imageView.setBackgroundColor(Color.RED); //your own ships
-            }else if(mobile.equals("3")) {
+            } else if (mobile.equals("3")) {
                 imageView.setBackgroundColor(Color.YELLOW); //hit for enemy
-            }else if(mobile.equals("4")) {
+            } else if (mobile.equals("4")) {
                 imageView.setBackgroundColor(Color.GREEN); //hit for player
-            }else if(mobile.equals("5")) {
+            } else if (mobile.equals("5")) {
                 imageView.setBackgroundColor(Color.BLUE); //miss for enemy
-            }else if(mobile.equals("g") || mobile.equals("h") || mobile.equals("i"))
-            imageView.setBackgroundColor(Color.CYAN); //hit for player
+            } else if (mobile.equals("g") || mobile.equals("h") || mobile.equals("i"))
+                imageView.setBackgroundColor(Color.CYAN); //hit for player
 
 
         } else {

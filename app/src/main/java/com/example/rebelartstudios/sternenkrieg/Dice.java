@@ -8,7 +8,6 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
@@ -70,6 +69,7 @@ public class Dice extends AppCompatActivity {
     boolean sended = false;
     boolean came = false;
     boolean waitToClose = false;
+    Bundle b;
 
     /********************Netz**************************/
     @Override
@@ -85,7 +85,7 @@ public class Dice extends AppCompatActivity {
 
         mSensorManager.registerListener(AccelSensorListener, mSensor, SensorManager.SENSOR_DELAY_NORMAL);
 
-        Bundle b = getIntent().getExtras();
+        b = getIntent().getExtras();
         mode = b.getInt("mode");
         Log.d(this.getLocalClassName(), "" + mode);
         /********************Netz**************************/
@@ -121,7 +121,7 @@ public class Dice extends AppCompatActivity {
             networkbuild();
 
         } else {
-            displayToast("Kein Internet verbinden");
+            displayToast("Kein Internetverbindung");
         }
         connection();
 
@@ -138,6 +138,24 @@ public class Dice extends AppCompatActivity {
         }
 
     }
+
+
+    @Override
+    protected void onDestroy(){
+        destroyImageView();
+        super.onDestroy();
+
+    }
+
+    private void destroyImageView(){
+        imageDice.destroyDrawingCache();
+        imageDice.getBackground().setCallback(null);
+        imageDice.setImageBitmap(null);
+        imageDice.setImageDrawable(null);
+        imageDice.setBackgroundResource(0);
+    }
+
+
 
 
     private void initializeViews() {
@@ -222,12 +240,20 @@ public class Dice extends AppCompatActivity {
             case 1:
                 // TODO fix values
                 //value = rng.nextInt(6) + 1;
-                value = rng.nextInt(6) + 1;// TODO this is only to make sure we start
-                System.out.println("Gewürfelt: " + value);
-                messageSend(value + "", Phost, true);
-                changeDiceImage(value);
-                text_score.setText("You got:" + value + " Waiting for enemy");
-
+                if (!Net) {
+                    value = rng.nextInt(6) + 1;
+                    gegnervalue = 1;
+                    changeDiceImage(value);
+                    System.out.println("Gewürfelt: " + value);
+                    text_score.setText("You got:" + value + " Waiting for enemy");
+                    onFinish();
+                } else {
+                    value = rng.nextInt(6) + 1;// TODO this is only to make sure we start
+                    System.out.println("Gewürfelt: " + value);
+                    messageSend(value + "", Phost, true);
+                    changeDiceImage(value);
+                    text_score.setText("You got:" + value + " Waiting for enemy");
+                }
                 break;
 
             case 2:
@@ -270,8 +296,6 @@ public class Dice extends AppCompatActivity {
             }
         });
     }
-
-
 
 
     /********************Netz**************************/
@@ -320,8 +344,6 @@ public class Dice extends AppCompatActivity {
                     break;
                 case 2:
                     displayToast("!");
-
-
                     break;
             }
         }
@@ -332,7 +354,7 @@ public class Dice extends AppCompatActivity {
         Toast.makeText(this, s, Toast.LENGTH_SHORT).show();
     }
 
-    // Here is the messageSend methode. By call this methode can player message send.
+    // Here is the messageSend method. By call this method can player message send.
     public void messageSend(String message, boolean obhost, boolean t) {
         if (obhost) {
 
@@ -360,13 +382,12 @@ public class Dice extends AppCompatActivity {
     }
 
     private void sollfinish() {
-        if (sended&& came) {
+        if (sended && came) {
             onFinish();
         }
     }
 
     public void close() {
-
 
         if (Phost) {
 
