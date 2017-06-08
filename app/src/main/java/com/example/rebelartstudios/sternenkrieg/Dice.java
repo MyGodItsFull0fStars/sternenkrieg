@@ -235,16 +235,19 @@ public class Dice extends AppCompatActivity {
         switch(mode) {
             case 1:
                 // TODO fix values
-                //value = rng.nextInt(6) + 1;
-                value = rng.nextInt(6)+1;// TODO this is only to make sure we start
-                messageSend(value+"",Phost,true);
-                changeDiceImage(value);
-                text_score.setText("You got:" + value + " Waiting for enemy");
-                if (Phost){
+                if (!Net){
                     value = 6;
                     gegnervalue = 1;
                     onFinish();
+
+                }else {
+                    //value = rng.nextInt(6) + 1;
+                    value = rng.nextInt(6) + 1;// TODO this is only to make sure we start
+                    messageSend(value + "", Phost, true);
+                    changeDiceImage(value);
+                    text_score.setText("You got:" + value + " Waiting for enemy");
                 }
+
                 break;
 
             case 2:
@@ -326,7 +329,7 @@ public class Dice extends AppCompatActivity {
                     displayToast("Erfolg");
                     break;
                 case 2:
-                    displayToast("!");
+//                    displayToast("!");
 
 
                     break;
