@@ -70,6 +70,7 @@ public class Map extends AppCompatActivity {
         setContentView(R.layout.activity_map);
         initializeImageViews();
         initializePlayerField();
+        initializeMap();
 
         oldpos = 0;
 
@@ -428,7 +429,6 @@ public class Map extends AppCompatActivity {
     }
 
     public void draw(String[] array) {
-        mapLoad.setMobileValues(array);
         gridView.setAdapter(mapLoad);
     }
 
