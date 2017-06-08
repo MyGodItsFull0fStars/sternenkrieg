@@ -117,7 +117,7 @@ public class Main extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //Intent intent = new Intent(Main.this, Map.class);
-                Intent intent = new Intent(Main.this, Dice.class);
+                Intent intent = new Intent(Main.this, Map.class);
                 intent.putExtra("mode", 1);
                 startActivity(intent);
             }

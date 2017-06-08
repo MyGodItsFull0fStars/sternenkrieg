@@ -21,10 +21,6 @@ public class MapLoad extends BaseAdapter{
         this.mobileValues = mobileValues;
     }
 
-    public void setMobileValues(String[] mobileValues){
-        this.mobileValues = mobileValues;
-    }
-
 
     @Override
     public int getCount() {
