@@ -140,6 +140,24 @@ public class Dice extends AppCompatActivity {
     }
 
 
+    @Override
+    protected void onDestroy(){
+        destroyImageView();
+        super.onDestroy();
+
+    }
+
+    private void destroyImageView(){
+        imageDice.destroyDrawingCache();
+        imageDice.getBackground().setCallback(null);
+        imageDice.setImageBitmap(null);
+        imageDice.setImageDrawable(null);
+        imageDice.setBackgroundResource(0);
+    }
+
+
+
+
     private void initializeViews() {
         imageDice = (ImageView) findViewById(R.id.imageDice);
         text_score = (TextView) findViewById(R.id.text_score);
@@ -326,8 +344,6 @@ public class Dice extends AppCompatActivity {
                     break;
                 case 2:
                     displayToast("!");
-
-
                     break;
             }
         }
@@ -338,7 +354,7 @@ public class Dice extends AppCompatActivity {
         Toast.makeText(this, s, Toast.LENGTH_SHORT).show();
     }
 
-    // Here is the messageSend methode. By call this methode can player message send.
+    // Here is the messageSend method. By call this method can player message send.
     public void messageSend(String message, boolean obhost, boolean t) {
         if (obhost) {
 
