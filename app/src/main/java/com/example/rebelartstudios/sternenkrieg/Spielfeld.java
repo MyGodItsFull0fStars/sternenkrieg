@@ -182,7 +182,10 @@ public class Spielfeld extends AppCompatActivity {
         options1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                boolean ship2Rotated = true;
+                boolean ship3Rotated = true;
+                final boolean ship2RotatedFinal;
+                final boolean ship3RotatedFinal;
 
                 options1.setVisibility(View.INVISIBLE);
                 options2.setVisibility(View.INVISIBLE);
@@ -199,12 +202,19 @@ public class Spielfeld extends AppCompatActivity {
                         case "d": countD.add(i);
                             break;
                         case "e": countE.add(i);
+                            if(map1[i+1].equals("e")){
+                                ship2Rotated=false;
+                            }
                             break;
                         case "f": countF.add(i);
+                            if(map1[i+1].equals("f")){
+                                ship3Rotated=false;
+                            }
                             break;
                         default:
                             break;
                     }
+
 
                     if(countD.size()==1) {
                         for(int j=0; j < countD.size(); j++) {
@@ -229,6 +239,9 @@ public class Spielfeld extends AppCompatActivity {
                     }
                 }
 
+                ship2RotatedFinal = ship2Rotated;
+               ship3RotatedFinal = ship3Rotated;
+
                 draw(map1, gridView1);
 
 
@@ -247,7 +260,9 @@ public class Spielfeld extends AppCompatActivity {
                                 draw(map1, gridView1);
                             }
 
-                            relocate(posis);
+
+
+                            relocate(posis, ship2RotatedFinal, ship3RotatedFinal);
 
                             }
                     }
@@ -449,38 +464,48 @@ public class Spielfeld extends AppCompatActivity {
         });
     }
 
-    public void relocate(final String posis) {
+    public void relocate(final String posis, final boolean ship2Rotated, final boolean ship3Rotated) {
         gridView1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
 
-                for(int i=0; i < map1.length; i++){
+                for(int i=0; i < map1.length; i++){ //ship is no longer located here; set to 0
                     if(map1[i].equals("4")){
                         map1[i]=0+"";
                     }
                 }
                 boolean shipPlaced = false;
 
-                switch(posis) {
+                switch(posis) { //check whether ship can be placed here;
                     case "g":
-                        if( relocateShip(position, posis)) {
+                        if( relocateShip(position, posis, true)) {
                             map1[position] = "d";
                             shipPlaced = true;
 
                         }
                         break;
                     case "h":
-                        if( relocateShip(position, posis)) {
+                        if( relocateShip(position, posis, ship2Rotated) && !ship2Rotated) { //check if ship is placeable for not rotated ship
                             map1[position] = "e";
-                            map1[position + 1] = "e";
+                            map1[position + 1] = "e"; //relocate ship unrotated
                             shipPlaced=true;
-                        }
+                        } else if (relocateShip(position, posis, ship2Rotated) && ship2Rotated) { //check if ship is placeable for rotated ship
+                            map1[position] = "e";
+                            map1[position+8] = "e"; //relocate ship rotated
+                            shipPlaced = true;
+
+                    }
                         break;
                     case "i":
-                        if( relocateShip(position, posis)) {
+                        if( relocateShip(position, posis, ship3Rotated) && !ship3Rotated) { //check if ship is placeable for not rotated ship
                             map1[position] = "f";
                             map1[position + 1] = "f";
-                            map1[position - 1] = "f";
+                            map1[position - 1] = "f"; //relocate ship unrotated
                             shipPlaced=true;
+                        } else if(relocateShip(position, posis, ship3Rotated) && ship3Rotated) { //check if ship is placeable for rotated ship
+                            map1[position-8] = "f";
+                            map1[position] = "f";
+                            map1[position+8] = "f"; //relocate ship rotated
+                            shipPlaced = true;
                         }
                         break;
                     default:
@@ -504,38 +529,50 @@ public class Spielfeld extends AppCompatActivity {
                     draw(map1, gridView1);
 
 
+                    //if ship is placed successfully, cheat function ends and normal "onClickListener" is restored
+
                     clickMap();
                 }
             }
         });
     }
 
-    public boolean relocateShip(int position, String posis) {
+    public boolean relocateShip(int position, String posis, boolean shipRotated) {
         //TODO: check if ship can actually be placed here, e.g. if there is not another ship and if this position hasn't been targeted by the enemy before
 
-        ArrayList<Integer> failures_right_big = new ArrayList<Integer>(Arrays.asList(7, 15, 23, 31, 39, 47, 55, 63));
-
-
-        ArrayList<Integer> failures_right = new ArrayList<Integer>(Arrays.asList(8, 16, 24, 32, 40, 48, 56, 64));
-        ArrayList<Integer> failures_left = new ArrayList<Integer>(Arrays.asList(8, 16, 24, 32, 40, 48, 56));
+        ArrayList<Integer> failures_right = new ArrayList<Integer>(Arrays.asList(-1, 7, 15, 23, 31, 39, 47, 55, 63));
+        ArrayList<Integer> failures_left = new ArrayList<Integer>(Arrays.asList(8, 16, 24, 32, 40, 48, 56, 64));
 
         switch(posis) {
             case "g":
-                if(checkAvailability(position, posis)){
+                if(checkAvailability(position)){
                 return true;}
             case "h":
-               if(failures_left.contains(position+1) || failures_right.contains(position+1) || !(checkAvailability(position, posis)) || !(checkAvailability(position+1, posis))) {
-               // if(position+1==64||position+1==56){
-                    return false;
-                } else {
-                    return true;
+                if(shipRotated=false) {
+                    if (failures_left.contains(position+1) || !checkAvailability(position) || !checkAvailability(position+1)) {
+                        // if(position+1==64||position+1==56){
+                        return false;
+                    } else {
+                        return true;
+                    }
+                } else if (shipRotated=true) {
+                    if(position+1>63 || !checkAvailability(position) || !checkAvailability(position+8)) {
+                        return false;
+                    } else { return true; }
                 }
             case "i":
-                if(failures_right_big.contains(position - 1) || failures_right_big.contains(position) || failures_left.contains(position) || position < 1 || position > 62
-                        || !(checkAvailability(position, posis)) || !(checkAvailability(position-1, posis)) || !(checkAvailability(position+1, posis))) {
-                    return false;
-                } else {
-                    return true;
+                if(shipRotated=false) {
+                    if (failures_left.contains(position+1) || failures_right.contains(position-1)
+                            || !checkAvailability(position) || !checkAvailability(position-1) || !checkAvailability(position+1)) {
+                        return false;
+                    } else {
+                        return true;
+                    }
+                } else if(shipRotated=true) {
+                    if(position-8<0 || position+8>63
+                            || !checkAvailability(position) || !checkAvailability(position+8) || !checkAvailability(position-8)) {
+                        return false;
+                    } else { return true; }
                 }
             default:
                 return true;
@@ -543,8 +580,8 @@ public class Spielfeld extends AppCompatActivity {
 
     }
 
-    public boolean checkAvailability(int position, String posis){
-        if(map1[position].equals(posis)){ return true;} else {
+    public boolean checkAvailability(int position){
+      //  if(map1[position].equals(posis)){ return true;} else {
 
             switch (map1[position]) {
                 case "d":
@@ -566,7 +603,7 @@ public class Spielfeld extends AppCompatActivity {
                 default:
                     return true;
             }
-        }
+      //  }
 
     }
     public void draw(String[] array, GridView gridView) {
