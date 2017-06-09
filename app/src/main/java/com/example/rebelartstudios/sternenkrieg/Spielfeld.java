@@ -524,7 +524,7 @@ public class Spielfeld extends AppCompatActivity {
                 if(checkAvailability(position, posis)){
                 return true;}
             case "h":
-               if(failures_left.contains(position+1) || failures_right.contains(position+1) || checkAvailability(position, posis) || checkAvailability(position+1, posis)) {
+               if(failures_left.contains(position+1) || failures_right.contains(position+1) || !(checkAvailability(position, posis)) || !(checkAvailability(position+1, posis))) {
                // if(position+1==64||position+1==56){
                     return false;
                 } else {
@@ -532,7 +532,7 @@ public class Spielfeld extends AppCompatActivity {
                 }
             case "i":
                 if(failures_right_big.contains(position - 1) || failures_right_big.contains(position) || failures_left.contains(position) || position < 1 || position > 62
-                        || checkAvailability(position, posis) || checkAvailability(position-1, posis) || checkAvailability(position+1, posis)) {
+                        || !(checkAvailability(position, posis)) || !(checkAvailability(position-1, posis)) || !(checkAvailability(position+1, posis))) {
                     return false;
                 } else {
                     return true;
@@ -544,7 +544,7 @@ public class Spielfeld extends AppCompatActivity {
     }
 
     public boolean checkAvailability(int position, String posis){
-        if(map1[position].equals(posis)){ return true;}
+        if(map1[position].equals(posis)){ return true;} else {
 
             switch (map1[position]) {
                 case "d":
@@ -566,7 +566,7 @@ public class Spielfeld extends AppCompatActivity {
                 default:
                     return true;
             }
-
+        }
 
     }
     public void draw(String[] array, GridView gridView) {
