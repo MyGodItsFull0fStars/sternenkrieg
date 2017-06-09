@@ -43,7 +43,7 @@ public class ReceiveThreadHost extends Thread {
         System.out.println("ReceiveTH running = "+ running);
         while (running) {
             try {
-                sleep(500);
+                sleep(100);
             } catch (InterruptedException e) {
                 Log.e(tag, "InterruptedException in AcceptThreadHost: " + e.toString());
                 Thread.currentThread().interrupt();
@@ -74,12 +74,22 @@ public class ReceiveThreadHost extends Thread {
 
             }
 
+            try {
+                Message msg = new Message();
+                String[] a = read.split(",");
+                if (a.length == 1) {
+                    msg.what = 1;
+                    msg.obj = read;
+                    mHandler.sendMessage(msg);
+                } else {
+                    msg.what = 4;
+                    msg.obj = read;
+                    mHandler.sendMessage(msg);
+                }
 
-            Message msg = new Message();
-            msg.what = 1;
-            msg.obj = read;
-            mHandler.sendMessage(msg);
-
+            }catch (NullPointerException e){
+                Log.e(tag, "NullpointerException in AcceptThreadHost: " + e.toString());
+            }
 
         }
 

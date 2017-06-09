@@ -72,9 +72,13 @@ public class Spielfeld extends AppCompatActivity {
     // this Views can be also a chat system. That mean player can talk with other player with it.
     // But now we can use it to check if the Socket program right.
     // what we do next: set Start Button and make connect.
+    // You can call methode messageSend to send String message parameter mit (message, Phost)
+    // And in class Myhandler you get message form enemy, msg.what = 1 is what enemy say
+    // msg.what = 4 , sendMsg[1] is enemy shoot position.
+
     Button start_play;
     Button send;
-    TextView player2_say;
+
     EditText player1_say;
     Socket socket = new Socket();
     ServerSocket mServerSocket = null;
@@ -91,6 +95,7 @@ public class Spielfeld extends AppCompatActivity {
     boolean Net = false;
     boolean sended;
     boolean came;
+    boolean connect;
     /*******Networking*****/
 
     @Override
@@ -283,7 +288,20 @@ public class Spielfeld extends AppCompatActivity {
 
         amountShips = 3;
 
-        map1 = getIntent().getExtras().getStringArray("oldmap"); //get information of placed ships from previous screen
+//        map1 = getIntent().getExtras().getStringArray("oldmap"); //get information of placed ships from previous screen
+        //test
+        map1 = new String[64];
+        for (int i = 0; i < 64; i++) {
+            map1[i] = 0 + "";
+        }
+        map1[32] = "a"; //just temporary fill for opponents ships
+        map1[33] = "a";
+        map1[34] = "a";
+
+        map1[62] = "b";
+        map1[63] = "b";
+
+        map1[5] = "c";
 
         map2 = new String[64];
         for (int i = 0; i < 64; i++) {
@@ -300,7 +318,7 @@ public class Spielfeld extends AppCompatActivity {
         map2[5] = "c";
 
 
-        Display display = getWindowManager().getDefaultDisplay();
+        final Display display = getWindowManager().getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
 
@@ -320,37 +338,44 @@ public class Spielfeld extends AppCompatActivity {
 
        clickMap();
 
+
+
         gridView2.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+                checkconnect();
+                if (!Net||connect) {
+                    String shipType = map2[position];
+                    messageSend("map,"+position,Phost);
 
-                String shipType = map2[position];
-
-                // Toast.makeText(getApplicationContext(), "Pos: " + position + " Id: ",
-                //       Toast.LENGTH_SHORT).show();
+                    // Toast.makeText(getApplicationContext(), "Pos: " + position + " Id: ",
+                    //       Toast.LENGTH_SHORT).show();
 
                 /* hit ship of enemy */
-                if (map2[position].equals("a") || map2[position].equals("b") || map2[position].equals("c")) {
-                    map2[position] = 4 + "";
-                    vib.vibrate(500);
-                    highScore += 80;
+                    if (map2[position].equals("a") || map2[position].equals("b") || map2[position].equals("c")) {
+                        map2[position] = 4 + "";
+                        vib.vibrate(500);
+                        highScore += 80;
 
                 /* miss enemy's ships */
-                } else if (map2[position].equals("0")) {
-                    map2[position] = 1 + "";
-                    highScore -= 20;
-                }
+                    } else if (map2[position].equals("0")) {
+                        map2[position] = 1 + "";
+                        highScore -= 20;
+                    }
 
-                draw(map2, gridView2); // update map
+                    draw(map2, gridView2); // update map
 
-                Random rand = new Random();
-                int n = rand.nextInt(64);
-
-
-                // gridView1.getChildAt(31).performClick();
+                    Random rand = new Random();
+                    int n = rand.nextInt(64);
 
 
-                if (gameOver(shipType, map2)) { //check whether a complete ship of the enemy has been destroyed
-                    decrementAmount();
+                    // gridView1.getChildAt(31).performClick();
+
+
+                    if (gameOver(shipType, map2)) { //check whether a complete ship of the enemy has been destroyed
+                        decrementAmount();
+                    }
+                }else {
+                    displayToast("Host should start game.");
                 }
 
             }
@@ -360,7 +385,7 @@ public class Spielfeld extends AppCompatActivity {
         start_play = (Button)findViewById(R.id.Start_play);
 
         send  = (Button)findViewById(R.id.player1_send);
-        player2_say = (TextView)findViewById(R.id.player2_say);
+
         player1_say = (EditText )findViewById(R.id.player1_say);
 
         Intent intent = getIntent();
@@ -370,7 +395,7 @@ public class Spielfeld extends AppCompatActivity {
                 Net  = true;
             }
         }catch (NullPointerException e){
-            Log.e(tag, "NullPointerException in Dice: " + e.toString());
+            Log.e(tag, "NullPointerException in Spielfeld: " + e.toString());
         }
 
 
@@ -393,11 +418,12 @@ public class Spielfeld extends AppCompatActivity {
             send.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    System.out.println("Phost = "+Phost);
                     String info = player1_say.getText().toString();
                     if (Phost){ //If this is host, so use writeHost to sand message.
                         messageSend(info,Phost);
                     }else{// Client.
-                        messageSend(info,!Phost);
+                        messageSend(info,Phost);
                     }
                 }
             });
@@ -409,7 +435,7 @@ public class Spielfeld extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 boolean running  =true;
-                mAcceptThread = new AcceptThread(running,mServerSocket,socket,myhandler,receiveThreadHost,112233);
+                mAcceptThread = new AcceptThread(running,mServerSocket,socket,myhandler,receiveThreadHost,11223);
                 mAcceptThread.start();
                 start_play.setVisibility(View.GONE);
             }
@@ -625,7 +651,7 @@ public class Spielfeld extends AppCompatActivity {
 //            mAcceptThread = new AcceptThread(running,mServerSocket,socket,myhandler,receiveThreadHost,112233);
 //            mAcceptThread.start();
         }else {
-            startThread = new StartThread(socket,ip,receiveThreadClient,myhandler,112233);
+            startThread = new StartThread(socket,ip,receiveThreadClient,myhandler,11223);
             startThread.start();
         }
 
@@ -640,8 +666,27 @@ public class Spielfeld extends AppCompatActivity {
             switch (msg.what) {
                 case 1:
                     message = (String) msg.obj;
-                    player2_say.setText(message);
+                    int count = 0;
+                    if (message == null){
+                        count++;
+                    }else {
+                        count = 0;
+                    }
+                    if (count == 5){
+
+                        displayToast("Netzwerk not connect");
+                        close();
+                    }
+//                    player2_say.setVisibility(View.VISIBLE);
+//                    player2_say.setText(message);
+                    displayToast("gegner say: "+ message);
                     break;
+                case 4: //map schiessen
+                    message = (String) msg.obj;
+                    System.out.println(message);
+                    String[] mapMsg = message.split(",");
+                    displayToast(mapMsg[0]+"Position: "+mapMsg[1]);
+
                 case 0:
                     displayToast("Erfolg");
                     break;
@@ -649,11 +694,29 @@ public class Spielfeld extends AppCompatActivity {
                     displayToast("!");
 
 
+
                     break;
             }
         }
 
     }
+
+    private void checkconnect(){
+
+        if (Net){
+            try{
+                if (Phost){
+                    connect = mAcceptThread.getSocket().isConnected();
+                }else{
+                    connect = startThread.getSocket().isConnected();
+                }
+            }catch (NullPointerException e){
+                Log.e(tag, "NullPointerException in Spielfled: " + e.toString());
+                displayToast("Netzwerk not connect");
+            }
+        }
+    }
+
     private void displayToast(String s) {
         Toast.makeText(this, s, Toast.LENGTH_SHORT).show();
     }
@@ -661,21 +724,33 @@ public class Spielfeld extends AppCompatActivity {
     // Here is the messageSend methode. By call this methode can player message send.
     public void messageSend(String message,boolean obhost){
         if (obhost) {
-            socket = mAcceptThread.getSocket();
+            try{
+                Socket socket1 = mAcceptThread.getSocket();
 
+                writeHost wh = new writeHost(socket1, os, message);
+                sended = true;
+                System.out.println("Sended Host=True");
 
-            writeHost wh = new writeHost(socket, os, message,true);
+                wh.start();
 
-            wh.start();
-
-            player1_say.setText("");
+                player1_say.setText("");
+            }catch (NullPointerException e){
+                Log.e(tag, "NullPointerException in Spielfled: " + e.toString());
+                displayToast("Netzwerk not connect");
+            }
         }else{
-
-            socket = startThread.getSocket();
-            Thread wirte = new writeClient(true, socket, message,true);
-
-            wirte.start();
-            player1_say.setText("");
+            try{
+                Socket socket1;
+                socket1 = startThread.getSocket();
+                writeClient wirte = new writeClient(true, socket1, message);
+                sended = true;
+                System.out.println("Sended Client=True");
+                wirte.start();
+                player1_say.setText("");
+            }catch (NullPointerException e){
+                Log.e(tag, "NullPointerException in Spielfled: " + e.toString());
+                displayToast("Netzwerk not connect");
+            }
         }
     }
     public void close(){

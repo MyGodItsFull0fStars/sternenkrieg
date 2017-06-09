@@ -65,12 +65,7 @@ public class AcceptThread extends Thread {
 
             } catch (IOException e) {
                 Log.e(tag, "IOException in AcceptThreadHost: " + e.toString());
-                try {
-                    sleep(3000);
-                } catch (InterruptedException e1) {
-                    Log.e(tag, "InterruptedException in AcceptThreadHost: " + e.toString());
-                    Thread.currentThread().interrupt();
-                }
+
                 System.out.println("geht nicht");
             }
 //               catch (InterruptedException e) {

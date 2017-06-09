@@ -18,7 +18,7 @@ public class writeHost extends Thread {
     String tag = "host";
     boolean t;
 
-    public writeHost(Socket socket, OutputStream os, String info,boolean t){
+    public writeHost(Socket socket, OutputStream os, String info){
         this.socket = socket;
         this.os = os;
         this. info = info;
@@ -31,9 +31,9 @@ public class writeHost extends Thread {
 
         try {
 
-            if (t){
-                sleep(1000);
-            }
+//            if (t){
+//                sleep(1000);
+//            }
 
             os = socket.getOutputStream();//kriege socket outputstream
             String msg = info + "\n";
@@ -46,9 +46,10 @@ public class writeHost extends Thread {
             Log.e(tag, "IOException in writeHost: " + e.toString());
         } catch (NullPointerException e) {
             Log.e(tag, "NUllException in writeHost: " + e.toString());
-        } catch (InterruptedException e) {
-            Log.e(tag, "InterruptedException in writeHost: " + e.toString());
         }
+//        catch (InterruptedException e) {
+//            Log.e(tag, "InterruptedException in writeHost: " + e.toString());
+//        }
     }
 
 }

@@ -54,14 +54,26 @@ public class ReceiveThreadClient extends Thread {
                 Thread.currentThread().interrupt();
             }
 
+            try {
 
-            Message msg = myhandler.obtainMessage();
-
-
-            msg.what = 1;
+                Message msg = myhandler.obtainMessage();
+                String[] a = str.split(",");
+                if (a.length == 1) {
+                    msg.what = 1;
+                    msg.obj = str;
+                    myhandler.sendMessage(msg);
+                } else {
+                    msg.what = 4;
+                    msg.obj = str;
+                    myhandler.sendMessage(msg);
+                }
+            }catch (NullPointerException e){
+                Log.e(tag, "NullpointerException in ReceiveThreadHost: " + e.toString());
+            }
+//            msg.what = 1;
 //                }
-            msg.obj = str;
-            myhandler.sendMessage(msg);
+//            msg.obj = str;
+//            myhandler.sendMessage(msg);
             try {
                 sleep(500);
             } catch (InterruptedException e) {

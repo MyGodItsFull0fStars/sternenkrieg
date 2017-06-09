@@ -20,7 +20,7 @@ public class writeClient extends Thread {
     String info;
     boolean t;
 
-    public writeClient(boolean Exit, Socket socket,  String info, boolean t) {
+    public writeClient(boolean Exit, Socket socket,  String info) {
         this.Exit = Exit;
         this.socket = socket;
 

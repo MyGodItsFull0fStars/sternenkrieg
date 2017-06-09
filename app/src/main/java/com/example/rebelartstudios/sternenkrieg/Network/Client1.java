@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.rebelartstudios.sternenkrieg.Dice;
+import com.example.rebelartstudios.sternenkrieg.Map;
 import com.example.rebelartstudios.sternenkrieg.QR_Reader;
 import com.example.rebelartstudios.sternenkrieg.R;
 import com.example.rebelartstudios.sternenkrieg.Spielfeld;
@@ -89,7 +90,7 @@ public class Client1 extends AppCompatActivity implements View.OnClickListener {
 
                 String info = et.getText().toString();
                 socket = st.getSocket();
-                Thread wirte = new writeClient(true, socket, info, false);
+                Thread wirte = new writeClient(true, socket, info);
 
                 wirte.start();
                 et.setText("");
@@ -109,7 +110,7 @@ public class Client1 extends AppCompatActivity implements View.OnClickListener {
 
                 try {
                     info = "//Bereiten";
-                    wirte = new writeClient(true, socket, info, false);
+                    wirte = new writeClient(true, socket, info);
                     wirte.start();
                 } catch (NullPointerException e) {
                     Log.e(tag, "NullPointerException in Client: " + e.toString());
@@ -157,6 +158,8 @@ public class Client1 extends AppCompatActivity implements View.OnClickListener {
                     } else if (str.equals("//Starten")) {
                         Intent intentD = new Intent(Client1.this, Dice.class);
                         Intent intentS = new Intent(Client1.this, Spielfeld.class);
+                        Intent intentM = new Intent(Client1.this, Map.class);
+
                         ifstart = false;
                         close();
                         System.out.println("Client ip = "+ip);
@@ -165,7 +168,8 @@ public class Client1 extends AppCompatActivity implements View.OnClickListener {
                         intentS.putExtra("ip",ip);
                         intentS.putExtra("Net" ,"t");
                         intentD.putExtra("mode", 1);
-                        startActivity(intentD);
+//                        startActivity(intentD);
+                        startActivity(intentS);
 
                     }
                     break;
@@ -208,7 +212,7 @@ public class Client1 extends AppCompatActivity implements View.OnClickListener {
         rt = st.getRt();
         try{ rt.setRunning(false);
             String Exit = "Exit";
-            Thread wirte = new writeClient(false,socket,Exit,false);
+            Thread wirte = new writeClient(false,socket,Exit);
             wirte.start();
         }catch(NullPointerException e){
             Log.e(tag, "NullPointerException in Client: " + e.toString());
@@ -226,6 +230,8 @@ public class Client1 extends AppCompatActivity implements View.OnClickListener {
             socket.close();
             socket = null;
             st.setTryconnect(false);
+            btnStart.setEnabled(true);
+            btnBeretien.setEnabled(false);
 
             st.interrupt();
         } catch (NullPointerException e) {

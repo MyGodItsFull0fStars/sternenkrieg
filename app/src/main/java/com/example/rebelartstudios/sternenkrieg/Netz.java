@@ -46,7 +46,7 @@ public class Netz {
             socket = mAcceptThread.getSocket();
 
 
-            writeHost wh = new writeHost(socket, os, message,false);
+            writeHost wh = new writeHost(socket, os, message);
 
             wh.start();
 
@@ -54,7 +54,7 @@ public class Netz {
         }else{
 
             socket = startThread.getSocket();
-            Thread wirte = new writeClient(true, socket, message,false);
+            Thread wirte = new writeClient(true, socket, message);
 
             wirte.start();
 

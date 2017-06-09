@@ -17,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.rebelartstudios.sternenkrieg.Dice;
+import com.example.rebelartstudios.sternenkrieg.Map;
 import com.example.rebelartstudios.sternenkrieg.QR_Reader;
 import com.example.rebelartstudios.sternenkrieg.R;
 import com.example.rebelartstudios.sternenkrieg.Spielfeld;
@@ -188,7 +189,7 @@ public class Host extends AppCompatActivity {
                     socket = mAcceptThread.getSocket();
 
                     String info = et.getText().toString();
-                    writeHost wh = new writeHost(socket, os, info,false);
+                    writeHost wh = new writeHost(socket, os, info);
 
                     wh.start();
 
@@ -211,10 +212,11 @@ public class Host extends AppCompatActivity {
                 public void onClick(View v) {
                     String info = "//Starten";
                     socket = mAcceptThread.getSocket();
-                    writeHost writeHost = new writeHost(socket, os, info,false);
+                    writeHost writeHost = new writeHost(socket, os, info);
                     writeHost.start();
                     Intent intentD = new Intent(Host.this, Dice.class);
                     Intent intentS = new Intent(Host.this, Spielfeld.class);
+                    Intent intentM = new Intent(Host.this, Map.class);
                     ifstart = false;
                     close();
                     intentD.putExtra("host","1");
@@ -222,7 +224,8 @@ public class Host extends AppCompatActivity {
                     intentS.putExtra("host","1");
                     intentS.putExtra("Net" ,"t");
                     intentD.putExtra("mode", 1);
-                    startActivity(intentD);
+//                    startActivity(intentD);
+                    startActivity(intentS);
                 }
             });
 
@@ -243,7 +246,7 @@ public class Host extends AppCompatActivity {
 
         String info = "//Exit";
         socket = mAcceptThread.getSocket();
-        writeHost writeHost = new writeHost(socket,os,info,false);
+        writeHost writeHost = new writeHost(socket,os,info);
         writeHost.start();
 
         close();
@@ -267,6 +270,8 @@ public class Host extends AppCompatActivity {
             displayToast("nicht Erfolg");
 
 
+            btnAccept.setEnabled(true);
+            btnStarten.setEnabled(false);
         }
         try {
 

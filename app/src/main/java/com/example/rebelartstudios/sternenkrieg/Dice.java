@@ -325,6 +325,16 @@ public class Dice extends AppCompatActivity {
             switch (msg.what) {
                 case 1:
                     message = (String) msg.obj;
+                    message = (String) msg.obj;
+                    int count = 0;
+                    if (message == null){
+                        count++;
+                    }else {
+                        count = 0;
+                    }
+                    if (count == 3){
+                        close();
+                    }
                     if (!(message == null)) {
 
                         gegnervalue = Integer.parseInt(message);
@@ -360,7 +370,7 @@ public class Dice extends AppCompatActivity {
 
             Socket socket1 = mAcceptThread.getSocket();
 
-            writeHost wh = new writeHost(socket1, os, message, t);
+            writeHost wh = new writeHost(socket1, os, message);
             sended = true;
             System.out.println("Sended Host=True");
 
@@ -371,7 +381,7 @@ public class Dice extends AppCompatActivity {
         } else {
             Socket socket1;
             socket1 = startThread.getSocket();
-            writeClient wirte = new writeClient(true, socket1, message, t);
+            writeClient wirte = new writeClient(true, socket1, message);
             sended = true;
             System.out.println("Sended Client=True");
             wirte.start();
@@ -399,7 +409,7 @@ public class Dice extends AppCompatActivity {
 
             } catch (NullPointerException e) {
                 Log.e(tag, "NullPointerException in Client: " + e.toString());
-                displayToast("nicht Erfolg");
+
 
 
             }
@@ -427,7 +437,7 @@ public class Dice extends AppCompatActivity {
                 startThread.interrupt();
             } catch (NullPointerException e) {
                 Log.e(tag, "NullPointerException in Client: " + e.toString());
-                displayToast("nicht Erfolg");
+
             } catch (IOException e) {
                 Log.e(tag, "IOException in Client: " + e.toString());
             }
