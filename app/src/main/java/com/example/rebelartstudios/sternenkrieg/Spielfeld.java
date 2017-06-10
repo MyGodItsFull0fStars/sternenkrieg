@@ -548,27 +548,27 @@ public class Spielfeld extends AppCompatActivity {
                 if(checkAvailability(position)){
                 return true;}
             case "h":
-                if(shipRotated=false) {
+                if(shipRotated==false) {
                     if (failures_left.contains(position+1) || !checkAvailability(position) || !checkAvailability(position+1)) {
                         // if(position+1==64||position+1==56){
                         return false;
                     } else {
                         return true;
                     }
-                } else if (shipRotated=true) {
+                } else if (shipRotated==true) {
                     if(position+1>63 || !checkAvailability(position) || !checkAvailability(position+8)) {
                         return false;
                     } else { return true; }
                 }
             case "i":
-                if(shipRotated=false) {
+                if(shipRotated==false) {
                     if (failures_left.contains(position+1) || failures_right.contains(position-1)
                             || !checkAvailability(position) || !checkAvailability(position-1) || !checkAvailability(position+1)) {
                         return false;
                     } else {
                         return true;
                     }
-                } else if(shipRotated=true) {
+                } else if(shipRotated==true) {
                     if(position-8<0 || position+8>63
                             || !checkAvailability(position) || !checkAvailability(position+8) || !checkAvailability(position-8)) {
                         return false;
