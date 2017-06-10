@@ -169,7 +169,7 @@ public class Client1 extends AppCompatActivity implements View.OnClickListener {
                         intentS.putExtra("Net" ,"t");
                         intentD.putExtra("mode", 1);
 //                        startActivity(intentD);
-                        startActivity(intentS);
+                        startActivity(intentD);
 
                     }
                     break;

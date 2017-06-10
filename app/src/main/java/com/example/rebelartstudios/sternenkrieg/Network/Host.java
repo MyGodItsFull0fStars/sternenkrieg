@@ -225,7 +225,7 @@ public class Host extends AppCompatActivity {
                     intentS.putExtra("Net" ,"t");
                     intentD.putExtra("mode", 1);
 //                    startActivity(intentD);
-                    startActivity(intentS);
+                    startActivity(intentD);
                 }
             });
 

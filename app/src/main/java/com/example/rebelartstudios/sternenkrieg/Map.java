@@ -187,12 +187,6 @@ public class Map extends AppCompatActivity {
                         }
 
                         draw(playerField);
-
-                        return (true);
-
-                    }
-
-                    case DragEvent.ACTION_DRAG_ENDED: {
                         ship1.setVisibility(View.VISIBLE);
                         ship2.setVisibility(View.VISIBLE);
                         ship3.setVisibility(View.VISIBLE);
@@ -200,6 +194,12 @@ public class Map extends AppCompatActivity {
                         if (count0 && count1 && count2) {
                             play.setImageDrawable(getResources().getDrawable(R.drawable.arrow_right_other));
                         }
+
+                        return (true);
+
+                    }
+
+                    case DragEvent.ACTION_DRAG_ENDED: {
                         return (true);
 
                     }
