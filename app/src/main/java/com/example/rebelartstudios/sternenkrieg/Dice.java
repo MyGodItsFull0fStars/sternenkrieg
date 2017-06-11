@@ -70,6 +70,8 @@ public class Dice extends AppCompatActivity {
     boolean came = false;
     boolean waitToClose = false;
     Bundle b;
+    Intent intent = new Intent();
+    Intent nextScreen = new Intent();
 
     /********************Netz**************************/
     @Override
@@ -89,7 +91,7 @@ public class Dice extends AppCompatActivity {
         mode = b.getInt("mode");
         Log.d(this.getLocalClassName(), "" + mode);
         /********************Netz**************************/
-        Intent intent = getIntent();
+
         try {
             if (intent.getStringExtra("Net").equals("t")) {
                 Net = true;
@@ -282,7 +284,8 @@ public class Dice extends AppCompatActivity {
         } else {
             who_is_starting = 2;          // Deuce, both must roll the dice again
         }
-        final Intent nextScreen = new Intent(getApplicationContext(), EndScreen.class);
+        nextScreen.setClass(getApplicationContext(), EndScreen.class);
+        getinfofD();
         nextScreen.putExtra("who_is_starting", who_is_starting);
 
         goNext.setVisibility(View.VISIBLE);
@@ -440,6 +443,41 @@ public class Dice extends AppCompatActivity {
 
             } catch (IOException e) {
                 Log.e(tag, "IOException in Client: " + e.toString());
+            }
+        }
+    }
+
+    private void getinfofD(){
+        Intent i = getIntent();
+        System.out.println("Net = "+i.getStringExtra("Net"));
+
+
+        try{
+            if (i.getStringExtra("Net").equals("t")){
+                Net  = true;
+            }
+        }catch (NullPointerException e){
+            Log.e(tag, "NullPointerException in Spielfeld: " + e.toString());
+        }
+
+
+        if (Net){
+            // if the player is host.
+            try{
+                if (i.getStringExtra("host").equals("1")){
+                    Phost = true;
+                    nextScreen.putExtra("Net","t");
+                    nextScreen.putExtra("host","1");
+
+                }
+            }catch (NullPointerException e){
+                Log.e(tag, "NullPointerException in Dice: " + e.toString());
+            }
+            //if the player is client, then needs the ip to build a new socket.
+            if (Phost == false){
+                this.ip = i.getStringExtra("ip");
+                nextScreen.putExtra("Net","t");
+                nextScreen.putExtra("ip",ip);
             }
         }
     }

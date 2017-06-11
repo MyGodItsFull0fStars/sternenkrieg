@@ -165,11 +165,13 @@ public class Client1 extends AppCompatActivity implements View.OnClickListener {
                         System.out.println("Client ip = "+ip);
                         intentD.putExtra("ip",ip);
                         intentD.putExtra("Net" ,"t");
+                        intentM.putExtra("ip",ip);
+                        intentM.putExtra("Net" ,"t");
                         intentS.putExtra("ip",ip);
                         intentS.putExtra("Net" ,"t");
                         intentD.putExtra("mode", 1);
-//                        startActivity(intentD);
-                        startActivity(intentD);
+                        startActivity(intentM);
+
 
                     }
                     break;

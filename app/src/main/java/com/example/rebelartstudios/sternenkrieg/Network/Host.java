@@ -221,11 +221,13 @@ public class Host extends AppCompatActivity {
                     close();
                     intentD.putExtra("host","1");
                     intentD.putExtra("Net" ,"t");
+                    intentM.putExtra("host","1");
+                    intentM.putExtra("Net" ,"t");
                     intentS.putExtra("host","1");
                     intentS.putExtra("Net" ,"t");
                     intentD.putExtra("mode", 1);
-//                    startActivity(intentD);
-                    startActivity(intentD);
+                    startActivity(intentM);
+
                 }
             });
 

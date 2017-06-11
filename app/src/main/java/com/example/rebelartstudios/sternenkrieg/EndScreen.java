@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -11,6 +12,12 @@ import android.widget.TextView;
 public class EndScreen extends AppCompatActivity {
     Button button;
     TextView who_is_starting;
+    Intent intent = new Intent();
+    boolean Net;
+    String tag = "End";
+    boolean Phost;
+    Intent nextScreen = new Intent();
+    String ip;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,10 +40,46 @@ public class EndScreen extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent nextScreen = new Intent(EndScreen.this, Map.class);
+
+                nextScreen.setClass(EndScreen.this, Map.class);
+                getinfofD();
                 startActivity(nextScreen);
             }
         });
 
+    }
+    private void getinfofD(){
+        Intent i = getIntent();
+        System.out.println("Net = "+i.getStringExtra("Net"));
+
+
+        try{
+            if (i.getStringExtra("Net").equals("t")){
+                Net  = true;
+            }
+        }catch (NullPointerException e){
+            Log.e(tag, "NullPointerException in Spielfeld: " + e.toString());
+        }
+
+
+        if (Net){
+            // if the player is host.
+            try{
+                if (i.getStringExtra("host").equals("1")){
+                    Phost = true;
+                    nextScreen.putExtra("Net","t");
+                    nextScreen.putExtra("host","1");
+
+                }
+            }catch (NullPointerException e){
+                Log.e(tag, "NullPointerException in Dice: " + e.toString());
+            }
+            //if the player is client, then needs the ip to build a new socket.
+            if (Phost == false){
+                this.ip = i.getStringExtra("ip");
+                nextScreen.putExtra("Net","t");
+                nextScreen.putExtra("ip",ip);
+            }
+        }
     }
 }

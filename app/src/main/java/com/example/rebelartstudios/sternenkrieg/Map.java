@@ -6,6 +6,7 @@ import android.content.pm.ActivityInfo;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Display;
 import android.view.DragEvent;
 import android.view.MotionEvent;
@@ -42,6 +43,11 @@ public class Map extends AppCompatActivity {
     String setPlayerPositionF = "f";
     String setPlayerPositionZERO = "0";
     MapLoad mapLoad;
+    boolean Net;
+    String tag = "Map";
+    boolean Phost;
+    String ip;
+    Intent intent = new Intent();
 
     public void initializeMap(){
         mapLoad = new MapLoad(this, playerField);
@@ -371,10 +377,12 @@ public class Map extends AppCompatActivity {
         play.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 if (count0 && count1 && count2) {
-                    Intent intent = new Intent();
+
                     intent.setClass(Map.this, Spielfeld.class);
                     intent.putExtra("oldmap", playerField);
+                    getinfofD();
                     startActivity(intent);
                 }
             }
@@ -430,6 +438,42 @@ public class Map extends AppCompatActivity {
 
     public void draw(String[] array) {
         gridView.setAdapter(mapLoad);
+    }
+
+
+    private void getinfofD(){
+        Intent i = getIntent();
+        System.out.println("Net = "+i.getStringExtra("Net"));
+
+
+        try{
+            if (i.getStringExtra("Net").equals("t")){
+                Net  = true;
+            }
+        }catch (NullPointerException e){
+            Log.e(tag, "NullPointerException in Spielfeld: " + e.toString());
+        }
+
+
+        if (Net){
+            // if the player is host.
+            try{
+                if (i.getStringExtra("host").equals("1")){
+                    Phost = true;
+                    intent.putExtra("Net","t");
+                    intent.putExtra("host","1");
+
+                }
+            }catch (NullPointerException e){
+                Log.e(tag, "NullPointerException in Dice: " + e.toString());
+            }
+            //if the player is client, then needs the ip to build a new socket.
+            if (Phost == false){
+                this.ip = i.getStringExtra("ip");
+                intent.putExtra("Net","t");
+                intent.putExtra("ip",ip);
+            }
+        }
     }
 
 }

@@ -303,20 +303,8 @@ public class Spielfeld extends AppCompatActivity {
 
         amountShips = 3;
 
-//        map1 = getIntent().getExtras().getStringArray("oldmap"); //get information of placed ships from previous screen
-        //test
-        map1 = new String[64];
-        for (int i = 0; i < 64; i++) {
-            map1[i] = 0 + "";
-        }
-        map1[32] = "a"; //just temporary fill for opponents ships
-        map1[33] = "a";
-        map1[34] = "a";
+        map1 = getIntent().getExtras().getStringArray("oldmap"); //get information of placed ships from previous screen
 
-        map1[62] = "b";
-        map1[63] = "b";
-
-        map1[5] = "c";
 
         map2 = new String[64];
         for (int i = 0; i < 64; i++) {
@@ -404,6 +392,7 @@ public class Spielfeld extends AppCompatActivity {
         player1_say = (EditText )findViewById(R.id.player1_say);
 
         Intent intent = getIntent();
+        System.out.println("Net = "+intent.getStringExtra("Net"));
 
         try{
             if (intent.getStringExtra("Net").equals("t")){
@@ -709,7 +698,13 @@ public class Spielfeld extends AppCompatActivity {
         }
     }
 
-/***************Network******************************/
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        close();
+    }
+
+    /***************Network******************************/
 // build network must be called in Oncreate, to build a new Socket connect.
     public void networkbuild(){
         boolean running = true;
@@ -752,6 +747,7 @@ public class Spielfeld extends AppCompatActivity {
                     System.out.println(message);
                     String[] mapMsg = message.split(",");
                     displayToast(mapMsg[0]+"Position: "+mapMsg[1]);
+                    break;
 
                 case 0:
                     displayToast("Erfolg");
@@ -833,7 +829,7 @@ public class Spielfeld extends AppCompatActivity {
 
             } catch (NullPointerException e) {
                 Log.e(tag, "NullPointerException in Client: " + e.toString());
-                displayToast("nicht Erfolg");
+
 
 
             }
@@ -861,7 +857,7 @@ public class Spielfeld extends AppCompatActivity {
                 startThread.interrupt();
             } catch (NullPointerException e) {
                 Log.e(tag, "NullPointerException in Client: " + e.toString());
-                displayToast("nicht Erfolg");
+
             } catch (IOException e) {
                 Log.e(tag, "IOException in Client: " + e.toString());
             }
