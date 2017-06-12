@@ -35,6 +35,7 @@ public class Main extends AppCompatActivity {
     Button socketBtn;
     Button powerupBtn;
     ImageView background;
+    ImageView logo;
 
     TextView txt_username;
     TextView txt_level;
@@ -104,7 +105,8 @@ public class Main extends AppCompatActivity {
     private void initializeBackground() {
         background = (ImageView) findViewById(R.id.background);
         background.setBackgroundColor(Color.rgb(0, 0, 0));
-        Glide.with(this).load(R.raw.background).asGif().centerCrop().diskCacheStrategy(DiskCacheStrategy.SOURCE).into(background);
+       Glide.with(this).load(R.raw.background).asGif().centerCrop().diskCacheStrategy(DiskCacheStrategy.SOURCE).into(background);
+
     }
 
     /**

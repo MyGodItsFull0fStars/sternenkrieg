@@ -17,6 +17,9 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -89,6 +92,7 @@ public class Map extends AppCompatActivity {
         height = size.y;
 
         initializeShipView();
+        //Glide.with(this).load(R.raw.fog).asGif().into(((ImageView)gridView));
         initializeOnClickListenerOnButton();
         //ClickListener gibt die Position #Kachel zurück
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -382,6 +386,8 @@ public class Map extends AppCompatActivity {
 
                     intent.setClass(Map.this, Spielfeld.class);
                     intent.putExtra("oldmap", playerField);
+                    int value = intent.getIntExtra("who_is_starting", 0);
+                    intent.putExtra("who_is_starting",value);
                     getinfofD();
                     startActivity(intent);
                 }

@@ -29,13 +29,16 @@ public class EndScreen extends AppCompatActivity {
         who_is_starting = (TextView) findViewById(R.id.text_first);
 
         Intent intent = getIntent();
-        int value = intent.getIntExtra("who_is_starting", 0);
+        final int value = intent.getIntExtra("who_is_starting", 0);
         if (value == 0) {
             who_is_starting.setText("You are first");
+            nextScreen.setClass(EndScreen.this, Map.class);
         } else if (value == 1) {
             who_is_starting.setText("Enemy is first");
+            nextScreen.setClass(EndScreen.this, Map.class);
         } else if (value == 2) {
             who_is_starting.setText("Tie");
+            nextScreen.setClass(EndScreen.this, Dice.class);
         }
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -43,6 +46,7 @@ public class EndScreen extends AppCompatActivity {
 
                 nextScreen.setClass(EndScreen.this, Map.class);
                 getinfofD();
+                nextScreen.putExtra("who_is_starting",value);
                 startActivity(nextScreen);
             }
         });

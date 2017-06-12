@@ -28,6 +28,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.rebelartstudios.sternenkrieg.Network.AcceptThread;
 import com.example.rebelartstudios.sternenkrieg.Network.ReceiveThreadClient;
 import com.example.rebelartstudios.sternenkrieg.Network.ReceiveThreadHost;
@@ -60,7 +62,6 @@ public class Spielfeld extends AppCompatActivity {
     int highScore = 0;
 
     int pointsPlayer = 0;
-
     boolean check; //checks whether powerups are currently displayed;
     Vibrator vib;
 
@@ -96,6 +97,11 @@ public class Spielfeld extends AppCompatActivity {
     boolean sended;
     boolean came;
     boolean connect;
+    boolean sendMap = true;
+    boolean shoot=false;
+    boolean dice= false;
+    boolean dice2=false;
+    Intent intent = new Intent();
     /*******Networking*****/
 
     @Override
@@ -202,18 +208,21 @@ public class Spielfeld extends AppCompatActivity {
                 LinkedList<Integer> countE = new LinkedList<>();
                 LinkedList<Integer> countF = new LinkedList<>();
 
-                for(int i = 0; i < map1.length; i++) {
+                for (int i = 0; i < map1.length; i++) {
                     switch (map1[i]) {
-                        case "d": countD.add(i);
+                        case "d":
+                            countD.add(i);
                             break;
-                        case "e": countE.add(i);
-                            if(map1[i+1].equals("e")){
-                                ship2Rotated=false;
+                        case "e":
+                            countE.add(i);
+                            if (map1[i + 1].equals("e")) {
+                                ship2Rotated = false;
                             }
                             break;
-                        case "f": countF.add(i);
-                            if(map1[i+1].equals("f")){
-                                ship3Rotated=false;
+                        case "f":
+                            countF.add(i);
+                            if (map1[i + 1].equals("f")) {
+                                ship3Rotated = false;
                             }
                             break;
                         default:
@@ -221,23 +230,23 @@ public class Spielfeld extends AppCompatActivity {
                     }
 
 
-                    if(countD.size()==1) {
-                        for(int j=0; j < countD.size(); j++) {
+                    if (countD.size() == 1) {
+                        for (int j = 0; j < countD.size(); j++) {
                             map1[countD.get(j)] = "g";
                         }
                         countD.clear();
 
                     }
 
-                    if(countE.size()==2) {
-                        for(int j=0; j < countE.size(); j++) {
+                    if (countE.size() == 2) {
+                        for (int j = 0; j < countE.size(); j++) {
                             map1[countE.get(j)] = "h";
                         }
                         countE.clear();
                     }
 
-                    if(countF.size()==3) {
-                        for(int j=0; j < countF.size(); j++) {
+                    if (countF.size() == 3) {
+                        for (int j = 0; j < countF.size(); j++) {
                             map1[countF.get(j)] = "i";
                         }
                         countF.clear();
@@ -245,7 +254,7 @@ public class Spielfeld extends AppCompatActivity {
                 }
 
                 ship2RotatedFinal = ship2Rotated;
-               ship3RotatedFinal = ship3Rotated;
+                ship3RotatedFinal = ship3Rotated;
 
                 draw(map1, gridView1);
 
@@ -253,11 +262,11 @@ public class Spielfeld extends AppCompatActivity {
                 gridView1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
 
-                           // final int posi=position;
-                            final String posis = map1[position];
+                        // final int posi=position;
+                        final String posis = map1[position];
 
-                        if(posis.equals("g") || posis.equals("h") || posis.equals("i")) {
-                            for(int i=0; i < map1.length; i++) {
+                        if (posis.equals("g") || posis.equals("h") || posis.equals("i")) {
+                            for (int i = 0; i < map1.length; i++) {
                                 if (map1[i].equals(posis)) {
 
                                     map1[i] = 4 + "";
@@ -266,10 +275,9 @@ public class Spielfeld extends AppCompatActivity {
                             }
 
 
-
                             relocate(posis, ship2RotatedFinal, ship3RotatedFinal);
 
-                            }
+                        }
                     }
                 });
             }
@@ -305,20 +313,16 @@ public class Spielfeld extends AppCompatActivity {
 
         map1 = getIntent().getExtras().getStringArray("oldmap"); //get information of placed ships from previous screen
 
+        if (sendMap) {
+            String sendField = "";
+            for (String data : map1)
+                sendField += data;
 
-        map2 = new String[64];
-        for (int i = 0; i < 64; i++) {
-            map2[i] = 0 + "";
+            map2 = new String[64];
+            Arrays.fill(map2, "0");
+            messageSend("Map," + sendField, Phost);
+            System.out.println("Send" + sendField);
         }
-
-        map2[32] = "a"; //just temporary fill for opponents ships
-        map2[33] = "a";
-        map2[34] = "a";
-
-        map2[62] = "b";
-        map2[63] = "b";
-
-        map2[5] = "c";
 
 
         final Display display = getWindowManager().getDefaultDisplay();
@@ -338,83 +342,82 @@ public class Spielfeld extends AppCompatActivity {
         gridView2.getLayoutParams().height = height - 350;
         gridView2.getLayoutParams().width = height - 350;
         gridView2.setAdapter(new MapLoad(this, map2));
+        clickMap();
+            start();
 
-       clickMap();
 
+        if(shoot) {
+            gridView2.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+                    checkconnect();
+                    if (!Net || connect) {
+                        messageSend("shoot," + position, Phost);
 
+                        //   messageSend("map,"+position,Phost);
 
-        gridView2.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-                checkconnect();
-                if (!Net||connect) {
-                    String shipType = map2[position];
-                    messageSend("map,"+position,Phost);
-
-                    // Toast.makeText(getApplicationContext(), "Pos: " + position + " Id: ",
-                    //       Toast.LENGTH_SHORT).show();
-
-                /* hit ship of enemy */
-                    if (map2[position].equals("a") || map2[position].equals("b") || map2[position].equals("c")) {
-                        map2[position] = 4 + "";
-                        vib.vibrate(500);
-                        highScore += 80;
+                        // Toast.makeText(getApplicationContext(), "Pos: " + position + " Id: ",
+                        //       Toast.LENGTH_SHORT).show();
+                        String shipType = map2[position];
+           /* hit ship of enemy */
+                        if (map2[position].equals("a") || map2[position].equals("b") || map2[position].equals("c")) {
+                            map2[position] = 4 + "";
+                            vib.vibrate(500);
+                            highScore += 80;
 
                 /* miss enemy's ships */
-                    } else if (map2[position].equals("0")) {
-                        map2[position] = 1 + "";
-                        highScore -= 20;
+                        } else if (map2[position].equals("0")) {
+                            map2[position] = 1 + "";
+                            highScore -= 20;
+                        }
+
+                        draw(map2, gridView2); // update map
+                        shoot=false;
+                        dice=true;
+                        System.out.println("Dice True");
+                        if(dice&&dice2)
+                            dice();
+
+                        if (gameOver(shipType, map2)) { //check whether a complete ship of the enemy has been destroyed
+                            decrementAmount();
+                        }
+
+                    } else {
+                        displayToast("Host should start game.");
                     }
 
-                    draw(map2, gridView2); // update map
-
-                    Random rand = new Random();
-                    int n = rand.nextInt(64);
-
-
-                    // gridView1.getChildAt(31).performClick();
-
-
-                    if (gameOver(shipType, map2)) { //check whether a complete ship of the enemy has been destroyed
-                        decrementAmount();
-                    }
-                }else {
-                    displayToast("Host should start game.");
                 }
-
-            }
-        });
-
-        /****Networking****/
-        start_play = (Button)findViewById(R.id.Start_play);
-
-        send  = (Button)findViewById(R.id.player1_send);
-
-        player1_say = (EditText )findViewById(R.id.player1_say);
-
-        Intent intent = getIntent();
-        System.out.println("Net = "+intent.getStringExtra("Net"));
-
-        try{
-            if (intent.getStringExtra("Net").equals("t")){
-                Net  = true;
-            }
-        }catch (NullPointerException e){
-            Log.e(tag, "NullPointerException in Spielfeld: " + e.toString());
+            });
         }
 
+        /****Networking****/
+        start_play = (Button) findViewById(R.id.Start_play);
 
-        if (Net){
+        send = (Button) findViewById(R.id.player1_send);
+
+        player1_say = (EditText) findViewById(R.id.player1_say);
+
+        Intent intent = getIntent();
+        System.out.println("Net = " + intent.getStringExtra("Net"));
+
+        try {
+            if (intent.getStringExtra("Net").equals("t")) {
+                Net = true;
+            }
+        } catch (NullPointerException e) {
+            Log.e(tag, "NullPointerException in Spielfeld: " + e.toString());
+        }
+        if (Net) {
             // if the player is host.
-            try{
-                if (intent.getStringExtra("host").equals("1")){
+            try {
+                if (intent.getStringExtra("host").equals("1")) {
                     Phost = true;
                     start_play.setVisibility(View.VISIBLE);
                 }
-            }catch (NullPointerException e){
+            } catch (NullPointerException e) {
                 Log.e(tag, "NullPointerException in Dice: " + e.toString());
             }
             //if the player is client, then needs the ip to build a new socket.
-            if (Phost == false){
+            if (Phost == false) {
                 this.ip = intent.getStringExtra("ip");
             }
             myhandler = new Myhandler();
@@ -422,24 +425,24 @@ public class Spielfeld extends AppCompatActivity {
             send.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    System.out.println("Phost = "+Phost);
+                    System.out.println("Phost = " + Phost);
                     String info = player1_say.getText().toString();
-                    if (Phost){ //If this is host, so use writeHost to sand message.
-                        messageSend(info,Phost);
-                    }else{// Client.
-                        messageSend(info,Phost);
+                    if (Phost) { //If this is host, so use writeHost to sand message.
+                        messageSend(info, Phost);
+                    } else {// Client.
+                        messageSend(info, Phost);
                     }
                 }
             });
-        }else {
+        } else {
             displayToast("Kein Internet verbinden");
         }
 
         start_play.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                boolean running  =true;
-                mAcceptThread = new AcceptThread(running,mServerSocket,socket,myhandler,receiveThreadHost,11223);
+                boolean running = true;
+                mAcceptThread = new AcceptThread(running, mServerSocket, socket, myhandler, receiveThreadHost, 11223);
                 mAcceptThread.start();
                 start_play.setVisibility(View.GONE);
             }
@@ -447,6 +450,67 @@ public class Spielfeld extends AppCompatActivity {
         /****Networking***/
 
     }
+
+
+
+
+
+    public void start() {
+        Intent intent = getIntent();
+        int value = intent.getIntExtra("who_is_starting", 0);
+        System.out.println("Who_is_starting"+value);
+        //Player beginns
+        System.out.println("Shoot: "+shoot);
+        pointsPlayer+= intent.getIntExtra("dicescore",0);
+        System.out.println("POints:" + pointsPlayer);
+        if (value == 0 ) {
+            shoot=true;
+
+            //Player2 beginns
+        } else  {
+            shoot=false;
+        }
+
+    }
+
+    public void dice() {
+        intent.setClass(Spielfeld.this, Dice.class);
+        intent.putExtra("oldmap", map1);
+        intent.putExtra("mode",2);
+        final int value = intent.getIntExtra("who_is_starting", 0);
+        intent.putExtra("who_is_starting",value);
+        getinfofD();
+        close();
+        startActivity(intent);
+    }
+
+
+    public void checkShoot(int position, int player) {
+        if (map1[position].equals("d") || map1[position].equals("e") || map1[position].equals("f")) {
+            map1[position] = 3 + "";
+            vib.vibrate(500);
+            highScore = highScore - 30;
+
+                    /* opponent misses */
+        } else if (map1[position].equals("0")) {
+            map1[position] = 5 + "";
+            highScore = highScore + 10;
+        }
+        draw(map1, gridView1); // update map
+        dice2=true;
+        System.out.println("Dice2 True");
+
+        if (gameOver("d", map1) && gameOver("e", map1) && gameOver("f", map1)) { //determine whether all ships are already destroyed
+            alert("2");
+        }
+
+
+    }
+
+
+
+
+
 
 
 
@@ -483,43 +547,43 @@ public class Spielfeld extends AppCompatActivity {
         gridView1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
 
-                for(int i=0; i < map1.length; i++){ //ship is no longer located here; set to 0
-                    if(map1[i].equals("4")){
-                        map1[i]=0+"";
+                for (int i = 0; i < map1.length; i++) { //ship is no longer located here; set to 0
+                    if (map1[i].equals("4")) {
+                        map1[i] = 0 + "";
                     }
                 }
                 boolean shipPlaced = false;
 
-                switch(posis) { //check whether ship can be placed here;
+                switch (posis) { //check whether ship can be placed here;
                     case "g":
-                        if( relocateShip(position, posis, true)) {
+                        if (relocateShip(position, posis, true)) {
                             map1[position] = "d";
                             shipPlaced = true;
 
                         }
                         break;
                     case "h":
-                        if( relocateShip(position, posis, ship2Rotated) && !ship2Rotated) { //check if ship is placeable for not rotated ship
+                        if (relocateShip(position, posis, ship2Rotated) && !ship2Rotated) { //check if ship is placeable for not rotated ship
                             map1[position] = "e";
                             map1[position + 1] = "e"; //relocate ship unrotated
-                            shipPlaced=true;
+                            shipPlaced = true;
                         } else if (relocateShip(position, posis, ship2Rotated) && ship2Rotated) { //check if ship is placeable for rotated ship
                             map1[position] = "e";
-                            map1[position+8] = "e"; //relocate ship rotated
+                            map1[position + 8] = "e"; //relocate ship rotated
                             shipPlaced = true;
 
-                    }
+                        }
                         break;
                     case "i":
-                        if( relocateShip(position, posis, ship3Rotated) && !ship3Rotated) { //check if ship is placeable for not rotated ship
+                        if (relocateShip(position, posis, ship3Rotated) && !ship3Rotated) { //check if ship is placeable for not rotated ship
                             map1[position] = "f";
                             map1[position + 1] = "f";
                             map1[position - 1] = "f"; //relocate ship unrotated
-                            shipPlaced=true;
-                        } else if(relocateShip(position, posis, ship3Rotated) && ship3Rotated) { //check if ship is placeable for rotated ship
-                            map1[position-8] = "f";
+                            shipPlaced = true;
+                        } else if (relocateShip(position, posis, ship3Rotated) && ship3Rotated) { //check if ship is placeable for rotated ship
+                            map1[position - 8] = "f";
                             map1[position] = "f";
-                            map1[position+8] = "f"; //relocate ship rotated
+                            map1[position + 8] = "f"; //relocate ship rotated
                             shipPlaced = true;
                         }
                         break;
@@ -527,17 +591,21 @@ public class Spielfeld extends AppCompatActivity {
                         break;
                 }
 
-                if(shipPlaced) {
+                if (shipPlaced) {
 
-                    for(int i=0; i < map1.length; i++){
+                    for (int i = 0; i < map1.length; i++) {
                         switch (map1[i]) {
-                            case"g": map1[i]="d";
+                            case "g":
+                                map1[i] = "d";
                                 break;
-                            case "h": map1[i]="e";
+                            case "h":
+                                map1[i] = "e";
                                 break;
-                            case "i": map1[i]="f";
+                            case "i":
+                                map1[i] = "f";
                                 break;
-                            default: break;
+                            default:
+                                break;
                         }
 
                     }
@@ -558,36 +626,41 @@ public class Spielfeld extends AppCompatActivity {
         ArrayList<Integer> failures_right = new ArrayList<Integer>(Arrays.asList(-1, 7, 15, 23, 31, 39, 47, 55, 63));
         ArrayList<Integer> failures_left = new ArrayList<Integer>(Arrays.asList(8, 16, 24, 32, 40, 48, 56, 64));
 
-        switch(posis) {
+        switch (posis) {
             case "g":
-                if(checkAvailability(position)){
-                return true;}
+                if (checkAvailability(position)) {
+                    return true;
+                }
             case "h":
-                if(shipRotated==false) {
-                    if (failures_left.contains(position+1) || !checkAvailability(position) || !checkAvailability(position+1)) {
+                if (shipRotated == false) {
+                    if (failures_left.contains(position + 1) || !checkAvailability(position) || !checkAvailability(position + 1)) {
                         // if(position+1==64||position+1==56){
                         return false;
                     } else {
                         return true;
                     }
-                } else if (shipRotated==true) {
-                    if(position+1>63 || !checkAvailability(position) || !checkAvailability(position+8)) {
-                        return false;
-                    } else { return true; }
-                }
-            case "i":
-                if(shipRotated==false) {
-                    if (failures_left.contains(position+1) || failures_right.contains(position-1)
-                            || !checkAvailability(position) || !checkAvailability(position-1) || !checkAvailability(position+1)) {
+                } else if (shipRotated == true) {
+                    if (position + 1 > 63 || !checkAvailability(position) || !checkAvailability(position + 8)) {
                         return false;
                     } else {
                         return true;
                     }
-                } else if(shipRotated==true) {
-                    if(position-8<0 || position+8>63
-                            || !checkAvailability(position) || !checkAvailability(position+8) || !checkAvailability(position-8)) {
+                }
+            case "i":
+                if (shipRotated == false) {
+                    if (failures_left.contains(position + 1) || failures_right.contains(position - 1)
+                            || !checkAvailability(position) || !checkAvailability(position - 1) || !checkAvailability(position + 1)) {
                         return false;
-                    } else { return true; }
+                    } else {
+                        return true;
+                    }
+                } else if (shipRotated == true) {
+                    if (position - 8 < 0 || position + 8 > 63
+                            || !checkAvailability(position) || !checkAvailability(position + 8) || !checkAvailability(position - 8)) {
+                        return false;
+                    } else {
+                        return true;
+                    }
                 }
             default:
                 return true;
@@ -595,32 +668,35 @@ public class Spielfeld extends AppCompatActivity {
 
     }
 
-    public boolean checkAvailability(int position){
-      //  if(map1[position].equals(posis)){ return true;} else {
 
-            switch (map1[position]) {
-                case "d":
-                    return false;
-                case "e":
-                    return false;
-                case "f":
-                    return false;
-                case "g":
-                    return false;
-                case "h":
-                    return false;
-                case "i":
-                    return false;
-                case "3":
-                    return false;
-                case "5":
-                    return false;
-                default:
-                    return true;
-            }
-      //  }
+
+    public boolean checkAvailability(int position) {
+        //  if(map1[position].equals(posis)){ return true;} else {
+
+        switch (map1[position]) {
+            case "d":
+                return false;
+            case "e":
+                return false;
+            case "f":
+                return false;
+            case "g":
+                return false;
+            case "h":
+                return false;
+            case "i":
+                return false;
+            case "3":
+                return false;
+            case "5":
+                return false;
+            default:
+                return true;
+        }
+        //  }
 
     }
+
     public void draw(String[] array, GridView gridView) {
         gridView.setAdapter(new MapLoad(this, array));
     }
@@ -706,19 +782,20 @@ public class Spielfeld extends AppCompatActivity {
 
     /***************Network******************************/
 // build network must be called in Oncreate, to build a new Socket connect.
-    public void networkbuild(){
+    public void networkbuild() {
         boolean running = true;
-        if (Phost){
+        if (Phost) {
 //            mAcceptThread = new AcceptThread(running,mServerSocket,socket,myhandler,receiveThreadHost,112233);
 //            mAcceptThread.start();
-        }else {
-            startThread = new StartThread(socket,ip,receiveThreadClient,myhandler,11223);
+        } else {
+            startThread = new StartThread(socket, ip, receiveThreadClient, myhandler, 11223);
             startThread.start();
         }
 
     }
+
     // There are the Message from other player. We can work with "message" to change our map, uppower and ship.
-    class Myhandler extends Handler{
+    class Myhandler extends Handler {
 
 
         public void handleMessage(Message msg) {
@@ -728,33 +805,68 @@ public class Spielfeld extends AppCompatActivity {
                 case 1:
                     message = (String) msg.obj;
                     int count = 0;
-                    if (message == null){
+                    if (message == null) {
                         count++;
-                    }else {
+                    } else {
                         count = 0;
                     }
-                    if (count == 5){
+                    if (count == 5) {
 
                         displayToast("Netzwerk not connect");
                         close();
                     }
 //                    player2_say.setVisibility(View.VISIBLE);
 //                    player2_say.setText(message);
-                    displayToast("gegner say: "+ message);
+                    displayToast("gegner say: " + message);
                     break;
                 case 4: //map schiessen
                     message = (String) msg.obj;
                     System.out.println(message);
                     String[] mapMsg = message.split(",");
-                    displayToast(mapMsg[0]+"Position: "+mapMsg[1]);
+                    if (mapMsg[0].equals("Map")) {
+                        map2 = mapMsg[1].split("");
+                        String[] map3 = new String[64];
+                        for (int i = 0; i < map3.length; i++)
+                            map3[i] = map2[i + 1];
+
+                        map2 = map3;
+                        draw(map2, gridView2);
+                        messageSend("Gotit,1", Phost);
+                        System.out.println("Map" + mapMsg[1]);
+
+                    }
+                    if (mapMsg[0].equals("Gotit")) {
+                        System.out.println("Gotit");
+                        sendMap = false;
+                    }
+                    if (mapMsg[0].equals("shoot")) {
+                        String position = mapMsg[1];
+                        checkShoot(Integer.parseInt(position), 2);
+                        shoot=true;
+
+                    }
+
+                    if(dice&&dice2)
+                        dice();
+                    displayToast(mapMsg[0] + "Position: " + mapMsg[1]);
                     break;
 
                 case 0:
                     displayToast("Erfolg");
+                    if (sendMap) {
+                        String sendMap = "";
+                        for (String data : map1)
+                            sendMap += data;
+
+                        map2 = new String[64];
+                        Arrays.fill(map2, "0");
+                        messageSend("Map," + sendMap, Phost);
+                        System.out.println("Send" + sendMap);
+                    }
+
                     break;
                 case 2:
                     displayToast("!");
-
 
 
                     break;
@@ -763,16 +875,16 @@ public class Spielfeld extends AppCompatActivity {
 
     }
 
-    private void checkconnect(){
+    private void checkconnect() {
 
-        if (Net){
-            try{
-                if (Phost){
+        if (Net) {
+            try {
+                if (Phost) {
                     connect = mAcceptThread.getSocket().isConnected();
-                }else{
+                } else {
                     connect = startThread.getSocket().isConnected();
                 }
-            }catch (NullPointerException e){
+            } catch (NullPointerException e) {
                 Log.e(tag, "NullPointerException in Spielfled: " + e.toString());
                 displayToast("Netzwerk not connect");
             }
@@ -784,9 +896,9 @@ public class Spielfeld extends AppCompatActivity {
     }
 
     // Here is the messageSend methode. By call this methode can player message send.
-    public void messageSend(String message,boolean obhost){
+    public void messageSend(String message, boolean obhost) {
         if (obhost) {
-            try{
+            try {
                 Socket socket1 = mAcceptThread.getSocket();
 
                 writeHost wh = new writeHost(socket1, os, message);
@@ -796,12 +908,12 @@ public class Spielfeld extends AppCompatActivity {
                 wh.start();
 
                 player1_say.setText("");
-            }catch (NullPointerException e){
+            } catch (NullPointerException e) {
                 Log.e(tag, "NullPointerException in Spielfled: " + e.toString());
                 displayToast("Netzwerk not connect");
             }
-        }else{
-            try{
+        } else {
+            try {
                 Socket socket1;
                 socket1 = startThread.getSocket();
                 writeClient wirte = new writeClient(true, socket1, message);
@@ -809,17 +921,17 @@ public class Spielfeld extends AppCompatActivity {
                 System.out.println("Sended Client=True");
                 wirte.start();
                 player1_say.setText("");
-            }catch (NullPointerException e){
+            } catch (NullPointerException e) {
                 Log.e(tag, "NullPointerException in Spielfled: " + e.toString());
                 displayToast("Netzwerk not connect");
             }
         }
     }
-    public void close(){
+
+    public void close() {
 
 
-
-        if (Phost){
+        if (Phost) {
 
             try {
 
@@ -829,7 +941,6 @@ public class Spielfeld extends AppCompatActivity {
 
             } catch (NullPointerException e) {
                 Log.e(tag, "NullPointerException in Client: " + e.toString());
-
 
 
             }
@@ -846,7 +957,7 @@ public class Spielfeld extends AppCompatActivity {
             } catch (IOException e) {
                 Log.e(tag, "IOPointerException in Client: " + e.toString());
             }
-        }else{
+        } else {
             try {
                 startThread.setRunning(false);
                 socket = startThread.getSocket();
@@ -860,6 +971,41 @@ public class Spielfeld extends AppCompatActivity {
 
             } catch (IOException e) {
                 Log.e(tag, "IOException in Client: " + e.toString());
+            }
+        }
+    }
+
+    private void getinfofD(){
+        Intent i = getIntent();
+        System.out.println("Net = "+i.getStringExtra("Net"));
+
+
+        try{
+            if (i.getStringExtra("Net").equals("t")){
+                Net  = true;
+            }
+        }catch (NullPointerException e){
+            Log.e(tag, "NullPointerException in Spielfeld: " + e.toString());
+        }
+
+
+        if (Net){
+            // if the player is host.
+            try{
+                if (i.getStringExtra("host").equals("1")){
+                    Phost = true;
+                    intent.putExtra("Net","t");
+                    intent.putExtra("host","1");
+
+                }
+            }catch (NullPointerException e){
+                Log.e(tag, "NullPointerException in Dice: " + e.toString());
+            }
+            //if the player is client, then needs the ip to build a new socket.
+            if (Phost == false){
+                this.ip = i.getStringExtra("ip");
+                intent.putExtra("Net","t");
+                intent.putExtra("ip",ip);
             }
         }
     }

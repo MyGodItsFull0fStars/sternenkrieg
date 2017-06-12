@@ -73,11 +73,12 @@
             </LinearLayout>
 
             <ImageView
+                android:id="@+id/Image_Sternenkrieg"
                 android:layout_width="380dp"
                 android:layout_height="100dp"
                 android:layout_gravity="center"
                 android:contentDescription="@string/logo_desc"
-                android:scaleType="centerInside"
+                android:scaleType="fitCenter"
                 android:src="@drawable/logo" />
 
             <Button

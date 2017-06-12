@@ -11,6 +11,9 @@ import android.view.WindowManager;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+
 public class MapLoad extends BaseAdapter {
     private Context context;
     private final String[] mobileValues;
