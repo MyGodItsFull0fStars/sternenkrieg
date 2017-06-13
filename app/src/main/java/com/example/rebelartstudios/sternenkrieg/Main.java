@@ -83,8 +83,14 @@ public class Main extends AppCompatActivity {
         super.onResume();
         // update username when coming back from Options activity
         txt_username.setText(sharedPreferences.getString("username", null));
-
+        initializeBackground();
         //musicStuff();
+    }
+
+    @Override
+    public void onPause(){
+        super.onPause();
+        destroyBackgroundImageView();
     }
 
     @Override
@@ -93,13 +99,13 @@ public class Main extends AppCompatActivity {
         super.onDestroy();
     }
 
-    private void destroyBackgroundImageView(){
+    private void destroyBackgroundImageView() {
         background.destroyDrawingCache();
         background.setImageBitmap(null);
         background.setImageDrawable(null);
         background.setBackgroundResource(0);
+        Glide.get(this).clearMemory();
     }
-
 
 
     private void initializeBackground() {
