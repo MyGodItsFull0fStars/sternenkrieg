@@ -16,15 +16,15 @@ public class ShipLogic {
 
 	String arrayOutOfBounds = "Wrong array size in parameter";
 
-	public int[] getOldSmallShip() {
+	public int[] getOldSmallShipArray() {
 		return small_ship;
 	}
 
-	public int[] getOldMiddleShip() {
+	public int[] getOldMiddleShipArray() {
 		return middle_ship;
 	}
 
-	public int[] getBigShip() {
+	public int[] getBigShipArray() {
 		return big_ship;
 	}
 

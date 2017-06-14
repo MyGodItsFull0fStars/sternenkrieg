@@ -16,13 +16,10 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.rebelartstudios.sternenkrieg.Network.AcceptThread;
 import com.example.rebelartstudios.sternenkrieg.Network.ReceiveThreadClient;
 import com.example.rebelartstudios.sternenkrieg.Network.ReceiveThreadHost;
@@ -342,7 +339,7 @@ public class Map extends AppCompatActivity {
     }
 
     //schaut das das Schiff nicht über die Map hinaus gesetzt wird
-    public boolean check_position(int pos, int size, int deg) {
+    public boolean check_position(int pos, int size, int degree) {
         ArrayList<Integer> failures_right = new ArrayList<Integer>(Arrays.asList(7, 15, 23, 31, 39, 47, 55, 63));
         ArrayList<Integer> failures_left = new ArrayList<Integer>(Arrays.asList(8, 16, 24, 32, 40, 48, 56));
 
@@ -374,7 +371,7 @@ public class Map extends AppCompatActivity {
         }
 
         if (which_ship == 2) {
-            if (deg == 0) {
+            if (degree == 0) {
                 if (playerField[pos - 1].equals(setPlayerPositionD) || playerField[pos].equals(setPlayerPositionD) || playerField[pos + 1].equals(setPlayerPositionD)
                         || playerField[pos - 1].equals(setPlayerPositionE) || playerField[pos].equals(setPlayerPositionE) || playerField[pos + 1].equals(setPlayerPositionE)) {
                     return false;
@@ -386,7 +383,7 @@ public class Map extends AppCompatActivity {
                 }
             }
         } else if (which_ship == 1) {
-            if (deg == 0) {
+            if (degree == 0) {
                 if (playerField[pos - 1].equals(setPlayerPositionD) || playerField[pos].equals(setPlayerPositionD)
                         || playerField[pos - 1].equals(setPlayerPositionF) || playerField[pos].equals(setPlayerPositionF)) {
                     return false;
