@@ -49,6 +49,7 @@ public class EndScreen extends AppCompatActivity {
     boolean finish = false;
     boolean finishEnemy = false;
     NetworkUtilities util;
+    NetworkStats stats = new NetworkStats();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,73 +61,54 @@ public class EndScreen extends AppCompatActivity {
         who_is_starting = (TextView) findViewById(R.id.text_first);
 
         /********************Netz**************************/
-        Intent intent = getIntent();
-        try {
-            if (intent.getStringExtra("Net").equals("t")) {
-                Net = true;
-            }
-        } catch (NullPointerException e) {
-            Log.e(tag, "NullPointerException in Dice: " + e.toString());
+        System.out.println("EndScreen");
+        Phost = stats.isPhost();
+        System.out.println("Phost: "+ Phost);
+        Net = stats.isNet();
+        System.out.println("Net: " + Net);
+        if (Phost == false) {
+            ip = stats.getIp();
+            System.out.println("Ip: " + ip);
         }
 
-        if (Net) {
-            // if the player is host.
-            try {
-                if (intent.getStringExtra("host").equals("1")) {
-                    Phost = true;
-                }
-            } catch (NullPointerException e) {
-                Log.e(tag, "NullPointerException in Dice: " + e.toString());
-            }
-            //if the player is client, then needs the ip to build a new socket.
+
+        myhandler = new Myhandler();
+        util = new NetworkUtilities(Phost, mAcceptThread, mServerSocket, socket, myhandler, receiveThreadHost, startThread, ip, receiveThreadClient);
+        util.networkbuild();
 
 
-            if (Phost == false) {
-                this.ip = intent.getStringExtra("ip");
-            }
-
-
-            myhandler = new Myhandler();
-            util= new NetworkUtilities(Phost,mAcceptThread,mServerSocket,socket,myhandler,receiveThreadHost,startThread,ip,receiveThreadClient);
-            util.networkbuild();
-
-        } else {
-        }
-       util.connection();
+        util.connection();
 
 
         /********************Netz**************************/
 
 
-        int value = intent.getIntExtra("who_is_starting", 0);
+        int value = stats.getWho_is_starting();
         if (value == 0) {
             who_is_starting.setText("You are first");
             this.intent.setClass(EndScreen.this, Map.class);
-            System.out.println("EndValue: "+value);
-            this.intent.putExtra("who_is_starting", value);
+
         } else if (value == 1) {
             who_is_starting.setText("Enemy is first");
             this.intent.setClass(EndScreen.this, Map.class);
-            System.out.println("EndValue: "+1);
-            this.intent.putExtra("who_is_starting", value);
+
         } else if (value == 2) {
             who_is_starting.setText("Tie");
             this.intent.setClass(EndScreen.this, Dice.class);
-            this.intent.putExtra("mode", 1);
+            stats.setMode(1);
             button.setText("Neu Würfeln");
         }
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish = true;
-                getinfofD();
                 button.setText("Waiting for Enemy");
 
                 util.messageSend("boolean", Phost, true);
                 if (!Phost) {
                     new CountDownTimer(500, 100) {
                         public void onTick(long millisUntilFinished) {
-                            System.out.println("Mili: "+millisUntilFinished);
+                            System.out.println("Mili: " + millisUntilFinished);
                         }
 
                         @Override
@@ -195,38 +177,4 @@ public class EndScreen extends AppCompatActivity {
 
     }
 
-    private void getinfofD() {
-        Intent i = getIntent();
-        System.out.println("Net = " + i.getStringExtra("Net"));
-
-
-        try {
-            if (i.getStringExtra("Net").equals("t")) {
-                Net = true;
-            }
-        } catch (NullPointerException e) {
-            Log.e(tag, "NullPointerException in Spielfeld: " + e.toString());
-        }
-
-
-        if (Net) {
-            // if the player is host.
-            try {
-                if (i.getStringExtra("host").equals("1")) {
-                    Phost = true;
-                    intent.putExtra("Net", "t");
-                    intent.putExtra("host", "1");
-
-                }
-            } catch (NullPointerException e) {
-                Log.e(tag, "NullPointerException in Dice: " + e.toString());
-            }
-            //if the player is client, then needs the ip to build a new socket.
-            if (Phost == false) {
-                this.ip = i.getStringExtra("ip");
-                intent.putExtra("Net", "t");
-                intent.putExtra("ip", ip);
-            }
-        }
-    }
 }

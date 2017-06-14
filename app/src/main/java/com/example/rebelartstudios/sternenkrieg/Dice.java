@@ -19,11 +19,13 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.example.rebelartstudios.sternenkrieg.Network.AcceptThread;
 import com.example.rebelartstudios.sternenkrieg.Network.NetworkUtilities;
 import com.example.rebelartstudios.sternenkrieg.Network.ReceiveThreadClient;
 import com.example.rebelartstudios.sternenkrieg.Network.ReceiveThreadHost;
 import com.example.rebelartstudios.sternenkrieg.Network.StartThread;
+
 import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -42,13 +44,12 @@ public class Dice extends AppCompatActivity {
     Sensoren sensoren = new Sensoren();
     DiceClass diceClass = new DiceClass();
     NetworkUtilities util;
+    NetworkStats stats = new NetworkStats();
 
     private int gegnervalue;
     boolean finish = false;
     boolean finishEnemy = false;
     int dicevalue;
-
-
 
 
     private int mode = 0; // 1 = game start, 2 = powerup
@@ -70,7 +71,6 @@ public class Dice extends AppCompatActivity {
     Button goNext;
     boolean sended = false;
     boolean came = false;
-    Bundle b;
     Intent intent = new Intent();
 
     /********************Netz**************************/
@@ -93,50 +93,30 @@ public class Dice extends AppCompatActivity {
 
 
         mSensorManager.registerListener(AccelSensorListener, mSensor, SensorManager.SENSOR_DELAY_NORMAL);
-        b = getIntent().getExtras();
-        mode = b.getInt("mode");
-        Log.d(this.getLocalClassName(), "" + mode);
         /********************Netz**************************/
-        Intent intent = getIntent();
-        dicevalue = intent.getIntExtra("who_is_starting", 0);
-        System.out.println("Dice Value: "+dicevalue);
-        try {
-            if (intent.getStringExtra("Net").equals("t")) {
-                Net = true;
-            }
-        } catch (NullPointerException e) {
-            Log.e(tag, "NullPointerException in Dice: " + e.toString());
+
+        System.out.println("Dice");
+        Phost = stats.isPhost();
+        System.out.println("Phost: "+ Phost);
+        mode = stats.getMode();
+        Net = stats.isNet();
+        System.out.println("Net: " + Net);
+        if (Phost == false) {
+            ip = stats.getIp();
+            System.out.println("Ip: " + ip);
         }
 
-        if (Net) {
-            // if the player is host.
-            try {
-                if (intent.getStringExtra("host").equals("1")) {
-                    Phost = true;
-                }
-            } catch (NullPointerException e) {
-                Log.e(tag, "NullPointerException in Dice: " + e.toString());
-            }
-            //if the player is client, then needs the ip to build a new socket.
 
-            if (Phost == false) {
-                this.ip = intent.getStringExtra("ip");
-            }
+        myhandler = new Myhandler();
+        util = new NetworkUtilities(Phost, mAcceptThread, mServerSocket, socket, myhandler, receiveThreadHost, startThread, ip, receiveThreadClient);
+        util.networkbuild();
 
 
-            myhandler = new Myhandler();
-            util= new NetworkUtilities(Phost,mAcceptThread,mServerSocket,socket,myhandler,receiveThreadHost,startThread,ip,receiveThreadClient);
-            util.networkbuild();
-
-
-        } else {
-        }
         util.connection();
 
 
         /********************Netz**************************/
     }
-
 
 
     @Override
@@ -167,10 +147,10 @@ public class Dice extends AppCompatActivity {
                 float y = sensorEvent.values[1];
                 float z = sensorEvent.values[2];
 
-            if(sensoren.accelUpdate(x,y,z).equals("shake")&&shakeboolean) {
-                shakeboolean = false;
-                shake();
-            }
+                if (sensoren.accelUpdate(x, y, z).equals("shake")) {
+                    shakeboolean = false;
+                    shake();
+                }
             }
         }
 
@@ -185,12 +165,12 @@ public class Dice extends AppCompatActivity {
     public void shake() {
         switch (mode) {
             case 1:
-                    value =diceClass.roll();
-                    util.messageSend(value + "", Phost, true);
-                    sended=true;
-                    diceClass.changeDiceImage(value);
-                    text_score.setText("You got:" + value + " Waiting for enemy");
-                    sollfinish();
+                value = diceClass.roll();
+                util.messageSend(value + "", Phost, true);
+                sended = true;
+                diceClass.changeDiceImage(value);
+                text_score.setText("You got:" + value + " Waiting for enemy");
+                sollfinish();
 
                 break;
 
@@ -198,14 +178,10 @@ public class Dice extends AppCompatActivity {
                 int valueGame = diceClass.roll();
                 util.messageSend(valueGame + "", Phost, true);
                 diceClass.changeDiceImage(valueGame);
-                valueGame += intent.getIntExtra("dicescore", 0);
-                intent.putExtra("dicescore", valueGame);
+                valueGame += stats.getValue();
+                stats.setValue(valueGame);
                 text_score.setText("You got:" + valueGame + " Waiting for enemy");
-                String[] map1 = getIntent().getExtras().getStringArray("oldmap");
-                intent.putExtra("oldmap", map1);
-                intent.putExtra("who_is_starting", dicevalue);
-                System.out.println("Dice Value: "+dicevalue);
-                sended=true;
+                sended = true;
                 sollfinish();
 
                 break;
@@ -221,8 +197,8 @@ public class Dice extends AppCompatActivity {
         goNext.setVisibility(View.VISIBLE);
         switch (mode) {
             case 1:
-                who_is_starting= diceClass.whoIsStarting(value,gegnervalue);
-                intent.putExtra("who_is_starting", who_is_starting);
+                who_is_starting = diceClass.whoIsStarting(value, gegnervalue);
+                stats.setWho_is_starting(who_is_starting);
 
                 goNext.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -230,9 +206,9 @@ public class Dice extends AppCompatActivity {
                         finish = true;
                         intent.setClass(Dice.this, EndScreen.class);
                         goNext.setText("Waiting for Enemy to Finish");
-                        util.messageSend("boolean",Phost,true);
-                        if(!Phost){
-                            new CountDownTimer(500,100){
+                        util.messageSend("boolean", Phost, true);
+                        if (!Phost) {
+                            new CountDownTimer(500, 100) {
                                 public void onTick(long millisUntilFinished) {
                                     System.out.print(millisUntilFinished);
                                 }
@@ -243,7 +219,7 @@ public class Dice extends AppCompatActivity {
                                 }
 
                             }.start();
-                        }else
+                        } else
                             syncClose();
 
 
@@ -258,9 +234,9 @@ public class Dice extends AppCompatActivity {
                         intent.setClass(Dice.this, Spielfeld.class);
                         finish = true;
                         goNext.setText("Waiting for Enemy to Finish");
-                        util.messageSend("boolean",Phost,true);
-                        if(!Phost){
-                            new CountDownTimer(500,100){
+                        util.messageSend("boolean", Phost, true);
+                        if (!Phost) {
+                            new CountDownTimer(500, 100) {
                                 public void onTick(long millisUntilFinished) {
                                     System.out.print(millisUntilFinished);
                                 }
@@ -271,7 +247,7 @@ public class Dice extends AppCompatActivity {
                                 }
 
                             }.start();
-                        }else
+                        } else
                             syncClose();
 
                     }
@@ -283,7 +259,6 @@ public class Dice extends AppCompatActivity {
 
     public void syncClose() {
         if (finish && finishEnemy) {
-            getinfofD();
             util.close();
             startActivity(intent);
         }
@@ -317,7 +292,7 @@ public class Dice extends AppCompatActivity {
                         if (message.equals("boolean")) {
                             finishEnemy = true;
                             syncClose();
-                        }else {
+                        } else {
                             gegnervalue = Integer.parseInt(message);
                             System.out.println("Gegnervalue: " + gegnervalue);
                             text_score_enemy.setText("Enemy got:" + gegnervalue);
@@ -339,47 +314,9 @@ public class Dice extends AppCompatActivity {
     }
 
 
-
     private void sollfinish() {
         if (sended && came) {
             onFinish();
         }
     }
-
-
-
-    private void getinfofD() {
-        Intent i = getIntent();
-        System.out.println("Net = " + i.getStringExtra("Net"));
-
-        try {
-            if (i.getStringExtra("Net").equals("t")) {
-                Net = true;
-            }
-        } catch (NullPointerException e) {
-            Log.e(tag, "NullPointerException in Spielfeld: " + e.toString());
-        }
-
-
-        if (Net) {
-            // if the player is host.
-            try {
-                if (i.getStringExtra("host").equals("1")) {
-                    Phost = true;
-                    intent.putExtra("Net", "t");
-                    intent.putExtra("host", "1");
-
-                }
-            } catch (NullPointerException e) {
-                Log.e(tag, "NullPointerException in Dice: " + e.toString());
-            }
-            //if the player is client, then needs the ip to build a new socket.
-            if (Phost == false) {
-                this.ip = i.getStringExtra("ip");
-                intent.putExtra("Net", "t");
-                intent.putExtra("ip", ip);
-            }
-        }
-    }
-    /********************Netz**************************/
 }

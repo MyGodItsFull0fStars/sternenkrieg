@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.example.rebelartstudios.sternenkrieg.Dice;
 import com.example.rebelartstudios.sternenkrieg.Map;
+import com.example.rebelartstudios.sternenkrieg.NetworkStats;
 import com.example.rebelartstudios.sternenkrieg.QR_Reader;
 import com.example.rebelartstudios.sternenkrieg.R;
 import com.example.rebelartstudios.sternenkrieg.Spielfeld;
@@ -48,6 +49,7 @@ public class Host extends AppCompatActivity {
     String tag = "Host";
     Button btnStarten;
     boolean ifstart = true;
+    NetworkStats stats= new NetworkStats();
 
 
     @Override
@@ -164,10 +166,6 @@ public class Host extends AppCompatActivity {
             btnAccept.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
-//                    Intent startIntent = new Intent(Host.this, ServersSocket.class);
-//
-//                    startService(startIntent);
                     running = true;
 
                     mAcceptThread = new AcceptThread(running, mServerSocket, socket, mHandler, mReceiveThreadHost,54321);
@@ -221,13 +219,9 @@ public class Host extends AppCompatActivity {
                     Intent intentM = new Intent(Host.this, Map.class);
                     ifstart = false;
                     close();
-                    intentD.putExtra("host","1");
-                    intentD.putExtra("Net" ,"t");
-                    intentM.putExtra("host","1");
-                    intentM.putExtra("Net" ,"t");
-                    intentS.putExtra("host","1");
-                    intentS.putExtra("Net" ,"t");
-                    intentD.putExtra("mode", 1);
+                    stats.setNet(true);
+                    stats.setPhost(true);
+                    stats.setMode(1);
                     startActivity(intentD);
 
                 }

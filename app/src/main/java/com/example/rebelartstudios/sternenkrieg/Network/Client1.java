@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.example.rebelartstudios.sternenkrieg.Dice;
 import com.example.rebelartstudios.sternenkrieg.Map;
+import com.example.rebelartstudios.sternenkrieg.NetworkStats;
 import com.example.rebelartstudios.sternenkrieg.QR_Reader;
 import com.example.rebelartstudios.sternenkrieg.R;
 import com.example.rebelartstudios.sternenkrieg.Spielfeld;
@@ -43,6 +44,7 @@ public class Client1 extends AppCompatActivity implements View.OnClickListener {
     Bundle extras;
     Button btnBeretien;
     boolean ifstart = true;
+    NetworkStats stats= new NetworkStats();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -162,14 +164,10 @@ public class Client1 extends AppCompatActivity implements View.OnClickListener {
 
                         ifstart = false;
                         close();
-                        System.out.println("Client ip = "+ip);
-                        intentD.putExtra("ip",ip);
-                        intentD.putExtra("Net" ,"t");
-                        intentM.putExtra("ip",ip);
-                        intentM.putExtra("Net" ,"t");
-                        intentS.putExtra("ip",ip);
-                        intentS.putExtra("Net" ,"t");
-                        intentD.putExtra("mode", 1);
+                        stats.setIp(ip);
+                        stats.setNet(true);
+                        stats.setPhost(false);
+                        stats.setMode(1);
                         startActivity(intentD);
 
 

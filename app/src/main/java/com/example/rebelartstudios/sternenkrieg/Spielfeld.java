@@ -88,20 +88,21 @@ public class Spielfeld extends AppCompatActivity {
     ReceiveThreadHost receiveThreadHost;
     String ip;
     ReceiveThreadClient receiveThreadClient;
-    String tag = "Spiefeld";
     AcceptThread mAcceptThread;
     StartThread startThread;
     OutputStream os = null;
     boolean Net = false;
     boolean sended;
-    boolean connect;
     boolean sendMap = true;
-    boolean shoot=false;
-    boolean oneshoot=true;
-    boolean dice= false;
-    boolean dice2=false;
+    boolean shoot = false;
+    boolean oneshoot = true;
+    boolean dice = false;
+    boolean dice2 = false;
     Intent intent = new Intent();
     NetworkUtilities util;
+    NetworkStats stats = new NetworkStats();
+    int who_is_starting;
+
     /*******Networking*****/
 
     @Override
@@ -116,51 +117,33 @@ public class Spielfeld extends AppCompatActivity {
 
         send = (Button) findViewById(R.id.player1_send);
         player1_say = (EditText) findViewById(R.id.player1_say);
-
-        Intent intent = getIntent();
-        System.out.println("Net = " + intent.getStringExtra("Net"));
-
-        try {
-            if (intent.getStringExtra("Net").equals("t")) {
-                Net = true;
-            }
-        } catch (NullPointerException e) {
-            Log.e(tag, "NullPointerException in Spielfeld: " + e.toString());
+        System.out.println("Spielfeld");
+        Phost = stats.isPhost();
+        System.out.println("Phost: "+ Phost);
+        who_is_starting=stats.getWho_is_starting();
+        System.out.println("Whoisstarting: "+who_is_starting);
+        Net = stats.isNet();
+        System.out.println("Net: " + Net);
+        if (Phost == false) {
+            ip = stats.getIp();
+            System.out.println("Ip: " + ip);
         }
-        if (Net) {
-            // if the player is host.
-            try {
-                if (intent.getStringExtra("host").equals("1")) {
-                    Phost = true;
 
-                }
-            } catch (NullPointerException e) {
-                Log.e(tag, "NullPointerException in Dice: " + e.toString());
-            }
-            //if the player is client, then needs the ip to build a new socket.
-            if (Phost == false) {
-                this.ip = intent.getStringExtra("ip");
-            }
 
             myhandler = new Myhandler();
-            util= new NetworkUtilities(Phost,mAcceptThread,mServerSocket,socket,myhandler,receiveThreadHost,startThread,ip,receiveThreadClient);
+            util = new NetworkUtilities(Phost, mAcceptThread, mServerSocket, socket, myhandler, receiveThreadHost, startThread, ip, receiveThreadClient);
             util.networkbuild();
-
-
-        } else {
-        }
 
         util.connection();
 
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                System.out.println("Phost = " + Phost);
                 String info = player1_say.getText().toString();
                 if (Phost) { //If this is host, so use writeHost to sand message.
-                    util.messageSend(info, Phost,true);
+                    util.messageSend(info, Phost, true);
                 } else {// Client.
-                    util.messageSend(info, Phost,true);
+                    util.messageSend(info, Phost, true);
                 }
             }
         });
@@ -357,7 +340,6 @@ public class Spielfeld extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 /* go to options-menu */
-                Intent intent = new Intent();
                 intent.setClass(Spielfeld.this, Options.class);
                 // intent.putExtra("gameOn", 1);
                 startActivity(intent);
@@ -367,7 +349,7 @@ public class Spielfeld extends AppCompatActivity {
 
         amountShips = 3;
 
-        map1 = getIntent().getExtras().getStringArray("oldmap"); //get information of placed ships from previous screen
+        map1 = stats.getPlayerMap();
 
         if (sendMap) {
             String sendField = "";
@@ -376,7 +358,7 @@ public class Spielfeld extends AppCompatActivity {
 
             map2 = new String[64];
             Arrays.fill(map2, "0");
-            util.messageSend("Map," + sendField, Phost,true);
+            util.messageSend("Map," + sendField, Phost, true);
             System.out.println("Send" + sendField);
         }
 
@@ -399,84 +381,78 @@ public class Spielfeld extends AppCompatActivity {
         gridView2.getLayoutParams().width = height - 350;
         gridView2.setAdapter(new MapLoad(this, map2));
         clickMap();
-            start();
+        start();
 
 
+        gridView2.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+                if (shoot) {
 
-            gridView2.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-                    if(shoot) {
+                    util.messageSend("shoot," + position, Phost, true);
+                    oneshoot = false;
+                    sended = true;
 
-                            util.messageSend("shoot," + position, Phost,true);
-                            oneshoot = false;
-                        sended=true;
+                    //   messageSend("map,"+position,Phost);
 
-                            //   messageSend("map,"+position,Phost);
-
-                            // Toast.makeText(getApplicationContext(), "Pos: " + position + " Id: ",
-                            //       Toast.LENGTH_SHORT).show();
-                            String shipType = map2[position];
+                    // Toast.makeText(getApplicationContext(), "Pos: " + position + " Id: ",
+                    //       Toast.LENGTH_SHORT).show();
+                    String shipType = map2[position];
            /* hit ship of enemy */
-                            if (map2[position].equals("a") || map2[position].equals("b") || map2[position].equals("c")) {
-                                map2[position] = 4 + "";
-                                vib.vibrate(500);
-                                highScore += 80;
+                    if (map2[position].equals("a") || map2[position].equals("b") || map2[position].equals("c")) {
+                        map2[position] = 4 + "";
+                        vib.vibrate(500);
+                        highScore += 80;
 
                 /* miss enemy's ships */
-                            } else if (map2[position].equals("0")) {
-                                map2[position] = 1 + "";
-                                highScore -= 20;
-                            }
-
-                            draw(map2, gridView2); // update map
-                            shoot = false;
-                            dice = true;
-                            System.out.println("Dice True");
-                            if (dice && dice2) {
-                                if (!Phost) {
-                                    new CountDownTimer(500, 100) {
-                                        public void onTick(long millisUntilFinished) {
-                                            System.out.print(millisUntilFinished);
-                                        }
-
-                                        @Override
-                                        public void onFinish() {
-                                            dice();
-                                        }
-
-                                    }.start();
-                                } else
-                                    dice();
-
-                            }
-
-
-                            if (gameOver(shipType, map2)) { //check whether a complete ship of the enemy has been destroyed
-                                decrementAmount();
-                            }
-
-                        }
+                    } else if (map2[position].equals("0")) {
+                        map2[position] = 1 + "";
+                        highScore -= 20;
                     }
 
-            });
+                    draw(map2, gridView2); // update map
+                    shoot = false;
+                    dice = true;
+                    System.out.println("Dice True");
+                    if (dice && dice2) {
+                        if (!Phost) {
+                            new CountDownTimer(500, 100) {
+                                public void onTick(long millisUntilFinished) {
+                                    System.out.print(millisUntilFinished);
+                                }
 
+                                @Override
+                                public void onFinish() {
+                                    dice();
+                                }
+
+                            }.start();
+                        } else
+                            dice();
+
+                    }
+
+
+                    if (gameOver(shipType, map2)) { //check whether a complete ship of the enemy has been destroyed
+                        decrementAmount();
+                    }
+
+                }
+            }
+
+        });
 
 
     }
 
 
-
-
     public void start() {
-        Intent intent = getIntent();
-        value = intent.getIntExtra("who_is_starting", 0);
-        System.out.println("Spielfeld Value"+value);
+        System.out.println("Spielfeld Value" + who_is_starting);
         //Player beginns
-        System.out.println("Shoot: "+shoot);
-        pointsPlayer+= intent.getIntExtra("dicescore",0);
+        System.out.println("Shoot: " + shoot);
+        pointsPlayer += stats.getValue();
         System.out.println("POints:" + pointsPlayer);
-        if (value == 0&&oneshoot ) {
-            shoot=true;
+        if (who_is_starting == 0 && oneshoot) {
+            shoot = true;
         }
 
 
@@ -484,12 +460,10 @@ public class Spielfeld extends AppCompatActivity {
 
     public void dice() {
         intent.setClass(Spielfeld.this, Dice.class);
-        intent.putExtra("oldmap", map1);
-        intent.putExtra("mode",2);
-        intent.putExtra("who_is_starting",value);
-        System.out.println("Spielfeld ENde Value"+value);
-        getinfofD();
-
+        stats.setPlayerMap(map1);
+        stats.setEnemyMap(map2);
+        stats.setMode(2);
+        System.out.println("Spielfeld ENde Value" + value);
         util.close();
         startActivity(intent);
     }
@@ -507,7 +481,7 @@ public class Spielfeld extends AppCompatActivity {
             highScore = highScore + 10;
         }
         draw(map1, gridView1); // update map
-        dice2=true;
+        dice2 = true;
         System.out.println("Dice2 True");
 
         if (gameOver("d", map1) && gameOver("e", map1) && gameOver("f", map1)) { //determine whether all ships are already destroyed
@@ -516,12 +490,6 @@ public class Spielfeld extends AppCompatActivity {
 
 
     }
-
-
-
-
-
-
 
 
     public void clickMap() {
@@ -679,7 +647,6 @@ public class Spielfeld extends AppCompatActivity {
     }
 
 
-
     public boolean checkAvailability(int position) {
         //  if(map1[position].equals(posis)){ return true;} else {
 
@@ -826,7 +793,7 @@ public class Spielfeld extends AppCompatActivity {
 
                         map2 = map3;
                         draw(map2, gridView2);
-                        util.messageSend("Gotit,1", Phost,true);
+                        util.messageSend("Gotit,1", Phost, true);
                         System.out.println("Map" + mapMsg[1]);
 
                     }
@@ -838,11 +805,11 @@ public class Spielfeld extends AppCompatActivity {
                         String position = mapMsg[1];
                         checkShoot(Integer.parseInt(position), 2);
 
-                        shoot=true;
+                        shoot = true;
 
                     }
 
-                    if(dice&&dice2)
+                    if (dice && dice2)
                         dice();
 
                     break;
@@ -855,7 +822,7 @@ public class Spielfeld extends AppCompatActivity {
 
                         map2 = new String[64];
                         Arrays.fill(map2, "0");
-                        util.messageSend("Map," + sendMap, Phost,true);
+                        util.messageSend("Map," + sendMap, Phost, true);
                         System.out.println("Send" + sendMap);
                     }
 
@@ -867,45 +834,4 @@ public class Spielfeld extends AppCompatActivity {
 
     }
 
-
-    private void getinfofD(){
-        Intent i = getIntent();
-        System.out.println("Net = "+i.getStringExtra("Net"));
-
-
-        try{
-            if (i.getStringExtra("Net").equals("t")){
-                Net  = true;
-            }
-        }catch (NullPointerException e){
-            Log.e(tag, "NullPointerException in Spielfeld: " + e.toString());
-        }
-
-
-        if (Net){
-            // if the player is host.
-            try{
-                if (i.getStringExtra("host").equals("1")){
-                    Phost = true;
-                    intent.putExtra("Net","t");
-                    intent.putExtra("host","1");
-
-                }
-            }catch (NullPointerException e){
-                Log.e(tag, "NullPointerException in Dice: " + e.toString());
-            }
-            //if the player is client, then needs the ip to build a new socket.
-            if (Phost == false){
-                this.ip = i.getStringExtra("ip");
-                intent.putExtra("Net","t");
-                intent.putExtra("ip",ip);
-            }
-        }
-    }
-    /***************Netzworking***********************/
 }
-
-
-
-
-
