@@ -5,6 +5,9 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Point;
 import android.os.Bundle;
+import android.os.CountDownTimer;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Display;
@@ -13,13 +16,24 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.example.rebelartstudios.sternenkrieg.Network.AcceptThread;
+import com.example.rebelartstudios.sternenkrieg.Network.ReceiveThreadClient;
+import com.example.rebelartstudios.sternenkrieg.Network.ReceiveThreadHost;
+import com.example.rebelartstudios.sternenkrieg.Network.StartThread;
+import com.example.rebelartstudios.sternenkrieg.Network.writeClient;
+import com.example.rebelartstudios.sternenkrieg.Network.writeHost;
 
+import java.io.IOException;
+import java.io.OutputStream;
+import java.net.ServerSocket;
+import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -46,29 +60,42 @@ public class Map extends AppCompatActivity {
     String setPlayerPositionF = "f";
     String setPlayerPositionZERO = "0";
     MapLoad mapLoad;
-    boolean Net;
-    String tag = "Map";
-    boolean Phost;
-    String ip;
-    Intent intent = new Intent();
+    int value;
 
-    public void initializeMap(){
+
+    Socket socket = new Socket();
+    ServerSocket mServerSocket = null;
+    Handler myhandler;
+    boolean Phost = false; // if this is host then Phost is ture; if not is false.
+    String message;
+    ReceiveThreadHost receiveThreadHost;
+    String ip;
+    ReceiveThreadClient receiveThreadClient;
+    String tag = "Map";
+    AcceptThread mAcceptThread;
+    StartThread startThread;
+    OutputStream os = null;
+    boolean Net = false;
+    int i = 1;
+    boolean sended = false;
+    Intent intent = new Intent();
+    boolean finish = false;
+    boolean finishEnemy = false;
+
+    public void initializeMap() {
         mapLoad = new MapLoad(this, playerField);
     }
 
 
-
-
     /**
      * Returns the player field as a String array
+     *
      * @return
      */
     public String[] getPlayerField() {
         // playerField[23] = setPlayerPositionTWO;
         return playerField;
     }
-
-
 
 
     @Override
@@ -92,6 +119,49 @@ public class Map extends AppCompatActivity {
         height = size.y;
 
         initializeShipView();
+
+        /********************Netz**************************/
+        Intent intent = getIntent();
+        value = intent.getIntExtra("who_is_starting", 0);
+        System.out.println("MapValue: "+value);
+        try {
+            if (intent.getStringExtra("Net").equals("t")) {
+                Net = true;
+            }
+        } catch (NullPointerException e) {
+            Log.e(tag, "NullPointerException in Dice: " + e.toString());
+        }
+
+        if (Net) {
+            // if the player is host.
+            try {
+                if (intent.getStringExtra("host").equals("1")) {
+                    Phost = true;
+                }
+            } catch (NullPointerException e) {
+                Log.e(tag, "NullPointerException in Dice: " + e.toString());
+            }
+            //if the player is client, then needs the ip to build a new socket.
+
+
+            if (Phost == false) {
+                this.ip = intent.getStringExtra("ip");
+            }
+
+
+            myhandler = new Myhandler();
+
+            networkbuild();
+
+        } else {
+            displayToast("Kein Internetverbindung");
+        }
+        connection();
+
+
+        /********************Netz**************************/
+
+
         //Glide.with(this).load(R.raw.fog).asGif().into(((ImageView)gridView));
         initializeOnClickListenerOnButton();
         //ClickListener gibt die Position #Kachel zurück
@@ -169,7 +239,7 @@ public class Map extends AppCompatActivity {
                         //großes Schiff
                         if (which_ship == 2) {
                             if (degree == 0) {
-                                if (check_position(pos, which_ship, degree) ) {
+                                if (check_position(pos, which_ship, degree)) {
                                     delete(old_big);
                                     // pos-1 weil wenn man das Bild bewegt ist der Zeiger genau mittig vom Bild
                                     playerField[pos - 1] = setPlayerPositionF;
@@ -303,8 +373,8 @@ public class Map extends AppCompatActivity {
 
         }
 
-        if(which_ship==2) {
-            if(deg==0){
+        if (which_ship == 2) {
+            if (deg == 0) {
                 if (playerField[pos - 1].equals(setPlayerPositionD) || playerField[pos].equals(setPlayerPositionD) || playerField[pos + 1].equals(setPlayerPositionD)
                         || playerField[pos - 1].equals(setPlayerPositionE) || playerField[pos].equals(setPlayerPositionE) || playerField[pos + 1].equals(setPlayerPositionE)) {
                     return false;
@@ -315,13 +385,13 @@ public class Map extends AppCompatActivity {
                     return false;
                 }
             }
-        } else if(which_ship==1) {
-            if(deg==0){
+        } else if (which_ship == 1) {
+            if (deg == 0) {
                 if (playerField[pos - 1].equals(setPlayerPositionD) || playerField[pos].equals(setPlayerPositionD)
                         || playerField[pos - 1].equals(setPlayerPositionF) || playerField[pos].equals(setPlayerPositionF)) {
                     return false;
                 }
-            }else {
+            } else {
                 if (playerField[pos - 8].equals(setPlayerPositionD) || playerField[pos].equals(setPlayerPositionD)
                         || playerField[pos - 8].equals(setPlayerPositionF) || playerField[pos].equals(setPlayerPositionF)) {
                     return false;
@@ -386,11 +456,28 @@ public class Map extends AppCompatActivity {
 
                     intent.setClass(Map.this, Spielfeld.class);
                     intent.putExtra("oldmap", playerField);
-                    int value = intent.getIntExtra("who_is_starting", 0);
-                    intent.putExtra("who_is_starting",value);
+                    System.out.println("MapValue: "+value);
+                    intent.putExtra("who_is_starting", value);
                     getinfofD();
-                    startActivity(intent);
+                    finish = true;
+                    messageSend("boolean", Phost, true);
+                    if (!Phost) {
+                        new CountDownTimer(500, 100) {
+                            public void onTick(long millisUntilFinished) {
+                                System.out.print(millisUntilFinished);
+                            }
+
+                            @Override
+                            public void onFinish() {
+                                syncClose();
+                            }
+
+                        }.start();
+                    } else
+                        syncClose();
+
                 }
+
             }
         });
 
@@ -430,6 +517,7 @@ public class Map extends AppCompatActivity {
     /**
      * Receives an integer array containing the positions, which will be deleted
      * in the player field
+     *
      * @param data
      */
     public void delete(int data[]) {
@@ -437,6 +525,7 @@ public class Map extends AppCompatActivity {
             for (int x : data) {
                 playerField[x] = setPlayerPositionZERO;
             }
+
         }
         draw(playerField);
 
@@ -447,37 +536,191 @@ public class Map extends AppCompatActivity {
     }
 
 
-    private void getinfofD(){
-        Intent i = getIntent();
-        System.out.println("Net = "+i.getStringExtra("Net"));
+    public void connection() {
+        if (Phost) {
+            boolean running = true;
+
+            mAcceptThread = new AcceptThread(running, mServerSocket, socket, myhandler, receiveThreadHost, 12345);
+            mAcceptThread.start();
+        }
+    }
+
+    public void syncClose() {
+        if (finish && finishEnemy) {
+
+            close();
+            startActivity(intent);
+
+        }
+    }
 
 
-        try{
-            if (i.getStringExtra("Net").equals("t")){
-                Net  = true;
+    /********************Netz**************************/
+    public void networkbuild() {
+        boolean running = true;
+        if (Phost) {//  if you are host, here should Button Start click.
+
+
+//            messageSend("Hello",true, true);
+        } else {
+
+            this.startThread = new StartThread(socket, ip, receiveThreadClient, myhandler, 12345);
+            startThread.start();
+
+//            messageSend("Hello",false, true);
+        }
+
+    }
+
+    // There are the Message from other player. We can work with "message" to change our map, uppower and ship.
+    class Myhandler extends Handler {
+
+
+        public void handleMessage(Message msg) {
+
+
+            switch (msg.what) {
+                case 1:
+                    message = (String) msg.obj;
+                    message = (String) msg.obj;
+                    int count = 0;
+                    if (message == null) {
+                        count++;
+                    } else {
+                        count = 0;
+                    }
+                    if (count == 3) {
+                        close();
+                    }
+                    if (!(message == null)) {
+                        if (message.equals("boolean")) {
+                            finishEnemy = true;
+                            syncClose();
+
+                        }
+                    }
+
+                    System.out.println("Message: " + message);
+
+                    break;
+                case 0:
+                    displayToast("Erfolg");
+                    break;
+                case 2:
+                    displayToast("!");
+                    break;
             }
-        }catch (NullPointerException e){
+        }
+
+    }
+
+    private void displayToast(String s) {
+        Toast.makeText(this, s, Toast.LENGTH_SHORT).show();
+    }
+
+    // Here is the messageSend method. By call this method can player message send.
+    public void messageSend(String message, boolean obhost, boolean t) {
+        if (obhost) {
+
+            Socket socket1 = mAcceptThread.getSocket();
+
+            writeHost wh = new writeHost(socket1, os, message);
+            sended = true;
+            System.out.println("Sended Host=True");
+
+            wh.start();
+
+
+        } else {
+            Socket socket1;
+            socket1 = startThread.getSocket();
+            writeClient wirte = new writeClient(true, socket1, message);
+            sended = true;
+            System.out.println("Sended Client=True");
+            wirte.start();
+
+
+        }
+    }
+
+
+    public void close() {
+
+        if (Phost) {
+
+            try {
+
+                mAcceptThread.setRunning(false);
+
+                mAcceptThread.setSocket(null);
+
+            } catch (NullPointerException e) {
+                Log.e(tag, "NullPointerException in Client: " + e.toString());
+
+
+            }
+            try {
+
+                mAcceptThread.getmReceiveThreadHost().close();
+                mAcceptThread.getmServerSocket().close();
+                mAcceptThread.getSocket().close();
+                mAcceptThread.interrupt();
+
+            } catch (NullPointerException e) {
+                Log.e(tag, "NullPointerException in Client: " + e.toString());
+
+            } catch (IOException e) {
+                Log.e(tag, "IOPointerException in Client: " + e.toString());
+            }
+        } else {
+            try {
+                startThread.setRunning(false);
+                socket = startThread.getSocket();
+                socket.close();
+                socket = null;
+                startThread.setTryconnect(false);
+
+                startThread.interrupt();
+            } catch (NullPointerException e) {
+                Log.e(tag, "NullPointerException in Client: " + e.toString());
+
+            } catch (IOException e) {
+                Log.e(tag, "IOException in Client: " + e.toString());
+            }
+        }
+    }
+
+    private void getinfofD() {
+        Intent i = getIntent();
+        System.out.println("Net = " + i.getStringExtra("Net"));
+
+
+        try {
+            if (i.getStringExtra("Net").equals("t")) {
+                Net = true;
+            }
+        } catch (NullPointerException e) {
             Log.e(tag, "NullPointerException in Spielfeld: " + e.toString());
         }
 
 
-        if (Net){
+        if (Net) {
             // if the player is host.
-            try{
-                if (i.getStringExtra("host").equals("1")){
+            try {
+                if (i.getStringExtra("host").equals("1")) {
                     Phost = true;
-                    intent.putExtra("Net","t");
-                    intent.putExtra("host","1");
+                    intent.putExtra("Net", "t");
+                    intent.putExtra("host", "1");
 
                 }
-            }catch (NullPointerException e){
+            } catch (NullPointerException e) {
                 Log.e(tag, "NullPointerException in Dice: " + e.toString());
             }
             //if the player is client, then needs the ip to build a new socket.
-            if (Phost == false){
+            if (Phost == false) {
                 this.ip = i.getStringExtra("ip");
-                intent.putExtra("Net","t");
-                intent.putExtra("ip",ip);
+                intent.putExtra("Net", "t");
+                intent.putExtra("ip", ip);
             }
         }
     }
