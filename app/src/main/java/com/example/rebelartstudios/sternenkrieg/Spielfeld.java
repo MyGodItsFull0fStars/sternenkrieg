@@ -28,8 +28,6 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.rebelartstudios.sternenkrieg.Network.AcceptThread;
 import com.example.rebelartstudios.sternenkrieg.Network.ReceiveThreadClient;
 import com.example.rebelartstudios.sternenkrieg.Network.ReceiveThreadHost;
@@ -44,7 +42,6 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
-import java.util.Random;
 
 /**
  * Created by anja on 25.04.17.
@@ -467,8 +464,8 @@ public class Spielfeld extends AppCompatActivity {
     public void connection() {
         if (Phost) {
             boolean running = true;
-
-            mAcceptThread = new AcceptThread(running, mServerSocket, socket, myhandler, receiveThreadHost, 12345);
+            int port = 12345;
+            mAcceptThread = new AcceptThread(running, mServerSocket, socket, myhandler, receiveThreadHost, port);
             mAcceptThread.start();
         }
 
