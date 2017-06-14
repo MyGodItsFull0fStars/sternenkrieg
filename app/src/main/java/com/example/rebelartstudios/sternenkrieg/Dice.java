@@ -8,6 +8,7 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
@@ -17,7 +18,6 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.rebelartstudios.sternenkrieg.Network.AcceptThread;
 import com.example.rebelartstudios.sternenkrieg.Network.ReceiveThreadClient;
@@ -47,6 +47,10 @@ public class Dice extends AppCompatActivity {
     private float last_x, last_y, last_z;
     private static final int SHAKE_THRESHOLD = 690;
     private int gegnervalue;
+    boolean finish = false;
+    boolean finishEnemy = false;
+    int dicevalue;
+
 
     private int mode = 0; // 1 = game start, 2 = powerup
     /********************Netz**************************/
@@ -64,13 +68,12 @@ public class Dice extends AppCompatActivity {
     OutputStream os = null;
     boolean Net = false;
     Button send;
-    int i = 1;
     Button goNext;
     boolean sended = false;
     boolean came = false;
-    boolean waitToClose = false;
     Bundle b;
     Intent intent = new Intent();
+
     /********************Netz**************************/
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,6 +92,8 @@ public class Dice extends AppCompatActivity {
         Log.d(this.getLocalClassName(), "" + mode);
         /********************Netz**************************/
         Intent intent = getIntent();
+        dicevalue = intent.getIntExtra("who_is_starting", 0);
+        System.out.println("Dice Value: "+dicevalue);
         try {
             if (intent.getStringExtra("Net").equals("t")) {
                 Net = true;
@@ -119,7 +124,6 @@ public class Dice extends AppCompatActivity {
             networkbuild();
 
         } else {
-            displayToast("Kein Internetverbindung");
         }
         connection();
 
@@ -139,21 +143,19 @@ public class Dice extends AppCompatActivity {
 
 
     @Override
-    protected void onDestroy(){
+    protected void onDestroy() {
         destroyImageView();
         super.onDestroy();
 
     }
 
-    private void destroyImageView(){
+    private void destroyImageView() {
         imageDice.destroyDrawingCache();
         imageDice.getBackground().setCallback(null);
         imageDice.setImageBitmap(null);
         imageDice.setImageDrawable(null);
         imageDice.setBackgroundResource(0);
     }
-
-
 
 
     private void initializeViews() {
@@ -244,27 +246,30 @@ public class Dice extends AppCompatActivity {
                     changeDiceImage(value);
                     System.out.println("Gewürfelt: " + value);
                     text_score.setText("You got:" + value + " Waiting for enemy");
-                    onFinish();
                 } else {
                     value = rng.nextInt(6) + 1;// TODO this is only to make sure we start
                     System.out.println("Gewürfelt: " + value);
                     messageSend(value + "", Phost, true);
+                    sended=true;
+                    System.out.println("Sended="+sended);
                     changeDiceImage(value);
                     text_score.setText("You got:" + value + " Waiting for enemy");
+                    sollfinish();
                 }
                 break;
 
             case 2:
-                value = rng.nextInt(6) + 1;// TODO this is only to make sure we start
-                System.out.println("Gewürfelt: " + value);
-                messageSend(value + "", Phost, true);
-                changeDiceImage(value);
-                value+=intent.getIntExtra("dicescore",0);
-                intent.putExtra("dicescore",value);
-                intent.putExtra("who_is_starting",value);
-                text_score.setText("You got:" + value + " Waiting for enemy");
+                int valueGame = rng.nextInt(6) + 1;// TODO this is only to make sure we start
+                System.out.println("Gewürfelt: " + valueGame);
+                messageSend(valueGame + "", Phost, true);
+                changeDiceImage(valueGame);
+                valueGame += intent.getIntExtra("dicescore", 0);
+                intent.putExtra("dicescore", valueGame);
+                text_score.setText("You got:" + valueGame + " Waiting for enemy");
                 String[] map1 = getIntent().getExtras().getStringArray("oldmap");
                 intent.putExtra("oldmap", map1);
+                intent.putExtra("who_is_starting", dicevalue);
+                System.out.println("Dice Value: "+dicevalue);
 
                 break;
 
@@ -276,6 +281,7 @@ public class Dice extends AppCompatActivity {
 
 
     public void onFinish() {
+        goNext.setVisibility(View.VISIBLE);
         switch (mode) {
             case 1:
                 //final int value_enemy = rng.nextInt(6) + 1;
@@ -291,34 +297,75 @@ public class Dice extends AppCompatActivity {
                 }
 
                 intent.putExtra("who_is_starting", who_is_starting);
+                System.out.println("Value: "+value);
 
-                goNext.setVisibility(View.VISIBLE);
 
 
                 goNext.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        getinfofD();
+                        finish = true;
                         intent.setClass(Dice.this, EndScreen.class);
-                        close();
-                        startActivity(intent);
+                        goNext.setText("Waiting for Enemy to Finish");
+                        messageSend("boolean",Phost,true);
+                        if(!Phost){
+                            new CountDownTimer(500,100){
+                                public void onTick(long millisUntilFinished) {
+                                    System.out.print(millisUntilFinished);
+                                }
+
+                                @Override
+                                public void onFinish() {
+                                    syncClose();
+                                }
+
+                            }.start();
+                        }else
+                            syncClose();
+
+
                     }
                 });
                 break;
 
             case 2:
-                goNext.setVisibility(View.VISIBLE);
                 goNext.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        getinfofD();
                         intent.setClass(Dice.this, Spielfeld.class);
-                        close();
-                        startActivity(intent);
+                        finish = true;
+                        goNext.setText("Waiting for Enemy to Finish");
+                        messageSend("boolean",Phost,true);
+                        if(!Phost){
+                            new CountDownTimer(500,100){
+                                public void onTick(long millisUntilFinished) {
+                                    System.out.print(millisUntilFinished);
+                                }
+
+                                @Override
+                                public void onFinish() {
+                                    syncClose();
+                                }
+
+                            }.start();
+                        }else
+                            syncClose();
+
                     }
                 });
+
                 break;
         }
+    }
+
+    public void syncClose() {
+        if (finish && finishEnemy) {
+            getinfofD();
+
+            close();
+            startActivity(intent);
+        }
+
     }
 
 
@@ -351,66 +398,54 @@ public class Dice extends AppCompatActivity {
                     message = (String) msg.obj;
                     message = (String) msg.obj;
                     int count = 0;
-                    if (message == null){
+                    if (message == null) {
                         count++;
-                    }else {
+                    } else {
                         count = 0;
                     }
-                    if (count == 3){
+                    if (count == 3) {
                         close();
                     }
                     if (!(message == null)) {
-
-                        gegnervalue = Integer.parseInt(message);
-                        System.out.println("Gegnervalue: " + gegnervalue);
-                        text_score_enemy.setText("Enemy got:" + gegnervalue);
-                        came = true;
-                        System.out.println("Came=True");
+                        if (message.equals("boolean")) {
+                            finishEnemy = true;
+                            syncClose();
+                        }else {
+                            gegnervalue = Integer.parseInt(message);
+                            System.out.println("Gegnervalue: " + gegnervalue);
+                            text_score_enemy.setText("Enemy got:" + gegnervalue);
+                            came = true;
+                            System.out.println("Came=True");
+                        }
                     }
-
-                    displayToast(message);
 
                     System.out.println("Message: " + message);
                     sollfinish();
                     break;
                 case 0:
-                    displayToast("Erfolg");
                     break;
                 case 2:
-                    displayToast("!");
                     break;
             }
         }
 
     }
 
-    private void displayToast(String s) {
-        Toast.makeText(this, s, Toast.LENGTH_SHORT).show();
-    }
 
     // Here is the messageSend method. By call this method can player message send.
     public void messageSend(String message, boolean obhost, boolean t) {
         if (obhost) {
-
             Socket socket1 = mAcceptThread.getSocket();
-
             writeHost wh = new writeHost(socket1, os, message);
-            sended = true;
-            System.out.println("Sended Host=True");
-
             wh.start();
-            sollfinish();
 
 
         } else {
             Socket socket1;
             socket1 = startThread.getSocket();
             writeClient wirte = new writeClient(true, socket1, message);
-            sended = true;
-            System.out.println("Sended Client=True");
             wirte.start();
 
-            sollfinish();
 
         }
     }
@@ -433,7 +468,6 @@ public class Dice extends AppCompatActivity {
 
             } catch (NullPointerException e) {
                 Log.e(tag, "NullPointerException in Client: " + e.toString());
-
 
 
             }
@@ -467,37 +501,37 @@ public class Dice extends AppCompatActivity {
             }
         }
     }
-    private void getinfofD(){
+
+    private void getinfofD() {
         Intent i = getIntent();
-        System.out.println("Net = "+i.getStringExtra("Net"));
+        System.out.println("Net = " + i.getStringExtra("Net"));
 
-
-        try{
-            if (i.getStringExtra("Net").equals("t")){
-                Net  = true;
+        try {
+            if (i.getStringExtra("Net").equals("t")) {
+                Net = true;
             }
-        }catch (NullPointerException e){
+        } catch (NullPointerException e) {
             Log.e(tag, "NullPointerException in Spielfeld: " + e.toString());
         }
 
 
-        if (Net){
+        if (Net) {
             // if the player is host.
-            try{
-                if (i.getStringExtra("host").equals("1")){
+            try {
+                if (i.getStringExtra("host").equals("1")) {
                     Phost = true;
-                    intent.putExtra("Net","t");
-                    intent.putExtra("host","1");
+                    intent.putExtra("Net", "t");
+                    intent.putExtra("host", "1");
 
                 }
-            }catch (NullPointerException e){
+            } catch (NullPointerException e) {
                 Log.e(tag, "NullPointerException in Dice: " + e.toString());
             }
             //if the player is client, then needs the ip to build a new socket.
-            if (Phost == false){
+            if (Phost == false) {
                 this.ip = i.getStringExtra("ip");
-                intent.putExtra("Net","t");
-                intent.putExtra("ip",ip);
+                intent.putExtra("Net", "t");
+                intent.putExtra("ip", ip);
             }
         }
     }

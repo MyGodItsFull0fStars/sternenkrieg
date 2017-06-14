@@ -12,6 +12,7 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Message;
 import android.os.Vibrator;
@@ -26,7 +27,6 @@ import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -60,6 +60,8 @@ public class Spielfeld extends AppCompatActivity {
     int height;
     int amountShips;
     int highScore = 0;
+    int value;
+
 
     int pointsPlayer = 0;
     boolean check; //checks whether powerups are currently displayed;
@@ -77,7 +79,6 @@ public class Spielfeld extends AppCompatActivity {
     // And in class Myhandler you get message form enemy, msg.what = 1 is what enemy say
     // msg.what = 4 , sendMsg[1] is enemy shoot position.
 
-    Button start_play;
     Button send;
 
     EditText player1_say;
@@ -95,10 +96,10 @@ public class Spielfeld extends AppCompatActivity {
     OutputStream os = null;
     boolean Net = false;
     boolean sended;
-    boolean came;
     boolean connect;
     boolean sendMap = true;
     boolean shoot=false;
+    boolean oneshoot=true;
     boolean dice= false;
     boolean dice2=false;
     Intent intent = new Intent();
@@ -110,6 +111,61 @@ public class Spielfeld extends AppCompatActivity {
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         setContentView(R.layout.activity_gameplay);
+
+        /****Networking****/
+
+
+        send = (Button) findViewById(R.id.player1_send);
+        player1_say = (EditText) findViewById(R.id.player1_say);
+
+        Intent intent = getIntent();
+        System.out.println("Net = " + intent.getStringExtra("Net"));
+
+        try {
+            if (intent.getStringExtra("Net").equals("t")) {
+                Net = true;
+            }
+        } catch (NullPointerException e) {
+            Log.e(tag, "NullPointerException in Spielfeld: " + e.toString());
+        }
+        if (Net) {
+            // if the player is host.
+            try {
+                if (intent.getStringExtra("host").equals("1")) {
+                    Phost = true;
+
+                }
+            } catch (NullPointerException e) {
+                Log.e(tag, "NullPointerException in Dice: " + e.toString());
+            }
+            //if the player is client, then needs the ip to build a new socket.
+            if (Phost == false) {
+                this.ip = intent.getStringExtra("ip");
+            }
+
+            myhandler = new Myhandler();
+            networkbuild();
+
+
+        } else {
+        }
+
+        connection();
+
+        send.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                System.out.println("Phost = " + Phost);
+                String info = player1_say.getText().toString();
+                if (Phost) { //If this is host, so use writeHost to sand message.
+                    messageSend(info, Phost);
+                } else {// Client.
+                    messageSend(info, Phost);
+                }
+            }
+        });
+        /****Networking***/
+
 
         /* --- START LIGHT SENSOR -- */
 
@@ -346,130 +402,93 @@ public class Spielfeld extends AppCompatActivity {
             start();
 
 
-        if(shoot) {
+
             gridView2.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-                    checkconnect();
-                    if (!Net || connect) {
-                        messageSend("shoot," + position, Phost);
+                    if(shoot) {
+                        checkconnect();
+                        if (!Net || connect) {
+                            messageSend("shoot," + position, Phost);
+                            oneshoot = false;
 
-                        //   messageSend("map,"+position,Phost);
+                            //   messageSend("map,"+position,Phost);
 
-                        // Toast.makeText(getApplicationContext(), "Pos: " + position + " Id: ",
-                        //       Toast.LENGTH_SHORT).show();
-                        String shipType = map2[position];
+                            // Toast.makeText(getApplicationContext(), "Pos: " + position + " Id: ",
+                            //       Toast.LENGTH_SHORT).show();
+                            String shipType = map2[position];
            /* hit ship of enemy */
-                        if (map2[position].equals("a") || map2[position].equals("b") || map2[position].equals("c")) {
-                            map2[position] = 4 + "";
-                            vib.vibrate(500);
-                            highScore += 80;
+                            if (map2[position].equals("a") || map2[position].equals("b") || map2[position].equals("c")) {
+                                map2[position] = 4 + "";
+                                vib.vibrate(500);
+                                highScore += 80;
 
                 /* miss enemy's ships */
-                        } else if (map2[position].equals("0")) {
-                            map2[position] = 1 + "";
-                            highScore -= 20;
+                            } else if (map2[position].equals("0")) {
+                                map2[position] = 1 + "";
+                                highScore -= 20;
+                            }
+
+                            draw(map2, gridView2); // update map
+                            shoot = false;
+                            dice = true;
+                            System.out.println("Dice True");
+                            if (dice && dice2) {
+                                if (!Phost) {
+                                    new CountDownTimer(500, 100) {
+                                        public void onTick(long millisUntilFinished) {
+                                            System.out.print(millisUntilFinished);
+                                        }
+
+                                        @Override
+                                        public void onFinish() {
+                                            dice();
+                                        }
+
+                                    }.start();
+                                } else
+                                    dice();
+
+                            }
+
+
+                            if (gameOver(shipType, map2)) { //check whether a complete ship of the enemy has been destroyed
+                                decrementAmount();
+                            }
+
+                        } else {
                         }
-
-                        draw(map2, gridView2); // update map
-                        shoot=false;
-                        dice=true;
-                        System.out.println("Dice True");
-                        if(dice&&dice2)
-                            dice();
-
-                        if (gameOver(shipType, map2)) { //check whether a complete ship of the enemy has been destroyed
-                            decrementAmount();
-                        }
-
-                    } else {
-                        displayToast("Host should start game.");
-                    }
-
-                }
-            });
-        }
-
-        /****Networking****/
-        start_play = (Button) findViewById(R.id.Start_play);
-
-        send = (Button) findViewById(R.id.player1_send);
-
-        player1_say = (EditText) findViewById(R.id.player1_say);
-
-        Intent intent = getIntent();
-        System.out.println("Net = " + intent.getStringExtra("Net"));
-
-        try {
-            if (intent.getStringExtra("Net").equals("t")) {
-                Net = true;
-            }
-        } catch (NullPointerException e) {
-            Log.e(tag, "NullPointerException in Spielfeld: " + e.toString());
-        }
-        if (Net) {
-            // if the player is host.
-            try {
-                if (intent.getStringExtra("host").equals("1")) {
-                    Phost = true;
-                    start_play.setVisibility(View.VISIBLE);
-                }
-            } catch (NullPointerException e) {
-                Log.e(tag, "NullPointerException in Dice: " + e.toString());
-            }
-            //if the player is client, then needs the ip to build a new socket.
-            if (Phost == false) {
-                this.ip = intent.getStringExtra("ip");
-            }
-            myhandler = new Myhandler();
-            networkbuild();
-            send.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    System.out.println("Phost = " + Phost);
-                    String info = player1_say.getText().toString();
-                    if (Phost) { //If this is host, so use writeHost to sand message.
-                        messageSend(info, Phost);
-                    } else {// Client.
-                        messageSend(info, Phost);
                     }
                 }
             });
-        } else {
-            displayToast("Kein Internet verbinden");
-        }
 
-        start_play.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                boolean running = true;
-                mAcceptThread = new AcceptThread(running, mServerSocket, socket, myhandler, receiveThreadHost, 11223);
-                mAcceptThread.start();
-                start_play.setVisibility(View.GONE);
-            }
-        });
-        /****Networking***/
+
+
+    }
+    public void connection() {
+        if (Phost) {
+            boolean running = true;
+
+            mAcceptThread = new AcceptThread(running, mServerSocket, socket, myhandler, receiveThreadHost, 12345);
+            mAcceptThread.start();
+        }
 
     }
 
 
 
 
-
     public void start() {
         Intent intent = getIntent();
-        int value = intent.getIntExtra("who_is_starting", 0);
-        System.out.println("Who_is_starting"+value);
+        value = intent.getIntExtra("who_is_starting", 0);
+        System.out.println("Spielfeld Value"+value);
         //Player beginns
         System.out.println("Shoot: "+shoot);
         pointsPlayer+= intent.getIntExtra("dicescore",0);
         System.out.println("POints:" + pointsPlayer);
-        if (value == 0 ) {
+        if (value == 0&&oneshoot ) {
             shoot=true;
-
-            //Player2 beginns
-        } else  {
-            shoot=false;
         }
+
 
     }
 
@@ -477,9 +496,10 @@ public class Spielfeld extends AppCompatActivity {
         intent.setClass(Spielfeld.this, Dice.class);
         intent.putExtra("oldmap", map1);
         intent.putExtra("mode",2);
-        final int value = intent.getIntExtra("who_is_starting", 0);
         intent.putExtra("who_is_starting",value);
+        System.out.println("Spielfeld ENde Value"+value);
         getinfofD();
+
         close();
         startActivity(intent);
     }
@@ -788,7 +808,7 @@ public class Spielfeld extends AppCompatActivity {
 //            mAcceptThread = new AcceptThread(running,mServerSocket,socket,myhandler,receiveThreadHost,112233);
 //            mAcceptThread.start();
         } else {
-            startThread = new StartThread(socket, ip, receiveThreadClient, myhandler, 11223);
+            this.startThread = new StartThread(socket, ip, receiveThreadClient, myhandler, 12345);
             startThread.start();
         }
 
@@ -811,13 +831,10 @@ public class Spielfeld extends AppCompatActivity {
                         count = 0;
                     }
                     if (count == 5) {
-
-                        displayToast("Netzwerk not connect");
                         close();
                     }
 //                    player2_say.setVisibility(View.VISIBLE);
 //                    player2_say.setText(message);
-                    displayToast("gegner say: " + message);
                     break;
                 case 4: //map schiessen
                     message = (String) msg.obj;
@@ -842,17 +859,17 @@ public class Spielfeld extends AppCompatActivity {
                     if (mapMsg[0].equals("shoot")) {
                         String position = mapMsg[1];
                         checkShoot(Integer.parseInt(position), 2);
+
                         shoot=true;
 
                     }
 
                     if(dice&&dice2)
                         dice();
-                    displayToast(mapMsg[0] + "Position: " + mapMsg[1]);
+
                     break;
 
                 case 0:
-                    displayToast("Erfolg");
                     if (sendMap) {
                         String sendMap = "";
                         for (String data : map1)
@@ -866,9 +883,6 @@ public class Spielfeld extends AppCompatActivity {
 
                     break;
                 case 2:
-                    displayToast("!");
-
-
                     break;
             }
         }
@@ -886,14 +900,10 @@ public class Spielfeld extends AppCompatActivity {
                 }
             } catch (NullPointerException e) {
                 Log.e(tag, "NullPointerException in Spielfled: " + e.toString());
-                displayToast("Netzwerk not connect");
             }
         }
     }
 
-    private void displayToast(String s) {
-        Toast.makeText(this, s, Toast.LENGTH_SHORT).show();
-    }
 
     // Here is the messageSend methode. By call this methode can player message send.
     public void messageSend(String message, boolean obhost) {
@@ -910,7 +920,6 @@ public class Spielfeld extends AppCompatActivity {
                 player1_say.setText("");
             } catch (NullPointerException e) {
                 Log.e(tag, "NullPointerException in Spielfled: " + e.toString());
-                displayToast("Netzwerk not connect");
             }
         } else {
             try {
@@ -923,7 +932,6 @@ public class Spielfeld extends AppCompatActivity {
                 player1_say.setText("");
             } catch (NullPointerException e) {
                 Log.e(tag, "NullPointerException in Spielfled: " + e.toString());
-                displayToast("Netzwerk not connect");
             }
         }
     }
