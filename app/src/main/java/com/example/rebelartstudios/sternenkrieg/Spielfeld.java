@@ -29,6 +29,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.rebelartstudios.sternenkrieg.Network.AcceptThread;
+import com.example.rebelartstudios.sternenkrieg.Network.NetworkUtilities;
 import com.example.rebelartstudios.sternenkrieg.Network.ReceiveThreadClient;
 import com.example.rebelartstudios.sternenkrieg.Network.ReceiveThreadHost;
 import com.example.rebelartstudios.sternenkrieg.Network.StartThread;
@@ -100,6 +101,7 @@ public class Spielfeld extends AppCompatActivity {
     boolean dice= false;
     boolean dice2=false;
     Intent intent = new Intent();
+    NetworkUtilities util;
     /*******Networking*****/
 
     @Override
@@ -141,13 +143,14 @@ public class Spielfeld extends AppCompatActivity {
             }
 
             myhandler = new Myhandler();
-            networkbuild();
+            util= new NetworkUtilities(Phost,mAcceptThread,mServerSocket,socket,myhandler,receiveThreadHost,startThread,ip,receiveThreadClient);
+            util.networkbuild();
 
 
         } else {
         }
 
-        connection();
+        util.connection();
 
         send.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -155,9 +158,9 @@ public class Spielfeld extends AppCompatActivity {
                 System.out.println("Phost = " + Phost);
                 String info = player1_say.getText().toString();
                 if (Phost) { //If this is host, so use writeHost to sand message.
-                    messageSend(info, Phost);
+                    util.messageSend(info, Phost,true);
                 } else {// Client.
-                    messageSend(info, Phost);
+                    util.messageSend(info, Phost,true);
                 }
             }
         });
@@ -373,7 +376,7 @@ public class Spielfeld extends AppCompatActivity {
 
             map2 = new String[64];
             Arrays.fill(map2, "0");
-            messageSend("Map," + sendField, Phost);
+            util.messageSend("Map," + sendField, Phost,true);
             System.out.println("Send" + sendField);
         }
 
@@ -403,10 +406,10 @@ public class Spielfeld extends AppCompatActivity {
             gridView2.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                     if(shoot) {
-                        checkconnect();
-                        if (!Net || connect) {
-                            messageSend("shoot," + position, Phost);
+
+                            util.messageSend("shoot," + position, Phost,true);
                             oneshoot = false;
+                        sended=true;
 
                             //   messageSend("map,"+position,Phost);
 
@@ -452,22 +455,12 @@ public class Spielfeld extends AppCompatActivity {
                                 decrementAmount();
                             }
 
-                        } else {
                         }
                     }
-                }
+
             });
 
 
-
-    }
-    public void connection() {
-        if (Phost) {
-            boolean running = true;
-            int port = 12345;
-            mAcceptThread = new AcceptThread(running, mServerSocket, socket, myhandler, receiveThreadHost, port);
-            mAcceptThread.start();
-        }
 
     }
 
@@ -497,7 +490,7 @@ public class Spielfeld extends AppCompatActivity {
         System.out.println("Spielfeld ENde Value"+value);
         getinfofD();
 
-        close();
+        util.close();
         startActivity(intent);
     }
 
@@ -794,22 +787,10 @@ public class Spielfeld extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        close();
+        util.close();
     }
 
     /***************Network******************************/
-// build network must be called in Oncreate, to build a new Socket connect.
-    public void networkbuild() {
-        boolean running = true;
-        if (Phost) {
-//            mAcceptThread = new AcceptThread(running,mServerSocket,socket,myhandler,receiveThreadHost,112233);
-//            mAcceptThread.start();
-        } else {
-            this.startThread = new StartThread(socket, ip, receiveThreadClient, myhandler, 12345);
-            startThread.start();
-        }
-
-    }
 
     // There are the Message from other player. We can work with "message" to change our map, uppower and ship.
     class Myhandler extends Handler {
@@ -828,7 +809,7 @@ public class Spielfeld extends AppCompatActivity {
                         count = 0;
                     }
                     if (count == 5) {
-                        close();
+                        util.close();
                     }
 //                    player2_say.setVisibility(View.VISIBLE);
 //                    player2_say.setText(message);
@@ -845,7 +826,7 @@ public class Spielfeld extends AppCompatActivity {
 
                         map2 = map3;
                         draw(map2, gridView2);
-                        messageSend("Gotit,1", Phost);
+                        util.messageSend("Gotit,1", Phost,true);
                         System.out.println("Map" + mapMsg[1]);
 
                     }
@@ -874,7 +855,7 @@ public class Spielfeld extends AppCompatActivity {
 
                         map2 = new String[64];
                         Arrays.fill(map2, "0");
-                        messageSend("Map," + sendMap, Phost);
+                        util.messageSend("Map," + sendMap, Phost,true);
                         System.out.println("Send" + sendMap);
                     }
 
@@ -886,99 +867,6 @@ public class Spielfeld extends AppCompatActivity {
 
     }
 
-    private void checkconnect() {
-
-        if (Net) {
-            try {
-                if (Phost) {
-                    connect = mAcceptThread.getSocket().isConnected();
-                } else {
-                    connect = startThread.getSocket().isConnected();
-                }
-            } catch (NullPointerException e) {
-                Log.e(tag, "NullPointerException in Spielfled: " + e.toString());
-            }
-        }
-    }
-
-
-    // Here is the messageSend methode. By call this methode can player message send.
-    public void messageSend(String message, boolean obhost) {
-        if (obhost) {
-            try {
-                Socket socket1 = mAcceptThread.getSocket();
-
-                writeHost wh = new writeHost(socket1, os, message);
-                sended = true;
-                System.out.println("Sended Host=True");
-
-                wh.start();
-
-                player1_say.setText("");
-            } catch (NullPointerException e) {
-                Log.e(tag, "NullPointerException in Spielfled: " + e.toString());
-            }
-        } else {
-            try {
-                Socket socket1;
-                socket1 = startThread.getSocket();
-                writeClient wirte = new writeClient(true, socket1, message);
-                sended = true;
-                System.out.println("Sended Client=True");
-                wirte.start();
-                player1_say.setText("");
-            } catch (NullPointerException e) {
-                Log.e(tag, "NullPointerException in Spielfled: " + e.toString());
-            }
-        }
-    }
-
-    public void close() {
-
-
-        if (Phost) {
-
-            try {
-
-                mAcceptThread.setRunning(false);
-
-                mAcceptThread.setSocket(null);
-
-            } catch (NullPointerException e) {
-                Log.e(tag, "NullPointerException in Client: " + e.toString());
-
-
-            }
-            try {
-
-                mAcceptThread.getmReceiveThreadHost().close();
-                mAcceptThread.getmServerSocket().close();
-                mAcceptThread.getSocket().close();
-                mAcceptThread.interrupt();
-
-            } catch (NullPointerException e) {
-                Log.e(tag, "NullPointerException in Client: " + e.toString());
-
-            } catch (IOException e) {
-                Log.e(tag, "IOPointerException in Client: " + e.toString());
-            }
-        } else {
-            try {
-                startThread.setRunning(false);
-                socket = startThread.getSocket();
-                socket.close();
-                socket = null;
-                startThread.setTryconnect(false);
-
-                startThread.interrupt();
-            } catch (NullPointerException e) {
-                Log.e(tag, "NullPointerException in Client: " + e.toString());
-
-            } catch (IOException e) {
-                Log.e(tag, "IOException in Client: " + e.toString());
-            }
-        }
-    }
 
     private void getinfofD(){
         Intent i = getIntent();

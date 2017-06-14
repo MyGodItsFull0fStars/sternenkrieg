@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.rebelartstudios.sternenkrieg.Network.AcceptThread;
+import com.example.rebelartstudios.sternenkrieg.Network.NetworkUtilities;
 import com.example.rebelartstudios.sternenkrieg.Network.ReceiveThreadClient;
 import com.example.rebelartstudios.sternenkrieg.Network.ReceiveThreadHost;
 import com.example.rebelartstudios.sternenkrieg.Network.StartThread;
@@ -47,6 +48,7 @@ public class EndScreen extends AppCompatActivity {
     boolean sended = false;
     boolean finish = false;
     boolean finishEnemy = false;
+    NetworkUtilities util;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,12 +87,12 @@ public class EndScreen extends AppCompatActivity {
 
 
             myhandler = new Myhandler();
-
-            networkbuild();
+            util= new NetworkUtilities(Phost,mAcceptThread,mServerSocket,socket,myhandler,receiveThreadHost,startThread,ip,receiveThreadClient);
+            util.networkbuild();
 
         } else {
         }
-        connection();
+       util.connection();
 
 
         /********************Netz**************************/
@@ -120,7 +122,7 @@ public class EndScreen extends AppCompatActivity {
                 getinfofD();
                 button.setText("Waiting for Enemy");
 
-                messageSend("boolean", Phost, true);
+                util.messageSend("boolean", Phost, true);
                 if (!Phost) {
                     new CountDownTimer(500, 100) {
                         public void onTick(long millisUntilFinished) {
@@ -141,19 +143,10 @@ public class EndScreen extends AppCompatActivity {
 
     }
 
-    public void connection() {
-        if (Phost) {
-            boolean running = true;
-
-            mAcceptThread = new AcceptThread(running, mServerSocket, socket, myhandler, receiveThreadHost, 12345);
-            mAcceptThread.start();
-        }
-    }
-
     public void syncClose() {
         if (finish && finishEnemy) {
 
-            close();
+            util.close();
             startActivity(intent);
 
         }
@@ -161,21 +154,6 @@ public class EndScreen extends AppCompatActivity {
 
 
     /********************Netz**************************/
-    public void networkbuild() {
-        boolean running = true;
-        if (Phost) {//  if you are host, here should Button Start click.
-
-
-//            messageSend("Hello",true, true);
-        } else {
-
-            this.startThread = new StartThread(socket, ip, receiveThreadClient, myhandler, 12345);
-            startThread.start();
-
-//            messageSend("Hello",false, true);
-        }
-
-    }
 
     // There are the Message from other player. We can work with "message" to change our map, uppower and ship.
     class Myhandler extends Handler {
@@ -195,7 +173,7 @@ public class EndScreen extends AppCompatActivity {
                         count = 0;
                     }
                     if (count == 3) {
-                        close();
+                        util.close();
                     }
                     if (!(message == null)) {
                         if (message.equals("boolean")) {
@@ -215,79 +193,6 @@ public class EndScreen extends AppCompatActivity {
             }
         }
 
-    }
-
-
-    // Here is the messageSend method. By call this method can player message send.
-    public void messageSend(String message, boolean obhost, boolean t) {
-        if (obhost) {
-
-            Socket socket1 = mAcceptThread.getSocket();
-
-            writeHost wh = new writeHost(socket1, os, message);
-            sended = true;
-            System.out.println("Sended Host=True");
-
-            wh.start();
-
-
-        } else {
-            Socket socket1;
-            socket1 = startThread.getSocket();
-            writeClient wirte = new writeClient(true, socket1, message);
-            sended = true;
-            System.out.println("Sended Client=True");
-            wirte.start();
-
-
-        }
-    }
-
-
-    public void close() {
-
-        if (Phost) {
-
-            try {
-
-                mAcceptThread.setRunning(false);
-
-                mAcceptThread.setSocket(null);
-
-            } catch (NullPointerException e) {
-                Log.e(tag, "NullPointerException in Client: " + e.toString());
-
-
-            }
-            try {
-
-                mAcceptThread.getmReceiveThreadHost().close();
-                mAcceptThread.getmServerSocket().close();
-                mAcceptThread.getSocket().close();
-                mAcceptThread.interrupt();
-
-            } catch (NullPointerException e) {
-                Log.e(tag, "NullPointerException in Client: " + e.toString());
-
-            } catch (IOException e) {
-                Log.e(tag, "IOPointerException in Client: " + e.toString());
-            }
-        } else {
-            try {
-                startThread.setRunning(false);
-                socket = startThread.getSocket();
-                socket.close();
-                socket = null;
-                startThread.setTryconnect(false);
-
-                startThread.interrupt();
-            } catch (NullPointerException e) {
-                Log.e(tag, "NullPointerException in Client: " + e.toString());
-
-            } catch (IOException e) {
-                Log.e(tag, "IOException in Client: " + e.toString());
-            }
-        }
     }
 
     private void getinfofD() {
