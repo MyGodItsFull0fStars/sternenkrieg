@@ -1,4 +1,4 @@
-package com.example.rebelartstudios.sternenkrieg;
+package com.example.rebelartstudios.sternenkrieg.GameLogic;
 
 import android.util.Log;
 
@@ -28,7 +28,7 @@ public class ShipLogic {
 		return big_ship;
 	}
 
-	public void setSmallShip(int[] array) {
+	public void setSmallShipArray(int[] array) {
 		if (array.length == 1) {
 			this.small_ship = array;
 		} else {
@@ -40,7 +40,7 @@ public class ShipLogic {
 		small_ship[0] = position;
 	}
 
-	public void setMiddleShip(int[] array) {
+	public void setMiddleShipArray(int[] array) {
 		if (array.length == 2) {
 			this.middle_ship = array;
 		} else {
@@ -50,17 +50,15 @@ public class ShipLogic {
 
 	public void setMiddleShipPosition(int position, int degree) {
 		if (degree == 0) {
-			middle_ship[0] = position - 1;
-			middle_ship[1] = position;
+			middleShipPosition(position, 1);
 		} else if (degree == 1) {
-			middle_ship[0] = position - 8;
-			middle_ship[1] = position;
+			middleShipPosition(position, 8);
 		} else {
 			Log.e(tag, "Degree is not correctly set");
 		}
 	}
 
-	public void setBigShip(int[] array) {
+	public void setBigShipArray(int[] array) {
 		if (array.length == 3) {
 			this.big_ship = array;
 		} else {
@@ -68,10 +66,23 @@ public class ShipLogic {
 		}
 	}
 
-	public void setBigShipPosition(int position) {
-		big_ship[0] = position - 1;
+	public void setBigShipPosition(int position, int degree) {
+		if (degree == 0) {
+			bigShipPosition(position, 1);
+		} else if (degree == 1){
+			bigShipPosition(position, 8);
+		}
+	}
+
+	private void middleShipPosition(int position, int amount){
+		middle_ship[0] = position - amount;
+		middle_ship[1] = position;
+	}
+
+	private void bigShipPosition(int position, int amount){
+		big_ship[0] = position - amount;
 		big_ship[1] = position;
-		big_ship[2] = position + 1;
+		big_ship[2] = position + amount;
 	}
 
 	public int getPosition() {
