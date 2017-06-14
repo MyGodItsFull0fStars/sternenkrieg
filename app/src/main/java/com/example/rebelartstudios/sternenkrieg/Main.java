@@ -78,30 +78,53 @@ public class Main extends AppCompatActivity {
 
     }
 
+    /**
+     * After pause, when activity is started again, username/background will be initialized again
+     */
     @Override
     public void onResume() {
         super.onResume();
         // update username when coming back from Options activity
         txt_username.setText(sharedPreferences.getString("username", null));
-
+        initializeBackground();
         //musicStuff();
     }
 
+    /**
+     * If activity is set on pause background will be deleted so memory will be saved.
+     */
+    @Override
+    public void onPause(){
+        destroyBackgroundImageView();
+        super.onPause();
+
+    }
+
+    /**
+     * If activity is destroyed, background will be destroyed.
+     */
     @Override
     protected void onDestroy() {
         destroyBackgroundImageView();
         super.onDestroy();
     }
 
-    private void destroyBackgroundImageView(){
+    /**
+     * Method to destroy the background image in the memory space
+     * Since GIF's are kept in memory for a long time in android, this method will delete the pics in memory
+     */
+    private void destroyBackgroundImageView() {
         background.destroyDrawingCache();
         background.setImageBitmap(null);
         background.setImageDrawable(null);
         background.setBackgroundResource(0);
+        Glide.get(this).clearMemory();
     }
 
 
-
+    /**
+     * Initialize background and use Android Glide to set background as a GIF
+     */
     private void initializeBackground() {
         background = (ImageView) findViewById(R.id.background);
         background.setBackgroundColor(Color.rgb(0, 0, 0));
@@ -191,6 +214,11 @@ public class Main extends AppCompatActivity {
         });
     }
 
+    /**
+     * Generates the username which will be shown at the starting screen
+     * If no username is already stored, this method will pop up a AlertDialog.Builder to
+     * enable the setting of a username
+     */
     public void generateName() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         final EditText one = new EditText(this);
