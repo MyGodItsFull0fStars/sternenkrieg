@@ -270,6 +270,9 @@ public class Dice extends AppCompatActivity {
                 intent.putExtra("oldmap", map1);
                 intent.putExtra("who_is_starting", dicevalue);
                 System.out.println("Dice Value: "+dicevalue);
+                sended=true;
+                System.out.println("Sended="+sended);
+                sollfinish();
 
                 break;
 
