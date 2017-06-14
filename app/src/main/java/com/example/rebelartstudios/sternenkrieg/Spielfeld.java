@@ -17,7 +17,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.os.Vibrator;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.view.WindowManager;
@@ -33,10 +32,7 @@ import com.example.rebelartstudios.sternenkrieg.Network.NetworkUtilities;
 import com.example.rebelartstudios.sternenkrieg.Network.ReceiveThreadClient;
 import com.example.rebelartstudios.sternenkrieg.Network.ReceiveThreadHost;
 import com.example.rebelartstudios.sternenkrieg.Network.StartThread;
-import com.example.rebelartstudios.sternenkrieg.Network.writeClient;
-import com.example.rebelartstudios.sternenkrieg.Network.writeHost;
 
-import java.io.IOException;
 import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -120,7 +116,7 @@ public class Spielfeld extends AppCompatActivity {
         System.out.println("Spielfeld");
         Phost = stats.isPhost();
         System.out.println("Phost: "+ Phost);
-        who_is_starting=stats.getWho_is_starting();
+        who_is_starting= NetworkStats.getWho_is_starting();
         System.out.println("Whoisstarting: "+who_is_starting);
         Net = stats.isNet();
         System.out.println("Net: " + Net);
@@ -349,7 +345,7 @@ public class Spielfeld extends AppCompatActivity {
 
         amountShips = 3;
 
-        map1 = stats.getPlayerMap();
+        map1 = NetworkStats.getPlayerMap();
 
         if (sendMap) {
             String sendField = "";
@@ -449,7 +445,7 @@ public class Spielfeld extends AppCompatActivity {
         System.out.println("Spielfeld Value" + who_is_starting);
         //Player beginns
         System.out.println("Shoot: " + shoot);
-        pointsPlayer += stats.getValue();
+        pointsPlayer += NetworkStats.getValue();
         System.out.println("POints:" + pointsPlayer);
         if (who_is_starting == 0 && oneshoot) {
             shoot = true;
@@ -460,8 +456,8 @@ public class Spielfeld extends AppCompatActivity {
 
     public void dice() {
         intent.setClass(Spielfeld.this, Dice.class);
-        stats.setPlayerMap(map1);
-        stats.setEnemyMap(map2);
+        NetworkStats.setPlayerMap(map1);
+        NetworkStats.setEnemyMap(map2);
         stats.setMode(2);
         System.out.println("Spielfeld ENde Value" + value);
         util.close();
@@ -611,34 +607,17 @@ public class Spielfeld extends AppCompatActivity {
                 }
             case "h":
                 if (shipRotated == false) {
-                    if (failures_left.contains(position + 1) || !checkAvailability(position) || !checkAvailability(position + 1)) {
-                        // if(position+1==64||position+1==56){
-                        return false;
-                    } else {
-                        return true;
-                    }
+                    return !(failures_left.contains(position + 1) || !checkAvailability(position) || !checkAvailability(position + 1));
                 } else if (shipRotated == true) {
-                    if (position + 1 > 63 || !checkAvailability(position) || !checkAvailability(position + 8)) {
-                        return false;
-                    } else {
-                        return true;
-                    }
+                    return !(position + 1 > 63 || !checkAvailability(position) || !checkAvailability(position + 8));
                 }
             case "i":
                 if (shipRotated == false) {
-                    if (failures_left.contains(position + 1) || failures_right.contains(position - 1)
-                            || !checkAvailability(position) || !checkAvailability(position - 1) || !checkAvailability(position + 1)) {
-                        return false;
-                    } else {
-                        return true;
-                    }
+                    return !(failures_left.contains(position + 1) || failures_right.contains(position - 1)
+                            || !checkAvailability(position) || !checkAvailability(position - 1) || !checkAvailability(position + 1));
                 } else if (shipRotated == true) {
-                    if (position - 8 < 0 || position + 8 > 63
-                            || !checkAvailability(position) || !checkAvailability(position + 8) || !checkAvailability(position - 8)) {
-                        return false;
-                    } else {
-                        return true;
-                    }
+                    return !(position - 8 < 0 || position + 8 > 63
+                            || !checkAvailability(position) || !checkAvailability(position + 8) || !checkAvailability(position - 8));
                 }
             default:
                 return true;
@@ -734,11 +713,8 @@ public class Spielfeld extends AppCompatActivity {
             }
         }
 
-        if (isthegameoveryet == 0) {
-            return true;
-        }
+        return isthegameoveryet == 0;
 
-        return false;
     }
 
     public void decrementAmount() { //if one entire ship of enemy has been destroyed, update Score

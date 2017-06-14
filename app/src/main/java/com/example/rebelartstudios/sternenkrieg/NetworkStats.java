@@ -69,7 +69,7 @@ public class NetworkStats {
     }
 
     public void setIp(String ip) {
-        this.ip = ip;
+        NetworkStats.ip = ip;
     }
 
     public int getMode() {
@@ -77,7 +77,7 @@ public class NetworkStats {
     }
 
     public void setMode(int mode) {
-        this.mode = mode;
+        NetworkStats.mode = mode;
     }
 
     public int getDicevalue() {
@@ -85,6 +85,6 @@ public class NetworkStats {
     }
 
     public void setDicevalue(int dicevalue) {
-        this.dicevalue = dicevalue;
+        NetworkStats.dicevalue = dicevalue;
     }
 }

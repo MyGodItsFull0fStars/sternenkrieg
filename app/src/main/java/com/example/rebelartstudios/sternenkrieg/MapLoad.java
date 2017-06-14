@@ -72,7 +72,7 @@ public class MapLoad extends BaseAdapter {
 
 
         } else {
-            gridView = (View) convertView;
+            gridView = convertView;
         }
 
         return gridView;

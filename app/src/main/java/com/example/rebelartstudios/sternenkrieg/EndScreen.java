@@ -2,12 +2,11 @@ package com.example.rebelartstudios.sternenkrieg;
 
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -17,10 +16,7 @@ import com.example.rebelartstudios.sternenkrieg.Network.NetworkUtilities;
 import com.example.rebelartstudios.sternenkrieg.Network.ReceiveThreadClient;
 import com.example.rebelartstudios.sternenkrieg.Network.ReceiveThreadHost;
 import com.example.rebelartstudios.sternenkrieg.Network.StartThread;
-import com.example.rebelartstudios.sternenkrieg.Network.writeClient;
-import com.example.rebelartstudios.sternenkrieg.Network.writeHost;
 
-import java.io.IOException;
 import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -83,7 +79,7 @@ public class EndScreen extends AppCompatActivity {
         /********************Netz**************************/
 
 
-        int value = stats.getWho_is_starting();
+        int value = NetworkStats.getWho_is_starting();
         if (value == 0) {
             who_is_starting.setText("You are first");
             this.intent.setClass(EndScreen.this, Map.class);

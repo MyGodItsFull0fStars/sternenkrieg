@@ -1,14 +1,11 @@
 package com.example.rebelartstudios.sternenkrieg;
 
 import android.app.Service;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.os.IBinder;
-import android.util.Log;
 
 public class PlayAudio extends Service {
 

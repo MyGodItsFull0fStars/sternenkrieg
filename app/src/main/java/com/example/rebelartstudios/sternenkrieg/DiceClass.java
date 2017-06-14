@@ -1,8 +1,6 @@
 package com.example.rebelartstudios.sternenkrieg;
 
 
-import android.os.CountDownTimer;
-
 /**
  * Created by Chris on 13.06.2017.
  */
@@ -17,26 +15,25 @@ public class DiceClass {
     }
 
     public void changeDiceImage(int value) {
-        Dice dice = new Dice();
 
         switch (value) {
             case 1:
-                dice.imageDice.setImageResource(R.drawable.one);
+                Dice.imageDice.setImageResource(R.drawable.one);
                 break;
             case 2:
-                dice.imageDice.setImageResource(R.drawable.two);
+                Dice.imageDice.setImageResource(R.drawable.two);
                 break;
             case 3:
-                dice.imageDice.setImageResource(R.drawable.three);
+                Dice.imageDice.setImageResource(R.drawable.three);
                 break;
             case 4:
-                dice.imageDice.setImageResource(R.drawable.four);
+                Dice.imageDice.setImageResource(R.drawable.four);
                 break;
             case 5:
-                dice.imageDice.setImageResource(R.drawable.five);
+                Dice.imageDice.setImageResource(R.drawable.five);
                 break;
             case 6:
-                dice.imageDice.setImageResource(R.drawable.six);
+                Dice.imageDice.setImageResource(R.drawable.six);
                 break;
             default:
                 break;

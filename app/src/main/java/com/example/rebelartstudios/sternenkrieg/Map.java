@@ -9,7 +9,6 @@ import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Display;
 import android.view.DragEvent;
 import android.view.MotionEvent;
@@ -430,7 +429,7 @@ public class Map extends AppCompatActivity {
                 if (count0 && count1 && count2) {
 
                     intent.setClass(Map.this, Spielfeld.class);
-                    stats.setPlayerMap(playerField);
+                    NetworkStats.setPlayerMap(playerField);
                     finish = true;
                     util.messageSend("boolean", Phost, true);
                     if (!Phost) {

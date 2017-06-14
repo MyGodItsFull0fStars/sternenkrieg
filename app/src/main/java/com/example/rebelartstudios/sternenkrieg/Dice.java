@@ -1,6 +1,5 @@
 package com.example.rebelartstudios.sternenkrieg;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -13,7 +12,6 @@ import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -35,7 +33,7 @@ public class Dice extends AppCompatActivity {
 
     private SensorManager mSensorManager;
     private Sensor mSensor;
-    static ImageView imageDice;
+    public static ImageView imageDice;
     private Random rng = new Random();
     private boolean shakeboolean = true;
     private int who_is_starting;
@@ -119,12 +117,12 @@ public class Dice extends AppCompatActivity {
     }
 
 
-    @Override
-    protected void onDestroy() {
-        destroyImageView();
-        super.onDestroy();
-
-    }
+//    @Override
+//    protected void onDestroy() {
+//        destroyImageView();
+//        super.onDestroy();
+//
+//    }
 
     private void destroyImageView() {
         imageDice.destroyDrawingCache();
@@ -140,7 +138,6 @@ public class Dice extends AppCompatActivity {
         public void onSensorChanged(SensorEvent sensorEvent) {
 
             Sensor mySensor = sensorEvent.sensor;
-
             if (mySensor.getType() == Sensor.TYPE_ACCELEROMETER && shakeboolean) {
 
                 float x = sensorEvent.values[0];
@@ -178,8 +175,8 @@ public class Dice extends AppCompatActivity {
                 int valueGame = diceClass.roll();
                 util.messageSend(valueGame + "", Phost, true);
                 diceClass.changeDiceImage(valueGame);
-                valueGame += stats.getValue();
-                stats.setValue(valueGame);
+                valueGame += NetworkStats.getValue();
+                NetworkStats.setValue(valueGame);
                 text_score.setText("You got:" + valueGame + " Waiting for enemy");
                 sended = true;
                 sollfinish();
@@ -198,7 +195,7 @@ public class Dice extends AppCompatActivity {
         switch (mode) {
             case 1:
                 who_is_starting = diceClass.whoIsStarting(value, gegnervalue);
-                stats.setWho_is_starting(who_is_starting);
+                NetworkStats.setWho_is_starting(who_is_starting);
 
                 goNext.setOnClickListener(new View.OnClickListener() {
                     @Override

@@ -2,7 +2,6 @@ package com.example.rebelartstudios.sternenkrieg.Network;
 
 import android.content.Intent;
 import android.os.Handler;
-import android.os.Message;
 import android.util.Log;
 
 import java.io.IOException;
@@ -128,39 +127,6 @@ public class NetworkUtilities {
 
             } catch (IOException e) {
                 Log.e(tag, "IOException in Client: " + e.toString());
-            }
-        }
-    }
-
-    public void getinfofD() {
-        System.out.println("Net = " + intent.getStringExtra("Net"));
-
-        try {
-            if (intent.getStringExtra("Net").equals("t")) {
-                Net = true;
-            }
-        } catch (NullPointerException e) {
-            Log.e(tag, "NullPointerException in Spielfeld: " + e.toString());
-        }
-
-
-        if (Net) {
-            // if the player is host.
-            try {
-                if (intent.getStringExtra("host").equals("1")) {
-                    Phost = true;
-                    intent.putExtra("Net", "t");
-                    intent.putExtra("host", "1");
-
-                }
-            } catch (NullPointerException e) {
-                Log.e(tag, "NullPointerException in Dice: " + e.toString());
-            }
-            //if the player is client, then needs the ip to build a new socket.
-            if (Phost == false) {
-                this.ip = intent.getStringExtra("ip");
-                intent.putExtra("Net", "t");
-                intent.putExtra("ip", ip);
             }
         }
     }

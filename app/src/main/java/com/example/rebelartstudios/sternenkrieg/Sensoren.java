@@ -1,7 +1,5 @@
 package com.example.rebelartstudios.sternenkrieg;
 
-import android.hardware.Sensor;
-
 /**
  * Created by Chris on 14.06.2017.
  */
