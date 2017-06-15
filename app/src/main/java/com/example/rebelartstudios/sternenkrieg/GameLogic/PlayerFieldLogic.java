@@ -66,25 +66,74 @@ public class PlayerFieldLogic {
 		}
 	}
 
-
-	public void setSmallShipPosition(int position, String input) {
-		if (position >= 0 && position <= PLAYERFIELDSIZE - 1) {
+	/**
+	 * Sets the position of the player field in the Map Activity class
+	 * @param position the position which will we changed to wanted state
+	 * @param input
+	 */
+	public void setPFSmallShipPosition(int position, String input) {
 			playerfield[position] = input;
-		} else {
-			throw new IllegalStateException(playerFieldPositionOutOfRange);
-		}
 	}
 
-	public void setMiddleShipPosition(int position, int degree, String input){
-		if (degree == 0){
+	/**
+	 * Uses the degree in the Map Activity class to decide whether the player field will be set horizontally or vertically
+	 * For further description see setMiddleShipPositionWithDegree() method
+	 *
+	 * @param position used to set the position on player field
+	 * @param degree   used to decide between horizontal/vertical setting of player field state
+	 * @param input    string used to signalize the state
+	 */
+	public void setPFMiddleShipPosition(int position, int degree, String input) {
+		if (degree == 0) {
 			setMiddleShipPositionWithDegree(position, 1, input);
-		} else if (degree == 1){
+		} else if (degree == 1) {
 			setMiddleShipPositionWithDegree(position, 8, input);
 		}
 	}
 
-	private void setMiddleShipPositionWithDegree(int position, int sibling, String input){
+	/**
+	 * Sets the position of the player field with the logic of the middle ship
+	 * @param position the position of the player field position
+	 * @param sibling used to set the position of the siblings of position
+	 *                siblings can be set horizontally or vertically to position
+	 * @param input is the string input used to signal, which state the field will get
+	 *              character 'e' for setting the middle ship
+	 */
+
+
+	private void setMiddleShipPositionWithDegree(int position, int sibling, String input) {
 		playerfield[position - sibling] = input;
 		playerfield[position] = input;
+	}
+
+	/**
+	 * Uses the degree in the Map Activity class to decide whether the player field will be set horizontally or vertically
+	 * For further description see setBigShipPositionWithDegree() method
+	 *
+	 * @param position used to set the position on player field
+	 * @param degree   used to decide between horizontal/vertical setting of player field state
+	 * @param input    string used to signalize the state
+	 */
+	public void setPFBigShipPosition(int position, int degree, String input) {
+		if (degree == 0) {
+			setBigShipPositionWithDegree(position, 1, input);
+		} else if (degree == 1) {
+			setBigShipPositionWithDegree(position, 8, input);
+		}
+	}
+
+	/**
+	 * Sets the position of the player field with the logic of the big ship
+	 *
+	 * @param position the position of the middle piece
+	 * @param sibling  used to set the position of the siblings of position
+	 *                 siblings can be set horizontally or vertically to position
+	 * @param input    is the string input used to signal, which state the field will get
+	 *                 character 'f' for setting the big ship
+	 */
+	private void setBigShipPositionWithDegree(int position, int sibling, String input) {
+		/* DRY */
+		setMiddleShipPositionWithDegree(position, sibling, input);
+		playerfield[position + sibling] = input;
 	}
 }
