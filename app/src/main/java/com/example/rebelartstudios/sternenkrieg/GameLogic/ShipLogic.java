@@ -47,7 +47,7 @@ public class ShipLogic {
 	 *
 	 * @return int array with size 1
 	 */
-	public int[] getOldSmallShipArray() {
+	public int[] getSmallShipArray() {
 		return small_ship;
 	}
 
@@ -56,7 +56,7 @@ public class ShipLogic {
 	 *
 	 * @return int array with size 2
 	 */
-	public int[] getOldMiddleShipArray() {
+	public int[] getMiddleShipArray() {
 		return middle_ship;
 	}
 
