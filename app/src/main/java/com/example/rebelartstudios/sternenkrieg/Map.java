@@ -233,9 +233,9 @@ public class Map extends AppCompatActivity {
 						}
 
 						draw(playerField);
-						ship1.setVisibility(View.VISIBLE);
-						ship2.setVisibility(View.VISIBLE);
-						ship3.setVisibility(View.VISIBLE);
+						//
+						setShipsVisible();
+
 
 						if (smallShipIsSetOnField && middleShipIsSetOnField && bigShipIsSetOnField) {
 							play.setImageDrawable(getResources().getDrawable(R.drawable.arrow_right_other));
@@ -307,6 +307,11 @@ public class Map extends AppCompatActivity {
 
 	}
 
+	private void setShipsVisible(){
+		ship1.setVisibility(View.VISIBLE);
+		ship2.setVisibility(View.VISIBLE);
+		ship3.setVisibility(View.VISIBLE);
+	}
 	//schaut das das Schiff nicht über die Map hinaus gesetzt wird
 	public boolean check_position(int pos, int size, int degree) {
 		ArrayList<Integer> failures_right = new ArrayList<Integer>(Arrays.asList(7, 15, 23, 31, 39, 47, 55, 63));
