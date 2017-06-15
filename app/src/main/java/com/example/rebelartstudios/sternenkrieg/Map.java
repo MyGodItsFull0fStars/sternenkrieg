@@ -57,10 +57,12 @@ public class Map extends AppCompatActivity {
     int value;
 
 
+
+
     Socket socket = new Socket();
     ServerSocket mServerSocket = null;
     Handler myhandler;
-    boolean Phost = false; // if this is host then Phost is ture; if not is false.
+    boolean Phost = false; // if this is host then Phost is true; if not is false.
     String message;
     ReceiveThreadHost receiveThreadHost;
     String ip;
