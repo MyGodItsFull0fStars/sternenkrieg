@@ -46,10 +46,7 @@ public class Map extends AppCompatActivity {
 	int oldpos;
 	int degree = 0;
 	int which_ship;
-	int[] old_small = new int[1];
-	int[] old_middle = new int[2];
-	int[] old_big = new int[3];
-	boolean count0, count1, count2 = false;
+	boolean smallShipIsSetOnField, middleShipIsSetOnField, bigShipIsSetOnField = false;
 	String setPlayerPositionD = "d";
 	String setPlayerPositionE = "e";
 	String setPlayerPositionF = "f";
@@ -150,7 +147,7 @@ public class Map extends AppCompatActivity {
 
 				Toast.makeText(getApplicationContext(), "Pos: " + position + " Id: ",
 						Toast.LENGTH_SHORT).show();
-	           /* playerField[position] = 1 + "";
+		       /* playerField[position] = 1 + "";
                 draw(playerField);*/
 
 
@@ -180,17 +177,12 @@ public class Map extends AppCompatActivity {
 						if (which_ship == SMALL_SHIP) {
 							if (!playerField[pos].equals(setPlayerPositionE) && !playerField[pos].equals(setPlayerPositionF)) {
 								//falls schon mal gesetzt wird die letzte Position gelöscht
-								// delete(old_small);
 								delete(shipLogic.getSmallShipArray());
 								//neue Position gesetzt
 								playerField[pos] = setPlayerPositionD;
-								// old_small[0] = pos;
 								shipLogic.setSmallShipPosition(pos);
-
-
 							}
-							count0 = true;
-
+							smallShipIsSetOnField = true;
 						}
 
 						//mittleres Schiff
@@ -198,61 +190,45 @@ public class Map extends AppCompatActivity {
 							if (degree == 0) {
 								//check_position schaut dass das schiff nicht außerhalb der playerField oder vom rechten ende der playerField auf die linke seite gesetzt wird
 								if (check_position(pos, which_ship, degree)) {
-									// delete(old_middle);
 									delete(shipLogic.getMiddleShipArray());
 									// pos-1 weil wenn man das Bild bewegt ist der Zeiger genau mittig vom Bild
 									playerField[pos - 1] = setPlayerPositionE;
-									// old_middle[0] = pos - 1;
 									playerField[pos] = setPlayerPositionE;
-									// old_middle[1] = pos;
 									shipLogic.setMiddleShipPosition(pos, degree);
 								}
 							} else if (degree == 1) {
 								if (check_position(pos, which_ship, degree)) {
-									//delete(old_middle);
 									delete(shipLogic.getMiddleShipArray());
 									playerField[pos - 8] = setPlayerPositionE;
-									//old_middle[0] = pos - 8;
 									playerField[pos] = setPlayerPositionE;
-									//old_middle[1] = pos;
 									shipLogic.setMiddleShipPosition(pos, degree);
 								}
 
 							}
-							count1 = true;
+							middleShipIsSetOnField = true;
 
 						}
 						//großes Schiff
 						if (which_ship == BIG_SHIP) {
 							if (degree == 0) {
 								if (check_position(pos, which_ship, degree)) {
-									//delete(old_big);
 									delete(shipLogic.getBigShipArray());
 									// pos-1 weil wenn man das Bild bewegt ist der Zeiger genau mittig vom Bild
 									playerField[pos - 1] = setPlayerPositionF;
-									//old_big[0] = pos - 1;
 									playerField[pos] = setPlayerPositionF;
-									//old_big[1] = pos;
 									playerField[pos + 1] = setPlayerPositionF;
-									//old_big[2] = pos + 1;
 									shipLogic.setBigShipPosition(pos, degree);
 								}
 							} else if (degree == 1) {
 								if (check_position(pos, which_ship, degree)) {
-									//delete(old_big);
 									delete(shipLogic.getBigShipArray());
 									playerField[pos - 8] = setPlayerPositionF;
-									//old_big[0] = pos - 8;
 									playerField[pos] = setPlayerPositionF;
-									//old_big[1] = pos;
 									playerField[pos + 8] = setPlayerPositionF;
-									//old_big[2] = pos + 8;
 									shipLogic.setBigShipPosition(pos, degree);
 								}
-
-
 							}
-							count2 = true;
+							bigShipIsSetOnField = true;
 
 						}
 
@@ -261,7 +237,7 @@ public class Map extends AppCompatActivity {
 						ship2.setVisibility(View.VISIBLE);
 						ship3.setVisibility(View.VISIBLE);
 
-						if (count0 && count1 && count2) {
+						if (smallShipIsSetOnField && middleShipIsSetOnField && bigShipIsSetOnField) {
 							play.setImageDrawable(getResources().getDrawable(R.drawable.arrow_right_other));
 						}
 
@@ -350,6 +326,7 @@ public class Map extends AppCompatActivity {
 			}
 		}
 		//Oben und Unten
+		// TODO: 15/06/2017 can't be reached at the moment
 		if (degree == 90 || degree == 270) {
 			if (size == 1) {
 				if (pos < 8 || pos > 63) {
@@ -360,7 +337,6 @@ public class Map extends AppCompatActivity {
 					return false;
 				}
 			}
-
 		}
 
 		if (which_ship == BIG_SHIP) {
@@ -442,7 +418,7 @@ public class Map extends AppCompatActivity {
 			@Override
 			public void onClick(View v) {
 
-				if (count0 && count1 && count2) {
+				if (smallShipIsSetOnField && middleShipIsSetOnField && bigShipIsSetOnField) {
 
 					intent.setClass(Map.this, Spielfeld.class);
 					NetworkStats.setPlayerMap(playerField);
