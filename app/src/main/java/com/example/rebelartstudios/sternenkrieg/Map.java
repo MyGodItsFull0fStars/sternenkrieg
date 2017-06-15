@@ -233,7 +233,6 @@ public class Map extends AppCompatActivity {
 						}
 
 						draw(playerField);
-						//
 						setShipsVisible();
 
 
