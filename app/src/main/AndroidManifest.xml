@@ -42,9 +42,6 @@
             android:name=".Dice"
             android:label="@string/app_name" />
         <activity
-            android:name=".EndScreen"
-            android:label="@string/app_name" />
-        <activity
             android:name=".Map"
             android:label="@string/app_name" />
         <activity
@@ -55,9 +52,9 @@
             android:label="SK_UI3" />
         <activity android:name=".Options" />
         <activity android:name=".About" />
-        <activity android:name=".Socket_main" />
-        <activity android:name=".Network.Host" />
-        <activity android:name=".Network.Client1" />
+        <activity android:name=".socketMain" />
+        <activity android:name=".network.Host" />
+        <activity android:name=".network.Client1" />
         <activity android:name=".QR_Reader" />
 
         <service

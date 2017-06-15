@@ -1,4 +1,4 @@
-package com.example.rebelartstudios.sternenkriegTest;
+package com.example.rebelartstudios.test;
 
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
@@ -23,7 +23,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 
 @RunWith(AndroidJUnit4.class)
 public class PowerUpTest {
-    @Rule public final ActivityTestRule<PowerUp> powerUpActivityTestRule = new ActivityTestRule<PowerUp>(PowerUp.class);
+    @Rule public final ActivityTestRule<PowerUp> powerUpActivityTestRule = new ActivityTestRule<>(PowerUp.class);
 
 
     /**

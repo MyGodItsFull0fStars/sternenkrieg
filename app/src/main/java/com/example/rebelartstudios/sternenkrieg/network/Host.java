@@ -1,4 +1,4 @@
-package com.example.rebelartstudios.sternenkrieg.Network;
+package com.example.rebelartstudios.sternenkrieg.network;
 
 import android.content.Context;
 import android.content.Intent;
@@ -32,7 +32,7 @@ public class Host extends AppCompatActivity {
 
     private TextView tv = null;
     private EditText et = null;
-    private TextView IPtv = null;
+    private TextView iPtv = null;
     private Button btnSend = null;
     private Button btnAccept = null;
     private Button btnQR = null;
@@ -40,9 +40,9 @@ public class Host extends AppCompatActivity {
     private ServerSocket mServerSocket = null;
     boolean running = true;
     private AcceptThread mAcceptThread;
-    private ReceiveThreadHost mReceiveThreadHost;
-    public Handler mHandler = null;
+    private Handler mHandler = null;
     private Button btnServersEnd = null;
+    private ReceiveThreadHost mReceiveThreadHost;
     private TextView ip;
     String ipS;
     OutputStream os = null;
@@ -62,8 +62,6 @@ public class Host extends AppCompatActivity {
 
 
         WifiManager wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
-        // Version before Jenkins error message
-        // WifiManager wifiManager = (WifiManager) getSystemService(Context.WIFI_SERVICE);
         if (!wifiManager.isWifiEnabled()) {
             wifiManager.setWifiEnabled(true);
         }
@@ -109,9 +107,9 @@ public class Host extends AppCompatActivity {
                         String str = (String) msg.obj;
                         tv.setText(str);
                         try {
-                            if (str.equals("Exit")) {
+                            if ("exit".equals(str)) {
                                 ExitHost();
-                            }else if (str.equals("//Bereiten")){
+                            }else if (("//Bereiten").equals(str)){
                                 btnStarten.setEnabled(true);
                             }
                         } catch (NullPointerException e) {
@@ -120,14 +118,14 @@ public class Host extends AppCompatActivity {
                         }
                         break;
                     case 0:
-                        IPtv.setText("Client" + msg.obj + "Verbunden");
+                        iPtv.setText("Client" + msg.obj + "Verbunden");
                         displayToast("Erfolg");
                         break;
                     case 2:
                         displayToast("Client getrennt");
 
                         tv.setText(null);//
-                        IPtv.setText(null);
+                        iPtv.setText(null);
                         try {
                             socket.close();
                             mServerSocket.close();
@@ -137,7 +135,10 @@ public class Host extends AppCompatActivity {
                         btnAccept.setEnabled(true);
                         btnSend.setEnabled(false);
                         break;
+                    default:
+                        break;
                 }
+
             }
 
     }
@@ -145,7 +146,7 @@ public class Host extends AppCompatActivity {
     private void initializeButtons() {
         tv = (TextView) findViewById(R.id.tv);
         et = (EditText) findViewById(R.id.etSend);
-        IPtv = (TextView) findViewById(R.id.tvIP);
+        iPtv = (TextView) findViewById(R.id.tvIP);
         btnAccept = (Button) findViewById(R.id.btnAccept);
         btnSend = (Button) findViewById(R.id.btnSend);
         btnServersEnd = (Button) findViewById(R.id.btnHostEnd);
@@ -154,7 +155,7 @@ public class Host extends AppCompatActivity {
         btnStarten = (Button)findViewById(R.id.btn_starten);
 
 
-        if (ipS.equals("0.0.0.0")) {
+        if (("0.0.0.0").equals(ipS)) {
             ip.setText("不要用模拟器测试，否则是0。0。0。0");// diese Funktion geht nur Handy mit Wifi. Emulator geht nicht
         } else {
             ip.setText(ipS);
@@ -175,7 +176,7 @@ public class Host extends AppCompatActivity {
                     btnSend.setEnabled(true);
                     btnAccept.setEnabled(false);
                     btnServersEnd.setEnabled(true);
-                    IPtv.setText("Warte auf Verbindung");
+                    iPtv.setText("Warte auf Verbindung");
 
 
                 }
@@ -189,7 +190,7 @@ public class Host extends AppCompatActivity {
                     socket = mAcceptThread.getSocket();
 
                     String info = et.getText().toString();
-                    writeHost wh = new writeHost(socket, os, info);
+                    writehost wh = new writehost(socket, os, info);
 
                     wh.start();
 
@@ -212,7 +213,7 @@ public class Host extends AppCompatActivity {
                 public void onClick(View v) {
                     String info = "//Starten";
                     socket = mAcceptThread.getSocket();
-                    writeHost writeHost = new writeHost(socket, os, info);
+                    writehost writeHost = new writehost(socket, os, info);
                     writeHost.start();
                     Intent intentD = new Intent(Host.this, Dice.class);
                     Intent intentS = new Intent(Host.this, Spielfeld.class);
@@ -242,13 +243,13 @@ public class Host extends AppCompatActivity {
 
     public void ExitHost() {
 
-        String info = "//Exit";
+        String info = "//exit";
         socket = mAcceptThread.getSocket();
-        writeHost writeHost = new writeHost(socket,os,info);
+        writehost writeHost = new writehost(socket,os,info);
         writeHost.start();
 
         close();
-        IPtv.setText("Host beendet");
+        iPtv.setText("Host beendet");
         btnSend.setEnabled(false);
         btnServersEnd.setEnabled(false);
         btnAccept.setEnabled(true);

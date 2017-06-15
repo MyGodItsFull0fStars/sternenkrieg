@@ -10,7 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.example.rebelartstudios.sternenkrieg.Network.Client1;
+import com.example.rebelartstudios.sternenkrieg.network.Client1;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.Result;
 import com.google.zxing.WriterException;

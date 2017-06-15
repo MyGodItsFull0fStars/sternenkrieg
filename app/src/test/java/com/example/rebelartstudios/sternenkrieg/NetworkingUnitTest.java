@@ -2,10 +2,10 @@ package com.example.rebelartstudios.sternenkrieg;
 
 import android.os.Handler;
 
-import com.example.rebelartstudios.sternenkrieg.Network.AcceptThread;
-import com.example.rebelartstudios.sternenkrieg.Network.ReceiveThreadClient;
-import com.example.rebelartstudios.sternenkrieg.Network.ReceiveThreadHost;
-import com.example.rebelartstudios.sternenkrieg.Network.StartThread;
+import com.example.rebelartstudios.sternenkrieg.network.AcceptThread;
+import com.example.rebelartstudios.sternenkrieg.network.ReceiveThreadClient;
+import com.example.rebelartstudios.sternenkrieg.network.ReceiveThreadHost;
+import com.example.rebelartstudios.sternenkrieg.network.StartThread;
 
 import org.junit.Before;
 import org.junit.Test;

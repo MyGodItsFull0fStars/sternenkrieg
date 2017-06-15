@@ -1,6 +1,8 @@
 package com.example.rebelartstudios.sternenkrieg;
 
 
+import java.util.Random;
+
 /**
  * Created by Chris on 13.06.2017.
  */
@@ -8,10 +10,9 @@ package com.example.rebelartstudios.sternenkrieg;
 public class DiceClass {
 
 
-
     public int roll() {
-        int value = (int) (Math.random() * 6 + 1);
-        return value;
+        Random r = new Random();
+        return r.nextInt(6)+1;
     }
 
     public void changeDiceImage(int value) {
@@ -50,7 +51,9 @@ public class DiceClass {
         }
     }
 
+    public void closeDice() {
 
+    }
 
 
 }

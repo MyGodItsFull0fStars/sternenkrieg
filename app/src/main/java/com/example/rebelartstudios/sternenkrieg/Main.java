@@ -37,10 +37,10 @@ public class Main extends AppCompatActivity {
     ImageView background;
     ImageView logo;
 
-    TextView txt_username;
-    TextView txt_level;
+    TextView txtUsername;
+    TextView txtLevel;
 
-    ProgressBar level_progress;
+    ProgressBar levelProgress;
 
     SharedPreferences sharedPreferences;
 
@@ -63,13 +63,13 @@ public class Main extends AppCompatActivity {
         if (username == null) {
             generateName();
         } else {
-            txt_username.setText(username);
-            txt_username.setTextColor(Color.WHITE);
-            txt_level.setText("Level:" + level);
-            txt_level.setTextColor(Color.WHITE);
-            level_progress.getProgressDrawable().setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN);
-            level_progress.setProgress(0);
-            level_progress.setProgress(prozent);
+            txtUsername.setText(username);
+            txtUsername.setTextColor(Color.WHITE);
+            txtLevel.setText("Level:" + level);
+            txtLevel.setTextColor(Color.WHITE);
+            levelProgress.getProgressDrawable().setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN);
+            levelProgress.setProgress(0);
+            levelProgress.setProgress(prozent);
         }
 
         // Background music
@@ -85,7 +85,7 @@ public class Main extends AppCompatActivity {
     public void onResume() {
         super.onResume();
         // update username when coming back from Options activity
-        txt_username.setText(sharedPreferences.getString("username", null));
+        txtUsername.setText(sharedPreferences.getString("username", null));
         initializeBackground();
         //musicStuff();
     }
@@ -144,9 +144,9 @@ public class Main extends AppCompatActivity {
         socketBtn = (Button) findViewById(R.id.Socket);
         powerupBtn = (Button) findViewById(R.id.powerup);
 
-        txt_username = (TextView) findViewById(R.id.text_username);
-        txt_level = (TextView) findViewById(R.id.txt_level);
-        level_progress = (ProgressBar) findViewById(R.id.progressBar_level);
+        txtUsername = (TextView) findViewById(R.id.text_username);
+        txtLevel = (TextView) findViewById(R.id.txt_level);
+        levelProgress = (ProgressBar) findViewById(R.id.progressBar_level);
     }
 
     /**
@@ -199,7 +199,7 @@ public class Main extends AppCompatActivity {
         socketBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Main.this, Socket_main.class);
+                Intent intent = new Intent(Main.this, socketMain.class);
                 startActivity(intent);
             }
         });
@@ -235,8 +235,8 @@ public class Main extends AppCompatActivity {
                         SharedPreferences.Editor editor = sharedPreferences.edit();
                         editor.putString("username", name);
                         editor.apply();
-                        txt_username.setText(name);
-                        txt_username.setTextColor(Color.WHITE);
+                        txtUsername.setText(name);
+                        txtUsername.setTextColor(Color.WHITE);
                         // CONFIRM
                     }
                 })
@@ -269,13 +269,13 @@ public class Main extends AppCompatActivity {
         if (soundEnabled) {
             bindService(audioIntent, soundConnection, Context.BIND_AUTO_CREATE);
             startService(audioIntent);
-            on = true;
+            //on = true;
         } else {
             if (on) {
                 stopService(audioIntent);
                 unbindService(soundConnection);
             }
-            on = false;
+            //on = false;
         }
     }
 

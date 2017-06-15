@@ -1,11 +1,10 @@
-package com.example.rebelartstudios.sternenkriegTest;
+package com.example.rebelartstudios.test;
 
-import com.example.rebelartstudios.sternenkrieg.Network.NetworkUtilities;
+import com.example.rebelartstudios.sternenkrieg.network.NetworkUtilities;
 
-import org.junit.Test;
-import org.junit.Before; 
 import org.junit.After;
-import static org.junit.Assert.*;
+import org.junit.Before;
+import org.junit.Test;
 
 /** 
 * NetworkUtilities Tester. 

@@ -1,4 +1,4 @@
-package com.example.rebelartstudios.sternenkrieg.Network;
+package com.example.rebelartstudios.sternenkrieg.network;
 
 import android.os.Handler;
 import android.os.Message;
@@ -39,8 +39,7 @@ public class ReceiveThreadHost extends Thread {
     }
     @Override
     public void run() {
-
-        System.out.println("ReceiveTH running = "+ running);
+        Log.i(ReceiveThreadHost.class.getName(),"ReceiveTH running = "+ running);
         while (running) {
             try {
                 sleep(100);
@@ -54,7 +53,6 @@ public class ReceiveThreadHost extends Thread {
                 br = new BufferedReader(new InputStreamReader(is, "UTF-8"));
             } catch (UnsupportedEncodingException e) {
                 Log.e(tag, "UnsupportedException in AcceptThreadHost: " + e.toString());
-                throw new RuntimeException(e);
             }
 
             try {

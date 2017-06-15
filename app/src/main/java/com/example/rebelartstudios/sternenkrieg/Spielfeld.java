@@ -27,11 +27,11 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.rebelartstudios.sternenkrieg.Network.AcceptThread;
-import com.example.rebelartstudios.sternenkrieg.Network.NetworkUtilities;
-import com.example.rebelartstudios.sternenkrieg.Network.ReceiveThreadClient;
-import com.example.rebelartstudios.sternenkrieg.Network.ReceiveThreadHost;
-import com.example.rebelartstudios.sternenkrieg.Network.StartThread;
+import com.example.rebelartstudios.sternenkrieg.network.AcceptThread;
+import com.example.rebelartstudios.sternenkrieg.network.NetworkUtilities;
+import com.example.rebelartstudios.sternenkrieg.network.ReceiveThreadClient;
+import com.example.rebelartstudios.sternenkrieg.network.ReceiveThreadHost;
+import com.example.rebelartstudios.sternenkrieg.network.StartThread;
 
 import java.io.OutputStream;
 import java.net.ServerSocket;
@@ -69,7 +69,7 @@ public class Spielfeld extends AppCompatActivity {
     // this Views can be also a chat system. That mean player can talk with other player with it.
     // But now we can use it to check if the Socket program right.
     // what we do next: set Start Button and make connect.
-    // You can call methode messageSend to send String message parameter mit (message, Phost)
+    // You can call methode messageSend to send String message parameter mit (message, phost)
     // And in class Myhandler you get message form enemy, msg.what = 1 is what enemy say
     // msg.what = 4 , sendMsg[1] is enemy shoot position.
 
@@ -79,7 +79,7 @@ public class Spielfeld extends AppCompatActivity {
     Socket socket = new Socket();
     ServerSocket mServerSocket = null;
     Handler myhandler;
-    boolean Phost = false; // if this is host then Phost is ture; if not is false.
+    boolean Phost = false; // if this is host then phost is ture; if not is false.
     String message;
     ReceiveThreadHost receiveThreadHost;
     String ip;
@@ -115,11 +115,11 @@ public class Spielfeld extends AppCompatActivity {
         player1_say = (EditText) findViewById(R.id.player1_say);
         System.out.println("Spielfeld");
         Phost = stats.isPhost();
-        System.out.println("Phost: "+ Phost);
-        who_is_starting= NetworkStats.getWho_is_starting();
+        System.out.println("phost: "+ Phost);
+        who_is_starting= NetworkStats.getWhoIsStarting();
         System.out.println("Whoisstarting: "+who_is_starting);
         Net = stats.isNet();
-        System.out.println("Net: " + Net);
+        System.out.println("net: " + Net);
         if (Phost == false) {
             ip = stats.getIp();
             System.out.println("Ip: " + ip);
@@ -136,10 +136,10 @@ public class Spielfeld extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String info = player1_say.getText().toString();
-                if (Phost) { //If this is host, so use writeHost to sand message.
-                    util.messageSend(info, Phost, true);
+                if (Phost) { //If this is host, so use writehost to sand message.
+                    util.messageSend(info, Phost);
                 } else {// Client.
-                    util.messageSend(info, Phost, true);
+                    util.messageSend(info, Phost);
                 }
             }
         });
@@ -354,7 +354,7 @@ public class Spielfeld extends AppCompatActivity {
 
             map2 = new String[64];
             Arrays.fill(map2, "0");
-            util.messageSend("Map," + sendField, Phost, true);
+            util.messageSend("Map," + sendField, Phost);
             System.out.println("Send" + sendField);
         }
 
@@ -384,11 +384,11 @@ public class Spielfeld extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                 if (shoot) {
 
-                    util.messageSend("shoot," + position, Phost, true);
+                    util.messageSend("shoot," + position, Phost);
                     oneshoot = false;
                     sended = true;
 
-                    //   messageSend("map,"+position,Phost);
+                    //   messageSend("map,"+position,phost);
 
                     // Toast.makeText(getApplicationContext(), "Pos: " + position + " Id: ",
                     //       Toast.LENGTH_SHORT).show();
@@ -741,7 +741,6 @@ public class Spielfeld extends AppCompatActivity {
 
         public void handleMessage(Message msg) {
 
-
             switch (msg.what) {
                 case 1:
                     message = (String) msg.obj;
@@ -769,7 +768,7 @@ public class Spielfeld extends AppCompatActivity {
 
                         map2 = map3;
                         draw(map2, gridView2);
-                        util.messageSend("Gotit,1", Phost, true);
+                        util.messageSend("Gotit,1", Phost);
                         System.out.println("Map" + mapMsg[1]);
 
                     }
@@ -798,7 +797,7 @@ public class Spielfeld extends AppCompatActivity {
 
                         map2 = new String[64];
                         Arrays.fill(map2, "0");
-                        util.messageSend("Map," + sendMap, Phost, true);
+                        util.messageSend("Map," + sendMap, Phost);
                         System.out.println("Send" + sendMap);
                     }
 

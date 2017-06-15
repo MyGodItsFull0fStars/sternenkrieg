@@ -18,26 +18,25 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.rebelartstudios.sternenkrieg.Network.AcceptThread;
-import com.example.rebelartstudios.sternenkrieg.Network.NetworkUtilities;
-import com.example.rebelartstudios.sternenkrieg.Network.ReceiveThreadClient;
-import com.example.rebelartstudios.sternenkrieg.Network.ReceiveThreadHost;
-import com.example.rebelartstudios.sternenkrieg.Network.StartThread;
+import com.example.rebelartstudios.sternenkrieg.network.AcceptThread;
+import com.example.rebelartstudios.sternenkrieg.network.NetworkUtilities;
+import com.example.rebelartstudios.sternenkrieg.network.ReceiveThreadClient;
+import com.example.rebelartstudios.sternenkrieg.network.ReceiveThreadHost;
+import com.example.rebelartstudios.sternenkrieg.network.StartThread;
 
 import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.Random;
 
 public class Dice extends AppCompatActivity {
 
     private SensorManager mSensorManager;
     private Sensor mSensor;
-    public static ImageView imageDice;
-    private Random rng = new Random();
+    protected static ImageView imageDice;
     private boolean shakeboolean = true;
-    private int who_is_starting;
-    private TextView text_score, text_score_enemy;
+    private int whoStarts;
+    private TextView textscore;
+    private TextView textscoreenemy;
     private int value;
     Sensoren sensoren = new Sensoren();
     DiceClass diceClass = new DiceClass();
@@ -47,24 +46,20 @@ public class Dice extends AppCompatActivity {
     private int gegnervalue;
     boolean finish = false;
     boolean finishEnemy = false;
-    int dicevalue;
-
-
     private int mode = 0; // 1 = game start, 2 = powerup
     /********************Netz**************************/
     Socket socket = new Socket();
     ServerSocket mServerSocket = null;
     Handler myhandler;
-    boolean Phost = false; // if this is host then Phost is ture; if not is false.
+    boolean phost = false; // if this is host then phost is ture; if not is false.
     String message;
     ReceiveThreadHost receiveThreadHost;
     String ip;
     ReceiveThreadClient receiveThreadClient;
-    String tag = "Dice";
     AcceptThread mAcceptThread;
     StartThread startThread;
     OutputStream os = null;
-    boolean Net = false;
+    boolean net = false;
     Button send;
     Button goNext;
     boolean sended = false;
@@ -78,12 +73,12 @@ public class Dice extends AppCompatActivity {
         setContentView(R.layout.activity_wuerfeltest);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+
         imageDice = (ImageView) findViewById(R.id.imageDice);
-        text_score = (TextView) findViewById(R.id.text_score);
-        text_score_enemy = (TextView) findViewById(R.id.text_enemy_score);
+        textscore = (TextView) findViewById(R.id.text_score);
+        textscoreenemy = (TextView) findViewById(R.id.text_enemy_score);
         /********************Netz**************************/
         send = (Button) findViewById(R.id.senddice);
         goNext = (Button) findViewById(R.id.gonext);
@@ -93,23 +88,15 @@ public class Dice extends AppCompatActivity {
         mSensorManager.registerListener(AccelSensorListener, mSensor, SensorManager.SENSOR_DELAY_NORMAL);
         /********************Netz**************************/
 
-        System.out.println("Dice");
-        Phost = stats.isPhost();
-        System.out.println("Phost: "+ Phost);
+        phost = stats.isPhost();
         mode = stats.getMode();
-        Net = stats.isNet();
-        System.out.println("Net: " + Net);
-        if (Phost == false) {
+        net = stats.isNet();
+        if (phost == false) {
             ip = stats.getIp();
-            System.out.println("Ip: " + ip);
         }
-
-
         myhandler = new Myhandler();
-        util = new NetworkUtilities(Phost, mAcceptThread, mServerSocket, socket, myhandler, receiveThreadHost, startThread, ip, receiveThreadClient);
+        util = new NetworkUtilities(phost, mAcceptThread, mServerSocket, socket, myhandler, receiveThreadHost, startThread, ip, receiveThreadClient);
         util.networkbuild();
-
-
         util.connection();
 
 
@@ -137,24 +124,18 @@ public class Dice extends AppCompatActivity {
         @Override
         public void onSensorChanged(SensorEvent sensorEvent) {
 
-            Sensor mySensor = sensorEvent.sensor;
-            if (mySensor.getType() == Sensor.TYPE_ACCELEROMETER && shakeboolean) {
-
-                float x = sensorEvent.values[0];
-                float y = sensorEvent.values[1];
-                float z = sensorEvent.values[2];
-
-                if (sensoren.accelUpdate(x, y, z).equals("shake")) {
+            if (shakeboolean) {
+                if (sensoren.accelUpdate(sensorEvent).equals("shake")) {
                     shakeboolean = false;
+                    value = diceClass.roll();
                     shake();
                 }
             }
         }
 
-
         @Override
         public void onAccuracyChanged(Sensor sensor, int accuracy) {
-
+        //not important
         }
     };
 
@@ -162,25 +143,21 @@ public class Dice extends AppCompatActivity {
     public void shake() {
         switch (mode) {
             case 1:
-                value = diceClass.roll();
-                util.messageSend(value + "", Phost, true);
+                util.messageSend(value + "", phost);
                 sended = true;
                 diceClass.changeDiceImage(value);
-                text_score.setText("You got:" + value + " Waiting for enemy");
+                textscore.setText("You got:" + value + " Waiting for enemy");
                 sollfinish();
-
                 break;
 
             case 2:
-                int valueGame = diceClass.roll();
-                util.messageSend(valueGame + "", Phost, true);
-                diceClass.changeDiceImage(valueGame);
-                valueGame += NetworkStats.getValue();
-                NetworkStats.setValue(valueGame);
-                text_score.setText("You got:" + valueGame + " Waiting for enemy");
+                textscore.setText("You got:" + value + " Waiting for enemy");
+                util.messageSend(Integer.toString(value), phost);
+                diceClass.changeDiceImage(value);
+                value += NetworkStats.getValue();
+                NetworkStats.setValue(value);
                 sended = true;
                 sollfinish();
-
                 break;
 
             default:
@@ -189,25 +166,28 @@ public class Dice extends AppCompatActivity {
 
     }
 
-
     public void onFinish() {
         goNext.setVisibility(View.VISIBLE);
         switch (mode) {
             case 1:
-                who_is_starting = diceClass.whoIsStarting(value, gegnervalue);
-                NetworkStats.setWho_is_starting(who_is_starting);
+                whoStarts = diceClass.whoIsStarting(value, gegnervalue);
+                if(whoStarts ==2)
+                    intent.setClass(Dice.this,Dice.class);
+                else {
+                    NetworkStats.setWhoIsStarting(whoStarts);
+                    intent.setClass(Dice.this, Map.class);
+                }
 
                 goNext.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         finish = true;
-                        intent.setClass(Dice.this, EndScreen.class);
+
                         goNext.setText("Waiting for Enemy to Finish");
-                        util.messageSend("boolean", Phost, true);
-                        if (!Phost) {
+                        util.messageSend("boolean", phost);
+                        if (!phost) {
                             new CountDownTimer(500, 100) {
                                 public void onTick(long millisUntilFinished) {
-                                    System.out.print(millisUntilFinished);
                                 }
 
                                 @Override
@@ -231,11 +211,10 @@ public class Dice extends AppCompatActivity {
                         intent.setClass(Dice.this, Spielfeld.class);
                         finish = true;
                         goNext.setText("Waiting for Enemy to Finish");
-                        util.messageSend("boolean", Phost, true);
-                        if (!Phost) {
+                        util.messageSend("boolean", phost);
+                        if (!phost) {
                             new CountDownTimer(500, 100) {
                                 public void onTick(long millisUntilFinished) {
-                                    System.out.print(millisUntilFinished);
                                 }
 
                                 @Override
@@ -251,6 +230,13 @@ public class Dice extends AppCompatActivity {
                 });
 
                 break;
+            default:
+                break;
+        }
+    }
+    private void sollfinish() {
+        if (sended && came) {
+            onFinish();
         }
     }
 
@@ -271,49 +257,21 @@ public class Dice extends AppCompatActivity {
 
 
         public void handleMessage(Message msg) {
+            message=util.handleMessage(msg);
+            if ("boolean".equals(message)) {
+                finishEnemy = true;
+                syncClose();
+            } else if(!("".equals(message))){
+                gegnervalue = Integer.parseInt(message);
+                textscoreenemy.setText("Enemy got:" + gegnervalue);
+                came = true;
+                sollfinish();
 
-
-            switch (msg.what) {
-                case 1:
-                    message = (String) msg.obj;
-                    int count = 0;
-                    if (message == null) {
-                        count++;
-                    } else {
-                        count = 0;
-                    }
-                    if (count == 3) {
-                        util.close();
-                    }
-                    if (!(message == null)) {
-                        if (message.equals("boolean")) {
-                            finishEnemy = true;
-                            syncClose();
-                        } else {
-                            gegnervalue = Integer.parseInt(message);
-                            System.out.println("Gegnervalue: " + gegnervalue);
-                            text_score_enemy.setText("Enemy got:" + gegnervalue);
-                            came = true;
-                            System.out.println("Came=True");
-                        }
-                    }
-
-                    System.out.println("Message: " + message);
-                    sollfinish();
-                    break;
-                case 0:
-                    break;
-                case 2:
-                    break;
             }
         }
 
     }
 
 
-    private void sollfinish() {
-        if (sended && came) {
-            onFinish();
-        }
-    }
+
 }

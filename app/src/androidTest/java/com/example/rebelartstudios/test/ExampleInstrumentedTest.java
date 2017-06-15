@@ -1,4 +1,4 @@
-package com.example.rebelartstudios.sternenkriegTest;
+package com.example.rebelartstudios.test;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

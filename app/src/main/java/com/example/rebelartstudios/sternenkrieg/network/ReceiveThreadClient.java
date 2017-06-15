@@ -1,4 +1,4 @@
-package com.example.rebelartstudios.sternenkrieg.Network;
+package com.example.rebelartstudios.sternenkrieg.network;
 
 import android.os.Handler;
 import android.os.Message;
@@ -70,10 +70,6 @@ public class ReceiveThreadClient extends Thread {
             }catch (NullPointerException e){
                 Log.e(tag, "NullpointerException in ReceiveThreadHost: " + e.toString());
             }
-//            msg.what = 1;
-//                }
-//            msg.obj = str;
-//            myhandler.sendMessage(msg);
             try {
                 sleep(500);
             } catch (InterruptedException e) {

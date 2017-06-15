@@ -5,38 +5,38 @@ package com.example.rebelartstudios.sternenkrieg;
  */
 
 public class NetworkStats {
-    private static boolean Net;
-    private static boolean Phost;
+    private static boolean net;
+    private static boolean phost;
     private static String ip;
     private static int mode;
     private static int dicevalue;
     private static int value;
-    private static String[] PlayerMap;
-    private static String[] EnemyMap;
-    private static int who_is_starting;
+    private static String[] playerMap;
+    private static String[] enemyMap;
+    private static int whoIsStarting;
 
-    public static int getWho_is_starting() {
-        return who_is_starting;
+    public static int getWhoIsStarting() {
+        return whoIsStarting;
     }
 
-    public static void setWho_is_starting(int who_is_starting) {
-        NetworkStats.who_is_starting = who_is_starting;
+    public static void setWhoIsStarting(int whoIsStarting) {
+        NetworkStats.whoIsStarting = whoIsStarting;
     }
 
     public static String[] getPlayerMap() {
-        return PlayerMap;
+        return playerMap;
     }
 
     public static void setPlayerMap(String[] playerMap) {
-        PlayerMap = playerMap;
+        NetworkStats.playerMap = playerMap;
     }
 
     public static String[] getEnemyMap() {
-        return EnemyMap;
+        return enemyMap;
     }
 
     public static void setEnemyMap(String[] enemyMap) {
-        EnemyMap = enemyMap;
+        NetworkStats.enemyMap = enemyMap;
     }
 
     public static int getValue() {
@@ -49,19 +49,19 @@ public class NetworkStats {
     }
 
     public boolean isNet() {
-        return Net;
+        return net;
     }
 
     public void setNet(boolean net) {
-        Net = net;
+        NetworkStats.net = net;
     }
 
     public boolean isPhost() {
-        return Phost;
+        return phost;
     }
 
     public void setPhost(boolean phost) {
-        Phost = phost;
+        NetworkStats.phost = phost;
     }
 
     public String getIp() {

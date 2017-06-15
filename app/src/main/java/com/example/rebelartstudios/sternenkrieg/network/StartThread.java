@@ -1,4 +1,4 @@
-package com.example.rebelartstudios.sternenkrieg.Network;
+package com.example.rebelartstudios.sternenkrieg.network;
 
 import android.os.Handler;
 import android.os.Message;
@@ -32,21 +32,19 @@ public class StartThread extends Thread {
         this.port = port;
 
     }
-
+    @Override
     public void run() {
-
 
         while (tryconnect) {
             try {
 
                 socket = new Socket(ip, port);
                 System.out.println(socket);
-                System.out.println("Connect succsess");
+                Log.i(StartThread.class.getName(),"Connect success");
                 tryconnect = false;
                 rt = new ReceiveThreadClient(socket, running, myhandler);
                 rt.start();
                 running = true;
-                System.out.println(socket.isConnected());
                 if (socket.isConnected()) {
                     Message msg0 = myhandler.obtainMessage();
                     msg0.what = 0;

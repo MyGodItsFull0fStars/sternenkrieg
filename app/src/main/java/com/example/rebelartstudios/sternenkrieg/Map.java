@@ -19,11 +19,11 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.example.rebelartstudios.sternenkrieg.Network.AcceptThread;
-import com.example.rebelartstudios.sternenkrieg.Network.NetworkUtilities;
-import com.example.rebelartstudios.sternenkrieg.Network.ReceiveThreadClient;
-import com.example.rebelartstudios.sternenkrieg.Network.ReceiveThreadHost;
-import com.example.rebelartstudios.sternenkrieg.Network.StartThread;
+import com.example.rebelartstudios.sternenkrieg.network.AcceptThread;
+import com.example.rebelartstudios.sternenkrieg.network.NetworkUtilities;
+import com.example.rebelartstudios.sternenkrieg.network.ReceiveThreadClient;
+import com.example.rebelartstudios.sternenkrieg.network.ReceiveThreadHost;
+import com.example.rebelartstudios.sternenkrieg.network.StartThread;
 
 import java.io.OutputStream;
 import java.net.ServerSocket;
@@ -60,7 +60,7 @@ public class Map extends AppCompatActivity {
     Socket socket = new Socket();
     ServerSocket mServerSocket = null;
     Handler myhandler;
-    boolean Phost = false; // if this is host then Phost is ture; if not is false.
+    boolean Phost = false; // if this is host then phost is ture; if not is false.
     String message;
     ReceiveThreadHost receiveThreadHost;
     String ip;
@@ -116,9 +116,9 @@ public class Map extends AppCompatActivity {
         /********************Netz**************************/
         System.out.println("Map");
         Phost = stats.isPhost();
-        System.out.println("Phost: " + Phost);
+        System.out.println("phost: " + Phost);
         Net = stats.isNet();
-        System.out.println("Net: " + Net);
+        System.out.println("net: " + Net);
         if (Phost == false) {
             ip = stats.getIp();
             System.out.println("Ip: " + ip);
@@ -431,7 +431,7 @@ public class Map extends AppCompatActivity {
                     intent.setClass(Map.this, Spielfeld.class);
                     NetworkStats.setPlayerMap(playerField);
                     finish = true;
-                    util.messageSend("boolean", Phost, true);
+                    util.messageSend("boolean", Phost);
                     if (!Phost) {
                         new CountDownTimer(500, 100) {
                             public void onTick(long millisUntilFinished) {
@@ -524,39 +524,15 @@ public class Map extends AppCompatActivity {
 
 
         public void handleMessage(Message msg) {
+            message = util.handleMessage(msg);
 
+            if (message.equals("boolean")) {
+                finishEnemy = true;
+                syncClose();
 
-            switch (msg.what) {
-                case 1:
-                    message = (String) msg.obj;
-                    message = (String) msg.obj;
-                    int count = 0;
-                    if (message == null) {
-                        count++;
-                    } else {
-                        count = 0;
-                    }
-                    if (count == 3) {
-                        util.close();
-                    }
-                    if (!(message == null)) {
-                        if (message.equals("boolean")) {
-                            finishEnemy = true;
-                            syncClose();
-
-                        }
-                    }
-
-                    System.out.println("Message: " + message);
-
-                    break;
-                case 0:
-                    displayToast("Erfolg");
-                    break;
-                case 2:
-                    displayToast("!");
-                    break;
             }
+
+
         }
 
     }

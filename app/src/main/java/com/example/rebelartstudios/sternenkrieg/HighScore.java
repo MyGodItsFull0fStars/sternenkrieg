@@ -16,7 +16,7 @@ import java.util.Collections;
 
 public class HighScore extends AppCompatActivity {
 
-    ListView list_highScore;
+    ListView listHighScore;
     private ArrayAdapter<String> listAdapter;
     private ArrayList<String> list;
     int counter;
@@ -25,7 +25,7 @@ public class HighScore extends AppCompatActivity {
     boolean read = true;
     boolean write = true;
     boolean onlyhighscore = true; //für Hauptmenü benötigt
-    Button delete_highscore;
+    Button deleteHighscore;
     Intent intent;
 
     @Override
@@ -33,8 +33,8 @@ public class HighScore extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_high_score);
 
-        list_highScore = (ListView) findViewById(R.id.list_highScore);
-        delete_highscore = (Button) findViewById(R.id.btn_delete_highscore);
+        listHighScore = (ListView) findViewById(R.id.list_highScore);
+        deleteHighscore = (Button) findViewById(R.id.btn_delete_highscore);
 
         settings = getApplicationContext().getSharedPreferences("highscoredata", 0);
         namesettings = getApplicationContext().getSharedPreferences("prefs", 0);
@@ -64,10 +64,10 @@ public class HighScore extends AppCompatActivity {
         }
 
         //Highscore wird erzeugt
-        list_highScore.setAdapter(listAdapter);
+        listHighScore.setAdapter(listAdapter);
 
         //Bei Button klick wird alles von "highscoredata" gelöscht, Username bleibt aber
-        delete_highscore.setOnClickListener(new View.OnClickListener() {
+        deleteHighscore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 remove();
