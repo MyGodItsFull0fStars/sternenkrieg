@@ -19,6 +19,6 @@
         android:layout_height="wrap_content"
         android:background="@color/colorPrimary"
         android:text="Client"
-        android:textColor="@color/common_signin_btn_dark_text_default" />
+        android:textColor="@color/common_signin_btn_dark_text_default"/>
 
 </LinearLayout>
