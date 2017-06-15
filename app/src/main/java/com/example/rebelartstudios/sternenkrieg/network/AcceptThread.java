@@ -58,12 +58,12 @@ public class AcceptThread extends Thread {
                 mReceiveThreadHost.start();
 
             } catch (IOException e) {
-                Log.w(AcceptThread.class.getName(),"Nicht Verbunden"+e.getCause());
+//                Log.w(AcceptThread.class.getName(),e.getMessage());
             }
     }
 
     public Socket getSocket (){
-        Log.i(AcceptThread.class.getName(),"getSocket : " + this.socket);
+//       Log.i(AcceptThread.class.getName(),"getSocket : " + socket);
         return this.socket;
     }
     public void setSocket(Socket socket){
