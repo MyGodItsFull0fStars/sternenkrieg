@@ -17,17 +17,27 @@ public class ShipLogic {
 	private int[] middle_ship;
 	private int[] big_ship;
 
+	/**
+	 * Ship constructor with the int arrays for the ships
+	 * @param small_ship int array for small ship
+	 * @param middle_ship int array for middle ship
+	 * @param big_ship int array for big ship
+	 */
 	public ShipLogic(int[] small_ship, int[] middle_ship, int[] big_ship) {
 		this.small_ship = small_ship;
 		this.middle_ship = middle_ship;
 		this.big_ship = big_ship;
 	}
 
+	/**
+	 * Standard constructor with initialization of the ship arrays
+	 */
 	public ShipLogic() {
 		small_ship = new int[1];
 		middle_ship = new int[2];
 		big_ship = new int[3];
 	}
+
 
 	int position = 0;
 
