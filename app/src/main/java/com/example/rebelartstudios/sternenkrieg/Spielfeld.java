@@ -115,9 +115,9 @@ public class Spielfeld extends AppCompatActivity {
         player1_say = (EditText) findViewById(R.id.player1_say);
         System.out.println("Spielfeld");
         Phost = stats.isPhost();
-        System.out.println("phost: "+ Phost);
-        who_is_starting= NetworkStats.getWhoIsStarting();
-        System.out.println("Whoisstarting: "+who_is_starting);
+        System.out.println("phost: " + Phost);
+        who_is_starting = NetworkStats.getWhoIsStarting();
+        System.out.println("Whoisstarting: " + who_is_starting);
         Net = stats.isNet();
         System.out.println("net: " + Net);
         if (Phost == false) {
@@ -126,9 +126,9 @@ public class Spielfeld extends AppCompatActivity {
         }
 
 
-            myhandler = new Myhandler();
-            util = new NetworkUtilities(Phost, mAcceptThread, mServerSocket, socket, myhandler, receiveThreadHost, startThread, ip, receiveThreadClient);
-            util.networkbuild();
+        myhandler = new Myhandler();
+        util = new NetworkUtilities(Phost, mAcceptThread, mServerSocket, socket, myhandler, receiveThreadHost, startThread, ip, receiveThreadClient);
+        util.networkbuild();
 
         util.connection();
 
@@ -163,14 +163,12 @@ public class Spielfeld extends AppCompatActivity {
                 ImageView background = (ImageView) findViewById(R.id.background_stars);
 
 
-                if (mLightQuantity >= 300) {
-
-                    background.setBackgroundResource(R.drawable.sky_bright);
-                } else {
-                    background.setBackgroundResource(R.drawable.sky_dark);
-
-                }
-
+                if (mLightQuantity >= 300)
+                    background.setBackgroundResource(R.drawable.amhellsten);
+                else if (mLightQuantity > 180 && mLightQuantity < 300)
+                    background.setBackgroundResource(R.drawable.dunkel);
+                else
+                    background.setBackgroundResource(R.drawable.amdunkelsten);
             }
 
             @Override
@@ -409,9 +407,9 @@ public class Spielfeld extends AppCompatActivity {
                     shoot = false;
                     dice = true;
                     System.out.println("Dice True");
-                    if (dice && dice2) {
+                    if (dice2) {
                         if (!Phost) {
-                            new CountDownTimer(500, 100) {
+                            new CountDownTimer(200, 100) {
                                 public void onTick(long millisUntilFinished) {
                                     System.out.print(millisUntilFinished);
                                 }
@@ -608,14 +606,14 @@ public class Spielfeld extends AppCompatActivity {
             case "h":
                 if (shipRotated == false) {
                     return !(failures_left.contains(position + 1) || !checkAvailability(position) || !checkAvailability(position + 1));
-                } else if (shipRotated == true) {
+                } else{
                     return !(position + 1 > 63 || !checkAvailability(position) || !checkAvailability(position + 8));
                 }
             case "i":
                 if (shipRotated == false) {
                     return !(failures_left.contains(position + 1) || failures_right.contains(position - 1)
                             || !checkAvailability(position) || !checkAvailability(position - 1) || !checkAvailability(position + 1));
-                } else if (shipRotated == true) {
+                } else{
                     return !(position - 8 < 0 || position + 8 > 63
                             || !checkAvailability(position) || !checkAvailability(position + 8) || !checkAvailability(position - 8));
                 }

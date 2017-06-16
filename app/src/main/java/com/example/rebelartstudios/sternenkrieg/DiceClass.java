@@ -15,7 +15,7 @@ public class DiceClass {
         return r.nextInt(6)+1;
     }
 
-    public void changeDiceImage(int value) {
+    public static synchronized void changeDiceImage(int value) {
 
         switch (value) {
             case 1:

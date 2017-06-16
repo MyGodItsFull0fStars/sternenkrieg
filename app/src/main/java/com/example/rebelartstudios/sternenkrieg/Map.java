@@ -433,7 +433,7 @@ public class Map extends AppCompatActivity {
                     finish = true;
                     util.messageSend("boolean", Phost);
                     if (!Phost) {
-                        new CountDownTimer(500, 100) {
+                        new CountDownTimer(200, 100) {
                             public void onTick(long millisUntilFinished) {
                                 System.out.print(millisUntilFinished);
                             }

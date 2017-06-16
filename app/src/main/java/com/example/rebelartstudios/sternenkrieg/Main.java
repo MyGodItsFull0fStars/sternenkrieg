@@ -271,10 +271,8 @@ public class Main extends AppCompatActivity {
             startService(audioIntent);
             //on = true;
         } else {
-            if (on) {
                 stopService(audioIntent);
                 unbindService(soundConnection);
-            }
             //on = false;
         }
     }

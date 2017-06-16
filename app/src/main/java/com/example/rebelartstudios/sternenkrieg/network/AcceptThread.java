@@ -43,19 +43,20 @@ public class AcceptThread extends Thread {
                 mServerSocket = new ServerSocket(port);//ein Server erstellen
                 socket = mServerSocket.accept();//accept
                 Log.i(AcceptThread.class.getName(),"Verbunden");
-                if (socket != null){
+                if (socket != null) {
                     this.resocket = socket;
+
+
+                    Message msg = mHandler.obtainMessage();
+                    msg.what = 0;
+                    msg.obj = socket.getInetAddress().getHostAddress();
+                    mHandler.sendMessage(msg);
+                    //start receive Thread
+                    running = true;
+
+                    mReceiveThreadHost = new ReceiveThreadHost(socket, running, mHandler);
+                    mReceiveThreadHost.start();
                 }
-
-                Message msg = mHandler.obtainMessage();
-                msg.what = 0;
-                msg.obj = socket.getInetAddress().getHostAddress();
-                mHandler.sendMessage(msg);
-                //start receive Thread
-                running = true;
-
-                mReceiveThreadHost = new ReceiveThreadHost(socket, running, mHandler);
-                mReceiveThreadHost.start();
 
             } catch (IOException e) {
 //                Log.w(AcceptThread.class.getName(),e.getMessage());
