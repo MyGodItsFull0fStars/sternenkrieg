@@ -11,7 +11,7 @@ import java.util.Arrays;
  */
 
 public class PlayerFieldLogic {
-	String[] playerfield;
+	private String[] playerField;
 	private final int PLAYERFIELDSIZE = 64;
 	PlayerFieldPositionString fieldStrings = new PlayerFieldPositionString();
 
@@ -25,7 +25,7 @@ public class PlayerFieldLogic {
 	 * Standard constructor which initializes an 'empty' player field
 	 */
 	public PlayerFieldLogic() {
-		initializePlayerfield();
+		initializePlayerField();
 	}
 
 	/**
@@ -36,40 +36,40 @@ public class PlayerFieldLogic {
 	 */
 	public PlayerFieldLogic(String[] playerfield) {
 		if (playerfield.length == PLAYERFIELDSIZE) {
-			setPlayerfield(playerfield);
+			setPlayerField(playerfield);
 		} else {
 			throw new IllegalStateException(playerFieldWrongSizeErrorMessage);
 		}
 	}
 
 	/**
-	 * Getter method for the playerfield variable
+	 * Getter method for the playerField variable
 	 *
-	 * @return the playerfield
+	 * @return the playerField
 	 */
-	public String[] getPlayerfield() {
-		return playerfield;
+	public String[] getPlayerField() {
+		return playerField;
 	}
 
 	/**
-	 * Setter method to set the playerfield variable
+	 * Setter method to set the playerField variable
 	 * Throws exception if the parameter is not of the correct size
 	 *
-	 * @param playerfield used to set the playerfield variable of the PlayerFieldLogic class
+	 * @param playerfield used to set the playerField variable of the PlayerFieldLogic class
 	 */
-	public void setPlayerfield(String[] playerfield) {
+	public void setPlayerField(String[] playerfield) {
 		if (playerfield.length == PLAYERFIELDSIZE) {
-			this.playerfield = playerfield;
+			this.playerField = playerfield;
 		} else {
 			throw new IllegalStateException(playerFieldWrongSizeErrorMessage);
 		}
 	}
 
-	public void initializePlayerfield() {
-		if (playerfield == null) {
-			playerfield = new String[PLAYERFIELDSIZE];
+	public void initializePlayerField() {
+		if (playerField == null) {
+			playerField = new String[PLAYERFIELDSIZE];
 		}
-		Arrays.fill(playerfield, fieldStrings.SETFIELDPOSITION_ZERO);
+		Arrays.fill(playerField, fieldStrings.SETFIELDPOSITION_ZERO);
 	}
 
 	/**
@@ -80,7 +80,7 @@ public class PlayerFieldLogic {
 	 */
 	public void setPFSmallShipPosition(int position, String input) {
 		if (inRange(position)) {
-			playerfield[position] = input;
+			playerField[position] = input;
 		}
 
 	}
@@ -112,8 +112,8 @@ public class PlayerFieldLogic {
 	 */
 	private void setMiddleShipPositionWithDegree(int position, int sibling, String input) {
 		if (inRange(position)) {
-			playerfield[position - sibling] = input;
-			playerfield[position] = input;
+			playerField[position - sibling] = input;
+			playerField[position] = input;
 		} else {
 			throw new IllegalStateException(playerFieldPositionOutOfRange);
 		}
@@ -147,7 +147,7 @@ public class PlayerFieldLogic {
 	private void setBigShipPositionWithDegree(int position, int sibling, String input) {
 		/* DRY */
 		setMiddleShipPositionWithDegree(position, sibling, input);
-		playerfield[position + sibling] = input;
+		playerField[position + sibling] = input;
 	}
 
 	/**
@@ -163,7 +163,7 @@ public class PlayerFieldLogic {
 	}
 
 	public boolean isPlayerFieldPositionE(int position){
-		if (fieldStrings.SETPLAYERPOSITION_E.equals(playerfield[position])) {
+		if (fieldStrings.SETPLAYERPOSITION_E.equals(playerField[position])) {
 			return true;
 		} else {
 			return false;
@@ -171,7 +171,7 @@ public class PlayerFieldLogic {
 	}
 
 	public boolean isPlayerFieldPositionF(int position){
-		if (fieldStrings.SETFIELDPOSITION_F.equals(playerfield[position])){
+		if (fieldStrings.SETFIELDPOSITION_F.equals(playerField[position])){
 			return true;
 		} else {
 			return false;

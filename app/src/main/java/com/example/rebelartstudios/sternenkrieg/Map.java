@@ -19,6 +19,7 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.example.rebelartstudios.sternenkrieg.GameLogic.PlayerFieldPositionString;
 import com.example.rebelartstudios.sternenkrieg.GameLogic.ShipLogic;
 import com.example.rebelartstudios.sternenkrieg.Network.AcceptThread;
 import com.example.rebelartstudios.sternenkrieg.Network.NetworkUtilities;
@@ -54,11 +55,6 @@ public class Map extends AppCompatActivity {
 	MapLoad mapLoad;
 	int value;
 
-	private final int SMALL_SHIP = 0;
-	private final int MIDDLE_SHIP = 1;
-	private final int BIG_SHIP = 2;
-
-
 	Socket socket = new Socket();
 	ServerSocket mServerSocket = null;
 	Handler myhandler;
@@ -79,6 +75,7 @@ public class Map extends AppCompatActivity {
 	NetworkUtilities util;
 	NetworkStats stats = new NetworkStats();
 	ShipLogic shipLogic = new ShipLogic();
+	PlayerFieldPositionString fieldStrings = new PlayerFieldPositionString();
 
 	public void initializeMap() {
 		mapLoad = new MapLoad(this, playerField);
@@ -196,7 +193,7 @@ public class Map extends AppCompatActivity {
 
 						//mittleres Schiff
 						if (which_ship == shipLogic.MIDDLE_SHIP) {
-							if (degree == 0) {
+							if (degree == fieldStrings.HORIZONTAL) {
 								//check_position schaut dass das schiff nicht außerhalb der playerField oder vom rechten ende der playerField auf die linke seite gesetzt wird
 								if (check_position(pos, which_ship, degree)) {
 									delete(shipLogic.getMiddleShipArray());
@@ -205,7 +202,7 @@ public class Map extends AppCompatActivity {
 									playerField[pos] = setPlayerPositionE;
 									shipLogic.setMiddleShipPosition(pos, degree);
 								}
-							} else if (degree == 1) {
+							} else if (degree == fieldStrings.VERTICAL) {
 								if (check_position(pos, which_ship, degree)) {
 									delete(shipLogic.getMiddleShipArray());
 									playerField[pos - 8] = setPlayerPositionE;
@@ -219,7 +216,7 @@ public class Map extends AppCompatActivity {
 						}
 						//großes Schiff
 						if (which_ship == shipLogic.BIG_SHIP) {
-							if (degree == 0) {
+							if (degree == fieldStrings.HORIZONTAL) {
 								if (check_position(pos, which_ship, degree)) {
 									delete(shipLogic.getBigShipArray());
 									// pos-1 weil wenn man das Bild bewegt ist der Zeiger genau mittig vom Bild
@@ -228,7 +225,7 @@ public class Map extends AppCompatActivity {
 									playerField[pos + 1] = setPlayerPositionF;
 									shipLogic.setBigShipPosition(pos, degree);
 								}
-							} else if (degree == 1) {
+							} else if (degree == fieldStrings.VERTICAL) {
 								if (check_position(pos, which_ship, degree)) {
 									delete(shipLogic.getBigShipArray());
 									playerField[pos - 8] = setPlayerPositionF;
@@ -275,7 +272,7 @@ public class Map extends AppCompatActivity {
 				View.DragShadowBuilder shadow = new View.DragShadowBuilder(ship1);
 				v.startDrag(data, shadow, null, 0);
 				//small ship
-				which_ship = SMALL_SHIP;
+				which_ship = shipLogic.SMALL_SHIP;
 				ship1.setVisibility(View.INVISIBLE);
 				return false;
 			}
@@ -290,7 +287,7 @@ public class Map extends AppCompatActivity {
 				View.DragShadowBuilder shadow = new View.DragShadowBuilder(ship2);
 				v.startDrag(data, shadow, null, 0);
 				//middle ship
-				which_ship = MIDDLE_SHIP;
+				which_ship = shipLogic.MIDDLE_SHIP;
 				ship2.setVisibility(View.INVISIBLE);
 				return false;
 			}
@@ -306,7 +303,7 @@ public class Map extends AppCompatActivity {
 
 				v.startDrag(data, shadow, null, 0);
 				//big ship
-				which_ship = BIG_SHIP;
+				which_ship = shipLogic.BIG_SHIP;
 				ship3.setVisibility(View.INVISIBLE);
 				return false;
 			}
@@ -353,8 +350,8 @@ public class Map extends AppCompatActivity {
 			}
 		}
 
-		if (which_ship == BIG_SHIP) {
-			if (degree == 0) {
+		if (which_ship == shipLogic.BIG_SHIP) {
+			if (degree == fieldStrings.HORIZONTAL) {
 				if (playerField[pos - 1].equals(setPlayerPositionD) || playerField[pos].equals(setPlayerPositionD) || playerField[pos + 1].equals(setPlayerPositionD)
 						|| playerField[pos - 1].equals(setPlayerPositionE) || playerField[pos].equals(setPlayerPositionE) || playerField[pos + 1].equals(setPlayerPositionE)) {
 					return false;
@@ -365,8 +362,8 @@ public class Map extends AppCompatActivity {
 					return false;
 				}
 			}
-		} else if (which_ship == MIDDLE_SHIP) {
-			if (degree == 0) {
+		} else if (which_ship == shipLogic.MIDDLE_SHIP) {
+			if (degree == fieldStrings.HORIZONTAL) {
 				if (playerField[pos - 1].equals(setPlayerPositionD) || playerField[pos].equals(setPlayerPositionD)
 						|| playerField[pos - 1].equals(setPlayerPositionF) || playerField[pos].equals(setPlayerPositionF)) {
 					return false;
@@ -466,19 +463,17 @@ public class Map extends AppCompatActivity {
 		turn.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				if (degree == 0) {
-					degree = 1;
+				if (degree == fieldStrings.HORIZONTAL) {
+					degree = fieldStrings.VERTICAL;
 					ship1.animate().rotationBy(270).start();
 					ship2.animate().rotationBy(270).start();
 					ship3.animate().rotationBy(270).start();
 				} else {
-					degree = 0;
+					degree = fieldStrings.HORIZONTAL;
 					ship1.animate().rotationBy(90).start();
 					ship2.animate().rotationBy(90).start();
 					ship3.animate().rotationBy(90).start();
 				}
-
-
 			}
 		});
 	}
