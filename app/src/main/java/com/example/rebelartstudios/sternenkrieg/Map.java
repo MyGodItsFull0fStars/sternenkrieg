@@ -9,6 +9,7 @@ import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Display;
 import android.view.DragEvent;
 import android.view.MotionEvent;
@@ -180,7 +181,7 @@ public class Map extends AppCompatActivity {
 						int pos = position(x, y);
 
 						//kleines Schiff
-						if (which_ship == shipLogic.SMALL_SHIP) {
+						if (which_ship == shipLogic.SMALL_SHIP_ID) {
 							if (!playerField[pos].equals(setPlayerPositionE) && !playerField[pos].equals(setPlayerPositionF)) {
 								//falls schon mal gesetzt wird die letzte Position gelöscht
 								delete(shipLogic.getSmallShipArray());
@@ -192,7 +193,7 @@ public class Map extends AppCompatActivity {
 						}
 
 						//mittleres Schiff
-						if (which_ship == shipLogic.MIDDLE_SHIP) {
+						if (which_ship == shipLogic.MIDDLE_SHIP_ID) {
 							if (degree == fieldStrings.HORIZONTAL) {
 								//check_position schaut dass das schiff nicht außerhalb der playerField oder vom rechten ende der playerField auf die linke seite gesetzt wird
 								if (check_position(pos, which_ship, degree)) {
@@ -215,7 +216,7 @@ public class Map extends AppCompatActivity {
 
 						}
 						//großes Schiff
-						if (which_ship == shipLogic.BIG_SHIP) {
+						if (which_ship == shipLogic.BIG_SHIP_ID) {
 							if (degree == fieldStrings.HORIZONTAL) {
 								if (check_position(pos, which_ship, degree)) {
 									delete(shipLogic.getBigShipArray());
@@ -272,7 +273,7 @@ public class Map extends AppCompatActivity {
 				View.DragShadowBuilder shadow = new View.DragShadowBuilder(ship1);
 				v.startDrag(data, shadow, null, 0);
 				//small ship
-				which_ship = shipLogic.SMALL_SHIP;
+				which_ship = shipLogic.SMALL_SHIP_ID;
 				ship1.setVisibility(View.INVISIBLE);
 				return false;
 			}
@@ -287,7 +288,7 @@ public class Map extends AppCompatActivity {
 				View.DragShadowBuilder shadow = new View.DragShadowBuilder(ship2);
 				v.startDrag(data, shadow, null, 0);
 				//middle ship
-				which_ship = shipLogic.MIDDLE_SHIP;
+				which_ship = shipLogic.MIDDLE_SHIP_ID;
 				ship2.setVisibility(View.INVISIBLE);
 				return false;
 			}
@@ -303,7 +304,7 @@ public class Map extends AppCompatActivity {
 
 				v.startDrag(data, shadow, null, 0);
 				//big ship
-				which_ship = shipLogic.BIG_SHIP;
+				which_ship = shipLogic.BIG_SHIP_ID;
 				ship3.setVisibility(View.INVISIBLE);
 				return false;
 			}
@@ -350,10 +351,11 @@ public class Map extends AppCompatActivity {
 			}
 		}
 
-		if (which_ship == shipLogic.BIG_SHIP) {
+		// TODO: 16/06/2017 Add to the container class of ShipLogic and PlayerFieldLocic
+		if (which_ship == shipLogic.BIG_SHIP_ID) {
 			if (degree == fieldStrings.HORIZONTAL) {
-				if (playerField[pos - 1].equals(setPlayerPositionD) || playerField[pos].equals(setPlayerPositionD) || playerField[pos + 1].equals(setPlayerPositionD)
-						|| playerField[pos - 1].equals(setPlayerPositionE) || playerField[pos].equals(setPlayerPositionE) || playerField[pos + 1].equals(setPlayerPositionE)) {
+				if (playerField[pos - 1].equals(fieldStrings.SETFIELDPOSITION_D) || playerField[pos].equals(fieldStrings.SETFIELDPOSITION_D) || playerField[pos + 1].equals(fieldStrings.SETFIELDPOSITION_D)
+						|| playerField[pos - 1].equals(fieldStrings.SETPLAYERPOSITION_E) || playerField[pos].equals(fieldStrings.SETPLAYERPOSITION_E) || playerField[pos + 1].equals(fieldStrings.SETPLAYERPOSITION_E)) {
 					return false;
 				}
 			} else {
@@ -362,7 +364,7 @@ public class Map extends AppCompatActivity {
 					return false;
 				}
 			}
-		} else if (which_ship == shipLogic.MIDDLE_SHIP) {
+		} else if (which_ship == shipLogic.MIDDLE_SHIP_ID) {
 			if (degree == fieldStrings.HORIZONTAL) {
 				if (playerField[pos - 1].equals(setPlayerPositionD) || playerField[pos].equals(setPlayerPositionD)
 						|| playerField[pos - 1].equals(setPlayerPositionF) || playerField[pos].equals(setPlayerPositionF)) {
@@ -492,6 +494,7 @@ public class Map extends AppCompatActivity {
 	 *
 	 * @param data
 	 */
+	// TODO: 16/06/2017 Refactor to Container class and only call method from container and draw() method
 	public void delete(int data[]) {
 		if (data != null) {
 			for (int x : data) {
@@ -523,7 +526,6 @@ public class Map extends AppCompatActivity {
 	// There are the Message from other player. We can work with "message" to change our map, uppower and ship.
 	class Myhandler extends Handler {
 
-
 		public void handleMessage(Message msg) {
 
 
@@ -548,7 +550,7 @@ public class Map extends AppCompatActivity {
 						}
 					}
 
-					System.out.println("Message: " + message);
+					Log.d(tag, "Message: " + message);
 
 					break;
 				case 0:

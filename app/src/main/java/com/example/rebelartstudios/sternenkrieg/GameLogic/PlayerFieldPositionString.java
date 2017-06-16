@@ -4,7 +4,7 @@ package com.example.rebelartstudios.sternenkrieg.GameLogic;
  * Created by christianbauer on 15/06/2017.
  */
 
-public class PlayerFieldPositionString {
+public final class PlayerFieldPositionString {
 
 	/**
 	 * Used to set the position color in the playerfield array to d
