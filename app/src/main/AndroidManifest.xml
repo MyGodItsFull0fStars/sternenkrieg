@@ -62,7 +62,17 @@
             android:enabled="true" />
 
         <activity android:name=".HighScore" />
-        <activity android:name=".PowerUp"></activity>
+        <activity android:name=".PowerUp" />
+        <activity
+            android:name="res.layout.highscore"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_highscore"
+            android:parentActivityName=".Main"
+            android:theme="@style/FullscreenTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.rebelartstudios.sternenkrieg.Main" />
+        </activity>
     </application>
 
 </manifest>
