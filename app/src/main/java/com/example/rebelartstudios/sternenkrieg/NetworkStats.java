@@ -52,7 +52,7 @@ public class NetworkStats {
         return net;
     }
 
-    public void setNet(boolean net) {
+    public static void setNet(boolean net) {
         NetworkStats.net = net;
     }
 
@@ -60,7 +60,7 @@ public class NetworkStats {
         return phost;
     }
 
-    public void setPhost(boolean phost) {
+    public static void setPhost(boolean phost) {
         NetworkStats.phost = phost;
     }
 
@@ -68,7 +68,7 @@ public class NetworkStats {
         return ip;
     }
 
-    public void setIp(String ip) {
+    public static void setIp(String ip) {
         NetworkStats.ip = ip;
     }
 
@@ -76,7 +76,7 @@ public class NetworkStats {
         return mode;
     }
 
-    public void setMode(int mode) {
+    public static void setMode(int mode) {
         NetworkStats.mode = mode;
     }
 
@@ -84,7 +84,7 @@ public class NetworkStats {
         return dicevalue;
     }
 
-    public void setDicevalue(int dicevalue) {
+    public static void setDicevalue(int dicevalue) {
         NetworkStats.dicevalue = dicevalue;
     }
 }
