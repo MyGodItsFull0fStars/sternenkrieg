@@ -43,19 +43,11 @@ public class Map extends AppCompatActivity {
 	GridView gridView;
 	ImageView imageView;
 	ImageView ship1, ship2, ship3, turn, play;
-	// String playerField[] = new String[64];
 	int width;
 	int height;
-	int oldpos;
-	int degree = 0;
 	int which_ship;
 	boolean smallShipIsSetOnField, middleShipIsSetOnField, bigShipIsSetOnField = false;
-	String setPlayerPositionD = "d";
-	String setPlayerPositionE = "e";
-	String setPlayerPositionF = "f";
-	String setPlayerPositionZERO = "0";
 	MapLoad mapLoad;
-	int value;
 
 	Socket socket = new Socket();
 	ServerSocket mServerSocket = null;
@@ -70,7 +62,6 @@ public class Map extends AppCompatActivity {
 	StartThread startThread;
 	OutputStream os = null;
 	boolean Net = false;
-	int i = 1;
 	Intent intent = new Intent();
 	boolean finish = false;
 	boolean finishEnemy = false;
@@ -79,6 +70,7 @@ public class Map extends AppCompatActivity {
 
 	ShipLogic shipLogic;
 	PlayerFieldPositionString fieldStrings = new PlayerFieldPositionString();
+    int degree = fieldStrings.HORIZONTAL;
 	PlayerFieldLogic playerFieldLogic;
 
 	public void initializeMap() {
@@ -91,16 +83,6 @@ public class Map extends AppCompatActivity {
 		playerFieldLogic = new PlayerFieldLogic();
 	}
 
-
-	/**
-	 * Returns the player field as a String array
-	 *
-	 * @return
-	 */
-//	public String[] getPlayerField() {
-//		// playerField[23] = setPlayerPositionTWO;
-//		return playerField;
-//	}
 
 
 	@Override
@@ -343,9 +325,8 @@ public class Map extends AppCompatActivity {
 	//schaut das das Schiff nicht über die Map hinaus gesetzt wird
 	public boolean check_position(int pos, int size, int degree) {
 		ArrayList<Integer> failures_right = new ArrayList<Integer>(Arrays.asList(7, 15, 23, 31, 39, 47, 55, 63));
-		ArrayList<Integer> failures_left = new ArrayList<Integer>(Arrays.asList(8, 16, 24, 32, 40, 48, 56));
+		ArrayList<Integer> failures_left = new ArrayList<>(Arrays.asList(8, 16, 24, 32, 40, 48, 56));
 
-		String[] length = new String[size];
 		//linkes und rechtes Ende der Map
 		if (degree == 180 || degree == 0) {
 			if (size == 1) {
@@ -415,17 +396,6 @@ public class Map extends AppCompatActivity {
 		play = (ImageView) findViewById(R.id.play);
 	}
 
-
-	/**
-	 * Initializes the player field in the onCreate() method
-	 * player field starts as an "empty" array, containing only zeroes.
-	 */
-//	private void initializePlayerField() {
-//		playerField = new String[64];
-//		for (int i = 0; i < 64; i++) {
-//			playerField[i] = setPlayerPositionZERO;
-//		}
-//	}
 
 	/**
 	 * Initializes the ShipViews in the onCreate() method
@@ -515,7 +485,7 @@ public class Map extends AppCompatActivity {
 	 * Receives an integer array containing the positions, which will be deleted
 	 * in the player field
 	 *
-	 * @param data
+	 * @param data used to delete the fields in the player field
 	 */
 	// TODO: 16/06/2017 Refactor to Container class and only call method from container and draw() method
 	public void delete(int data[]) {
