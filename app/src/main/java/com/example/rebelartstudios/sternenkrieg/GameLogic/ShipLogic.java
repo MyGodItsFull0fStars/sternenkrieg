@@ -18,6 +18,13 @@ public class ShipLogic {
 	private int[] big_ship;
 
 	/**
+	 * Ship indexes of the small ships
+	 */
+	public final int SMALL_SHIP = 0;
+	public final int MIDDLE_SHIP = 1;
+	public final int BIG_SHIP = 2;
+
+	/**
 	 * Ship constructor with the int arrays for the ships
 	 * @param small_ship int array for small ship
 	 * @param middle_ship int array for middle ship

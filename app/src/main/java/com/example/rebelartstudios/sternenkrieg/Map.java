@@ -183,7 +183,7 @@ public class Map extends AppCompatActivity {
 						int pos = position(x, y);
 
 						//kleines Schiff
-						if (which_ship == SMALL_SHIP) {
+						if (which_ship == shipLogic.SMALL_SHIP) {
 							if (!playerField[pos].equals(setPlayerPositionE) && !playerField[pos].equals(setPlayerPositionF)) {
 								//falls schon mal gesetzt wird die letzte Position gelöscht
 								delete(shipLogic.getSmallShipArray());
@@ -195,7 +195,7 @@ public class Map extends AppCompatActivity {
 						}
 
 						//mittleres Schiff
-						if (which_ship == MIDDLE_SHIP) {
+						if (which_ship == shipLogic.MIDDLE_SHIP) {
 							if (degree == 0) {
 								//check_position schaut dass das schiff nicht außerhalb der playerField oder vom rechten ende der playerField auf die linke seite gesetzt wird
 								if (check_position(pos, which_ship, degree)) {
@@ -218,7 +218,7 @@ public class Map extends AppCompatActivity {
 
 						}
 						//großes Schiff
-						if (which_ship == BIG_SHIP) {
+						if (which_ship == shipLogic.BIG_SHIP) {
 							if (degree == 0) {
 								if (check_position(pos, which_ship, degree)) {
 									delete(shipLogic.getBigShipArray());
