@@ -7,6 +7,9 @@ package com.example.rebelartstudios.sternenkrieg;
 
 public class DiceClass {
 
+    private final int WIN = 0;
+    private final int LOOSE = 1;
+    private final int DEUCE = 2;
 
 
     public int roll() {
@@ -40,13 +43,13 @@ public class DiceClass {
         }
     }
 
-    public int whoIsStarting(int player, int player2) {
-        if (player > player2) {      // Player starts
-            return 0;
-        } else if (player < player2) { // Enemy starts
-            return 1;
+    public int whoIsStarting(int playerSelf, int playerEnemy) {
+        if (playerSelf > playerEnemy) {      // Player starts
+            return WIN;
+        } else if (playerSelf < playerEnemy) { // Enemy starts
+            return LOOSE;
         } else {
-            return 2;          // Deuce, both must roll the dice again
+            return DEUCE;          // Deuce, both must roll the dice again
         }
     }
 

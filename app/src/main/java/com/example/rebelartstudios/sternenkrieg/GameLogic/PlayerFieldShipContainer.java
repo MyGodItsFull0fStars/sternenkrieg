@@ -3,7 +3,9 @@ package com.example.rebelartstudios.sternenkrieg.GameLogic;
 /**
  * Created by christianbauer on 16/06/2017.
  * <p>
- * Container class for
+ * Container class for ShipLogic and PlayerFieldLogic class
+ *
+ * A lot of things are used simultaneously an can be put in one class.
  */
 
 public class PlayerFieldShipContainer {
@@ -45,6 +47,14 @@ public class PlayerFieldShipContainer {
                 playerFieldLogic.setPFSmallShipPosition(position, fieldStrings.SETFIELDPOSITION_ZERO);
             }
         }
+    }
+
+    public ShipLogic getShipLogic(){
+        return shipLogic;
+    }
+
+    public PlayerFieldLogic getPlayerFieldLogic(){
+        return playerFieldLogic;
     }
 
 
