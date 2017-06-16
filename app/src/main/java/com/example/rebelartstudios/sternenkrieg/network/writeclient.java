@@ -17,7 +17,6 @@ public class writeclient extends Thread {
     boolean exit;
     String tag = "Client";
     String info;
-    boolean t;
 
     public writeclient(boolean exit, Socket socket, String info) {
         this.exit = exit;
@@ -31,12 +30,9 @@ public class writeclient extends Thread {
         Log.w("CLIENT", info);
         try {
 
-            if (t){
-                sleep(1000);
-            }
             os = socket.getOutputStream();
             if (exit) {
-                Log.w("CLIENT", "write Client: " + info );
+                Log.w("CLIENT", "write Client: " + info);
                 os.write((info + "\n").getBytes("utf-8"));
 
             } else {
@@ -48,10 +44,8 @@ public class writeclient extends Thread {
         } catch (NullPointerException e) {
             Log.e(tag, "NullPointerException in WriteThread: " + e.toString());
 
-        } catch (InterruptedException e) {
-            Log.e(tag, "InterruptedException in WriteThread: " + e.toString());
-        }
 
+        }
     }
 
 }

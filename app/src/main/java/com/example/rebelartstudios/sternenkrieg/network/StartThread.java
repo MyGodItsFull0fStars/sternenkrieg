@@ -39,7 +39,7 @@ public class StartThread extends Thread {
             try {
 
                 socket = new Socket(ip, port);
-                System.out.println(socket);
+                System.out.println("Connected"+socket);
                 Log.i(StartThread.class.getName(),"Connect success");
                 tryconnect = false;
                 rt = new ReceiveThreadClient(socket, running, myhandler);

@@ -43,7 +43,7 @@ public class HighScore extends AppCompatActivity {
         list = new ArrayList<>();
         String username = namesettings.getString("username", "Unbekannt");
         int levelscore = namesettings.getInt("levelscore",0);
-        listAdapter = new ArrayAdapter<String>(this, R.layout.high_score_row);
+        listAdapter = new ArrayAdapter<>(this, R.layout.high_score_row);
 
         intent = getIntent();
         int points = intent.getIntExtra("highScore", 0);

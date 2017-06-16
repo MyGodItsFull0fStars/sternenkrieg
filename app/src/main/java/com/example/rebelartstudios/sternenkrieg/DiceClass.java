@@ -15,7 +15,7 @@ public class DiceClass {
         return r.nextInt(6)+1;
     }
 
-    public static void changeDiceImage(int value) {
+    public void changeDiceImage(int value) {
 
         switch (value) {
             case 1:
@@ -52,7 +52,7 @@ public class DiceClass {
     }
 
     public void closeDice() {
-
+//in produktion
     }
 
 

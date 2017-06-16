@@ -29,7 +29,7 @@ public void before() {
 * 
 */ 
 @Test
-public void testGetWho_is_starting() {
+public void testGetWhoisstarting() {
     NetworkStats.setWhoIsStarting(1);
     assertEquals(1, NetworkStats.getWhoIsStarting());
 

@@ -56,8 +56,6 @@ public class NetworkUtilities {
             Socket socket1 = mAcceptThread.getSocket();
             writehost wh = new writehost(socket1, os, message);
             wh.start();
-
-
         } else {
             Socket socket1;
             socket1 = startThread.getSocket();

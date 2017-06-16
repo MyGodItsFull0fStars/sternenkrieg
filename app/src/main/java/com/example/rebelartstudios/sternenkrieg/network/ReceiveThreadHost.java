@@ -57,7 +57,8 @@ public class ReceiveThreadHost extends Thread {
             }
 
             try {
-                if (null!=br.readLine())
+                // braucht man laut Jenkins, Fehler ist dann dass die erste Message von Client nicht gesendet wird
+               // if (null!=br.readLine())
                     read = br.readLine();
 
             } catch (IOException e) {

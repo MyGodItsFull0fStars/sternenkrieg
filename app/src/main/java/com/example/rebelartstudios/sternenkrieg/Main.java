@@ -274,7 +274,6 @@ public class Main extends AppCompatActivity {
             if (on) {
                 stopService(audioIntent);
                 unbindService(soundConnection);
-                on=false; //Jenkins sagt sonst das on immer true ist
             }
             //on = false;
         }

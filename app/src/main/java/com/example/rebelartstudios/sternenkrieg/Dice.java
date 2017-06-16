@@ -12,6 +12,7 @@ import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -65,11 +66,11 @@ public class Dice extends AppCompatActivity {
     boolean sended = false;
     boolean came = false;
     Intent intent = new Intent();
-    
+
 
     /********************Netz**************************/
     @Override
-    protected void onCreate(Bundle savedInstanceState)  {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dice);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
@@ -83,16 +84,11 @@ public class Dice extends AppCompatActivity {
         /********************Netz**************************/
         send = (Button) findViewById(R.id.senddice);
         goNext = (Button) findViewById(R.id.gonext);
-        /********************Netz**************************/
-
-
-        mSensorManager.registerListener(accelSensorListener, mSensor, SensorManager.SENSOR_DELAY_NORMAL);
-        /********************Netz**************************/
 
         phost = stats.isPhost();
         mode = stats.getMode();
         net = stats.isNet();
-        if (phost == false) {
+        if (!phost) {
             ip = stats.getIp();
         }
         myhandler = new Myhandler();
@@ -100,8 +96,30 @@ public class Dice extends AppCompatActivity {
         util.networkbuild();
         util.connection();
 
-
+        mSensorManager.registerListener(accelSensorListener, mSensor, SensorManager.SENSOR_DELAY_NORMAL);
         /********************Netz**************************/
+        goNext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goNext.setText("Waiting for Enemy to Finish");
+                util.messageSend("boolean", phost);
+                finish = true;
+                if (!phost) {
+                    new CountDownTimer(200, 100) {
+                        public void onTick(long millisUntilFinished) {
+                            System.out.print(millisUntilFinished);
+                        }
+
+                        @Override
+                        public void onFinish() {
+                            syncClose();
+                        }
+
+                    }.start();
+                } else
+                    syncClose();
+            }
+        });
     }
 
 
@@ -109,16 +127,16 @@ public class Dice extends AppCompatActivity {
         @Override
         public void onSensorChanged(SensorEvent sensorEvent) {
 
-                if ("shake".equals(sensoren.accelUpdate(sensorEvent))&&shakeboolean) {
-                    value = diceClass.roll();
-                    shakeboolean = false;
-                    shake();
+            if ("shake".equals(sensoren.accelUpdate(sensorEvent)) && shakeboolean) {
+                value = diceClass.roll();
+                shakeboolean = false;
+                shake();
             }
         }
 
         @Override
         public void onAccuracyChanged(Sensor sensor, int accuracy) {
-        //not important
+            //not important
         }
     };
 
@@ -147,70 +165,23 @@ public class Dice extends AppCompatActivity {
 
     public void onFinish() {
         goNext.setVisibility(View.VISIBLE);
-        finish = true;
         intent.setClass(Dice.this, Map.class);
         switch (mode) {
             case 1:
                 whoStarts = diceClass.whoIsStarting(value, gegnervalue);
                 NetworkStats.setWhoIsStarting(whoStarts);
-                if(whoStarts ==2)
-                    intent.setClass(Dice.this,Dice.class);
-
-                goNext.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-                        goNext.setText("Waiting for Enemy to Finish");
-                        util.messageSend("boolean", phost);
-                        if (!phost) {
-                            new CountDownTimer(500, 100) {
-                                public void onTick(long millisUntilFinished) {
-                                }
-
-                                @Override
-                                public void onFinish() {
-                                    syncClose();
-                                }
-
-                            }.start();
-                        } else
-                            syncClose();
-
-
-                    }
-                });
+                if (whoStarts == 2)
+                    intent.setClass(Dice.this, Dice.class);
                 break;
 
             case 2:
-                goNext.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        intent.setClass(Dice.this, Spielfeld.class);
-
-                        goNext.setText("Waiting for Enemy to Finish");
-                        util.messageSend("boolean", phost);
-                        if (!phost) {
-                            new CountDownTimer(500, 100) {
-                                public void onTick(long millisUntilFinished) {
-                                }
-
-                                @Override
-                                public void onFinish() {
-                                    syncClose();
-                                }
-
-                            }.start();
-                        } else
-                            syncClose();
-
-                    }
-                });
-
+                intent.setClass(Dice.this, Spielfeld.class);
                 break;
             default:
                 break;
         }
     }
+
     private void sollfinish() {
         if (sended && came) {
             onFinish();
@@ -234,11 +205,12 @@ public class Dice extends AppCompatActivity {
 
 
         public void handleMessage(Message msg) {
-            message=util.handleMessage(msg);
+            message = util.handleMessage(msg);
             if ("boolean".equals(message)) {
                 finishEnemy = true;
+                Log.i(Dice.class.getName(),"Boolean");
                 syncClose();
-            } else if(!("".equals(message))){
+            } else if (!("".equals(message))) {
                 gegnervalue = Integer.parseInt(message);
                 textscoreenemy.setText("Enemy got:" + gegnervalue);
                 came = true;
@@ -248,7 +220,6 @@ public class Dice extends AppCompatActivity {
         }
 
     }
-
 
 
 }

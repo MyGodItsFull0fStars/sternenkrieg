@@ -17,11 +17,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.rebelartstudios.sternenkrieg.Dice;
-import com.example.rebelartstudios.sternenkrieg.Map;
 import com.example.rebelartstudios.sternenkrieg.NetworkStats;
 import com.example.rebelartstudios.sternenkrieg.QR_Reader;
 import com.example.rebelartstudios.sternenkrieg.R;
-import com.example.rebelartstudios.sternenkrieg.Spielfeld;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -216,8 +214,6 @@ public class Host extends AppCompatActivity {
                     writehost writeHost = new writehost(socket, os, info);
                     writeHost.start();
                     Intent intentD = new Intent(Host.this, Dice.class);
-                    Intent intentS = new Intent(Host.this, Spielfeld.class);
-                    Intent intentM = new Intent(Host.this, Map.class);
                     ifstart = false;
                     close();
                     stats.setNet(true);
