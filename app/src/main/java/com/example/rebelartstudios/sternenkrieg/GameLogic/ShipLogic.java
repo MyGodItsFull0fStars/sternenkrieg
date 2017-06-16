@@ -8,7 +8,7 @@ import android.util.Log;
  * ShipLogic class used in the Map Activity class.
  */
 
-public class ShipLogic implements ShipLogic_Interface{
+public class ShipLogic {
 
 	/**
 	 * Ship arrays used in the player field to save the positions of the ships
