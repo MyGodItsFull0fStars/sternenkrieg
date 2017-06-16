@@ -32,6 +32,13 @@ public class ShipLogic {
 	public final int MIDDLE_SHIP_SIZE = 2;
 	public final int BIG_SHIP_SIZE = 3;
 
+	/**
+	 * Booleans for checking if ship is already set on the field
+	 */
+	private boolean smallShipIsSetOnField;
+	private boolean middleShipIsSetOnField;
+	private boolean bigShipIsSetOnField;
+
 
 	/**
 	 * Ship constructor with the int arrays for the ships
@@ -219,5 +226,39 @@ public class ShipLogic {
 	public void setPosition(int number) {
 		this.position = number;
 	}
+
+    public boolean isSmallShipIsSetOnField() {
+        return smallShipIsSetOnField;
+    }
+
+    public boolean isMiddleShipIsSetOnField() {
+        return middleShipIsSetOnField;
+    }
+
+    public boolean isBigShipIsSetOnField() {
+        return bigShipIsSetOnField;
+    }
+
+    public void shipsOnFieldInitialize(){
+        setSmallShipIsSetOnField(false);
+        setMiddleShipIsSetOnField(false);
+        setBigShipIsSetOnField(false);
+    }
+
+	public void setSmallShipIsSetOnField(boolean smallShipIsSetOnField){
+        this.smallShipIsSetOnField = smallShipIsSetOnField;
+    }
+
+    public void setMiddleShipIsSetOnField(boolean middleShipIsSetOnField){
+        this.middleShipIsSetOnField = middleShipIsSetOnField;
+    }
+
+    public void setBigShipIsSetOnField(boolean bigShipIsSetOnField){
+        this.bigShipIsSetOnField = bigShipIsSetOnField;
+    }
+
+    public boolean allShipsSetOnPlayerField(){
+        return isSmallShipIsSetOnField() && isMiddleShipIsSetOnField() && isBigShipIsSetOnField();
+    }
 
 }
