@@ -27,14 +27,19 @@ public class ShipLogic {
 
 	/**
 	 * Ship constructor with the int arrays for the ships
-	 * @param small_ship int array for small ship
+	 *
+	 * @param small_ship  int array for small ship
 	 * @param middle_ship int array for middle ship
-	 * @param big_ship int array for big ship
+	 * @param big_ship    int array for big ship
 	 */
 	public ShipLogic(int[] small_ship, int[] middle_ship, int[] big_ship) {
-		this.small_ship = small_ship;
-		this.middle_ship = middle_ship;
-		this.big_ship = big_ship;
+		if (small_ship.length == 1 && middle_ship.length == 2 && big_ship.length == 3) {
+			this.small_ship = small_ship;
+			this.middle_ship = middle_ship;
+			this.big_ship = big_ship;
+		} else {
+			throw new IllegalArgumentException("Wrong array size");
+		}
 	}
 
 	/**
