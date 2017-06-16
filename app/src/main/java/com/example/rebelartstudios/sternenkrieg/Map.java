@@ -478,6 +478,9 @@ public class Map extends AppCompatActivity {
 			}
 		});
 		// TODO: 16/06/2017 reminder
+
+
+
 		gridView.setAdapter(new MapLoad(this, playerFieldLogic.playerField));
 
         /*
