@@ -13,7 +13,7 @@ import java.util.Arrays;
 public class PlayerFieldLogic {
 	String[] playerfield;
 	private final int PLAYERFIELDSIZE = 64;
-	PlayerFieldPositionString positionString = new PlayerFieldPositionString();
+	PlayerFieldPositionString fieldStrings = new PlayerFieldPositionString();
 
 	/**
 	 * Error messages for the Exception output.
@@ -25,8 +25,7 @@ public class PlayerFieldLogic {
 	 * Standard constructor which initializes an 'empty' player field
 	 */
 	public PlayerFieldLogic() {
-		playerfield = new String[PLAYERFIELDSIZE];
-		Arrays.fill(playerfield, positionString.SETPLAYERPOSITION_ZERO);
+		initializePlayerfield();
 	}
 
 	/**
@@ -37,7 +36,7 @@ public class PlayerFieldLogic {
 	 */
 	public PlayerFieldLogic(String[] playerfield) {
 		if (playerfield.length == PLAYERFIELDSIZE) {
-			this.playerfield = playerfield;
+			setPlayerfield(playerfield);
 		} else {
 			throw new IllegalStateException(playerFieldWrongSizeErrorMessage);
 		}
@@ -66,13 +65,24 @@ public class PlayerFieldLogic {
 		}
 	}
 
+	public void initializePlayerfield() {
+		if (playerfield == null) {
+			playerfield = new String[PLAYERFIELDSIZE];
+		}
+		Arrays.fill(playerfield, fieldStrings.SETFIELDPOSITION_ZERO);
+	}
+
 	/**
 	 * Sets the position of the player field in the Map Activity class
+	 *
 	 * @param position the position which will we changed to wanted state
 	 * @param input
 	 */
 	public void setPFSmallShipPosition(int position, String input) {
+		if (inRange(position)) {
 			playerfield[position] = input;
+		}
+
 	}
 
 	/**
@@ -84,26 +94,29 @@ public class PlayerFieldLogic {
 	 * @param input    string used to signalize the state
 	 */
 	public void setPFMiddleShipPosition(int position, int degree, String input) {
-		if (degree == 0) {
+		if (degree == fieldStrings.HORIZONTAL) {
 			setMiddleShipPositionWithDegree(position, 1, input);
-		} else if (degree == 1) {
+		} else if (degree == fieldStrings.VERTICAL) {
 			setMiddleShipPositionWithDegree(position, 8, input);
 		}
 	}
 
 	/**
 	 * Sets the position of the player field with the logic of the middle ship
+	 *
 	 * @param position the position of the player field position
-	 * @param sibling used to set the position of the siblings of position
-	 *                siblings can be set horizontally or vertically to position
-	 * @param input is the string input used to signal, which state the field will get
-	 *              character 'e' for setting the middle ship
+	 * @param sibling  used to set the position of the siblings of position
+	 *                 siblings can be set horizontally or vertically to position
+	 * @param input    is the string input used to signal, which state the field will get
+	 *                 character 'e' for setting the middle ship
 	 */
-
-
 	private void setMiddleShipPositionWithDegree(int position, int sibling, String input) {
-		playerfield[position - sibling] = input;
-		playerfield[position] = input;
+		if (inRange(position)) {
+			playerfield[position - sibling] = input;
+			playerfield[position] = input;
+		} else {
+			throw new IllegalStateException(playerFieldPositionOutOfRange);
+		}
 	}
 
 	/**
@@ -115,9 +128,9 @@ public class PlayerFieldLogic {
 	 * @param input    string used to signalize the state
 	 */
 	public void setPFBigShipPosition(int position, int degree, String input) {
-		if (degree == 0) {
+		if (degree == fieldStrings.HORIZONTAL) {
 			setBigShipPositionWithDegree(position, 1, input);
-		} else if (degree == 1) {
+		} else if (degree == fieldStrings.VERTICAL) {
 			setBigShipPositionWithDegree(position, 8, input);
 		}
 	}
@@ -135,5 +148,33 @@ public class PlayerFieldLogic {
 		/* DRY */
 		setMiddleShipPositionWithDegree(position, sibling, input);
 		playerfield[position + sibling] = input;
+	}
+
+	/**
+	 * Checks if the given parameter is in range of the player field
+	 *
+	 * @param position which will be checked
+	 * @return TRUE if position is in the field, FALSE if position is out of range
+	 */
+	private boolean inRange(int position) {
+		if (position >= 0 && position < PLAYERFIELDSIZE) {
+			return true;
+		} else return false;
+	}
+
+	public boolean isPlayerFieldPositionE(int position){
+		if (fieldStrings.SETPLAYERPOSITION_E.equals(playerfield[position])) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public boolean isPlayerFieldPositionF(int position){
+		if (fieldStrings.SETFIELDPOSITION_F.equals(playerfield[position])){
+			return true;
+		} else {
+			return false;
+		}
 	}
 }

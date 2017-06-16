@@ -129,7 +129,16 @@ public class Map extends AppCompatActivity {
 
 
 		myhandler = new Myhandler();
-		util = new NetworkUtilities(Phost, mAcceptThread, mServerSocket, socket, myhandler, receiveThreadHost, startThread, ip, receiveThreadClient);
+		util = new NetworkUtilities(
+				Phost,
+				mAcceptThread,
+				mServerSocket,
+				socket,
+				myhandler,
+				receiveThreadHost,
+				startThread,
+				ip,
+				receiveThreadClient);
 		util.networkbuild();
 
 
@@ -147,7 +156,7 @@ public class Map extends AppCompatActivity {
 
 				Toast.makeText(getApplicationContext(), "Pos: " + position + " Id: ",
 						Toast.LENGTH_SHORT).show();
-		       /* playerField[position] = 1 + "";
+			   /* playerField[position] = 1 + "";
                 draw(playerField);*/
 
 
@@ -306,11 +315,12 @@ public class Map extends AppCompatActivity {
 
 	}
 
-	private void setShipsVisible(){
+	private void setShipsVisible() {
 		ship1.setVisibility(View.VISIBLE);
 		ship2.setVisibility(View.VISIBLE);
 		ship3.setVisibility(View.VISIBLE);
 	}
+
 	//schaut das das Schiff nicht über die Map hinaus gesetzt wird
 	public boolean check_position(int pos, int size, int degree) {
 		ArrayList<Integer> failures_right = new ArrayList<Integer>(Arrays.asList(7, 15, 23, 31, 39, 47, 55, 63));

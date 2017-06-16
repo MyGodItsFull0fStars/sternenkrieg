@@ -443,7 +443,7 @@ public class Spielfeld extends AppCompatActivity {
 
     public void start() {
         System.out.println("Spielfeld Value" + who_is_starting);
-        //Player beginns
+        //Player begins
         System.out.println("Shoot: " + shoot);
         pointsPlayer += NetworkStats.getValue();
         System.out.println("POints:" + pointsPlayer);
@@ -459,7 +459,7 @@ public class Spielfeld extends AppCompatActivity {
         NetworkStats.setPlayerMap(map1);
         NetworkStats.setEnemyMap(map2);
         stats.setMode(2);
-        System.out.println("Spielfeld ENde Value" + value);
+        System.out.println("Spielfeld Ende Value" + value);
         util.close();
         startActivity(intent);
     }
@@ -628,6 +628,7 @@ public class Spielfeld extends AppCompatActivity {
 
     public boolean checkAvailability(int position) {
         //  if(map1[position].equals(posis)){ return true;} else {
+        //
 
         switch (map1[position]) {
             case "d":
