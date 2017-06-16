@@ -42,9 +42,6 @@ public class NetworkUtilities {
     }
 
 
-
-
-
     public void connection(){
             boolean running = true;
             mAcceptThread = new AcceptThread(running, mServerSocket, socket, myhandler, receiveThreadHost, 12345);

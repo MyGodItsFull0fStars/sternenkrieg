@@ -189,7 +189,7 @@ public class Main extends AppCompatActivity {
             public void onClick(View v) {
                 //Intent intent = new Intent(Main.this, HighScore.class);
                 //intent.putExtra("onlyhighscore", false);
-                Intent intent = new Intent(Main.this, Dice.class);
+                Intent intent = new Intent(Main.this, HighScore.class);
                 intent.putExtra("mode", 2);
                 startActivity(intent);
             }
@@ -274,6 +274,7 @@ public class Main extends AppCompatActivity {
             if (on) {
                 stopService(audioIntent);
                 unbindService(soundConnection);
+                on=false; //Jenkins sagt sonst das on immer true ist
             }
             //on = false;
         }

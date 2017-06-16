@@ -48,7 +48,6 @@ public class writeclient extends Thread {
         } catch (NullPointerException e) {
             Log.e(tag, "NullPointerException in WriteThread: " + e.toString());
 
-
         } catch (InterruptedException e) {
             Log.e(tag, "InterruptedException in WriteThread: " + e.toString());
         }

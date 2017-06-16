@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -27,6 +28,7 @@ public class HighScore extends AppCompatActivity {
     boolean onlyhighscore = true; //für Hauptmenü benötigt
     Button deleteHighscore;
     Intent intent;
+    ImageView background;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +48,7 @@ public class HighScore extends AppCompatActivity {
         intent = getIntent();
         int points = intent.getIntExtra("highScore", 0);
         String highscore = username + " " + points;
+
 
         //Calculating level
 

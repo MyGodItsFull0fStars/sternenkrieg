@@ -65,10 +65,11 @@ public class Dice extends AppCompatActivity {
     boolean sended = false;
     boolean came = false;
     Intent intent = new Intent();
+    
 
     /********************Netz**************************/
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dice);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
@@ -85,7 +86,7 @@ public class Dice extends AppCompatActivity {
         /********************Netz**************************/
 
 
-        mSensorManager.registerListener(AccelSensorListener, mSensor, SensorManager.SENSOR_DELAY_NORMAL);
+        mSensorManager.registerListener(accelSensorListener, mSensor, SensorManager.SENSOR_DELAY_NORMAL);
         /********************Netz**************************/
 
         phost = stats.isPhost();
@@ -104,32 +105,14 @@ public class Dice extends AppCompatActivity {
     }
 
 
-//    @Override
-//    protected void onDestroy() {
-//        destroyImageView();
-//        super.onDestroy();
-//
-//    }
-
-    private void destroyImageView() {
-        imageDice.destroyDrawingCache();
-        imageDice.getBackground().setCallback(null);
-        imageDice.setImageBitmap(null);
-        imageDice.setImageDrawable(null);
-        imageDice.setBackgroundResource(0);
-    }
-
-
-    private SensorEventListener AccelSensorListener = new SensorEventListener() {
+    private SensorEventListener accelSensorListener = new SensorEventListener() {
         @Override
         public void onSensorChanged(SensorEvent sensorEvent) {
 
-            if (shakeboolean) {
-                if (sensoren.accelUpdate(sensorEvent).equals("shake")) {
-                    shakeboolean = false;
+                if ("shake".equals(sensoren.accelUpdate(sensorEvent))&&shakeboolean) {
                     value = diceClass.roll();
+                    shakeboolean = false;
                     shake();
-                }
             }
         }
 
@@ -143,45 +126,39 @@ public class Dice extends AppCompatActivity {
     public void shake() {
         switch (mode) {
             case 1:
-                util.messageSend(value + "", phost);
-                sended = true;
-                diceClass.changeDiceImage(value);
                 textscore.setText("You got:" + value + " Waiting for enemy");
-                sollfinish();
                 break;
 
             case 2:
-                textscore.setText("You got:" + value + " Waiting for enemy");
-                util.messageSend(Integer.toString(value), phost);
-                diceClass.changeDiceImage(value);
                 value += NetworkStats.getValue();
+                textscore.setText("You got:" + value + " Waiting for enemy");
                 NetworkStats.setValue(value);
-                sended = true;
-                sollfinish();
                 break;
 
             default:
                 break;
         }
+        util.messageSend(Integer.toString(value), phost);
+        diceClass.changeDiceImage(value);
+        sended = true;
+        sollfinish();
 
     }
 
     public void onFinish() {
         goNext.setVisibility(View.VISIBLE);
+        finish = true;
+        intent.setClass(Dice.this, Map.class);
         switch (mode) {
             case 1:
                 whoStarts = diceClass.whoIsStarting(value, gegnervalue);
+                NetworkStats.setWhoIsStarting(whoStarts);
                 if(whoStarts ==2)
                     intent.setClass(Dice.this,Dice.class);
-                else {
-                    NetworkStats.setWhoIsStarting(whoStarts);
-                    intent.setClass(Dice.this, Map.class);
-                }
 
                 goNext.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        finish = true;
 
                         goNext.setText("Waiting for Enemy to Finish");
                         util.messageSend("boolean", phost);
@@ -209,7 +186,7 @@ public class Dice extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         intent.setClass(Dice.this, Spielfeld.class);
-                        finish = true;
+
                         goNext.setText("Waiting for Enemy to Finish");
                         util.messageSend("boolean", phost);
                         if (!phost) {
