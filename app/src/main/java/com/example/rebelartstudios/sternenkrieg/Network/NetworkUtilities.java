@@ -58,14 +58,14 @@ public class NetworkUtilities {
     public void messageSend(String message, boolean Phost, boolean t) {
         if (Phost) {
             Socket socket1 = mAcceptThread.getSocket();
-            writeHost wh = new writeHost(socket1, os, message);
+            WriteHost wh = new WriteHost(socket1, os, message);
             wh.start();
 
 
         } else {
             Socket socket1;
             socket1 = startThread.getSocket();
-            writeClient wirte = new writeClient(true, socket1, message);
+            WriteClient wirte = new WriteClient(true, socket1, message);
             wirte.start();
 
 

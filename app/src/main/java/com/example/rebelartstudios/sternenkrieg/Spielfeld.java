@@ -136,7 +136,7 @@ public class Spielfeld extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String info = player1_say.getText().toString();
-                if (Phost) { //If this is host, so use writeHost to sand message.
+                if (Phost) { //If this is host, so use WriteHost to sand message.
                     util.messageSend(info, Phost, true);
                 } else {// Client.
                     util.messageSend(info, Phost, true);

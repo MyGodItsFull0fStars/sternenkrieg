@@ -9,6 +9,7 @@ import android.util.Log;
  */
 
 public class ShipLogic {
+	PlayerFieldPositionString fieldStrings = new PlayerFieldPositionString();
 
 	/**
 	 * Ship arrays used in the player field to save the positions of the ships
@@ -162,9 +163,9 @@ public class ShipLogic {
 	 *                 if degree is wrong, the method will send an exception
 	 */
 	public void setBigShipPosition(int position, int degree) {
-		if (degree == 0) {
+		if (degree == fieldStrings.HORIZONTAL) {
 			bigShipPosition(position, 1);
-		} else if (degree == 1) {
+		} else if (degree == fieldStrings.VERTICAL) {
 			bigShipPosition(position, 8);
 		} else {
 			throw new IllegalArgumentException(degreeException);

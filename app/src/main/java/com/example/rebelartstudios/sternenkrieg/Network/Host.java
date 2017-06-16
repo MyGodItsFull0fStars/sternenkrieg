@@ -189,7 +189,7 @@ public class Host extends AppCompatActivity {
                     socket = mAcceptThread.getSocket();
 
                     String info = et.getText().toString();
-                    writeHost wh = new writeHost(socket, os, info);
+                    WriteHost wh = new WriteHost(socket, os, info);
 
                     wh.start();
 
@@ -212,7 +212,7 @@ public class Host extends AppCompatActivity {
                 public void onClick(View v) {
                     String info = "//Starten";
                     socket = mAcceptThread.getSocket();
-                    writeHost writeHost = new writeHost(socket, os, info);
+                    WriteHost writeHost = new WriteHost(socket, os, info);
                     writeHost.start();
                     Intent intentD = new Intent(Host.this, Dice.class);
                     Intent intentS = new Intent(Host.this, Spielfeld.class);
@@ -244,7 +244,7 @@ public class Host extends AppCompatActivity {
 
         String info = "//Exit";
         socket = mAcceptThread.getSocket();
-        writeHost writeHost = new writeHost(socket,os,info);
+        WriteHost writeHost = new WriteHost(socket,os,info);
         writeHost.start();
 
         close();

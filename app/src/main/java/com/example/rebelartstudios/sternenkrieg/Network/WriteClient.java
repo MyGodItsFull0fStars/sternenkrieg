@@ -10,7 +10,7 @@ import java.net.Socket;
  * Created by wenboda on 2017/5/20.
  */
 
-public class writeClient extends Thread {
+public class WriteClient extends Thread {
 
 
     Socket socket;
@@ -20,7 +20,7 @@ public class writeClient extends Thread {
     String info;
     boolean t;
 
-    public writeClient(boolean Exit, Socket socket,  String info) {
+    public WriteClient(boolean Exit, Socket socket, String info) {
         this.Exit = Exit;
         this.socket = socket;
 

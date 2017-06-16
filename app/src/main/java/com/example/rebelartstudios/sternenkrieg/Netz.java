@@ -6,8 +6,8 @@ import com.example.rebelartstudios.sternenkrieg.Network.AcceptThread;
 import com.example.rebelartstudios.sternenkrieg.Network.ReceiveThreadClient;
 import com.example.rebelartstudios.sternenkrieg.Network.ReceiveThreadHost;
 import com.example.rebelartstudios.sternenkrieg.Network.StartThread;
-import com.example.rebelartstudios.sternenkrieg.Network.writeClient;
-import com.example.rebelartstudios.sternenkrieg.Network.writeHost;
+import com.example.rebelartstudios.sternenkrieg.Network.WriteClient;
+import com.example.rebelartstudios.sternenkrieg.Network.WriteHost;
 
 import java.io.OutputStream;
 import java.net.ServerSocket;
@@ -46,7 +46,7 @@ public class Netz {
             socket = mAcceptThread.getSocket();
 
 
-            writeHost wh = new writeHost(socket, os, message);
+            WriteHost wh = new WriteHost(socket, os, message);
 
             wh.start();
 
@@ -54,7 +54,7 @@ public class Netz {
         }else{
 
             socket = startThread.getSocket();
-            Thread wirte = new writeClient(true, socket, message);
+            Thread wirte = new WriteClient(true, socket, message);
 
             wirte.start();
 

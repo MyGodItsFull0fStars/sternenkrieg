@@ -92,7 +92,7 @@ public class Client1 extends AppCompatActivity implements View.OnClickListener {
 
                 String info = et.getText().toString();
                 socket = st.getSocket();
-                Thread wirte = new writeClient(true, socket, info);
+                Thread wirte = new WriteClient(true, socket, info);
 
                 wirte.start();
                 et.setText("");
@@ -112,7 +112,7 @@ public class Client1 extends AppCompatActivity implements View.OnClickListener {
 
                 try {
                     info = "//Bereiten";
-                    wirte = new writeClient(true, socket, info);
+                    wirte = new WriteClient(true, socket, info);
                     wirte.start();
                 } catch (NullPointerException e) {
                     Log.e(tag, "NullPointerException in Client: " + e.toString());
@@ -212,7 +212,7 @@ public class Client1 extends AppCompatActivity implements View.OnClickListener {
         rt = st.getRt();
         try{ rt.setRunning(false);
             String Exit = "Exit";
-            Thread wirte = new writeClient(false,socket,Exit);
+            Thread wirte = new WriteClient(false,socket,Exit);
             wirte.start();
         }catch(NullPointerException e){
             Log.e(tag, "NullPointerException in Client: " + e.toString());
