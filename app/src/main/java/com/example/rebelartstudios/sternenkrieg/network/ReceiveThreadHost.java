@@ -48,21 +48,13 @@ public class ReceiveThreadHost extends Thread {
                 Log.e(tag, "InterruptedException in AcceptThreadHost: " + e.toString());
                 Thread.currentThread().interrupt();
             }
-            BufferedReader br = null;
 
             try {
-                br = new BufferedReader(new InputStreamReader(is, "UTF-8"));
+                BufferedReader br = new BufferedReader(new InputStreamReader(is, "UTF-8"));
+                read = br.readLine();
             } catch (UnsupportedEncodingException e) {
                 Log.e(tag, "UnsupportedException in AcceptThreadHost: " + e.toString());
-            }
-
-            try {
-                // braucht man laut Jenkins, Fehler ist dann dass die erste Message von Client nicht gesendet wird
-               //if (null!=br.readLine())
-                    read = br.readLine();
-
-
-            } catch (IOException e) {
+            }catch (IOException e) {
                 Log.e(tag, "IOException in AcceptThreadHost: " + e.toString());
                 throw new RuntimeException(e);
             } catch (NullPointerException e) {

@@ -138,11 +138,9 @@ public class Main extends AppCompatActivity {
      */
     private void initializeClasses() {
         startBtn = (Button) findViewById(R.id.start);
-        aboutBtn = (Button) findViewById(R.id.about);
         optionsBtn = (Button) findViewById(R.id.options);
         diceBtn = (Button) findViewById(R.id.dice);
         socketBtn = (Button) findViewById(R.id.Socket);
-        powerupBtn = (Button) findViewById(R.id.powerup);
 
         txtUsername = (TextView) findViewById(R.id.text_username);
         txtLevel = (TextView) findViewById(R.id.txt_level);
@@ -153,26 +151,6 @@ public class Main extends AppCompatActivity {
      * Sets all OnClickListeners for the buttons in current class using intents
      */
     private void initializeOnClickListeners() {
-        // Play
-        startBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //Intent intent = new Intent(Main.this, Map.class);
-                Intent intent = new Intent(Main.this, Map.class);
-                intent.putExtra("mode", 1);
-                startActivity(intent);
-            }
-        });
-
-
-        // About
-        aboutBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(Main.this, About.class);
-                startActivity(intent);
-            }
-        });
 
         // Options
         optionsBtn.setOnClickListener(new View.OnClickListener() {
@@ -187,8 +165,6 @@ public class Main extends AppCompatActivity {
         diceBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Intent intent = new Intent(Main.this, HighScore.class);
-                //intent.putExtra("onlyhighscore", false);
                 Intent intent = new Intent(Main.this, HighScore.class);
                 game.setHighscoreMain(false);
                 startActivity(intent);
@@ -204,14 +180,6 @@ public class Main extends AppCompatActivity {
             }
         });
 
-        // powerupBtn
-        powerupBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Main.this, PowerUp.class);
-                startActivity(intent);
-            }
-        });
     }
 
     /**

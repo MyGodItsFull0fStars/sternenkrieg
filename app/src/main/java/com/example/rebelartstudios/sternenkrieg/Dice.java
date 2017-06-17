@@ -69,7 +69,6 @@ public class Dice extends AppCompatActivity {
     StartThread startThread;
     OutputStream os = null;
     boolean net = false;
-    Button send;
     Button goNext;
     boolean sended = false;
     boolean came = false;
@@ -102,7 +101,6 @@ public class Dice extends AppCompatActivity {
         textscoreenemy = (TextView) findViewById(R.id.text_enemy_score);
         game = new GameUtilities(getApplicationContext());
         /********************Netz**************************/
-        send = (Button) findViewById(R.id.senddice);
         goNext = (Button) findViewById(R.id.gonext);
 
         phost = stats.isPhost();
@@ -164,10 +162,8 @@ public class Dice extends AppCompatActivity {
     public void shake() {
         switch (mode) {
             case 1:
-                textscore.setText("You got:" + value);
-                new CountDownTimer(200, 100) {
+                new CountDownTimer(2000, 100) {
                     public void onTick(long millisUntilFinished) {
-                        System.out.print(millisUntilFinished);
                     }
 
                     @Override
@@ -196,23 +192,40 @@ public class Dice extends AppCompatActivity {
 
     public void animation(){
         Animation scale = new ScaleAnimation(imageDice.getScaleX(),imageDice.getScaleX()/2, imageDice.getScaleY(),imageDice.getScaleY()/2, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
-// 1 second duration
         scale.setDuration(1000);
         TranslateAnimation slideUp = new TranslateAnimation(-dicegoto.getX(),-imageDice.getX(),0,0);
         slideUp.setDuration(1000);
-// Animation set to join both scaling and moving
         AnimationSet animSet = new AnimationSet(true);
         animSet.setFillEnabled(true);
         animSet.addAnimation(scale);
         animSet.addAnimation(slideUp);
-// Launching animation set
         imageDice.startAnimation(animSet);
         animSet.setFillAfter(true);
+
+        animSet.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                textscore.setText("You got:" + value);
+                prog1.setVisibility(View.VISIBLE);
+                if(!came)
+                textscoreenemy.setText("Waiting for Enemy");
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
 
     }
 
     public void onFinish() {
-        goNext.setVisibility(View.VISIBLE);
         intent.setClass(Dice.this, Map.class);
         switch (mode) {
             case 1:
@@ -231,12 +244,11 @@ public class Dice extends AppCompatActivity {
     }
 
     private void sollfinish() {
-        if(!came) {
-            prog1.setVisibility(View.VISIBLE);
-            textscoreenemy.setText("Waiting for Enemy");
-        }
         if (sended && came) {
             diceClass.changeDiceImageEnemy(gegnervalue);
+            prog1.setVisibility(View.INVISIBLE);
+            diceenemy.setVisibility(View.VISIBLE);
+            goNext.setVisibility(View.VISIBLE);
             onFinish();
         }
     }
@@ -266,6 +278,8 @@ public class Dice extends AppCompatActivity {
             } else if (!("".equals(message))) {
                 gegnervalue = Integer.parseInt(message);
                 textscoreenemy.setText("Enemy got:" + gegnervalue);
+                diceClass.changeDiceImageEnemy(gegnervalue);
+                diceenemy.setVisibility(View.VISIBLE);
                 came = true;
                 sollfinish();
 
