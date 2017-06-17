@@ -23,7 +23,7 @@ public class GameUtilities {
     private static String[] enemyMap;
     private static int whoIsStarting;
     private static boolean highscoreMain;
-    int scoreforlevel;
+    private static int scoreforlevel;
     private static Context context;
 
     SharedPreferences sharedPreferences;
@@ -41,32 +41,26 @@ public class GameUtilities {
     }
 
     public void load() {
-        setUsername(sharedPreferences.getString("username", null));
+        setUsername(sharedPreferences.getString("username", "Unbekannt"));
         setLevel(sharedPreferences.getInt("level", 1));
         setPercent(sharedPreferences.getInt("percent", 0));
         setSound(sharedPreferences.getBoolean("sound", true));
     }
 
-    public boolean saveusername() {
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString("username", username);
-        return editor.commit();
-    }
-
     public void level() {
-        scoreforlevel = sharedPreferences.getInt("score", 0)+points;
-        int levelgrenze=(1000 + 400 * (level - 1)) * level;
+        scoreforlevel = sharedPreferences.getInt("score", 0) + points;
+        int levelgrenze = (1000 + 400 * (level - 1)) * level;
 
         if (scoreforlevel >= levelgrenze) {
-            scoreforlevel-=levelgrenze;
-            setLevel(level+1);
+            scoreforlevel -= levelgrenze;
+            setLevel(level + 1);
 
         }
-        levelgrenze=(1000 + 400 * (level - 1)) * level;
+        levelgrenze = (1000 + 400 * (level - 1)) * level;
         setPercent((int) (((double) scoreforlevel / ((double) levelgrenze)) * 100));
 
-        editor.putInt("score", scoreforlevel + points);
-        editor.commit();
+        setScoreforlevel(scoreforlevel);
+
 
     }
 
@@ -98,6 +92,16 @@ public class GameUtilities {
         editor.commit();
     }
 
+
+    public static int getScoreforlevel() {
+        return scoreforlevel;
+    }
+
+    public void setScoreforlevel(int scoreforlevel) {
+        this.scoreforlevel = scoreforlevel;
+        editor.putInt("score", scoreforlevel);
+        editor.commit();
+    }
 
     public static boolean isHighscoreMain() {
         return highscoreMain;

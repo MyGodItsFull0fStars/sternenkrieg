@@ -25,54 +25,6 @@ public void before() {
 
 /** 
 * 
-* Method: getWhoIsStarting()
-* 
-*/ 
-@Test
-public void testGetWhoisstarting() {
-    NetworkStats.setWhoIsStarting(1);
-    assertEquals(1, NetworkStats.getWhoIsStarting());
-
-} 
-
-/** 
-* 
-* Method: getPlayerMap() 
-* 
-*/ 
-@Test
-public void testGetPlayerMap() {
-    String[] field = new String[12];
-    NetworkStats.setPlayerMap(field);
-    assertEquals(field, NetworkStats.getPlayerMap());
-} 
-
-/** 
-* 
-* Method: getEnemyMap() 
-* 
-*/ 
-@Test
-public void testGetEnemyMap(){
-    String[] field = new String[12];
-    NetworkStats.setEnemyMap(field);
-    assertEquals(field, NetworkStats.getEnemyMap());
-} 
-
-/** 
-* 
-* Method: getValue() 
-* 
-*/ 
-@Test
-public void testGetValue() {
-    NetworkStats.setValue(1);
-    assertEquals(1, NetworkStats.getValue());
-} 
-
-
-/** 
-* 
 * Method: isNet() 
 * 
 */ 
@@ -116,18 +68,5 @@ public void testGetMode() {
     stats.setMode(1);
     assertEquals(1,stats.getMode());
 }
-
-/** 
-* 
-* Method: getDicevalue() 
-* 
-*/ 
-@Test
-public void testGetDicevalue()  {
-    stats.setDicevalue(1);
-    assertEquals(1,stats.getDicevalue());
-} 
-
-
 
 } 

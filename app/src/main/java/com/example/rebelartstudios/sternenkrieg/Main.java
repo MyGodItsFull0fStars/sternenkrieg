@@ -232,7 +232,6 @@ public class Main extends AppCompatActivity {
                 .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         game.setUsername(one.getText().toString());
-                        game.saveusername();
                         txtUsername.setText(game.getUsername());
                         txtUsername.setTextColor(Color.WHITE);
                         // CONFIRM
