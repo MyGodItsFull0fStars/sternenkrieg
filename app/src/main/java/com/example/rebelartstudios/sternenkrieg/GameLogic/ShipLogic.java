@@ -188,6 +188,16 @@ public class ShipLogic {
 		}
 	}
 
+	public int getSibling(int degree){
+		if (degree == fieldStrings.HORIZONTAL){
+			return 1;
+		} else if (degree == fieldStrings.VERTICAL){
+			return 8;
+		} else {
+			throw new IllegalArgumentException("Degree not correctly set");
+		}
+	}
+
 	/**
 	 * Sets the position of the middle ship
 	 *

@@ -69,8 +69,8 @@ public class Map extends AppCompatActivity {
 	NetworkStats stats = new NetworkStats();
 
 	ShipLogic shipLogic;
-	PlayerFieldPositionString fieldStrings = new PlayerFieldPositionString();
-    int degree = fieldStrings.HORIZONTAL;
+	PlayerFieldPositionString fieldValues = new PlayerFieldPositionString();
+    int degree = fieldValues.HORIZONTAL;
 	PlayerFieldLogic playerFieldLogic;
 
 	public void initializeMap() {
@@ -174,12 +174,12 @@ public class Map extends AppCompatActivity {
 
 						//kleines Schiff
 						if (which_ship == shipLogic.SMALL_SHIP_ID) {
-							if (!fieldStrings.SETPLAYERPOSITION_E.equals(playerFieldLogic.playerField[position]) && !fieldStrings.SETFIELDPOSITION_F.equals(playerFieldLogic.playerField[position])) {
+							if (!fieldValues.SETPLAYERPOSITION_E.equals(playerFieldLogic.playerField[position]) && !fieldValues.SETFIELDPOSITION_F.equals(playerFieldLogic.playerField[position])) {
 								//falls schon mal gesetzt wird die letzte Position gelöscht
 								delete(shipLogic.getSmallShipArray());
 								//neue Position gesetzt
 								// playerField[position] = setPlayerPositionD;
-								playerFieldLogic.setPFSmallShipPosition(position, fieldStrings.SETFIELDPOSITION_D);
+								playerFieldLogic.setPFSmallShipPosition(position, fieldValues.SETFIELDPOSITION_D);
 								shipLogic.setSmallShipPosition(position);
 								shipLogic.setSmallShipIsSetOnField(true);
 							}
@@ -188,23 +188,23 @@ public class Map extends AppCompatActivity {
 
 						//mittleres Schiff
 						if (which_ship == shipLogic.MIDDLE_SHIP_ID) {
-							if (degree == fieldStrings.HORIZONTAL) {
+							if (degree == fieldValues.HORIZONTAL) {
 								//check_position schaut dass das schiff nicht außerhalb der playerField oder vom rechten ende der playerField auf die linke seite gesetzt wird
 								if (check_position(position, which_ship, degree)) {
 									delete(shipLogic.getMiddleShipArray());
 									// pos-1 weil wenn man das Bild bewegt ist der Zeiger genau mittig vom Bild
 									// playerField[position - 1] = setPlayerPositionE;
 									// playerField[position] = setPlayerPositionE;
-									playerFieldLogic.setPFMiddleShipPosition(position, degree, fieldStrings.SETPLAYERPOSITION_E);
+									playerFieldLogic.setPFMiddleShipPosition(position, degree, fieldValues.SETPLAYERPOSITION_E);
 									shipLogic.setMiddleShipPosition(position, degree);
 									shipLogic.setMiddleShipIsSetOnField(true);
 								}
-							} else if (degree == fieldStrings.VERTICAL) {
+							} else if (degree == fieldValues.VERTICAL) {
 								if (check_position(position, which_ship, degree)) {
 									delete(shipLogic.getMiddleShipArray());
 									// playerField[position - 8] = setPlayerPositionE;
 									// playerField[position] = setPlayerPositionE;
-									playerFieldLogic.setPFMiddleShipPosition(position, degree, fieldStrings.SETPLAYERPOSITION_E);
+									playerFieldLogic.setPFMiddleShipPosition(position, degree, fieldValues.SETPLAYERPOSITION_E);
 									shipLogic.setMiddleShipPosition(position, degree);
 									shipLogic.setMiddleShipIsSetOnField(true);
 								}
@@ -215,24 +215,24 @@ public class Map extends AppCompatActivity {
 						}
 						//großes Schiff
 						if (which_ship == shipLogic.BIG_SHIP_ID) {
-							if (degree == fieldStrings.HORIZONTAL) {
+							if (degree == fieldValues.HORIZONTAL) {
 								if (check_position(position, which_ship, degree)) {
 									delete(shipLogic.getBigShipArray());
 									// pos-1 weil wenn man das Bild bewegt ist der Zeiger genau mittig vom Bild
 									// playerField[position - 1] = setPlayerPositionF;
 									// playerField[position] = setPlayerPositionF;
 									// playerField[position + 1] = setPlayerPositionF;
-									playerFieldLogic.setPFBigShipPosition(position, degree, fieldStrings.SETFIELDPOSITION_F);
+									playerFieldLogic.setPFBigShipPosition(position, degree, fieldValues.SETFIELDPOSITION_F);
 									shipLogic.setBigShipPosition(position, degree);
 									shipLogic.setBigShipIsSetOnField(true);
 								}
-							} else if (degree == fieldStrings.VERTICAL) {
+							} else if (degree == fieldValues.VERTICAL) {
 								if (check_position(position, which_ship, degree)) {
 									delete(shipLogic.getBigShipArray());
 									// playerField[position - 8] = setPlayerPositionF;
 									// playerField[position] = setPlayerPositionF;
 									// playerField[position + 8] = setPlayerPositionF;
-									playerFieldLogic.setPFBigShipPosition(position, degree, fieldStrings.SETFIELDPOSITION_F);
+									playerFieldLogic.setPFBigShipPosition(position, degree, fieldValues.SETFIELDPOSITION_F);
 									shipLogic.setBigShipPosition(position, degree);
 									shipLogic.setBigShipIsSetOnField(true);
 								}
@@ -355,26 +355,26 @@ public class Map extends AppCompatActivity {
 
 		// TODO: 16/06/2017 Add to the container class of ShipLogic and PlayerFieldLogic
 		if (which_ship == shipLogic.BIG_SHIP_ID) {
-			if (degree == fieldStrings.HORIZONTAL) {
-				if (playerFieldLogic.playerField[pos - 1].equals(fieldStrings.SETFIELDPOSITION_D) || playerFieldLogic.playerField[pos].equals(fieldStrings.SETFIELDPOSITION_D) || playerFieldLogic.playerField[pos + 1].equals(fieldStrings.SETFIELDPOSITION_D)
-						|| playerFieldLogic.playerField[pos - 1].equals(fieldStrings.SETPLAYERPOSITION_E) || playerFieldLogic.playerField[pos].equals(fieldStrings.SETPLAYERPOSITION_E) || playerFieldLogic.playerField[pos + 1].equals(fieldStrings.SETPLAYERPOSITION_E)) {
+			if (degree == fieldValues.HORIZONTAL) {
+				if (playerFieldLogic.playerField[pos - 1].equals(fieldValues.SETFIELDPOSITION_D) || playerFieldLogic.playerField[pos].equals(fieldValues.SETFIELDPOSITION_D) || playerFieldLogic.playerField[pos + 1].equals(fieldValues.SETFIELDPOSITION_D)
+						|| playerFieldLogic.playerField[pos - 1].equals(fieldValues.SETPLAYERPOSITION_E) || playerFieldLogic.playerField[pos].equals(fieldValues.SETPLAYERPOSITION_E) || playerFieldLogic.playerField[pos + 1].equals(fieldValues.SETPLAYERPOSITION_E)) {
 					return false;
 				}
 			} else {
-				if (playerFieldLogic.playerField[pos - 8].equals(fieldStrings.SETFIELDPOSITION_D) || playerFieldLogic.playerField[pos].equals(fieldStrings.SETFIELDPOSITION_D) || playerFieldLogic.playerField[pos + 8].equals(fieldStrings.SETFIELDPOSITION_D)
-						|| playerFieldLogic.playerField[pos - 8].equals(fieldStrings.SETPLAYERPOSITION_E) || playerFieldLogic.playerField[pos].equals(fieldStrings.SETPLAYERPOSITION_E) || playerFieldLogic.playerField[pos + 8].equals(fieldStrings.SETPLAYERPOSITION_E)) {
+				if (playerFieldLogic.playerField[pos - 8].equals(fieldValues.SETFIELDPOSITION_D) || playerFieldLogic.playerField[pos].equals(fieldValues.SETFIELDPOSITION_D) || playerFieldLogic.playerField[pos + 8].equals(fieldValues.SETFIELDPOSITION_D)
+						|| playerFieldLogic.playerField[pos - 8].equals(fieldValues.SETPLAYERPOSITION_E) || playerFieldLogic.playerField[pos].equals(fieldValues.SETPLAYERPOSITION_E) || playerFieldLogic.playerField[pos + 8].equals(fieldValues.SETPLAYERPOSITION_E)) {
 					return false;
 				}
 			}
 		} else if (which_ship == shipLogic.MIDDLE_SHIP_ID) {
-			if (degree == fieldStrings.HORIZONTAL) {
-				if (playerFieldLogic.playerField[pos - 1].equals(fieldStrings.SETFIELDPOSITION_D) || playerFieldLogic.playerField[pos].equals(fieldStrings.SETFIELDPOSITION_D)
-						|| playerFieldLogic.playerField[pos - 1].equals(fieldStrings.SETFIELDPOSITION_F) || playerFieldLogic.playerField[pos].equals(fieldStrings.SETFIELDPOSITION_F)) {
+			if (degree == fieldValues.HORIZONTAL) {
+				if (playerFieldLogic.playerField[pos - 1].equals(fieldValues.SETFIELDPOSITION_D) || playerFieldLogic.playerField[pos].equals(fieldValues.SETFIELDPOSITION_D)
+						|| playerFieldLogic.playerField[pos - 1].equals(fieldValues.SETFIELDPOSITION_F) || playerFieldLogic.playerField[pos].equals(fieldValues.SETFIELDPOSITION_F)) {
 					return false;
 				}
 			} else {
-				if (playerFieldLogic.playerField[pos - 8].equals(fieldStrings.SETFIELDPOSITION_D) || playerFieldLogic.playerField[pos].equals(fieldStrings.SETFIELDPOSITION_D)
-						|| playerFieldLogic.playerField[pos - 8].equals(fieldStrings.SETFIELDPOSITION_F) || playerFieldLogic.playerField[pos].equals(fieldStrings.SETFIELDPOSITION_F)) {
+				if (playerFieldLogic.playerField[pos - 8].equals(fieldValues.SETFIELDPOSITION_D) || playerFieldLogic.playerField[pos].equals(fieldValues.SETFIELDPOSITION_D)
+						|| playerFieldLogic.playerField[pos - 8].equals(fieldValues.SETFIELDPOSITION_F) || playerFieldLogic.playerField[pos].equals(fieldValues.SETFIELDPOSITION_F)) {
 					return false;
 				}
 			}
@@ -459,13 +459,13 @@ public class Map extends AppCompatActivity {
 		turn.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				if (degree == fieldStrings.HORIZONTAL) {
-					degree = fieldStrings.VERTICAL;
+				if (degree == fieldValues.HORIZONTAL) {
+					degree = fieldValues.VERTICAL;
 					ship1.animate().rotationBy(270).start();
 					ship2.animate().rotationBy(270).start();
 					ship3.animate().rotationBy(270).start();
 				} else {
-					degree = fieldStrings.HORIZONTAL;
+					degree = fieldValues.HORIZONTAL;
 					ship1.animate().rotationBy(90).start();
 					ship2.animate().rotationBy(90).start();
 					ship3.animate().rotationBy(90).start();
@@ -491,7 +491,7 @@ public class Map extends AppCompatActivity {
 	public void delete(int data[]) {
 		if (data != null) {
 			for (int x : data) {
-				playerFieldLogic.playerField[x] = fieldStrings.SETFIELDPOSITION_ZERO;
+				playerFieldLogic.playerField[x] = fieldValues.SETFIELDPOSITION_ZERO;
 			}
 		}
 
