@@ -68,11 +68,11 @@
             android:screenOrientation="landscape" />
         <activity android:name=".socketMain" />
         <activity
-            android:name=".network.Host"
+            android:name=".Network.Host"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="landscape" />
         <activity
-            android:name=".network.Client1"
+            android:name=".Network.Client1"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="landscape" />
         <activity

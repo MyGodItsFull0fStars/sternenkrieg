@@ -9,6 +9,7 @@ import android.util.Log;
  */
 
 public class ShipLogic {
+	PlayerFieldPositionString fieldStrings = new PlayerFieldPositionString();
 
 	/**
 	 * Ship arrays used in the player field to save the positions of the ships
@@ -17,17 +18,50 @@ public class ShipLogic {
 	private int[] middle_ship;
 	private int[] big_ship;
 
+	/**
+	 * Ship indexes of the small ships
+	 */
+	public final int SMALL_SHIP_ID = 0;
+	public final int MIDDLE_SHIP_ID = 1;
+	public final int BIG_SHIP_ID = 2;
+
+	/**
+	 * Size of the ships
+	 */
+	public final int SMALL_SHIP_SIZE = 1;
+	public final int MIDDLE_SHIP_SIZE = 2;
+	public final int BIG_SHIP_SIZE = 3;
+
+	/**
+	 * Booleans for checking if ship is already set on the field
+	 */
+	private boolean smallShipIsSetOnField;
+	private boolean middleShipIsSetOnField;
+	private boolean bigShipIsSetOnField;
+
+
+	/**
+	 * Ship constructor with the int arrays for the ships
+	 *
+	 * @param small_ship  int array for small ship
+	 * @param middle_ship int array for middle ship
+	 * @param big_ship    int array for big ship
+	 */
 	public ShipLogic(int[] small_ship, int[] middle_ship, int[] big_ship) {
-		this.small_ship = small_ship;
-		this.middle_ship = middle_ship;
-		this.big_ship = big_ship;
+		setSmallShipArray(small_ship);
+		setMiddleShipArray(middle_ship);
+		setBigShipArray(big_ship);
 	}
 
+	/**
+	 * Standard constructor with initialization of the ship arrays
+	 */
 	public ShipLogic() {
-		small_ship = new int[1];
-		middle_ship = new int[2];
-		big_ship = new int[3];
+		small_ship = new int[SMALL_SHIP_SIZE];
+		middle_ship = new int[MIDDLE_SHIP_SIZE];
+		big_ship = new int[BIG_SHIP_SIZE];
 	}
+
 
 	int position = 0;
 
@@ -76,7 +110,7 @@ public class ShipLogic {
 	 * @param array used to set the array small_ship
 	 */
 	public void setSmallShipArray(int[] array) {
-		if (array.length == 1) {
+		if (array.length == SMALL_SHIP_SIZE) {
 			this.small_ship = array;
 		} else {
 			throw new ArrayIndexOutOfBoundsException(arrayOutOfBoundsExceptionMessage);
@@ -99,7 +133,7 @@ public class ShipLogic {
 	 * @param array
 	 */
 	public void setMiddleShipArray(int[] array) {
-		if (array.length == 2) {
+		if (array.length == MIDDLE_SHIP_SIZE) {
 			this.middle_ship = array;
 		} else {
 			throw new ArrayIndexOutOfBoundsException(arrayOutOfBoundsExceptionMessage);
@@ -114,9 +148,9 @@ public class ShipLogic {
 	 *                 if degree is wrongly set, a Log message will be send
 	 */
 	public void setMiddleShipPosition(int position, int degree) {
-		if (degree == 0) {
+		if (degree == fieldStrings.HORIZONTAL) {
 			middleShipPosition(position, 1);
-		} else if (degree == 1) {
+		} else if (degree == fieldStrings.VERTICAL) {
 			middleShipPosition(position, 8);
 		} else {
 			Log.e(tag, "Degree is not correctly set");
@@ -130,7 +164,7 @@ public class ShipLogic {
 	 * @param array used to set the array big_ship
 	 */
 	public void setBigShipArray(int[] array) {
-		if (array.length == 3) {
+		if (array.length == BIG_SHIP_SIZE) {
 			this.big_ship = array;
 		} else {
 			throw new ArrayIndexOutOfBoundsException(arrayOutOfBoundsExceptionMessage);
@@ -145,12 +179,22 @@ public class ShipLogic {
 	 *                 if degree is wrong, the method will send an exception
 	 */
 	public void setBigShipPosition(int position, int degree) {
-		if (degree == 0) {
+		if (degree == fieldStrings.HORIZONTAL) {
 			bigShipPosition(position, 1);
-		} else if (degree == 1) {
+		} else if (degree == fieldStrings.VERTICAL) {
 			bigShipPosition(position, 8);
 		} else {
 			throw new IllegalArgumentException(degreeException);
+		}
+	}
+
+	public int getSibling(int degree){
+		if (degree == fieldStrings.HORIZONTAL){
+			return 1;
+		} else if (degree == fieldStrings.VERTICAL){
+			return 8;
+		} else {
+			throw new IllegalArgumentException("Degree not correctly set");
 		}
 	}
 
@@ -192,5 +236,39 @@ public class ShipLogic {
 	public void setPosition(int number) {
 		this.position = number;
 	}
+
+    public boolean isSmallShipIsSetOnField() {
+        return smallShipIsSetOnField;
+    }
+
+    public boolean isMiddleShipIsSetOnField() {
+        return middleShipIsSetOnField;
+    }
+
+    public boolean isBigShipIsSetOnField() {
+        return bigShipIsSetOnField;
+    }
+
+    public void shipsOnFieldInitialize(){
+        setSmallShipIsSetOnField(false);
+        setMiddleShipIsSetOnField(false);
+        setBigShipIsSetOnField(false);
+    }
+
+	public void setSmallShipIsSetOnField(boolean smallShipIsSetOnField){
+        this.smallShipIsSetOnField = smallShipIsSetOnField;
+    }
+
+    public void setMiddleShipIsSetOnField(boolean middleShipIsSetOnField){
+        this.middleShipIsSetOnField = middleShipIsSetOnField;
+    }
+
+    public void setBigShipIsSetOnField(boolean bigShipIsSetOnField){
+        this.bigShipIsSetOnField = bigShipIsSetOnField;
+    }
+
+    public boolean allShipsSetOnPlayerField(){
+        return isSmallShipIsSetOnField() && isMiddleShipIsSetOnField() && isBigShipIsSetOnField();
+    }
 
 }

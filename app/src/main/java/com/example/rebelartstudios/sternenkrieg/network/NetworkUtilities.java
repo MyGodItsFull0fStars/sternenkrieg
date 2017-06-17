@@ -1,4 +1,4 @@
-package com.example.rebelartstudios.sternenkrieg.network;
+package com.example.rebelartstudios.sternenkrieg.Network;
 
 import android.os.Handler;
 import android.os.Message;
@@ -59,10 +59,8 @@ public class NetworkUtilities {
         } else {
             Socket socket1;
             socket1 = startThread.getSocket();
-            writeclient wirte = new writeclient(true, socket1, message);
-            wirte.start();
-
-
+            writeclient writeClient = new writeclient(true, socket1, message);
+            writeClient.start();
         }
     }
     public void networkbuild() {

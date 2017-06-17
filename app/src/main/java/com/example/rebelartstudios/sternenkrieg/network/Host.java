@@ -1,4 +1,4 @@
-package com.example.rebelartstudios.sternenkrieg.network;
+package com.example.rebelartstudios.sternenkrieg.Network;
 
 import android.content.Context;
 import android.content.Intent;
@@ -212,6 +212,7 @@ public class Host extends AppCompatActivity {
                     String info = "//Starten";
                     socket = mAcceptThread.getSocket();
                     writehost writeHost = new writehost(socket, os, info);
+
                     writeHost.start();
                     Intent intentD = new Intent(Host.this, Dice.class);
                     ifstart = false;
