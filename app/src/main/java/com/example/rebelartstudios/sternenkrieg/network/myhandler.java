@@ -2,17 +2,20 @@ package com.example.rebelartstudios.sternenkrieg.Network;
 
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 
 /**
  * Created by wenboda on 2017/6/5.
  */
 
-public class myHandle extends Handler {
+public class myhandler extends Handler {
 
     String message;
     Handler handler = new Handler();
 
-    public myHandle(){}
+    public myhandler(){
+        //empty?
+    }
 
     public Handler getHandler(){
         return handler;
@@ -27,15 +30,15 @@ public class myHandle extends Handler {
         switch (msg.what) {
             case 1:
                 message = (String) msg.obj;
-
-                System.out.println(message);
+                Log.i(myhandler.class.getName(),"Message: "+message);
                 break;
             case 0:
-                System.out.println("Erfolg");
-
+                Log.i(myhandler.class.getName(),"Erfolg");
                 break;
             case 2:
-                System.out.println("Client getrennt");
+                Log.i(myhandler.class.getName(),"Client getrennt");
+                break;
+            default:
                 break;
         }
     }

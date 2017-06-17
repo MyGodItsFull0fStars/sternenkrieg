@@ -17,18 +17,18 @@ import java.io.IOException;
 
 public class Modi extends Activity {
     ImageButton back;
-    Button btn_gotocube;
+    Button btnGotocube;
 
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         setContentView(R.layout.modi);
 
-        btn_gotocube = (Button) findViewById(R.id.btn_spielen);
+        btnGotocube = (Button) findViewById(R.id.btn_spielen);
         back = (ImageButton) findViewById(R.id.Back);
 
 
-        btn_gotocube.setOnClickListener(new View.OnClickListener() {
+        btnGotocube.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent nextScreen = new Intent(getApplicationContext(), Dice.class);

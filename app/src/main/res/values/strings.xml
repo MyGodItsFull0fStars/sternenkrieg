@@ -40,4 +40,8 @@ https://developer.android.com/guide/topics/resources/localization.html
 
     <string name="de">Deutsch</string>
     <string name="en">English</string>
+
+    <string name="title_activity_highscore">highscore</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
 </resources>

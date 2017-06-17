@@ -1,4 +1,4 @@
-package com.example.rebelartstudios.sternenkriegTest;
+package com.example.rebelartstudios.test;
 
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
@@ -22,7 +22,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 @RunWith(AndroidJUnit4.class)
 public class MapTest {
 
-    @Rule public final ActivityTestRule<Map> mapActivityTestRule = new ActivityTestRule<Map>(Map.class);
+    @Rule public final ActivityTestRule<Map> mapActivityTestRule = new ActivityTestRule<>(Map.class);
 
 
     /**

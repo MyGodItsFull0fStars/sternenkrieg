@@ -14,11 +14,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.rebelartstudios.sternenkrieg.Dice;
-import com.example.rebelartstudios.sternenkrieg.Map;
-import com.example.rebelartstudios.sternenkrieg.NetworkStats;
+import com.example.rebelartstudios.sternenkrieg.GameLogic.NetworkStats;
 import com.example.rebelartstudios.sternenkrieg.QR_Reader;
 import com.example.rebelartstudios.sternenkrieg.R;
-import com.example.rebelartstudios.sternenkrieg.Spielfeld;
 
 import java.io.IOException;
 import java.net.Socket;
@@ -29,22 +27,19 @@ public class Client1 extends AppCompatActivity implements View.OnClickListener {
     private EditText IPet;
     private Handler myhandler;
     private Socket socket;
-    private String str = "";
-    boolean running = false;
     private Button btnSend;
     private Button btnStart;
     private Button btnStop;
-    private StartThread st ;
+    private StartThread st;
     private ReceiveThreadClient rt;
     String tag = "Client";
     String ip;
     String ipFromQR;
-    boolean Exit = true;
     Button btnQR;
     Bundle extras;
     Button btnBeretien;
     boolean ifstart = true;
-    NetworkStats stats= new NetworkStats();
+    NetworkStats stats = new NetworkStats();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,12 +57,12 @@ public class Client1 extends AppCompatActivity implements View.OnClickListener {
         btnQR.setOnClickListener(this);
         btnBeretien.setOnClickListener(this);
 
-        myhandler = new myHandlerClient();
+        myhandler = new myhandlerclient();
 
         extras = getIntent().getExtras();
 
         if (extras == null) {
-            ipFromQR = "127.0.0.0"; // localhost
+            ipFromQR = System.getProperty("myapplication.ip");
         } else {
             IPet.setText(extras.getString("QR"));
             this.ip = IPet.toString();
@@ -76,27 +71,22 @@ public class Client1 extends AppCompatActivity implements View.OnClickListener {
     }
 
 
-
     @Override
     public void onClick(View v) {
 
         switch (v.getId()) {
             case R.id.btnStart:
                 this.ip = IPet.getText().toString();
-                st = new StartThread(socket, ip, rt, myhandler,54321);
+                st = new StartThread(socket, ip, rt, myhandler, 54321);
                 st.start();
                 setButtonOnStartState(false);
-
                 break;
             case R.id.btnSend:
-
                 String info = et.getText().toString();
                 socket = st.getSocket();
-                Thread wirte = new WriteClient(true, socket, info);
-
+                Thread wirte = new writeclient(true, socket, info);
                 wirte.start();
                 et.setText("");
-
                 break;
             case R.id.btnStop:
                 exit();
@@ -104,19 +94,23 @@ public class Client1 extends AppCompatActivity implements View.OnClickListener {
             case R.id.QRClient:
                 Intent intent = new Intent(Client1.this, QR_Reader.class);
                 startActivity(intent);
+                break;
             case R.id.btn_bereiten:
-                try{  socket = st.getSocket();}catch (NullPointerException e){
+                try {
+                    socket = st.getSocket();
+                } catch (NullPointerException e) {
                     Log.e(tag, "NullPointerException in Client: " + e.toString());
                 }
 
 
                 try {
                     info = "//Bereiten";
-                    wirte = new WriteClient(true, socket, info);
+                    wirte = new writeclient(true, socket, info);
                     wirte.start();
                 } catch (NullPointerException e) {
                     Log.e(tag, "NullPointerException in Client: " + e.toString());
                 }
+                break;
 
             default:
                 break;
@@ -132,6 +126,7 @@ public class Client1 extends AppCompatActivity implements View.OnClickListener {
 
     /**
      * Enables or disables the buttons using a boolean
+     *
      * @param flag
      */
     private void setButtonOnStartState(boolean flag) {
@@ -144,23 +139,20 @@ public class Client1 extends AppCompatActivity implements View.OnClickListener {
     /**
      * Handles the messaging, as well as the feedback while connecting/disconnecting with the server
      */
-    class myHandlerClient extends Handler {
+    class myhandlerclient extends Handler {
         @Override
         public void handleMessage(Message msg) {
 
 
             switch (msg.what) {
                 case 1:
-
                     String str = (String) msg.obj;
-                    System.out.println("Client: " + msg.obj);
+                    Log.i(Client1.class.getName(),"Client: "+str);
                     tv.setText(str);
-                    if (str.equals("Exit")) {
+                    if (("exit").equals(str)) {
                         exit();
-                    } else if (str.equals("//Starten")) {
+                    } else if (("//Starten").equals(str)) {
                         Intent intentD = new Intent(Client1.this, Dice.class);
-                        Intent intentS = new Intent(Client1.this, Spielfeld.class);
-                        Intent intentM = new Intent(Client1.this, Map.class);
 
                         ifstart = false;
                         close();
@@ -177,7 +169,6 @@ public class Client1 extends AppCompatActivity implements View.OnClickListener {
                     displayToast("Erfolg");
                     break;
                 case 2:
-//                    displayToast("Der Server wurde getrennt");
                     tv.setText(null);
                     setButtonOnStartState(true);
                     break;
@@ -203,18 +194,18 @@ public class Client1 extends AppCompatActivity implements View.OnClickListener {
         btnStart = (Button) findViewById(R.id.btnStart);
         btnStop = (Button) findViewById(R.id.btnStop);
         btnQR = (Button) findViewById(R.id.QRClient);
-        btnBeretien = (Button)findViewById(R.id.btn_bereiten);
+        btnBeretien = (Button) findViewById(R.id.btn_bereiten);
 
         this.ip = IPet.getText().toString();
     }
 
-    private void exit(){
+    private void exit() {
         rt = st.getRt();
-        try{ rt.setRunning(false);
-            String Exit = "Exit";
-            Thread wirte = new WriteClient(false,socket,Exit);
+        try {
+            rt.setRunning(false);
+            Thread wirte = new writeclient(false, socket,"exit" );
             wirte.start();
-        }catch(NullPointerException e){
+        } catch (NullPointerException e) {
             Log.e(tag, "NullPointerException in Client: " + e.toString());
         }
 
@@ -223,7 +214,7 @@ public class Client1 extends AppCompatActivity implements View.OnClickListener {
         close();
     }
 
-    public void close(){
+    public void close() {
         try {
             st.setRunning(false);
             socket = st.getSocket();

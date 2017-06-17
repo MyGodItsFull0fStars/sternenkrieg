@@ -1,7 +1,7 @@
 package com.example.rebelartstudios.sternenkrieg.Network;
 
-import android.content.Intent;
 import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 
 import java.io.IOException;
@@ -16,7 +16,7 @@ import java.net.Socket;
 
 public class NetworkUtilities {
 
-    boolean Phost;
+    boolean phost;
     AcceptThread mAcceptThread;
     ServerSocket mServerSocket;
     Socket socket;
@@ -27,11 +27,10 @@ public class NetworkUtilities {
     String ip;
     ReceiveThreadClient receiveThreadClient;
     String tag = "Dice";
-    Intent intent = new Intent();
-    boolean Net = false;
+    String message="";
 
     public NetworkUtilities(boolean phost, AcceptThread mAcceptThread, ServerSocket mServerSocket, Socket socket, Handler myhandler, ReceiveThreadHost receiveThreadHost, StartThread startThread, String ip, ReceiveThreadClient receiveThreadClient) {
-        Phost = phost;
+        this.phost = phost;
         this.mAcceptThread = mAcceptThread;
         this.mServerSocket = mServerSocket;
         this.socket = socket;
@@ -43,9 +42,6 @@ public class NetworkUtilities {
     }
 
 
-
-
-
     public void connection(){
             boolean running = true;
             mAcceptThread = new AcceptThread(running, mServerSocket, socket, myhandler, receiveThreadHost, 12345);
@@ -55,39 +51,30 @@ public class NetworkUtilities {
 
 
 
-    public void messageSend(String message, boolean Phost, boolean t) {
+    public void messageSend(String message, boolean Phost) {
         if (Phost) {
             Socket socket1 = mAcceptThread.getSocket();
-            WriteHost wh = new WriteHost(socket1, os, message);
+            writehost wh = new writehost(socket1, os, message);
             wh.start();
-
-
         } else {
             Socket socket1;
             socket1 = startThread.getSocket();
-            WriteClient wirte = new WriteClient(true, socket1, message);
-            wirte.start();
-
-
+            writeclient writeClient = new writeclient(true, socket1, message);
+            writeClient.start();
         }
     }
     public void networkbuild() {
-        if (Phost) {
-
-        } else {
-
+        if (!phost) {
             this.startThread = new StartThread(socket, ip, receiveThreadClient, myhandler, 12345);
             startThread.start();
-
         }
-
     }
 
 
 
     public void close() {
 
-        if (Phost) {
+        if (phost) {
 
             try {
 
@@ -129,5 +116,32 @@ public class NetworkUtilities {
                 Log.e(tag, "IOException in Client: " + e.toString());
             }
         }
+    }
+
+    public String handleMessage(Message msg){
+        switch (msg.what) {
+            case 1:
+                message = (String) msg.obj;
+                int count = 0;
+                if (message == null) {
+                    count++;
+                } else {
+                    count = 0;
+                }
+                if (count == 10) {
+                    close();
+                }
+                if (!(message == null)) {
+                    return message;
+                }
+
+                break;
+            case 0:
+
+            case 2:
+                break;
+        }
+
+        return "";
     }
 }

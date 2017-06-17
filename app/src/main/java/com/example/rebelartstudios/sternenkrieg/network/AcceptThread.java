@@ -36,50 +36,35 @@ public class AcceptThread extends Thread {
 
 
 
-
+    @Override
     public void run() {
 
-//        while(running) {
-
             try {
-
-                System.out.println("A running = "+running);
                 mServerSocket = new ServerSocket(port);//ein Server erstellen
                 socket = mServerSocket.accept();//accept
-//                this.testB = true;
-//                test();
-                System.out.println("Accpthread: "+socket);
-                System.out.println("erfolg");
-                if (socket != null){
+                Log.i(AcceptThread.class.getName(),"Verbunden");
+                if (socket != null) {
                     this.resocket = socket;
+
+
+                    Message msg = mHandler.obtainMessage();
+                    msg.what = 0;
+                    msg.obj = socket.getInetAddress().getHostAddress();
+                    mHandler.sendMessage(msg);
+                    //start receive Thread
+                    running = true;
+
+                    mReceiveThreadHost = new ReceiveThreadHost(socket, running, mHandler);
+                    mReceiveThreadHost.start();
                 }
 
-                Message msg = mHandler.obtainMessage();
-                msg.what = 0;
-                msg.obj = socket.getInetAddress().getHostAddress();
-                mHandler.sendMessage(msg);
-                //start receive Thread
-                running = true;
-
-                mReceiveThreadHost = new ReceiveThreadHost(socket, running, mHandler);
-                mReceiveThreadHost.start();
-
             } catch (IOException e) {
-                Log.e(tag, "IOException in AcceptThreadHost: " + e.toString());
-
-                System.out.println("geht nicht");
+//                Log.w(AcceptThread.class.getName(),e.getMessage());
             }
-//               catch (InterruptedException e) {
-//               Log.e(tag, "InterruptedException in AcceptThreadHost: " + e.toString());
-//
-//            }
-
-
-//        }
     }
 
     public Socket getSocket (){
-        System.out.println("getSocket : " + this.socket);
+//       Log.i(AcceptThread.class.getName(),"getSocket : " + socket);
         return this.socket;
     }
     public void setSocket(Socket socket){
@@ -89,6 +74,7 @@ public class AcceptThread extends Thread {
     public void setRunning(boolean running){
         this.running = running;
     }
+    //TODO: vlt löschen
     public void closeServers(){
         try {
             socket.close();
@@ -104,7 +90,7 @@ public class AcceptThread extends Thread {
     }
 
     public ReceiveThreadHost getmReceiveThreadHost(){
-        System.out.println("Rce running = " + running);
+        Log.i(AcceptThread.class.getName(),"Rce running = " + running);
         return mReceiveThreadHost;
     }
     public boolean test(){

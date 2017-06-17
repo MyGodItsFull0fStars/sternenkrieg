@@ -20,6 +20,8 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.example.rebelartstudios.sternenkrieg.GameLogic.GameUtilities;
+import com.example.rebelartstudios.sternenkrieg.GameLogic.NetworkStats;
 import com.example.rebelartstudios.sternenkrieg.GameLogic.PlayerFieldPositionString;
 import com.example.rebelartstudios.sternenkrieg.GameLogic.PlayerFieldShipContainer;
 import com.example.rebelartstudios.sternenkrieg.Network.AcceptThread;
@@ -40,15 +42,20 @@ public class Map extends AppCompatActivity {
     GridView gridView;
     ImageView imageView;
     ImageView ship1, ship2, ship3, turn, play;
+
     int width;
     int height;
     int which_ship;
+
     MapLoad mapLoad;
+    GameUtilities game;
+
 
     Socket socket = new Socket();
     ServerSocket mServerSocket = null;
     Handler myhandler;
-    boolean Phost = false; // if this is host then Phost is true; if not is false.
+
+    boolean Phost = false; // if this is host then phost is ture; if not is false.
     String message;
     ReceiveThreadHost receiveThreadHost;
     String ip;
@@ -58,6 +65,7 @@ public class Map extends AppCompatActivity {
     StartThread startThread;
     OutputStream os = null;
     boolean Net = false;
+
     Intent intent = new Intent();
     boolean finish = false;
     boolean finishEnemy = false;
@@ -88,6 +96,7 @@ public class Map extends AppCompatActivity {
         initializeImageViews();
         initializeLogicClasses();
         // initializePlayerField();
+
         initializeMap();
 
         Display display = getWindowManager().getDefaultDisplay();
@@ -98,14 +107,18 @@ public class Map extends AppCompatActivity {
         width = size.x;
         height = size.y;
 
+    game= new GameUtilities(getApplicationContext());
+
         initializeShipView();
 
         /********************Netz**************************/
         System.out.println("Map");
         Phost = stats.isPhost();
-        System.out.println("Phost: " + Phost);
+
+        System.out.println("phost: " + Phost);
         Net = stats.isNet();
-        System.out.println("Net: " + Net);
+        System.out.println("net: " + Net);
+
         if (Phost == false) {
             ip = stats.getIp();
             System.out.println("Ip: " + ip);
@@ -113,6 +126,7 @@ public class Map extends AppCompatActivity {
 
 
         myhandler = new Myhandler();
+
         util = new NetworkUtilities(
                 Phost,
                 mAcceptThread,
@@ -123,6 +137,7 @@ public class Map extends AppCompatActivity {
                 startThread,
                 ip,
                 receiveThreadClient);
+
         util.networkbuild();
 
 
@@ -198,6 +213,7 @@ public class Map extends AppCompatActivity {
 
 
                         if (playerFieldShipContainer.getShipLogic().allShipsSetOnPlayerField()) {
+
                             play.setImageDrawable(getResources().getDrawable(R.drawable.arrow_right_other));
                         }
 
@@ -217,6 +233,7 @@ public class Map extends AppCompatActivity {
 
         });
         // TODO: 16/06/2017 check if only set ship invisible if really on player field is needed
+
         //ShadowBuilder erzeugt eine Animation, wenn man das schiff los lässt
         ship1.setOnTouchListener(new View.OnTouchListener()
 
@@ -228,7 +245,9 @@ public class Map extends AppCompatActivity {
                 View.DragShadowBuilder shadow = new View.DragShadowBuilder(ship1);
                 v.startDrag(data, shadow, null, 0);
                 //small ship
+
                 which_ship = playerFieldShipContainer.getShipLogic().SMALL_SHIP_ID;
+
                 ship1.setVisibility(View.INVISIBLE);
                 return false;
             }
@@ -244,6 +263,7 @@ public class Map extends AppCompatActivity {
                 v.startDrag(data, shadow, null, 0);
                 //middle ship
                 which_ship = playerFieldShipContainer.getShipLogic().MIDDLE_SHIP_ID;
+
                 ship2.setVisibility(View.INVISIBLE);
                 return false;
             }
@@ -256,7 +276,6 @@ public class Map extends AppCompatActivity {
             public boolean onTouch(View v, MotionEvent arg1) {
                 ClipData data = ClipData.newPlainText("", "");
                 View.DragShadowBuilder shadow = new View.DragShadowBuilder(ship3);
-
                 v.startDrag(data, shadow, null, 0);
                 //big ship
                 which_ship = playerFieldShipContainer.getShipLogic().BIG_SHIP_ID;
@@ -267,6 +286,7 @@ public class Map extends AppCompatActivity {
 
 
     }
+
 
     private void setShipsVisible() {
         ship1.setVisibility(View.VISIBLE);
@@ -289,6 +309,7 @@ public class Map extends AppCompatActivity {
 
 
     /**
+
      * Initializes the ShipViews in the onCreate() method
      */
     private void initializeShipView() {
@@ -314,14 +335,13 @@ public class Map extends AppCompatActivity {
             public void onClick(View v) {
 
                 if (playerFieldShipContainer.getShipLogic().allShipsSetOnPlayerField()) {
-                    // smallShipIsSetOnField && middleShipIsSetOnField && bigShipIsSetOnField) {
 
                     intent.setClass(Map.this, Spielfeld.class);
-                    NetworkStats.setPlayerMap(playerFieldShipContainer.getPlayerFieldLogic().getPlayerField());
+                    game.setPlayerMap(playerFieldShipContainer.getPlayerFieldLogic().getPlayerField());
                     finish = true;
-                    util.messageSend("boolean", Phost, true);
+                    util.messageSend("boolean", Phost);
                     if (!Phost) {
-                        new CountDownTimer(500, 100) {
+                        new CountDownTimer(200, 100) {
                             public void onTick(long millisUntilFinished) {
                                 System.out.print(millisUntilFinished);
                             }
@@ -339,8 +359,6 @@ public class Map extends AppCompatActivity {
 
             }
         });
-        // TODO: 16/06/2017 reminder
-
 
         gridView.setAdapter(new MapLoad(this, playerFieldShipContainer.getPlayerFieldLogic().getPlayerField()));
 
@@ -350,13 +368,13 @@ public class Map extends AppCompatActivity {
         turn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (degree == fieldValues.HORIZONTAL) {
-                    degree = fieldValues.VERTICAL;
+                if (degree == 0) {
+                    degree = 1;
                     ship1.animate().rotationBy(270).start();
                     ship2.animate().rotationBy(270).start();
                     ship3.animate().rotationBy(270).start();
                 } else {
-                    degree = fieldValues.HORIZONTAL;
+                    degree = 0;
                     ship1.animate().rotationBy(90).start();
                     ship2.animate().rotationBy(90).start();
                     ship3.animate().rotationBy(90).start();
@@ -384,7 +402,7 @@ public class Map extends AppCompatActivity {
         draw(playerFieldShipContainer.getPlayerFieldLogic().getPlayerField());
     }
 
-    // TODO: 16/06/2017 Is it really necessary to call this every time?
+
     public void draw(String[] array) {
         gridView.setAdapter(mapLoad);
     }
@@ -405,39 +423,15 @@ public class Map extends AppCompatActivity {
     // There are the Message from other player. We can work with "message" to change our map, uppower and ship.
     class Myhandler extends Handler {
 
+
+
         public void handleMessage(Message msg) {
+            message = util.handleMessage(msg);
 
+            if (message.equals("boolean")) {
+                finishEnemy = true;
+                syncClose();
 
-            switch (msg.what) {
-                case 1:
-                    message = (String) msg.obj;
-                    message = (String) msg.obj;
-                    int count = 0;
-                    if (message == null) {
-                        count++;
-                    } else {
-                        count = 0;
-                    }
-                    if (count == 3) {
-                        util.close();
-                    }
-                    if (!(message == null)) {
-                        if (message.equals("boolean")) {
-                            finishEnemy = true;
-                            syncClose();
-
-                        }
-                    }
-
-                    Log.d(tag, "Message: " + message);
-
-                    break;
-                case 0:
-                    displayToast("Erfolg");
-                    break;
-                case 2:
-                    displayToast("!");
-                    break;
             }
         }
 

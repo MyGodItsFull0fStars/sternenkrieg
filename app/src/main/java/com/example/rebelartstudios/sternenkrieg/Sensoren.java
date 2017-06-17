@@ -1,5 +1,8 @@
 package com.example.rebelartstudios.sternenkrieg;
 
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+
 /**
  * Created by Chris on 14.06.2017.
  */
@@ -7,32 +10,41 @@ package com.example.rebelartstudios.sternenkrieg;
 public class Sensoren {
     private static final int SHAKE_THRESHOLD = 690;
     private long lastUpdate = 0;
-    private float last_x, last_y, last_z;
+    private float lastx;
+    private float lasty;
+    private float lastz;
 
-    public int LightSensor(){
+    public int lightSensor(){
 
         return 0;
     }
 
-    public String accelUpdate(float x, float y, float z){
+    public String accelUpdate(SensorEvent sensorEvent) {
 
-        long curTime = System.currentTimeMillis();
+        Sensor mySensor = sensorEvent.sensor;
+        if (mySensor.getType() == Sensor.TYPE_ACCELEROMETER) {
+            float x = sensorEvent.values[0];
+            float y = sensorEvent.values[1];
+            float z = sensorEvent.values[2];
+            long curTime = System.currentTimeMillis();
 
-        if ((curTime - lastUpdate) > 100) {
-            long diffTime = (curTime - lastUpdate);
-            lastUpdate = curTime;
+            if ((curTime - lastUpdate) > 100) {
+                long diffTime = curTime - lastUpdate;
+                lastUpdate = curTime;
 
-            float speed = Math.abs(x + y + z - last_x - last_y - last_z) / diffTime * 10000;
+                float speed = Math.abs(x + y + z - lastx - lasty - lastz) / diffTime * 10000;
 
-            if (speed > SHAKE_THRESHOLD) {
-                return "shake";
+                if (speed > SHAKE_THRESHOLD) {
+                    return "shake";
+                }
+
+                lastx = x;
+                lasty = y;
+                lastz = z;
             }
 
-            last_x = x;
-            last_y = y;
-            last_z = z;
-        }
 
+        }
         return "";
     }
 }

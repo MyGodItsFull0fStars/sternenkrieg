@@ -14,10 +14,10 @@ import com.example.rebelartstudios.sternenkrieg.Network.Host;
  * Created by wenboda on 2017/5/1.
  */
 
-public class Socket_main extends AppCompatActivity implements View.OnClickListener {
+public class socketMain extends AppCompatActivity {
 
-    Button S;
-    Button C;
+    Button s;
+    Button c;
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,36 +29,31 @@ public class Socket_main extends AppCompatActivity implements View.OnClickListen
     }
 
     private void initializeFindByView() {
-        S = (Button) findViewById(R.id.server);
-        C = (Button) findViewById(R.id.client);
+        s = (Button) findViewById(R.id.server);
+        c = (Button) findViewById(R.id.client);
 
     }
 
     private void initializeButton() {
 
-        S.setOnClickListener(new View.OnClickListener() {
+        s.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
-                intent.setClass(Socket_main.this, Host.class);
+                intent.setClass(socketMain.this, Host.class);
                 startActivity(intent);
             }
         });
 
-        C.setOnClickListener(new View.OnClickListener() {
+        c.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
-                intent.setClass(Socket_main.this, Client1.class);
+                intent.setClass(socketMain.this, Client1.class);
                 startActivity(intent);
             }
         });
 
     }
 
-
-    @Override
-    public void onClick(View v) {
-
-    }
 }

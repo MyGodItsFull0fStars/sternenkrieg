@@ -19,14 +19,14 @@ public class ReceiveThreadHost extends Thread {
 
 
     private InputStream is = null;
-    private String read;
+    private String read="";
     private boolean running;
     private Handler mHandler;
     String tag = "Host";
     Socket sk;
 
-    public ReceiveThreadHost(Socket sk, boolean running, Handler mHandler){
-        this.sk =sk;
+    public ReceiveThreadHost(Socket sk, boolean running, Handler mHandler) {
+        this.sk = sk;
         this.running = running;
         this.mHandler = mHandler;
 
@@ -37,10 +37,10 @@ public class ReceiveThreadHost extends Thread {
             throw new RuntimeException(e);
         }
     }
+
     @Override
     public void run() {
-
-        System.out.println("ReceiveTH running = "+ running);
+        Log.i(ReceiveThreadHost.class.getName(), "ReceiveTH running = " + running);
         while (running) {
             try {
                 sleep(100);
@@ -54,12 +54,13 @@ public class ReceiveThreadHost extends Thread {
                 br = new BufferedReader(new InputStreamReader(is, "UTF-8"));
             } catch (UnsupportedEncodingException e) {
                 Log.e(tag, "UnsupportedException in AcceptThreadHost: " + e.toString());
-                throw new RuntimeException(e);
             }
 
             try {
+                // braucht man laut Jenkins, Fehler ist dann dass die erste Message von Client nicht gesendet wird
+               //if (null!=br.readLine())
+                    read = br.readLine();
 
-                read = br.readLine();
 
             } catch (IOException e) {
                 Log.e(tag, "IOException in AcceptThreadHost: " + e.toString());
@@ -87,7 +88,7 @@ public class ReceiveThreadHost extends Thread {
                     mHandler.sendMessage(msg);
                 }
 
-            }catch (NullPointerException e){
+            } catch (NullPointerException e) {
                 Log.e(tag, "NullpointerException in AcceptThreadHost: " + e.toString());
             }
 
@@ -95,13 +96,15 @@ public class ReceiveThreadHost extends Thread {
 
     }
 
-    public void setRunning(boolean running){
+    public void setRunning(boolean running) {
         this.running = running;
     }
-    public void close(){
+
+    public void close() {
         this.running = false;
     }
-    public Socket getSk(){
+
+    public Socket getSk() {
         return sk;
     }
 

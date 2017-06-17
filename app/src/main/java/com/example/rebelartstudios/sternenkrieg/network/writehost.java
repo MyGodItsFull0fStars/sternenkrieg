@@ -10,31 +10,22 @@ import java.net.Socket;
  * Created by wenboda on 2017/5/20.
  */
 
-public class WriteHost extends Thread {
+public class writehost extends Thread {
 
     Socket socket;
     OutputStream os = null;
     String info;
     String tag = "host";
-    boolean t;
 
-    public WriteHost(Socket socket, OutputStream os, String info){
+    public writehost(Socket socket, OutputStream os, String info){
         this.socket = socket;
         this.os = os;
         this. info = info;
-        this.t = t;
     }
 
     @Override
     public void run() {
-
-
         try {
-
-//            if (t){
-//                sleep(1000);
-//            }
-
             os = socket.getOutputStream();//kriege socket outputstream
             String msg = info + "\n";
             System.out.println("WriteHost: "+msg);
@@ -43,13 +34,10 @@ public class WriteHost extends Thread {
             os.flush();
 
         } catch (IOException e) {
-            Log.e(tag, "IOException in WriteHost: " + e.toString());
+            Log.e(tag, "IOException in writehost: " + e.toString());
         } catch (NullPointerException e) {
-            Log.e(tag, "NUllException in WriteHost: " + e.toString());
+            Log.e(tag, "NUllException in writehost: " + e.toString());
         }
-//        catch (InterruptedException e) {
-//            Log.e(tag, "InterruptedException in WriteHost: " + e.toString());
-//        }
     }
 
 }

@@ -5,7 +5,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.graphics.Point;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -27,6 +26,8 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.rebelartstudios.sternenkrieg.GameLogic.GameUtilities;
+import com.example.rebelartstudios.sternenkrieg.GameLogic.NetworkStats;
 import com.example.rebelartstudios.sternenkrieg.Network.AcceptThread;
 import com.example.rebelartstudios.sternenkrieg.Network.NetworkUtilities;
 import com.example.rebelartstudios.sternenkrieg.Network.ReceiveThreadClient;
@@ -69,7 +70,7 @@ public class Spielfeld extends AppCompatActivity {
     // this Views can be also a chat system. That mean player can talk with other player with it.
     // But now we can use it to check if the Socket program right.
     // what we do next: set Start Button and make connect.
-    // You can call methode messageSend to send String message parameter mit (message, Phost)
+    // You can call methode messageSend to send String message parameter mit (message, phost)
     // And in class Myhandler you get message form enemy, msg.what = 1 is what enemy say
     // msg.what = 4 , sendMsg[1] is enemy shoot position.
 
@@ -79,7 +80,7 @@ public class Spielfeld extends AppCompatActivity {
     Socket socket = new Socket();
     ServerSocket mServerSocket = null;
     Handler myhandler;
-    boolean Phost = false; // if this is host then Phost is ture; if not is false.
+    boolean Phost = false; // if this is host then phost is ture; if not is false.
     String message;
     ReceiveThreadHost receiveThreadHost;
     String ip;
@@ -97,6 +98,7 @@ public class Spielfeld extends AppCompatActivity {
     Intent intent = new Intent();
     NetworkUtilities util;
     NetworkStats stats = new NetworkStats();
+    GameUtilities game;
     int who_is_starting;
 
     /*******Networking*****/
@@ -105,9 +107,9 @@ public class Spielfeld extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         setContentView(R.layout.activity_gameplay);
 
+        game  = new GameUtilities(getApplicationContext());
         /****Networking****/
 
 
@@ -115,20 +117,20 @@ public class Spielfeld extends AppCompatActivity {
         player1_say = (EditText) findViewById(R.id.player1_say);
         System.out.println("Spielfeld");
         Phost = stats.isPhost();
-        System.out.println("Phost: "+ Phost);
-        who_is_starting= NetworkStats.getWho_is_starting();
-        System.out.println("Whoisstarting: "+who_is_starting);
+        System.out.println("phost: " + Phost);
+        who_is_starting = game.getWhoIsStarting();
+        System.out.println("Whoisstarting: " + who_is_starting);
         Net = stats.isNet();
-        System.out.println("Net: " + Net);
+        System.out.println("net: " + Net);
         if (Phost == false) {
             ip = stats.getIp();
             System.out.println("Ip: " + ip);
         }
 
 
-            myhandler = new Myhandler();
-            util = new NetworkUtilities(Phost, mAcceptThread, mServerSocket, socket, myhandler, receiveThreadHost, startThread, ip, receiveThreadClient);
-            util.networkbuild();
+        myhandler = new Myhandler();
+        util = new NetworkUtilities(Phost, mAcceptThread, mServerSocket, socket, myhandler, receiveThreadHost, startThread, ip, receiveThreadClient);
+        util.networkbuild();
 
         util.connection();
 
@@ -136,10 +138,10 @@ public class Spielfeld extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String info = player1_say.getText().toString();
-                if (Phost) { //If this is host, so use WriteHost to sand message.
-                    util.messageSend(info, Phost, true);
+                if (Phost) { //If this is host, so use writehost to sand message.
+                    util.messageSend(info, Phost);
                 } else {// Client.
-                    util.messageSend(info, Phost, true);
+                    util.messageSend(info, Phost);
                 }
             }
         });
@@ -163,14 +165,12 @@ public class Spielfeld extends AppCompatActivity {
                 ImageView background = (ImageView) findViewById(R.id.background_stars);
 
 
-                if (mLightQuantity >= 300) {
-
-                    background.setBackgroundResource(R.drawable.sky_bright);
-                } else {
-                    background.setBackgroundResource(R.drawable.sky_dark);
-
-                }
-
+                if (mLightQuantity >= 300)
+                    background.setBackgroundResource(R.drawable.amhellsten);
+                else if (mLightQuantity > 180 && mLightQuantity < 300)
+                    background.setBackgroundResource(R.drawable.dunkel);
+                else
+                    background.setBackgroundResource(R.drawable.amdunkelsten);
             }
 
             @Override
@@ -345,7 +345,7 @@ public class Spielfeld extends AppCompatActivity {
 
         amountShips = 3;
 
-        map1 = NetworkStats.getPlayerMap();
+        map1 = game.getPlayerMap();
 
         if (sendMap) {
             String sendField = "";
@@ -354,7 +354,7 @@ public class Spielfeld extends AppCompatActivity {
 
             map2 = new String[64];
             Arrays.fill(map2, "0");
-            util.messageSend("Map," + sendField, Phost, true);
+            util.messageSend("Map," + sendField, Phost);
             System.out.println("Send" + sendField);
         }
 
@@ -384,11 +384,11 @@ public class Spielfeld extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                 if (shoot) {
 
-                    util.messageSend("shoot," + position, Phost, true);
+                    util.messageSend("shoot," + position, Phost);
                     oneshoot = false;
                     sended = true;
 
-                    //   messageSend("map,"+position,Phost);
+                    //   messageSend("map,"+position,phost);
 
                     // Toast.makeText(getApplicationContext(), "Pos: " + position + " Id: ",
                     //       Toast.LENGTH_SHORT).show();
@@ -409,9 +409,9 @@ public class Spielfeld extends AppCompatActivity {
                     shoot = false;
                     dice = true;
                     System.out.println("Dice True");
-                    if (dice && dice2) {
+                    if (dice2) {
                         if (!Phost) {
-                            new CountDownTimer(500, 100) {
+                            new CountDownTimer(200, 100) {
                                 public void onTick(long millisUntilFinished) {
                                     System.out.print(millisUntilFinished);
                                 }
@@ -443,9 +443,9 @@ public class Spielfeld extends AppCompatActivity {
 
     public void start() {
         System.out.println("Spielfeld Value" + who_is_starting);
-        //Player begins
+        //Player beginns
         System.out.println("Shoot: " + shoot);
-        pointsPlayer += NetworkStats.getValue();
+        pointsPlayer += game.getDicescore();
         System.out.println("POints:" + pointsPlayer);
         if (who_is_starting == 0 && oneshoot) {
             shoot = true;
@@ -456,10 +456,10 @@ public class Spielfeld extends AppCompatActivity {
 
     public void dice() {
         intent.setClass(Spielfeld.this, Dice.class);
-        NetworkStats.setPlayerMap(map1);
-        NetworkStats.setEnemyMap(map2);
+        game.setPlayerMap(map1);
+        game.setEnemyMap(map2);
         stats.setMode(2);
-        System.out.println("Spielfeld Ende Value" + value);
+        System.out.println("Spielfeld ENde Value" + value);
         util.close();
         startActivity(intent);
     }
@@ -608,14 +608,14 @@ public class Spielfeld extends AppCompatActivity {
             case "h":
                 if (shipRotated == false) {
                     return !(failures_left.contains(position + 1) || !checkAvailability(position) || !checkAvailability(position + 1));
-                } else if (shipRotated == true) {
+                } else{
                     return !(position + 1 > 63 || !checkAvailability(position) || !checkAvailability(position + 8));
                 }
             case "i":
                 if (shipRotated == false) {
                     return !(failures_left.contains(position + 1) || failures_right.contains(position - 1)
                             || !checkAvailability(position) || !checkAvailability(position - 1) || !checkAvailability(position + 1));
-                } else if (shipRotated == true) {
+                } else{
                     return !(position - 8 < 0 || position + 8 > 63
                             || !checkAvailability(position) || !checkAvailability(position + 8) || !checkAvailability(position - 8));
                 }
@@ -628,7 +628,6 @@ public class Spielfeld extends AppCompatActivity {
 
     public boolean checkAvailability(int position) {
         //  if(map1[position].equals(posis)){ return true;} else {
-        //
 
         switch (map1[position]) {
             case "d":
@@ -669,7 +668,8 @@ public class Spielfeld extends AppCompatActivity {
                         public void onClick(DialogInterface dialog, int id) {
                             // CONFIRM
                             Intent intent = new Intent(Spielfeld.this, HighScore.class);
-                            intent.putExtra("highScore", highScore);
+                            game.setPoints(highScore);
+                            game.setHighscoreMain(true);
                             startActivity(intent);
                         }
                     })
@@ -686,7 +686,8 @@ public class Spielfeld extends AppCompatActivity {
                         public void onClick(DialogInterface dialog, int id) {
                             // CONFIRM
                             Intent intent = new Intent(Spielfeld.this, HighScore.class);
-                            intent.putExtra("highScore", highScore);
+                            game.setPoints(highScore);
+                            game.setHighscoreMain(true);
                             startActivity(intent);
                         }
                     })
@@ -742,7 +743,6 @@ public class Spielfeld extends AppCompatActivity {
 
         public void handleMessage(Message msg) {
 
-
             switch (msg.what) {
                 case 1:
                     message = (String) msg.obj;
@@ -770,7 +770,7 @@ public class Spielfeld extends AppCompatActivity {
 
                         map2 = map3;
                         draw(map2, gridView2);
-                        util.messageSend("Gotit,1", Phost, true);
+                        util.messageSend("Gotit,1", Phost);
                         System.out.println("Map" + mapMsg[1]);
 
                     }
@@ -799,7 +799,7 @@ public class Spielfeld extends AppCompatActivity {
 
                         map2 = new String[64];
                         Arrays.fill(map2, "0");
-                        util.messageSend("Map," + sendMap, Phost, true);
+                        util.messageSend("Map," + sendMap, Phost);
                         System.out.println("Send" + sendMap);
                     }
 

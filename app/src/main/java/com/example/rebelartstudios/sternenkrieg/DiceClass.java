@@ -1,6 +1,8 @@
 package com.example.rebelartstudios.sternenkrieg;
 
 
+import java.util.Random;
+
 /**
  * Created by Chris on 13.06.2017.
  */
@@ -11,13 +13,12 @@ public class DiceClass {
     private final int LOOSE = 1;
     private final int DEUCE = 2;
 
-
     public int roll() {
-        int value = (int) (Math.random() * 6 + 1);
-        return value;
+        Random r = new Random();
+        return r.nextInt(6)+1;
     }
 
-    public void changeDiceImage(int value) {
+    public static void changeDiceImage(int value) {
 
         switch (value) {
             case 1:
@@ -53,7 +54,9 @@ public class DiceClass {
         }
     }
 
-
+    public void closeDice() {
+//in produktion
+    }
 
 
 }

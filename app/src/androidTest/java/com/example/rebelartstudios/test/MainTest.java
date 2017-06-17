@@ -1,4 +1,4 @@
-package com.example.rebelartstudios.sternenkriegTest;
+package com.example.rebelartstudios.test;
 
 import android.support.test.filters.LargeTest;
 import android.support.test.rule.ActivityTestRule;
@@ -31,7 +31,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 @RunWith(AndroidJUnit4.class)
 public class MainTest {
     @Rule
-    public final ActivityTestRule<Main> main  = new ActivityTestRule<Main>(Main.class);
+    public final ActivityTestRule<Main> main  = new ActivityTestRule<>(Main.class);
 
 
 

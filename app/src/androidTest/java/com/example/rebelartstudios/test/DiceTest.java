@@ -1,14 +1,12 @@
-package com.example.rebelartstudios.sternenkriegTest;
+package com.example.rebelartstudios.test;
 
 
-import com.example.rebelartstudios.sternenkrieg.Dice;
 import com.example.rebelartstudios.sternenkrieg.DiceClass;
-import com.example.rebelartstudios.sternenkrieg.R;
 
 import org.junit.Test;
 
-import static com.example.rebelartstudios.sternenkrieg.Dice.imageDice;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Created by christianbauer on 24/05/2017.
@@ -53,6 +51,7 @@ public class DiceTest {
         assertTrue(six);
         assertTrue(other);
     }
+
 
     @Test
     public void whoisStarting(){
