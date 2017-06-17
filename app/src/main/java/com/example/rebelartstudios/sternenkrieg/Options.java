@@ -3,6 +3,7 @@ package com.example.rebelartstudios.sternenkrieg;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.media.MediaPlayer;
@@ -31,6 +32,7 @@ public class Options extends AppCompatActivity {
     TextView textViewName;
     Button playSoundBtn;
     Button name;
+    Button hackBtn;
 
     Spinner spinnerLanguage;
 
@@ -138,6 +140,13 @@ public class Options extends AppCompatActivity {
 
         });
 
+        hackBtn = (Button) findViewById(R.id.hackBTN);
+        hackBtn.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v){
+                Intent intent = new Intent(Options.this, Map.class);
+                startActivity(intent);
+            }
+        });
     }
 
     public void generateName() {

@@ -1,6 +1,7 @@
 package com.example.rebelartstudios.sternenkrieg;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.media.MediaPlayer;
@@ -13,6 +14,7 @@ import android.widget.Button;
 public class About extends AppCompatActivity {
 
     Button testSoundBtn;
+    Button hackBtn;
 
     SharedPreferences sharedPreferences;
 
@@ -36,6 +38,8 @@ public class About extends AppCompatActivity {
                 }
             }
         });
+
+
 
     }
 }
