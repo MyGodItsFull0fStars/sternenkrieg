@@ -6,7 +6,6 @@ import android.support.test.InstrumentationRegistry;
 
 import com.example.rebelartstudios.sternenkrieg.GameLogic.GameUtilities;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -37,18 +36,6 @@ public class GameUtilitiesTest {
         game = new GameUtilities(instrumentationCtx);
         pref = instrumentationCtx.getSharedPreferences("pref", Context.MODE_PRIVATE);
         editor = pref.edit();
-    }
-
-    @After
-    public void after() throws Exception {
-    }
-
-    /**
-     * Method: onDestroy()
-     */
-    @Test
-    public void testOnDestroy() throws Exception {
-//TODO: Test goes here... 
     }
 
     /**

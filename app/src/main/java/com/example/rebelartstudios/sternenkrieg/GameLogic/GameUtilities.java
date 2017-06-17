@@ -26,13 +26,13 @@ public class GameUtilities {
     private static int scoreforlevel;
     private static Context context;
 
-    SharedPreferences sharedPreferences;
-    SharedPreferences.Editor editor;
+    static SharedPreferences sharedPreferences;
+    static SharedPreferences.Editor editor;
 
     public GameUtilities(Context context) {
-        sharedPreferences = context.getSharedPreferences("pref", Context.MODE_PRIVATE);
-        editor = sharedPreferences.edit();
-        this.context = context;
+        GameUtilities.sharedPreferences = context.getSharedPreferences("pref", Context.MODE_PRIVATE);
+        GameUtilities.editor = sharedPreferences.edit();
+        GameUtilities.context = context;
     }
 
     public void onDestroy() {
@@ -93,59 +93,59 @@ public class GameUtilities {
     }
 
 
-    public static int getScoreforlevel() {
+    public int getScoreforlevel() {
         return scoreforlevel;
     }
 
-    public void setScoreforlevel(int scoreforlevel) {
-        this.scoreforlevel = scoreforlevel;
+    public static void setScoreforlevel(int scoreforlevel) {
+        GameUtilities.scoreforlevel = scoreforlevel;
         editor.putInt("score", scoreforlevel);
         editor.commit();
     }
 
-    public static boolean isHighscoreMain() {
+    public boolean isHighscoreMain() {
         return highscoreMain;
     }
 
-    public void setHighscoreMain(boolean highscoreMain) {
-        this.highscoreMain = highscoreMain;
+    public static void setHighscoreMain(boolean highscoreMain) {
+        GameUtilities.highscoreMain = highscoreMain;
     }
 
-    public static boolean isSound() {
+    public boolean isSound() {
         return sound;
     }
 
-    public void setSound(boolean sound) {
-        this.sound = sound;
+    public static void setSound(boolean sound) {
+        GameUtilities.sound = sound;
     }
 
-    public static int getPercent() {
+    public int getPercent() {
         return percent;
     }
 
-    public void setPercent(int percent) {
-        this.percent = percent;
+    public static void setPercent(int percent) {
+        GameUtilities.percent = percent;
         editor.putInt("percent", percent);
         editor.commit();
     }
 
 
-    public static String getUsername() {
+    public String getUsername() {
         return username;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public static void setUsername(String username) {
+        GameUtilities.username = username;
         editor.putString("username", username);
         editor.commit();
     }
 
-    public static int getLevel() {
+    public int getLevel() {
         return level;
     }
 
-    public void setLevel(int level) {
-        this.level = level;
+    public static void setLevel(int level) {
+        GameUtilities.level = level;
         editor.putInt("level", level);
         editor.commit();
     }

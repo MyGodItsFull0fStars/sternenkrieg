@@ -81,7 +81,7 @@ public class Dice extends AppCompatActivity {
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 
-        imageDice = (ImageView) findViewById(R.id.imageDice);
+        Dice.imageDice = (ImageView) findViewById(R.id.imageDice);
         textscore = (TextView) findViewById(R.id.text_score);
         textscoreenemy = (TextView) findViewById(R.id.text_enemy_score);
         game = new GameUtilities(getApplicationContext());
