@@ -54,6 +54,10 @@ public class PlayerFieldShipContainer {
         }
     }
 
+    public boolean playerFieldPositionContainsString(int position, String input){
+        return input.equals(playerFieldLogic.getPlayerField()[position]);
+    }
+
     public ShipLogic getShipLogic() {
         return shipLogic;
     }
@@ -63,11 +67,7 @@ public class PlayerFieldShipContainer {
     }
 
     public boolean inRange(int position, int start, int end) {
-        if (position >= start && position <= end) {
-            return true;
-        } else {
-            return false;
-        }
+        return position >= start && position <= end;
     }
 
     public boolean checkPosition(int position, int whichShip, int degree) {
@@ -135,61 +135,5 @@ public class PlayerFieldShipContainer {
                 || input.equals(playerFieldLogic.playerField[position]);
     }
 
-    /*public boolean check_position(int pos, int size, int degree) {
-
-
-		//linkes und rechtes Ende der Map
-		if (degree == 180 || degree == 0) {
-			if (size == 1) {
-				if (failures_right.contains(pos - 1) || failures_left.contains(pos) || pos < 1 || pos > 62) {
-					return false;
-				}
-			} else if (size == 2) {
-				if (failures_right.contains(pos - 1) || failures_right.contains(pos) || failures_left.contains(pos) || pos < 1 || pos > 62) {
-					return false;
-				}
-			}
-		}
-		//Oben und Unten
-
-		if (degree == 90 || degree == 270) {
-			if (size == 1) {
-				if (pos < 8 || pos > 63) {
-					return false;
-				}
-			} else if (size == 2) {
-				if (pos < 8 || pos > 55) {
-					return false;
-				}
-			}
-		}
-
-		if (which_ship == shipLogic.BIG_SHIP_ID) {
-			if (degree == fieldValues.HORIZONTAL) {
-				if (playerFieldLogic.playerField[pos - 1].equals(fieldValues.SETFIELDPOSITION_D) || playerFieldLogic.playerField[pos].equals(fieldValues.SETFIELDPOSITION_D) || playerFieldLogic.playerField[pos + 1].equals(fieldValues.SETFIELDPOSITION_D)
-						|| playerFieldLogic.playerField[pos - 1].equals(fieldValues.SETPLAYERPOSITION_E) || playerFieldLogic.playerField[pos].equals(fieldValues.SETPLAYERPOSITION_E) || playerFieldLogic.playerField[pos + 1].equals(fieldValues.SETPLAYERPOSITION_E)) {
-					return false;
-				}
-			} else {
-				if (playerFieldLogic.playerField[pos - 8].equals(fieldValues.SETFIELDPOSITION_D) || playerFieldLogic.playerField[pos].equals(fieldValues.SETFIELDPOSITION_D) || playerFieldLogic.playerField[pos + 8].equals(fieldValues.SETFIELDPOSITION_D)
-						|| playerFieldLogic.playerField[pos - 8].equals(fieldValues.SETPLAYERPOSITION_E) || playerFieldLogic.playerField[pos].equals(fieldValues.SETPLAYERPOSITION_E) || playerFieldLogic.playerField[pos + 8].equals(fieldValues.SETPLAYERPOSITION_E)) {
-					return false;
-				}
-			}
-		} else if (which_ship == shipLogic.MIDDLE_SHIP_ID) {
-			if (degree == fieldValues.HORIZONTAL) {
-				if (playerFieldLogic.playerField[pos - 1].equals(fieldValues.SETFIELDPOSITION_D) || playerFieldLogic.playerField[pos].equals(fieldValues.SETFIELDPOSITION_D)
-						|| playerFieldLogic.playerField[pos - 1].equals(fieldValues.SETFIELDPOSITION_F) || playerFieldLogic.playerField[pos].equals(fieldValues.SETFIELDPOSITION_F)) {
-					return false;
-				}
-			} else {
-				if (playerFieldLogic.playerField[pos - 8].equals(fieldValues.SETFIELDPOSITION_D) || playerFieldLogic.playerField[pos].equals(fieldValues.SETFIELDPOSITION_D)
-						|| playerFieldLogic.playerField[pos - 8].equals(fieldValues.SETFIELDPOSITION_F) || playerFieldLogic.playerField[pos].equals(fieldValues.SETFIELDPOSITION_F)) {
-					return false;
-				}
-			}
-		}
-		return true;
-	}*/
 
 }
