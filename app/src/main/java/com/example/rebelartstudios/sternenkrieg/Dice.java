@@ -15,17 +15,22 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
+import android.view.animation.ScaleAnimation;
+import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.rebelartstudios.sternenkrieg.GameLogic.GameUtilities;
 import com.example.rebelartstudios.sternenkrieg.GameLogic.NetworkStats;
-import com.example.rebelartstudios.sternenkrieg.Network.AcceptThread;
-import com.example.rebelartstudios.sternenkrieg.Network.NetworkUtilities;
-import com.example.rebelartstudios.sternenkrieg.Network.ReceiveThreadClient;
-import com.example.rebelartstudios.sternenkrieg.Network.ReceiveThreadHost;
-import com.example.rebelartstudios.sternenkrieg.Network.StartThread;
+import com.example.rebelartstudios.sternenkrieg.network.AcceptThread;
+import com.example.rebelartstudios.sternenkrieg.network.NetworkUtilities;
+import com.example.rebelartstudios.sternenkrieg.network.ReceiveThreadClient;
+import com.example.rebelartstudios.sternenkrieg.network.ReceiveThreadHost;
+import com.example.rebelartstudios.sternenkrieg.network.StartThread;
 
 import java.io.OutputStream;
 import java.net.ServerSocket;
@@ -69,6 +74,9 @@ public class Dice extends AppCompatActivity {
     boolean sended = false;
     boolean came = false;
     Intent intent = new Intent();
+    ProgressBar prog1;
+    ImageView dicegoto;
+    static ImageView diceenemy;
 
 
     /********************Netz**************************/
@@ -82,6 +90,14 @@ public class Dice extends AppCompatActivity {
         mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 
         Dice.imageDice = (ImageView) findViewById(R.id.imageDice);
+        dicegoto =(ImageView) findViewById(R.id.dicegoto);
+        dicegoto.setVisibility(View.INVISIBLE);
+        diceenemy = (ImageView) findViewById(R.id.diceenemy);
+        diceenemy.setVisibility(View.INVISIBLE);
+
+        prog1 = (ProgressBar) findViewById(R.id.progressBar);
+        prog1.setVisibility(View.INVISIBLE);
+
         textscore = (TextView) findViewById(R.id.text_score);
         textscoreenemy = (TextView) findViewById(R.id.text_enemy_score);
         game = new GameUtilities(getApplicationContext());
@@ -148,12 +164,23 @@ public class Dice extends AppCompatActivity {
     public void shake() {
         switch (mode) {
             case 1:
-                textscore.setText("You got:" + value + " Waiting for enemy");
+                textscore.setText("You got:" + value);
+                new CountDownTimer(200, 100) {
+                    public void onTick(long millisUntilFinished) {
+                        System.out.print(millisUntilFinished);
+                    }
+
+                    @Override
+                    public void onFinish() {
+                        animation();
+                    }
+
+                }.start();
                 break;
 
             case 2:
                 value += game.getDicescore();
-                textscore.setText("You got:" + value + " Waiting for enemy");
+                textscore.setText("You got:" + value);
                 game.setDicescore(value);
                 break;
 
@@ -164,6 +191,23 @@ public class Dice extends AppCompatActivity {
         diceClass.changeDiceImage(value);
         sended = true;
         sollfinish();
+
+    }
+
+    public void animation(){
+        Animation scale = new ScaleAnimation(imageDice.getScaleX(),imageDice.getScaleX()/2, imageDice.getScaleY(),imageDice.getScaleY()/2, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+// 1 second duration
+        scale.setDuration(1000);
+        TranslateAnimation slideUp = new TranslateAnimation(-dicegoto.getX(),-imageDice.getX(),0,0);
+        slideUp.setDuration(1000);
+// Animation set to join both scaling and moving
+        AnimationSet animSet = new AnimationSet(true);
+        animSet.setFillEnabled(true);
+        animSet.addAnimation(scale);
+        animSet.addAnimation(slideUp);
+// Launching animation set
+        imageDice.startAnimation(animSet);
+        animSet.setFillAfter(true);
 
     }
 
@@ -187,7 +231,12 @@ public class Dice extends AppCompatActivity {
     }
 
     private void sollfinish() {
+        if(!came) {
+            prog1.setVisibility(View.VISIBLE);
+            textscoreenemy.setText("Waiting for Enemy");
+        }
         if (sended && came) {
+            diceClass.changeDiceImageEnemy(gegnervalue);
             onFinish();
         }
     }

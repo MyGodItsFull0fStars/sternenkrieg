@@ -7,8 +7,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 
-import com.example.rebelartstudios.sternenkrieg.Network.Client1;
-import com.example.rebelartstudios.sternenkrieg.Network.Host;
+import com.example.rebelartstudios.sternenkrieg.network.Client1;
+import com.example.rebelartstudios.sternenkrieg.network.Host;
 
 /**
  * Created by wenboda on 2017/5/1.

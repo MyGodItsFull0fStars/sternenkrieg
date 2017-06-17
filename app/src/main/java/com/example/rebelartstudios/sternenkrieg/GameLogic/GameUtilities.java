@@ -24,7 +24,6 @@ public class GameUtilities {
     private static int whoIsStarting;
     private static boolean highscoreMain;
     private static int scoreforlevel;
-    private static Context context;
 
     static SharedPreferences sharedPreferences;
     static SharedPreferences.Editor editor;
@@ -32,7 +31,6 @@ public class GameUtilities {
     public GameUtilities(Context context) {
         GameUtilities.sharedPreferences = context.getSharedPreferences("pref", Context.MODE_PRIVATE);
         GameUtilities.editor = sharedPreferences.edit();
-        GameUtilities.context = context;
     }
 
     public void onDestroy() {
@@ -48,11 +46,11 @@ public class GameUtilities {
     }
 
     public void level() {
-        scoreforlevel = sharedPreferences.getInt("score", 0) + points;
+        GameUtilities.scoreforlevel = sharedPreferences.getInt("score", 0) + points;
         int levelgrenze = (1000 + 400 * (level - 1)) * level;
 
         if (scoreforlevel >= levelgrenze) {
-            scoreforlevel -= levelgrenze;
+            GameUtilities.scoreforlevel -= levelgrenze;
             setLevel(level + 1);
 
         }

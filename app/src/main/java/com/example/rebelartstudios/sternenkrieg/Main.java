@@ -190,7 +190,7 @@ public class Main extends AppCompatActivity {
                 //Intent intent = new Intent(Main.this, HighScore.class);
                 //intent.putExtra("onlyhighscore", false);
                 Intent intent = new Intent(Main.this, HighScore.class);
-                game.setHighscoreMain(true);
+                game.setHighscoreMain(false);
                 startActivity(intent);
             }
         });

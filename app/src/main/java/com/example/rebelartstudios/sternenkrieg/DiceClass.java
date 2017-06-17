@@ -43,6 +43,31 @@ public class DiceClass {
                 break;
         }
     }
+    public static void changeDiceImageEnemy(int value) {
+
+        switch (value) {
+            case 1:
+                Dice.diceenemy.setImageResource(R.drawable.one);
+                break;
+            case 2:
+                Dice.diceenemy.setImageResource(R.drawable.two);
+                break;
+            case 3:
+                Dice.diceenemy.setImageResource(R.drawable.three);
+                break;
+            case 4:
+                Dice.diceenemy.setImageResource(R.drawable.four);
+                break;
+            case 5:
+                Dice.diceenemy.setImageResource(R.drawable.five);
+                break;
+            case 6:
+                Dice.diceenemy.setImageResource(R.drawable.six);
+                break;
+            default:
+                break;
+        }
+    }
 
     public int whoIsStarting(int playerSelf, int playerEnemy) {
         if (playerSelf > playerEnemy) {      // Player starts

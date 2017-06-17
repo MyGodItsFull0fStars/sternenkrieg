@@ -38,7 +38,6 @@ public class HighScore extends AppCompatActivity {
 
         listHighScore.setBackgroundColor(Color.WHITE);
         game = new GameUtilities(getApplicationContext());
-        game.setPoints(600);
         if (game.isHighscoreMain()) {
             game.level();
             game.setHighscore();

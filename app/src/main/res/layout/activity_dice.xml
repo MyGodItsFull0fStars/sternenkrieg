@@ -5,17 +5,20 @@
     android:id="@+id/activity_dice"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/dicebackground"
     tools:context="com.example.rebelartstudios.sternenkrieg.Dice">
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="31dp"
+        android:layout_marginRight="148dp"
+        android:layout_marginTop="28dp"
         android:text="Shake Smartphone"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginRight="237dp"
-        app:layout_constraintRight_toRightOf="parent" />
+        android:textColor="@android:color/white"
+        android:textSize="35sp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/imageDice"
@@ -31,18 +34,21 @@
         android:id="@+id/text_score"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginLeft="8dp"
+        android:textColor="@android:color/white"
+        app:layout_constraintHorizontal_bias="0.065"
+        app:layout_constraintLeft_toRightOf="@+id/dicegoto"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageDice" />
+        tools:layout_editor_absoluteY="128dp" />
 
     <TextView
         android:id="@+id/text_enemy_score"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginLeft="35dp"
+        android:layout_marginTop="81dp"
+        android:textColor="@android:color/white"
+        app:layout_constraintLeft_toRightOf="@+id/diceenemy"
         app:layout_constraintTop_toBottomOf="@+id/text_score" />
 
     <Button
@@ -62,5 +68,39 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_enemy_score" />
+
+    <ProgressBar
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="68dp"
+        android:layout_height="68dp"
+        android:id="@+id/progressBar"
+        android:progressDrawable="@drawable/circular_progress_bar"
+        android:layout_alignRight="@+id/textView"
+        android:layout_alignEnd="@+id/textView"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="40dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="202dp" />
+
+    <ImageView
+        android:id="@+id/diceenemy"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:layout_marginLeft="38dp"
+        android:layout_marginTop="200dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/dice3d" />
+
+    <ImageView
+        android:id="@+id/dicegoto"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginTop="104dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/dice3d" />
 
 </android.support.constraint.ConstraintLayout>

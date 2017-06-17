@@ -1,4 +1,4 @@
-package com.example.rebelartstudios.sternenkrieg.Network;
+package com.example.rebelartstudios.sternenkrieg.network;
 
 import android.os.Handler;
 import android.os.Message;
@@ -62,6 +62,9 @@ public class ReceiveThreadHost extends Thread {
                     read = br.readLine();
 
 
+            } catch (IOException e) {
+                Log.e(tag, "IOException in AcceptThreadHost: " + e.toString());
+                throw new RuntimeException(e);
             } catch (NullPointerException e) {
                 running = false;
                 Message msg2 = mHandler.obtainMessage();
@@ -70,9 +73,6 @@ public class ReceiveThreadHost extends Thread {
                 Log.e(tag, "NullpointerException in AcceptThreadHost: " + e.toString());
                 throw new RuntimeException(e);
 
-            }catch (IOException e) {
-                Log.e(tag, "IOException in AcceptThreadHost: " + e.toString());
-                throw new RuntimeException(e);
             }
 
             try {
