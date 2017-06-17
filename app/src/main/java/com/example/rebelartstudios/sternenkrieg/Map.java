@@ -43,7 +43,6 @@ public class Map extends AppCompatActivity {
     int width;
     int height;
     int which_ship;
-    boolean smallShipIsSetOnField, middleShipIsSetOnField, bigShipIsSetOnField = false;
     MapLoad mapLoad;
 
     Socket socket = new Socket();
@@ -65,10 +64,8 @@ public class Map extends AppCompatActivity {
     NetworkUtilities util;
     NetworkStats stats = new NetworkStats();
 
-    //ShipLogic shipLogic;
     PlayerFieldPositionString fieldValues = new PlayerFieldPositionString();
     int degree = fieldValues.HORIZONTAL;
-    //PlayerFieldLogic playerFieldLogic;
     PlayerFieldShipContainer playerFieldShipContainer;
 
     public void initializeMap() {
@@ -76,9 +73,7 @@ public class Map extends AppCompatActivity {
     }
 
     private void initializeLogicClasses() {
-//        shipLogic = new ShipLogic();
-//        shipLogic.shipsOnFieldInitialize();
-//        playerFieldLogic = new PlayerFieldLogic();
+
         playerFieldShipContainer = new PlayerFieldShipContainer();
         playerFieldShipContainer.getShipLogic().shipsOnFieldInitialize();
     }
@@ -145,9 +140,6 @@ public class Map extends AppCompatActivity {
 
                 Toast.makeText(getApplicationContext(), "Pos: " + position + " Id: ",
                         Toast.LENGTH_SHORT).show();
-               /* playerField[position] = 1 + "";
-                draw(playerField);*/
-
 
             }
         });
@@ -173,81 +165,32 @@ public class Map extends AppCompatActivity {
 
                         //kleines Schiff
                         if (which_ship == playerFieldShipContainer.getShipLogic().SMALL_SHIP_ID) {
-                            if (!playerFieldShipContainer.playerFieldPositionContainsString(position, fieldValues.SETFIELDPOSITION_D) &&
+                            if (!playerFieldShipContainer.playerFieldPositionContainsString(position, fieldValues.SETFIELDPOSITION_D) ||
                                     !playerFieldShipContainer.playerFieldPositionContainsString(position, fieldValues.SETFIELDPOSITION_F)
                                     ) {
-                                //falls schon mal gesetzt wird die letzte Position gelöscht
-                                //delete(shipLogic.getSmallShipArray());
+
                                 delete(playerFieldShipContainer.getShipLogic().getSmallShipArray());
                                 //neue Position gesetzt
-                                //playerFieldLogic.setPFSmallShipPosition(position, fieldValues.SETFIELDPOSITION_D);
-                                //shipLogic.setSmallShipPosition(position);
-                                //shipLogic.setSmallShipIsSetOnField(true);
                                 playerFieldShipContainer.setSmallShipContainer(position, fieldValues.SETFIELDPOSITION_D);
                                 playerFieldShipContainer.getShipLogic().setSmallShipIsSetOnField(true);
                             }
-                            smallShipIsSetOnField = true;
                         }
 
                         //mittleres Schiff
                         if (which_ship == playerFieldShipContainer.getShipLogic().MIDDLE_SHIP_ID &&
                                 playerFieldShipContainer.checkPosition(position, which_ship, degree)) {
-                            //if (degree == fieldValues.HORIZONTAL) {
-                            //check_position schaut dass das schiff nicht außerhalb der playerField oder vom rechten ende der playerField auf die linke seite gesetzt wird
-                            //if (playerFieldShipContainer.checkPosition(position, which_ship, degree)) {
-                                //   check_position(position, which_ship, degree)) {
-                                // delete(shipLogic.getMiddleShipArray());
-                                delete(playerFieldShipContainer.getShipLogic().getMiddleShipArray());
-                                // pos-1 weil wenn man das Bild bewegt ist der Zeiger genau mittig vom Bild
-                                //playerFieldLogic.setPFMiddleShipPosition(position, degree, fieldValues.SETPLAYERPOSITION_E);
-                                //shipLogic.setMiddleShipPosition(position, degree);
-                                //shipLogic.setMiddleShipIsSetOnField(true);
-                                playerFieldShipContainer.setMiddleShipContainer(position, degree, fieldValues.SETPLAYERPOSITION_E);
-                                playerFieldShipContainer.getShipLogic().setMiddleShipIsSetOnField(true);
-                            //}
-                            //} else if (degree == fieldValues.VERTICAL) {
-//                                if (check_position(position, which_ship, degree)) {
-//                                    delete(shipLogic.getMiddleShipArray());
-//                                    // playerField[position - 8] = setPlayerPositionE;
-//                                    // playerField[position] = setPlayerPositionE;
-//                                    playerFieldLogic.setPFMiddleShipPosition(position, degree, fieldValues.SETPLAYERPOSITION_E);
-//                                    shipLogic.setMiddleShipPosition(position, degree);
-//                                    shipLogic.setMiddleShipIsSetOnField(true);
-//                                }
 
-                            //}
-                            middleShipIsSetOnField = true;
-
+                            delete(playerFieldShipContainer.getShipLogic().getMiddleShipArray());
+                            playerFieldShipContainer.setMiddleShipContainer(position, degree, fieldValues.SETPLAYERPOSITION_E);
+                            playerFieldShipContainer.getShipLogic().setMiddleShipIsSetOnField(true);
                         }
                         //großes Schiff
                         if (which_ship == playerFieldShipContainer.getShipLogic().BIG_SHIP_ID &&
                                 playerFieldShipContainer.checkPosition(position, which_ship, degree)) {
-//                            if (degree == fieldValues.HORIZONTAL) {
-
-                            //    check_position(position, which_ship, degree)) {
-                            // delete(shipLogic.getBigShipArray());
                             delete(playerFieldShipContainer.getShipLogic().getBigShipArray());
 
-                            // pos-1 weil wenn man das Bild bewegt ist der Zeiger genau mittig vom Bild
-                            //playerFieldLogic.setPFBigShipPosition(position, degree, fieldValues.SETFIELDPOSITION_F);
-                            //shipLogic.setBigShipPosition(position, degree);
-                            // shipLogic.setBigShipIsSetOnField(true);
                             playerFieldShipContainer.setBigShipContainer(position, degree, fieldValues.SETFIELDPOSITION_F);
                             playerFieldShipContainer.getShipLogic().setBigShipIsSetOnField(true);
-
-                            //} else if (degree == fieldValues.VERTICAL) {
-//                            if (check_position(position, which_ship, degree)) {
-//                                delete(shipLogic.getBigShipArray());
-//                                // playerField[position - 8] = setPlayerPositionF;
-//                                // playerField[position] = setPlayerPositionF;
-//                                // playerField[position + 8] = setPlayerPositionF;
-//                                playerFieldLogic.setPFBigShipPosition(position, degree, fieldValues.SETFIELDPOSITION_F);
-//                                shipLogic.setBigShipPosition(position, degree);
-//                                shipLogic.setBigShipIsSetOnField(true);
-//                            }
-                            //}
-                            bigShipIsSetOnField = true;
-
                         }
 
                         draw(playerFieldShipContainer.getPlayerFieldLogic().getPlayerField());
@@ -331,67 +274,6 @@ public class Map extends AppCompatActivity {
         ship3.setVisibility(View.VISIBLE);
     }
 
-    //schaut das das Schiff nicht über die Map hinaus gesetzt wird
-//    public boolean check_position(int pos, int size, int degree) {
-//        ArrayList<Integer> failures_right = new ArrayList<Integer>(Arrays.asList(7, 15, 23, 31, 39, 47, 55, 63));
-//        ArrayList<Integer> failures_left = new ArrayList<>(Arrays.asList(8, 16, 24, 32, 40, 48, 56));
-//
-//        //linkes und rechtes Ende der Map
-//        if (degree == 180 || degree == 0) {
-//            if (size == 1) {
-//                if (failures_right.contains(pos - 1) || failures_left.contains(pos) || pos < 1 || pos > 62) {
-//                    return false;
-//                }
-//            } else if (size == 2) {
-//                if (failures_right.contains(pos - 1) || failures_right.contains(pos) || failures_left.contains(pos) || pos < 1 || pos > 62) {
-//                    return false;
-//                }
-//            }
-//        }
-//        //Oben und Unten
-//        // TODO: 15/06/2017 can't be reached at the moment
-//        if (degree == 90 || degree == 270) {
-//            if (size == 1) {
-//                if (pos < 8 || pos > 63) {
-//                    return false;
-//                }
-//            } else if (size == 2) {
-//                if (pos < 8 || pos > 55) {
-//                    return false;
-//                }
-//            }
-//        }
-//
-//        // TODO: 16/06/2017 Add to the container class of ShipLogic and PlayerFieldLogic
-//        if (which_ship == shipLogic.BIG_SHIP_ID) {
-//            if (degree == fieldValues.HORIZONTAL) {
-//                if (playerFieldLogic.playerField[pos - 1].equals(fieldValues.SETFIELDPOSITION_D) || playerFieldLogic.playerField[pos].equals(fieldValues.SETFIELDPOSITION_D) || playerFieldLogic.playerField[pos + 1].equals(fieldValues.SETFIELDPOSITION_D)
-//                        || playerFieldLogic.playerField[pos - 1].equals(fieldValues.SETPLAYERPOSITION_E) || playerFieldLogic.playerField[pos].equals(fieldValues.SETPLAYERPOSITION_E) || playerFieldLogic.playerField[pos + 1].equals(fieldValues.SETPLAYERPOSITION_E)) {
-//                    return false;
-//                }
-//            } else {
-//                if (playerFieldLogic.playerField[pos - 8].equals(fieldValues.SETFIELDPOSITION_D) || playerFieldLogic.playerField[pos].equals(fieldValues.SETFIELDPOSITION_D) || playerFieldLogic.playerField[pos + 8].equals(fieldValues.SETFIELDPOSITION_D)
-//                        || playerFieldLogic.playerField[pos - 8].equals(fieldValues.SETPLAYERPOSITION_E) || playerFieldLogic.playerField[pos].equals(fieldValues.SETPLAYERPOSITION_E) || playerFieldLogic.playerField[pos + 8].equals(fieldValues.SETPLAYERPOSITION_E)) {
-//                    return false;
-//                }
-//            }
-//        } else if (which_ship == shipLogic.MIDDLE_SHIP_ID) {
-//            if (degree == fieldValues.HORIZONTAL) {
-//                if (playerFieldLogic.playerField[pos - 1].equals(fieldValues.SETFIELDPOSITION_D) || playerFieldLogic.playerField[pos].equals(fieldValues.SETFIELDPOSITION_D)
-//                        || playerFieldLogic.playerField[pos - 1].equals(fieldValues.SETFIELDPOSITION_F) || playerFieldLogic.playerField[pos].equals(fieldValues.SETFIELDPOSITION_F)) {
-//                    return false;
-//                }
-//            } else {
-//                if (playerFieldLogic.playerField[pos - 8].equals(fieldValues.SETFIELDPOSITION_D) || playerFieldLogic.playerField[pos].equals(fieldValues.SETFIELDPOSITION_D)
-//                        || playerFieldLogic.playerField[pos - 8].equals(fieldValues.SETFIELDPOSITION_F) || playerFieldLogic.playerField[pos].equals(fieldValues.SETFIELDPOSITION_F)) {
-//                    return false;
-//                }
-//            }
-//        }
-//        return true;
-//    }
-
-
     /**
      * Initializes the ImageViews in the maps activity class when starting the
      * onCreate() method
@@ -431,8 +313,8 @@ public class Map extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                if (playerFieldShipContainer.getShipLogic().allShipsSetOnPlayerField()){
-                       // smallShipIsSetOnField && middleShipIsSetOnField && bigShipIsSetOnField) {
+                if (playerFieldShipContainer.getShipLogic().allShipsSetOnPlayerField()) {
+                    // smallShipIsSetOnField && middleShipIsSetOnField && bigShipIsSetOnField) {
 
                     intent.setClass(Map.this, Spielfeld.class);
                     NetworkStats.setPlayerMap(playerFieldShipContainer.getPlayerFieldLogic().getPlayerField());
@@ -499,13 +381,6 @@ public class Map extends AppCompatActivity {
     // TODO: 16/06/2017 Refactor to Container class and only call method from container and draw() method
     public void delete(int shipArray[]) {
         playerFieldShipContainer.delete(shipArray);
-//        if (data != null) {
-//            for (int x : data) {
-//                playerFieldLogic.playerField[x] = fieldValues.SETFIELDPOSITION_ZERO;
-//            }
-//        }
-
-       // draw(playerFieldLogic.playerField);
         draw(playerFieldShipContainer.getPlayerFieldLogic().getPlayerField());
     }
 
@@ -571,7 +446,6 @@ public class Map extends AppCompatActivity {
     private void displayToast(String s) {
         Toast.makeText(this, s, Toast.LENGTH_SHORT).show();
     }
-
 
 }
 
