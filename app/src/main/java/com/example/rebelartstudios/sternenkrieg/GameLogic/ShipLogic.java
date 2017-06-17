@@ -48,6 +48,9 @@ public class ShipLogic {
 	 * @param big_ship    int array for big ship
 	 */
 	public ShipLogic(int[] small_ship, int[] middle_ship, int[] big_ship) {
+		if (small_ship == null || middle_ship == null || big_ship == null){
+			throw new IllegalArgumentException("IllegalArgumentException at ShipLogic constructor");
+		}
 		setSmallShipArray(small_ship);
 		setMiddleShipArray(middle_ship);
 		setBigShipArray(big_ship);
@@ -57,9 +60,9 @@ public class ShipLogic {
 	 * Standard constructor with initialization of the ship arrays
 	 */
 	public ShipLogic() {
-		small_ship = new int[SMALL_SHIP_SIZE];
-		middle_ship = new int[MIDDLE_SHIP_SIZE];
-		big_ship = new int[BIG_SHIP_SIZE];
+		setSmallShipArray(new int[SMALL_SHIP_SIZE]);
+		setMiddleShipArray(new int[MIDDLE_SHIP_SIZE]);
+		setBigShipArray(new int[BIG_SHIP_SIZE]);
 	}
 
 
