@@ -1,4 +1,4 @@
-package com.example.rebelartstudios.sternenkrieg.network;
+package com.example.rebelartstudios.sternenkrieg.Network;
 
 import android.content.Context;
 import android.content.Intent;
@@ -188,7 +188,7 @@ public class Host extends AppCompatActivity {
                     socket = mAcceptThread.getSocket();
 
                     String info = et.getText().toString();
-                    writehost wh = new writehost(socket, os, info);
+                    WriteHost wh = new WriteHost(socket, os, info);
 
                     wh.start();
 
@@ -211,7 +211,7 @@ public class Host extends AppCompatActivity {
                 public void onClick(View v) {
                     String info = "//Starten";
                     socket = mAcceptThread.getSocket();
-                    writehost writeHost = new writehost(socket, os, info);
+                    WriteHost writeHost = new WriteHost(socket, os, info);
                     writeHost.start();
                     Intent intentD = new Intent(Host.this, Dice.class);
                     ifstart = false;
@@ -241,7 +241,7 @@ public class Host extends AppCompatActivity {
 
         String info = "//exit";
         socket = mAcceptThread.getSocket();
-        writehost writeHost = new writehost(socket,os,info);
+        WriteHost writeHost = new WriteHost(socket,os,info);
         writeHost.start();
 
         close();

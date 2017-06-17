@@ -1,4 +1,4 @@
-package com.example.rebelartstudios.sternenkrieg.network;
+package com.example.rebelartstudios.sternenkrieg.Network;
 
 import android.util.Log;
 
@@ -10,14 +10,14 @@ import java.net.Socket;
  * Created by wenboda on 2017/5/20.
  */
 
-public class writehost extends Thread {
+public class WriteHost extends Thread {
 
     Socket socket;
     OutputStream os = null;
     String info;
     String tag = "host";
 
-    public writehost(Socket socket, OutputStream os, String info){
+    public WriteHost(Socket socket, OutputStream os, String info){
         this.socket = socket;
         this.os = os;
         this. info = info;
@@ -34,9 +34,9 @@ public class writehost extends Thread {
             os.flush();
 
         } catch (IOException e) {
-            Log.e(tag, "IOException in writehost: " + e.toString());
+            Log.e(tag, "IOException in WriteHost: " + e.toString());
         } catch (NullPointerException e) {
-            Log.e(tag, "NUllException in writehost: " + e.toString());
+            Log.e(tag, "NUllException in WriteHost: " + e.toString());
         }
     }
 

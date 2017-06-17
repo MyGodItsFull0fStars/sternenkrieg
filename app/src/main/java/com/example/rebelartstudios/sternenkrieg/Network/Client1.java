@@ -1,4 +1,4 @@
-package com.example.rebelartstudios.sternenkrieg.network;
+package com.example.rebelartstudios.sternenkrieg.Network;
 
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -84,7 +84,7 @@ public class Client1 extends AppCompatActivity implements View.OnClickListener {
             case R.id.btnSend:
                 String info = et.getText().toString();
                 socket = st.getSocket();
-                Thread wirte = new writeclient(true, socket, info);
+                Thread wirte = new WriteClient(true, socket, info);
                 wirte.start();
                 et.setText("");
                 break;
@@ -105,7 +105,7 @@ public class Client1 extends AppCompatActivity implements View.OnClickListener {
 
                 try {
                     info = "//Bereiten";
-                    wirte = new writeclient(true, socket, info);
+                    wirte = new WriteClient(true, socket, info);
                     wirte.start();
                 } catch (NullPointerException e) {
                     Log.e(tag, "NullPointerException in Client: " + e.toString());
@@ -203,7 +203,7 @@ public class Client1 extends AppCompatActivity implements View.OnClickListener {
         rt = st.getRt();
         try {
             rt.setRunning(false);
-            Thread wirte = new writeclient(false, socket,"exit" );
+            Thread wirte = new WriteClient(false, socket,"exit" );
             wirte.start();
         } catch (NullPointerException e) {
             Log.e(tag, "NullPointerException in Client: " + e.toString());

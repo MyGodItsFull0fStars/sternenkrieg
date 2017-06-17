@@ -1,4 +1,4 @@
-package com.example.rebelartstudios.sternenkrieg.network;
+package com.example.rebelartstudios.sternenkrieg.Network;
 
 import android.util.Log;
 
@@ -10,7 +10,7 @@ import java.net.Socket;
  * Created by wenboda on 2017/5/20.
  */
 
-public class writeclient extends Thread {
+public class WriteClient extends Thread {
 
 
     Socket socket;
@@ -18,7 +18,7 @@ public class writeclient extends Thread {
     String tag = "Client";
     String info;
 
-    public writeclient(boolean exit, Socket socket, String info) {
+    public WriteClient(boolean exit, Socket socket, String info) {
         this.exit = exit;
         this.socket = socket;
         this.info = info;

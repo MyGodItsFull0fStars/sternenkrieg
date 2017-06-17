@@ -1,6 +1,6 @@
 package com.example.rebelartstudios.test;
 
-import com.example.rebelartstudios.sternenkrieg.network.NetworkUtilities;
+import com.example.rebelartstudios.sternenkrieg.Network.NetworkUtilities;
 
 import org.junit.After;
 import org.junit.Before;
