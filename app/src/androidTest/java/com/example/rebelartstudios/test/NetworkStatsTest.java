@@ -1,6 +1,6 @@
 package com.example.rebelartstudios.test;
 
-import com.example.rebelartstudios.sternenkrieg.NetworkStats;
+import com.example.rebelartstudios.sternenkrieg.GameLogic.NetworkStats;
 
 import org.junit.Before;
 import org.junit.Test;

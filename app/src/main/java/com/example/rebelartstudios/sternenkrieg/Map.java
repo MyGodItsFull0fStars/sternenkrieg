@@ -2,7 +2,6 @@ package com.example.rebelartstudios.sternenkrieg;
 
 import android.content.ClipData;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -19,6 +18,8 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.example.rebelartstudios.sternenkrieg.GameLogic.GameUtilities;
+import com.example.rebelartstudios.sternenkrieg.GameLogic.NetworkStats;
 import com.example.rebelartstudios.sternenkrieg.network.AcceptThread;
 import com.example.rebelartstudios.sternenkrieg.network.NetworkUtilities;
 import com.example.rebelartstudios.sternenkrieg.network.ReceiveThreadClient;
@@ -54,7 +55,7 @@ public class Map extends AppCompatActivity {
     String setPlayerPositionF = "f";
     String setPlayerPositionZERO = "0";
     MapLoad mapLoad;
-    int value;
+    GameUtilities game;
 
 
     Socket socket = new Socket();
@@ -97,7 +98,6 @@ public class Map extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         setContentView(R.layout.activity_map);
         initializeImageViews();
         initializePlayerField();
@@ -110,7 +110,7 @@ public class Map extends AppCompatActivity {
         display.getSize(size);
         width = size.x;
         height = size.y;
-
+    game= new GameUtilities(getApplicationContext());
         initializeShipView();
 
         /********************Netz**************************/
@@ -429,7 +429,7 @@ public class Map extends AppCompatActivity {
                 if (count0 && count1 && count2) {
 
                     intent.setClass(Map.this, Spielfeld.class);
-                    NetworkStats.setPlayerMap(playerField);
+                    game.setPlayerMap(playerField);
                     finish = true;
                     util.messageSend("boolean", Phost);
                     if (!Phost) {

@@ -19,6 +19,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.rebelartstudios.sternenkrieg.GameLogic.GameUtilities;
+import com.example.rebelartstudios.sternenkrieg.GameLogic.NetworkStats;
 import com.example.rebelartstudios.sternenkrieg.network.AcceptThread;
 import com.example.rebelartstudios.sternenkrieg.network.NetworkUtilities;
 import com.example.rebelartstudios.sternenkrieg.network.ReceiveThreadClient;
@@ -43,6 +45,7 @@ public class Dice extends AppCompatActivity {
     DiceClass diceClass = new DiceClass();
     NetworkUtilities util;
     NetworkStats stats = new NetworkStats();
+    GameUtilities game;
 
     private int gegnervalue;
     boolean finish = false;
@@ -81,6 +84,7 @@ public class Dice extends AppCompatActivity {
         imageDice = (ImageView) findViewById(R.id.imageDice);
         textscore = (TextView) findViewById(R.id.text_score);
         textscoreenemy = (TextView) findViewById(R.id.text_enemy_score);
+        game = new GameUtilities(getApplicationContext());
         /********************Netz**************************/
         send = (Button) findViewById(R.id.senddice);
         goNext = (Button) findViewById(R.id.gonext);
@@ -148,9 +152,9 @@ public class Dice extends AppCompatActivity {
                 break;
 
             case 2:
-                value += NetworkStats.getValue();
+                value += game.getDicescore();
                 textscore.setText("You got:" + value + " Waiting for enemy");
-                NetworkStats.setValue(value);
+                game.setDicescore(value);
                 break;
 
             default:
@@ -169,7 +173,7 @@ public class Dice extends AppCompatActivity {
         switch (mode) {
             case 1:
                 whoStarts = diceClass.whoIsStarting(value, gegnervalue);
-                NetworkStats.setWhoIsStarting(whoStarts);
+               game.setWhoIsStarting(whoStarts);
                 if (whoStarts == 2)
                     intent.setClass(Dice.this, Dice.class);
                 break;

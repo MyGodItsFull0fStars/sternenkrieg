@@ -5,7 +5,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.graphics.Point;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -27,6 +26,8 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.rebelartstudios.sternenkrieg.GameLogic.GameUtilities;
+import com.example.rebelartstudios.sternenkrieg.GameLogic.NetworkStats;
 import com.example.rebelartstudios.sternenkrieg.network.AcceptThread;
 import com.example.rebelartstudios.sternenkrieg.network.NetworkUtilities;
 import com.example.rebelartstudios.sternenkrieg.network.ReceiveThreadClient;
@@ -97,6 +98,7 @@ public class Spielfeld extends AppCompatActivity {
     Intent intent = new Intent();
     NetworkUtilities util;
     NetworkStats stats = new NetworkStats();
+    GameUtilities game;
     int who_is_starting;
 
     /*******Networking*****/
@@ -105,9 +107,9 @@ public class Spielfeld extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         setContentView(R.layout.activity_gameplay);
 
+        game  = new GameUtilities(getApplicationContext());
         /****Networking****/
 
 
@@ -116,7 +118,7 @@ public class Spielfeld extends AppCompatActivity {
         System.out.println("Spielfeld");
         Phost = stats.isPhost();
         System.out.println("phost: " + Phost);
-        who_is_starting = NetworkStats.getWhoIsStarting();
+        who_is_starting = game.getWhoIsStarting();
         System.out.println("Whoisstarting: " + who_is_starting);
         Net = stats.isNet();
         System.out.println("net: " + Net);
@@ -343,7 +345,7 @@ public class Spielfeld extends AppCompatActivity {
 
         amountShips = 3;
 
-        map1 = NetworkStats.getPlayerMap();
+        map1 = game.getPlayerMap();
 
         if (sendMap) {
             String sendField = "";
@@ -443,7 +445,7 @@ public class Spielfeld extends AppCompatActivity {
         System.out.println("Spielfeld Value" + who_is_starting);
         //Player beginns
         System.out.println("Shoot: " + shoot);
-        pointsPlayer += NetworkStats.getValue();
+        pointsPlayer += game.getDicescore();
         System.out.println("POints:" + pointsPlayer);
         if (who_is_starting == 0 && oneshoot) {
             shoot = true;
@@ -454,8 +456,8 @@ public class Spielfeld extends AppCompatActivity {
 
     public void dice() {
         intent.setClass(Spielfeld.this, Dice.class);
-        NetworkStats.setPlayerMap(map1);
-        NetworkStats.setEnemyMap(map2);
+        game.setPlayerMap(map1);
+        game.setEnemyMap(map2);
         stats.setMode(2);
         System.out.println("Spielfeld ENde Value" + value);
         util.close();
@@ -666,7 +668,8 @@ public class Spielfeld extends AppCompatActivity {
                         public void onClick(DialogInterface dialog, int id) {
                             // CONFIRM
                             Intent intent = new Intent(Spielfeld.this, HighScore.class);
-                            intent.putExtra("highScore", highScore);
+                            game.setPoints(highScore);
+                            game.setHighscoreMain(true);
                             startActivity(intent);
                         }
                     })
@@ -683,7 +686,8 @@ public class Spielfeld extends AppCompatActivity {
                         public void onClick(DialogInterface dialog, int id) {
                             // CONFIRM
                             Intent intent = new Intent(Spielfeld.this, HighScore.class);
-                            intent.putExtra("highScore", highScore);
+                            game.setPoints(highScore);
+                            game.setHighscoreMain(true);
                             startActivity(intent);
                         }
                     })

@@ -17,7 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.rebelartstudios.sternenkrieg.Dice;
-import com.example.rebelartstudios.sternenkrieg.NetworkStats;
+import com.example.rebelartstudios.sternenkrieg.GameLogic.NetworkStats;
 import com.example.rebelartstudios.sternenkrieg.QR_Reader;
 import com.example.rebelartstudios.sternenkrieg.R;
 

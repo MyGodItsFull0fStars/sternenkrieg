@@ -6,8 +6,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.ServiceConnection;
-import android.content.SharedPreferences;
-import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
@@ -25,6 +23,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.example.rebelartstudios.sternenkrieg.GameLogic.GameUtilities;
 
 public class Main extends AppCompatActivity {
 
@@ -36,18 +35,16 @@ public class Main extends AppCompatActivity {
     Button powerupBtn;
     ImageView background;
     ImageView logo;
-
+    GameUtilities game;
     TextView txtUsername;
     TextView txtLevel;
 
     ProgressBar levelProgress;
 
-    SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_main);
 
@@ -55,22 +52,22 @@ public class Main extends AppCompatActivity {
         initializeOnClickListeners();
         initializeBackground();
 
-        sharedPreferences = getSharedPreferences("prefs", Context.MODE_PRIVATE);
-        String username = sharedPreferences.getString("username", null);
-        int level = sharedPreferences.getInt("level", 1);
-        int prozent = sharedPreferences.getInt("prozent", 0);
+        game = new GameUtilities(getApplicationContext());
+        game.load();
 
-        if (username == null) {
+        if (null == game.getUsername())
             generateName();
-        } else {
-            txtUsername.setText(username);
-            txtUsername.setTextColor(Color.WHITE);
-            txtLevel.setText("Level:" + level);
-            txtLevel.setTextColor(Color.WHITE);
-            levelProgress.getProgressDrawable().setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN);
-            levelProgress.setProgress(0);
-            levelProgress.setProgress(prozent);
-        }
+
+        txtUsername.setText(game.getUsername());
+        txtUsername.setTextColor(Color.WHITE);
+        txtLevel.setText("Level:" + game.getLevel());
+        txtLevel.setTextColor(Color.WHITE);
+        levelProgress.setProgress(0);
+        levelProgress.getProgressDrawable().setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN);
+        levelProgress.setMax(100);
+        levelProgress.setProgress(game.getPercent());
+        System.out.println("per" + game.getPercent());
+
 
         // Background music
         // disabled for now, feel free to enable if you want to check
@@ -85,8 +82,11 @@ public class Main extends AppCompatActivity {
     public void onResume() {
         super.onResume();
         // update username when coming back from Options activity
-        txtUsername.setText(sharedPreferences.getString("username", null));
+        txtUsername.setText(game.getUsername());
         initializeBackground();
+        levelProgress.setProgress(0);
+        levelProgress.setProgress(game.getPercent());
+        txtLevel.setText("Level:" + game.getLevel());
         //musicStuff();
     }
 
@@ -94,7 +94,7 @@ public class Main extends AppCompatActivity {
      * If activity is set on pause background will be deleted so memory will be saved.
      */
     @Override
-    public void onPause(){
+    public void onPause() {
         destroyBackgroundImageView();
         super.onPause();
 
@@ -128,7 +128,7 @@ public class Main extends AppCompatActivity {
     private void initializeBackground() {
         background = (ImageView) findViewById(R.id.background);
         background.setBackgroundColor(Color.rgb(0, 0, 0));
-       Glide.with(this).load(R.raw.background).asGif().centerCrop().diskCacheStrategy(DiskCacheStrategy.SOURCE).into(background);
+        Glide.with(this).load(R.raw.background).asGif().centerCrop().diskCacheStrategy(DiskCacheStrategy.SOURCE).into(background);
 
     }
 
@@ -190,7 +190,7 @@ public class Main extends AppCompatActivity {
                 //Intent intent = new Intent(Main.this, HighScore.class);
                 //intent.putExtra("onlyhighscore", false);
                 Intent intent = new Intent(Main.this, HighScore.class);
-                intent.putExtra("mode", 2);
+                game.setHighscoreMain(true);
                 startActivity(intent);
             }
         });
@@ -231,11 +231,9 @@ public class Main extends AppCompatActivity {
 
                 .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        String name = one.getText().toString();
-                        SharedPreferences.Editor editor = sharedPreferences.edit();
-                        editor.putString("username", name);
-                        editor.apply();
-                        txtUsername.setText(name);
+                        game.setUsername(one.getText().toString());
+                        game.saveusername();
+                        txtUsername.setText(game.getUsername());
                         txtUsername.setTextColor(Color.WHITE);
                         // CONFIRM
                     }
@@ -262,7 +260,7 @@ public class Main extends AppCompatActivity {
             }
         };
 
-        boolean soundEnabled = sharedPreferences.getBoolean("sound", false);
+        boolean soundEnabled = game.isSound();
         Intent audioIntent = new Intent(this, PlayAudio.class);
         boolean on = soundEnabled;
 
@@ -271,8 +269,8 @@ public class Main extends AppCompatActivity {
             startService(audioIntent);
             //on = true;
         } else {
-                stopService(audioIntent);
-                unbindService(soundConnection);
+            stopService(audioIntent);
+            unbindService(soundConnection);
             //on = false;
         }
     }
