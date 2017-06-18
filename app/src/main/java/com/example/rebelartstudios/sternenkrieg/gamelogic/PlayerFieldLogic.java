@@ -1,10 +1,8 @@
-package com.example.rebelartstudios.sternenkrieg.GameLogic;
+package com.example.rebelartstudios.sternenkrieg.gamelogic;
 
 import java.util.Arrays;
 
 /**
- * Created by christianbauer on 15/06/2017.
- * <p>
  * Class is used to set the player field logic in the Map Activity class
  * The player field values are stored in a string array
  * Depending on the info in the single fields, the field will be colored to give feedback to the player

@@ -24,13 +24,14 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.example.rebelartstudios.sternenkrieg.GameLogic.GameUtilities;
-import com.example.rebelartstudios.sternenkrieg.GameLogic.NetworkStats;
-import com.example.rebelartstudios.sternenkrieg.Network.AcceptThread;
-import com.example.rebelartstudios.sternenkrieg.Network.NetworkUtilities;
-import com.example.rebelartstudios.sternenkrieg.Network.ReceiveThreadClient;
-import com.example.rebelartstudios.sternenkrieg.Network.ReceiveThreadHost;
-import com.example.rebelartstudios.sternenkrieg.Network.StartThread;
+import com.example.rebelartstudios.sternenkrieg.gamelogic.GameUtilities;
+import com.example.rebelartstudios.sternenkrieg.gamelogic.NetworkStats;
+import com.example.rebelartstudios.sternenkrieg.network.AcceptThread;
+import com.example.rebelartstudios.sternenkrieg.network.NetworkUtilities;
+import com.example.rebelartstudios.sternenkrieg.network.ReceiveThreadClient;
+import com.example.rebelartstudios.sternenkrieg.network.ReceiveThreadHost;
+import com.example.rebelartstudios.sternenkrieg.network.StartThread;
+import com.example.rebelartstudios.sternenkrieg.res.Sensors;
 
 import java.io.OutputStream;
 import java.net.ServerSocket;
@@ -46,7 +47,7 @@ public class Dice extends AppCompatActivity {
     private TextView textscore;
     private TextView textscoreenemy;
     private int value;
-    Sensoren sensoren = new Sensoren();
+    Sensors sensors = new Sensors();
     DiceClass diceClass = new DiceClass();
     NetworkUtilities util;
     NetworkStats stats = new NetworkStats();
@@ -145,7 +146,7 @@ public class Dice extends AppCompatActivity {
         @Override
         public void onSensorChanged(SensorEvent sensorEvent) {
 
-            if ("shake".equals(sensoren.accelUpdate(sensorEvent)) && shakeboolean) {
+            if ("shake".equals(sensors.accelUpdate(sensorEvent)) && shakeboolean) {
                 value = diceClass.roll();
                 shakeboolean = false;
                 shake();

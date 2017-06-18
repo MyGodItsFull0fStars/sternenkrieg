@@ -1,4 +1,4 @@
-package com.example.rebelartstudios.sternenkrieg;
+package com.example.rebelartstudios.sternenkrieg.res;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -10,7 +10,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.example.rebelartstudios.sternenkrieg.Network.Client1;
+import com.example.rebelartstudios.sternenkrieg.R;
+import com.example.rebelartstudios.sternenkrieg.network.Client1;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.Result;
 import com.google.zxing.WriterException;
@@ -20,8 +21,6 @@ import com.google.zxing.qrcode.QRCodeWriter;
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
 /**
- * Created by christianbauer on 16/05/2017.
- *
  * QR Reader activity containing two use cases:
  *
  * ONE: The host wants to generate a QR code, using the IP address of used host device
@@ -32,9 +31,9 @@ import me.dm7.barcodescanner.zxing.ZXingScannerView;
  *      will be handed over to the client activity class for further use in the IP TextView
  */
 
-public class QR_Reader extends AppCompatActivity implements ZXingScannerView.ResultHandler {
+public class QRReader extends AppCompatActivity implements ZXingScannerView.ResultHandler {
     private ZXingScannerView mScannerView;
-    String TAG = "QR_Reader";
+    String TAG = "QRReader";
 
     String ip;
     Bundle extras;
@@ -108,7 +107,7 @@ public class QR_Reader extends AppCompatActivity implements ZXingScannerView.Res
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
 
-        Intent intent = new Intent(QR_Reader.this, Client1.class);
+        Intent intent = new Intent(QRReader.this, Client1.class);
         intent.putExtra("QR", result.getText());
         startActivity(intent);
 

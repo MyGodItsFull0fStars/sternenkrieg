@@ -1,8 +1,4 @@
-package com.example.rebelartstudios.sternenkrieg.GameLogic;
-
-/**
- * Created by christianbauer on 15/06/2017.
- */
+package com.example.rebelartstudios.sternenkrieg.gamelogic;
 
 public final class PlayerFieldValues {
 

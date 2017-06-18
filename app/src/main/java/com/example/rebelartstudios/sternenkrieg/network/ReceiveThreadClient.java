@@ -1,4 +1,4 @@
-package com.example.rebelartstudios.sternenkrieg.Network;
+package com.example.rebelartstudios.sternenkrieg.network;
 
 import android.os.Handler;
 import android.os.Message;
@@ -9,10 +9,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.Socket;
-
-/**
- * Created by wenboda on 2017/5/11.
- */
 
 public class ReceiveThreadClient extends Thread {
 

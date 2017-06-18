@@ -1,14 +1,10 @@
-package com.example.rebelartstudios.sternenkrieg.GameLogic;
+package com.example.rebelartstudios.sternenkrieg.gamelogic;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 
 import java.util.ArrayList;
 import java.util.Collections;
-
-/**
- * Created by Chris on 15.06.2017.
- */
 
 public class GameUtilities {
 

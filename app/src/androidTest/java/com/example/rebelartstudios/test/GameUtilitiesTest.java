@@ -5,7 +5,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.test.InstrumentationRegistry;
 
-import com.example.rebelartstudios.sternenkrieg.GameLogic.GameUtilities;
+import com.example.rebelartstudios.sternenkrieg.gamelogic.GameUtilities;
 
 import org.junit.Before;
 import org.junit.Test;

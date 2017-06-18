@@ -1,6 +1,5 @@
 package com.example.rebelartstudios.sternenkrieg;
 
-
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -11,7 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 
-import com.example.rebelartstudios.sternenkrieg.GameLogic.GameUtilities;
+import com.example.rebelartstudios.sternenkrieg.gamelogic.GameUtilities;
 
 import java.util.ArrayList;
 

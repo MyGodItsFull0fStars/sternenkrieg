@@ -1,10 +1,8 @@
-package com.example.rebelartstudios.sternenkrieg.GameLogic;
+package com.example.rebelartstudios.sternenkrieg.gamelogic;
 
 import android.util.Log;
 
 /**
- * Created by christianbauer on 14/06/2017.
- * <p>
  * ShipLogic class used in the Map Activity class.
  */
 

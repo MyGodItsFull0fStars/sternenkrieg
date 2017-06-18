@@ -1,4 +1,4 @@
-package com.example.rebelartstudios.sternenkrieg.Network;
+package com.example.rebelartstudios.sternenkrieg.network;
 
 import android.os.Handler;
 import android.os.Message;
@@ -7,10 +7,6 @@ import android.util.Log;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-
-/**
- * Created by wenboda on 2017/5/10.
- */
 
 public class AcceptThread extends Thread {
     boolean running;

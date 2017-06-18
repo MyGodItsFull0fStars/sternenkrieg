@@ -1,8 +1,4 @@
-package com.example.rebelartstudios.sternenkrieg.GameLogic;
-
-/**
- * Created by Chris on 14.06.2017.
- */
+package com.example.rebelartstudios.sternenkrieg.gamelogic;
 
 public class NetworkStats {
     private static boolean net;

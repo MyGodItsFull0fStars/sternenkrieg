@@ -1,4 +1,4 @@
-package com.example.rebelartstudios.sternenkrieg.Network;
+package com.example.rebelartstudios.sternenkrieg.network;
 
 import android.os.Handler;
 import android.os.Message;
@@ -10,10 +10,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.Socket;
-
-/**
- * Created by wenboda on 2017/5/10.
- */
 
 public class ReceiveThreadHost extends Thread {
 

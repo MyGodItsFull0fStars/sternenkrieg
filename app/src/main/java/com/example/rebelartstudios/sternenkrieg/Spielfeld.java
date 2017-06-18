@@ -26,13 +26,13 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.rebelartstudios.sternenkrieg.GameLogic.GameUtilities;
-import com.example.rebelartstudios.sternenkrieg.GameLogic.NetworkStats;
-import com.example.rebelartstudios.sternenkrieg.Network.AcceptThread;
-import com.example.rebelartstudios.sternenkrieg.Network.NetworkUtilities;
-import com.example.rebelartstudios.sternenkrieg.Network.ReceiveThreadClient;
-import com.example.rebelartstudios.sternenkrieg.Network.ReceiveThreadHost;
-import com.example.rebelartstudios.sternenkrieg.Network.StartThread;
+import com.example.rebelartstudios.sternenkrieg.gamelogic.GameUtilities;
+import com.example.rebelartstudios.sternenkrieg.gamelogic.NetworkStats;
+import com.example.rebelartstudios.sternenkrieg.network.AcceptThread;
+import com.example.rebelartstudios.sternenkrieg.network.NetworkUtilities;
+import com.example.rebelartstudios.sternenkrieg.network.ReceiveThreadClient;
+import com.example.rebelartstudios.sternenkrieg.network.ReceiveThreadHost;
+import com.example.rebelartstudios.sternenkrieg.network.StartThread;
 
 import java.io.OutputStream;
 import java.net.ServerSocket;
@@ -40,10 +40,6 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
-
-/**
- * Created by anja on 25.04.17.
- */
 
 public class Spielfeld extends AppCompatActivity {
     GridView gridView1;

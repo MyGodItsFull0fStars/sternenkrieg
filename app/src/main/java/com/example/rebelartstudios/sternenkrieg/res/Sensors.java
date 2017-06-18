@@ -1,13 +1,9 @@
-package com.example.rebelartstudios.sternenkrieg;
+package com.example.rebelartstudios.sternenkrieg.res;
 
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 
-/**
- * Created by Chris on 14.06.2017.
- */
-
-public class Sensoren {
+public class Sensors {
     private static final int SHAKE_THRESHOLD = 690;
     private long lastUpdate = 0;
     private float lastx;

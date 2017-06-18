@@ -11,7 +11,7 @@ import android.view.WindowManager;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
-import com.example.rebelartstudios.sternenkrieg.GameLogic.PlayerFieldValues;
+import com.example.rebelartstudios.sternenkrieg.gamelogic.PlayerFieldValues;
 
 public class MapLoad extends BaseAdapter {
     private Context context;

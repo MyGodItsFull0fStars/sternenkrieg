@@ -1,4 +1,4 @@
-package com.example.rebelartstudios.sternenkrieg.Network;
+package com.example.rebelartstudios.sternenkrieg.network;
 
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -14,8 +14,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.rebelartstudios.sternenkrieg.Dice;
-import com.example.rebelartstudios.sternenkrieg.GameLogic.NetworkStats;
-import com.example.rebelartstudios.sternenkrieg.QR_Reader;
+import com.example.rebelartstudios.sternenkrieg.gamelogic.NetworkStats;
+import com.example.rebelartstudios.sternenkrieg.res.QRReader;
 import com.example.rebelartstudios.sternenkrieg.R;
 
 import java.io.IOException;
@@ -92,7 +92,7 @@ public class Client1 extends AppCompatActivity implements View.OnClickListener {
                 exit();
                 break;
             case R.id.QRClient:
-                Intent intent = new Intent(Client1.this, QR_Reader.class);
+                Intent intent = new Intent(Client1.this, QRReader.class);
                 startActivity(intent);
                 break;
             case R.id.btn_bereiten:

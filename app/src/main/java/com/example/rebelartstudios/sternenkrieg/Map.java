@@ -20,15 +20,15 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.example.rebelartstudios.sternenkrieg.GameLogic.GameUtilities;
-import com.example.rebelartstudios.sternenkrieg.GameLogic.NetworkStats;
-import com.example.rebelartstudios.sternenkrieg.GameLogic.PlayerFieldValues;
-import com.example.rebelartstudios.sternenkrieg.GameLogic.PlayerFieldShipContainer;
-import com.example.rebelartstudios.sternenkrieg.Network.AcceptThread;
-import com.example.rebelartstudios.sternenkrieg.Network.NetworkUtilities;
-import com.example.rebelartstudios.sternenkrieg.Network.ReceiveThreadClient;
-import com.example.rebelartstudios.sternenkrieg.Network.ReceiveThreadHost;
-import com.example.rebelartstudios.sternenkrieg.Network.StartThread;
+import com.example.rebelartstudios.sternenkrieg.gamelogic.GameUtilities;
+import com.example.rebelartstudios.sternenkrieg.gamelogic.NetworkStats;
+import com.example.rebelartstudios.sternenkrieg.gamelogic.PlayerFieldValues;
+import com.example.rebelartstudios.sternenkrieg.gamelogic.PlayerFieldShipContainer;
+import com.example.rebelartstudios.sternenkrieg.network.AcceptThread;
+import com.example.rebelartstudios.sternenkrieg.network.NetworkUtilities;
+import com.example.rebelartstudios.sternenkrieg.network.ReceiveThreadClient;
+import com.example.rebelartstudios.sternenkrieg.network.ReceiveThreadHost;
+import com.example.rebelartstudios.sternenkrieg.network.StartThread;
 
 import java.io.OutputStream;
 import java.net.ServerSocket;

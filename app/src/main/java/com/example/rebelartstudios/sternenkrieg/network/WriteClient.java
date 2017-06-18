@@ -1,14 +1,10 @@
-package com.example.rebelartstudios.sternenkrieg.Network;
+package com.example.rebelartstudios.sternenkrieg.network;
 
 import android.util.Log;
 
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.Socket;
-
-/**
- * Created by wenboda on 2017/5/20.
- */
 
 public class WriteClient extends Thread {
 

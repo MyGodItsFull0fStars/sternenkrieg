@@ -22,7 +22,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
-import com.example.rebelartstudios.sternenkrieg.GameLogic.GameUtilities;
+import com.example.rebelartstudios.sternenkrieg.gamelogic.GameUtilities;
 
 public class Options extends AppCompatActivity {
     ImageView back;

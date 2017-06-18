@@ -1,13 +1,10 @@
-package com.example.rebelartstudios.sternenkrieg.GameLogic;
+package com.example.rebelartstudios.sternenkrieg.gamelogic;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
- * Created by christianbauer on 16/06/2017.
- * <p>
  * Container class for ShipLogic and PlayerFieldLogic class
- * <p>
  * A lot of things are used simultaneously an can be put in one class.
  */
 

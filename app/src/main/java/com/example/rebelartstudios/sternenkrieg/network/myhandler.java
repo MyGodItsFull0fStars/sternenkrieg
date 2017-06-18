@@ -1,12 +1,8 @@
-package com.example.rebelartstudios.sternenkrieg.Network;
+package com.example.rebelartstudios.sternenkrieg.network;
 
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
-
-/**
- * Created by wenboda on 2017/6/5.
- */
 
 public class myhandler extends Handler {
 

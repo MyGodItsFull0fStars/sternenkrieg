@@ -1,14 +1,12 @@
 package com.example.rebelartstudios.sternenkrieg;
 
-import com.example.rebelartstudios.sternenkrieg.GameLogic.ShipLogic;
+import com.example.rebelartstudios.sternenkrieg.gamelogic.ShipLogic;
 
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
 /**
- * Created by christianbauer on 17/06/2017.
- * <p>
  * ShipLogic UnitTest class
  */
 

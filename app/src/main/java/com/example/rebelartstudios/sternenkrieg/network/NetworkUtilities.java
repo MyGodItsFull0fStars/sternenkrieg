@@ -1,4 +1,4 @@
-package com.example.rebelartstudios.sternenkrieg.Network;
+package com.example.rebelartstudios.sternenkrieg.network;
 
 import android.os.Handler;
 import android.os.Message;
@@ -8,11 +8,6 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
-
-
-/**
- * Created by Chris on 14.06.2017.
- */
 
 public class NetworkUtilities {
 
