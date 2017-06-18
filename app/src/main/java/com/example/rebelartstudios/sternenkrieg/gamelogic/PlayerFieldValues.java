@@ -47,8 +47,14 @@ public final class PlayerFieldValues {
     public final String SETFIELDPOSITION_EMPTY = "0";
 
 
+    /**
+     * Used for the degree value in ship positioning
+     */
     public final int HORIZONTAL = 0;
     public final int VERTICAL = 1;
 
+    /**
+     * The field size of a players field
+     */
     public final int FIELDSIZE = 64;
 }

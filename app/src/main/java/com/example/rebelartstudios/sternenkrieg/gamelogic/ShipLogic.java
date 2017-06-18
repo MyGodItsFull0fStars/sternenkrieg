@@ -37,7 +37,7 @@ public class ShipLogic {
     private boolean middleShipIsSetOnField;
     private boolean bigShipIsSetOnField;
 
-    String positionOutOfFieldException = "Position in parameter is out of the field boundaries";
+    private String positionOutOfFieldException = "Position in parameter is out of the field boundaries";
 
     /**
      * Ship constructor with the int arrays for the ships
@@ -64,13 +64,10 @@ public class ShipLogic {
         setBigShipArray(new int[BIG_SHIP_SIZE]);
     }
 
-
-    private int position = 0;
-
     /**
      * Tag used in Log messages
      */
-    private String tag = "ShipLogic";
+    private final String tag = "ShipLogic";
 
     /**
      * Error messages used in exceptions
@@ -234,22 +231,6 @@ public class ShipLogic {
         } else throw new IllegalArgumentException(positionOutOfFieldException);
     }
 
-    /**
-     * @return the value of the current position
-     */
-    public int getPosition() {
-        return position;
-    }
-
-    /**
-     * Sets the position
-     *
-     * @param number the parameter to set the position, if position is in field range
-     */
-    public void setPosition(int number) {
-        if (inRange(number)) this.position = number;
-        else throw new IllegalArgumentException(positionOutOfFieldException);
-    }
 
     /**
      * Getter Method, used in Map Activity class when a ship is set on the player field
@@ -259,11 +240,9 @@ public class ShipLogic {
     public boolean isSmallShipIsSetOnField() {
         return smallShipIsSetOnField;
     }
-
     public boolean isMiddleShipIsSetOnField() {
         return middleShipIsSetOnField;
     }
-
     public boolean isBigShipIsSetOnField() {
         return bigShipIsSetOnField;
     }
@@ -295,12 +274,20 @@ public class ShipLogic {
         this.bigShipIsSetOnField = bigShipIsSetOnField;
     }
 
+    /**
+     * Used in Map Activity class to determine if all ships are placed on the player field
+     * @return if all ships are placed, this method will return true, else return false
+     */
     public boolean allShipsSetOnPlayerField() {
         return isSmallShipIsSetOnField() && isMiddleShipIsSetOnField() && isBigShipIsSetOnField();
     }
 
+    /**
+     * Checks if the position of the ship is in range of the player field
+     * @param position the given parameter for ship placement
+     * @return if the position is in boundaries, method will return true, otherwise return false
+     */
     private boolean inRange(int position) {
         return position >= 0 && position < fieldValues.FIELDSIZE;
     }
-
 }
