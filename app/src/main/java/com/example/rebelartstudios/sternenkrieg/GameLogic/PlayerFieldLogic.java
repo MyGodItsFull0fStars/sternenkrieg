@@ -71,7 +71,7 @@ public class PlayerFieldLogic {
         if (playerField == null) {
             playerField = new String[PLAYERFIELDSIZE];
         }
-        Arrays.fill(playerField, fieldStrings.SETFIELDPOSITION_ZERO);
+        Arrays.fill(playerField, fieldStrings.SETFIELDPOSITION_EMPTY);
     }
 
     /**
