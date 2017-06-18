@@ -11,11 +11,14 @@ import android.view.WindowManager;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
+import com.example.rebelartstudios.sternenkrieg.GameLogic.PlayerFieldValues;
+
 public class MapLoad extends BaseAdapter {
     private Context context;
     private final String[] mobileValues;
     private ImageView imageView;
     private View gridView;
+    private PlayerFieldValues fieldValues = new PlayerFieldValues();
 
     /**
      * Constructor for the MapLoad Class
@@ -85,20 +88,29 @@ public class MapLoad extends BaseAdapter {
      * @param mobile string for deciding which color will be used
      */
     private void setFieldColor(String mobile) {
-        if (mobile.equals("0") || mobile.equals("a") || mobile.equals("b") || mobile.equals("c")) {
+        if (
+                mobile.equals(fieldValues.SETFIELDPOSITION_ZERO) ||
+                        mobile.equals(fieldValues.SETFIELDPOSITION_A) ||
+                        mobile.equals(fieldValues.SETFIELDPOSITION_B) ||
+                        mobile.equals(fieldValues.SETFIELDPOSITION_C)) {
             imageView.setBackgroundColor(Color.WHITE); //no action
             imageView.getBackground().setAlpha(70);
-        } else if (mobile.equals("1")) {
+        } else if (mobile.equals(fieldValues.SETFIELDPOSITION_ONE)) {
             imageView.setBackgroundColor(Color.MAGENTA); //miss for player
-        } else if (mobile.equals("2") || mobile.equals("d") || mobile.equals("e") || mobile.equals("f")) {
+        } else if (mobile.equals(fieldValues.SETFIELDPOSITION_TWO) ||
+                mobile.equals(fieldValues.SETFIELDPOSITION_D) ||
+                mobile.equals(fieldValues.SETPLAYERPOSITION_E) ||
+                mobile.equals(fieldValues.SETFIELDPOSITION_F)) {
             imageView.setBackgroundColor(Color.RED); //your own ships
-        } else if (mobile.equals("3")) {
+        } else if (mobile.equals(fieldValues.SETFIELDPOSITION_THREE)) {
             imageView.setBackgroundColor(Color.YELLOW); //hit for enemy
-        } else if (mobile.equals("4")) {
+        } else if (mobile.equals(fieldValues.SETFIELDPOSITION_FOUR)) {
             imageView.setBackgroundColor(Color.GREEN); //hit for player
-        } else if (mobile.equals("5")) {
+        } else if (mobile.equals(fieldValues.SETFIELDPOSITION_FIVE)) {
             imageView.setBackgroundColor(Color.BLUE); //miss for enemy
-        } else if (mobile.equals("g") || mobile.equals("h") || mobile.equals("i"))
+        } else if (mobile.equals(fieldValues.SETFIELDPOSITION_G) ||
+                mobile.equals(fieldValues.SETFIELDPOSITION_H) ||
+                mobile.equals(fieldValues.SETFIELDPOSITION_I))
             imageView.setBackgroundColor(Color.CYAN); //hit for player
     }
 }
