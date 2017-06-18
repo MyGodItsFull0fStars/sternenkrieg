@@ -72,17 +72,17 @@ public class MainTest {
     /**
      * Test to check if the button to start the PowerUp activity is clickable
      */
-    @Test
-    public void testPowerUpButton(){
-        onView(withId(R.id.powerup)).perform(click());
-    }
+//    @Test
+//    public void testPowerUpButton(){
+//        onView(withId(R.id.powerup)).perform(click());
+//    }
 
     /**
      * Test to check if the button to get into the about page is clickable
      */
-    @Test
-    public void testAboutButton(){
-        onView(withId(R.id.about)).perform(click());
-    }
+//    @Test
+//    public void testAboutButton(){
+//        onView(withId(R.id.about)).perform(click());
+//    }
 
 }

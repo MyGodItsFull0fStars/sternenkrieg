@@ -8,15 +8,17 @@ import org.junit.Test;
 
 /**
  * Created by christianbauer on 17/06/2017.
+ *
+ * ShipLogic UnitTest class
  */
 
 public class ShipLogicTest {
-    ShipLogic shipLogic_no_parameters;
-    ShipLogic shipLogic_with_parameters;
+    private ShipLogic shipLogic_no_parameters;
+    private ShipLogic shipLogic_with_parameters;
 
-    int[] smallArray;
-    int[] middleArray;
-    int[] bigArray;
+    private int[] smallArray;
+    private int[] middleArray;
+    private int[] bigArray;
 
     @Before
     public void setUp() {
@@ -46,7 +48,7 @@ public class ShipLogicTest {
     }
 
     @Test
-    public void insertIntoSmallShip(){
+    public void insertIntoSmallShipCorrectSize() {
         int[] array = {1};
         shipLogic_no_parameters.setSmallShipArray(array);
         shipLogic_with_parameters.setSmallShipArray(array);
@@ -56,26 +58,42 @@ public class ShipLogicTest {
     }
 
     @Test
-    public void insertIntoMiddleShipWithCorrectSize(){
-        int[] array = {1 , 2};
+    public void insertIntoMiddleShipWithCorrectSize() {
+        int[] array = {1, 2};
         shipLogic_no_parameters.setMiddleShipArray(array);
         shipLogic_with_parameters.setMiddleShipArray(array);
 
         Assert.assertEquals(shipLogic_no_parameters.getMiddleShipArray(), array);
         Assert.assertEquals(shipLogic_with_parameters.getMiddleShipArray(), array);
 
-        for (int i = 0; i < array.length; i++ ){
+        for (int i = 0; i < array.length; i++) {
             Assert.assertEquals(shipLogic_no_parameters.getMiddleShipArray()[i], array[i]);
             Assert.assertEquals(shipLogic_with_parameters.getMiddleShipArray()[i], array[i]);
         }
     }
 
     @Test
-    public void shipConstuctorThrowsException(){
+    public void insertIntoBigShipWithCorrectSize() {
+        int[] array = {1, 2, 3};
+        shipLogic_with_parameters.setBigShipArray(array);
+        shipLogic_no_parameters.setBigShipArray(array);
+
+        Assert.assertEquals(shipLogic_no_parameters.getBigShipArray(), shipLogic_with_parameters.getBigShipArray());
+        Assert.assertEquals(shipLogic_no_parameters.getBigShipArray(), array);
+        Assert.assertEquals(shipLogic_with_parameters.getBigShipArray(), array);
+
+        for (int i = 0; i < array.length; i++){
+            Assert.assertEquals(shipLogic_no_parameters.getBigShipArray()[i], array[i]);
+            Assert.assertEquals(shipLogic_with_parameters.getBigShipArray()[i], array[i]);
+        }
+    }
+
+    @Test
+    public void shipLogicConstructorThrowsException() {
         String exceptionString = "java.lang.IllegalArgumentException: IllegalArgumentException at ShipLogic constructor";
         try {
             shipLogic_with_parameters = new ShipLogic(null, middleArray, bigArray);
-        } catch (IllegalArgumentException e){
+        } catch (IllegalArgumentException e) {
             Assert.assertEquals(e.toString(), exceptionString);
         }
 
@@ -85,18 +103,25 @@ public class ShipLogicTest {
             Assert.assertEquals(e.toString(), exceptionString);
         }
 
-        try{
+        try {
             shipLogic_with_parameters = new ShipLogic(smallArray, middleArray, null);
-        }catch (IllegalArgumentException e) {
+        } catch (IllegalArgumentException e) {
             Assert.assertEquals(e.toString(), exceptionString);
         }
 
-        try{
+        try {
             shipLogic_with_parameters = new ShipLogic(null, null, null);
-        } catch (IllegalArgumentException e){
+        } catch (IllegalArgumentException e) {
             Assert.assertEquals(e.toString(), exceptionString);
         }
     }
 
+    @Test
+    public void checkSetSmallShipIsSetOnFieldMethod(){
+        shipLogic_no_parameters.setSmallShipIsSetOnField(true);
+        shipLogic_with_parameters.setSmallShipIsSetOnField(true);
+        Assert.assertEquals(true, shipLogic_no_parameters.isSmallShipIsSetOnField());
+        Assert.assertEquals(true, shipLogic_with_parameters.isSmallShipIsSetOnField());
+    }
 
 }

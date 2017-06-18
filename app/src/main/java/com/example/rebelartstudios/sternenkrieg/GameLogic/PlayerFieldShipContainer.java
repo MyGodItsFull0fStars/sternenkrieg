@@ -54,7 +54,7 @@ public class PlayerFieldShipContainer {
         }
     }
 
-    public boolean playerFieldPositionContainsString(int position, String input){
+    public boolean playerFieldPositionContainsString(int position, String input) {
         return input.equals(playerFieldLogic.getPlayerField()[position]);
     }
 
@@ -111,15 +111,12 @@ public class PlayerFieldShipContainer {
                     playerFieldBigShipContainsString(position, degree, fieldValues.SETPLAYERPOSITION_E)) {
                 return false;
             }
-        }
-
-        else if (whichShip == shipLogic.MIDDLE_SHIP_ID){
+        } else if (whichShip == shipLogic.MIDDLE_SHIP_ID) {
             if (playerFieldMiddleShipContainsString(position, degree, fieldValues.SETFIELDPOSITION_D) ||
-                    playerFieldMiddleShipContainsString(position, degree, fieldValues.SETFIELDPOSITION_F)){
+                    playerFieldMiddleShipContainsString(position, degree, fieldValues.SETFIELDPOSITION_F)) {
                 return false;
             }
         }
-
         return true;
     }
 
@@ -133,6 +130,36 @@ public class PlayerFieldShipContainer {
     public boolean playerFieldMiddleShipContainsString(int position, int degree, String input) {
         return input.equals(playerFieldLogic.playerField[position - shipLogic.getSibling(degree)])
                 || input.equals(playerFieldLogic.playerField[position]);
+    }
+
+    public void setShipOnPlayerFieldWithDragAndDrop(int position, int whichShip, int degree) {
+        //kleines Schiff
+        if (whichShip == shipLogic.SMALL_SHIP_ID && checkPosition(position, whichShip, degree)) {
+            if (!playerFieldPositionContainsString(position, fieldValues.SETFIELDPOSITION_D) ||
+                    !playerFieldPositionContainsString(position, fieldValues.SETFIELDPOSITION_F)
+                    ) {
+
+                delete(shipLogic.getSmallShipArray());
+                //neue Position gesetzt
+                setSmallShipContainer(position, fieldValues.SETFIELDPOSITION_D);
+                getShipLogic().setSmallShipIsSetOnField(true);
+            }
+        }
+
+        //mittleres Schiff
+        if (whichShip == shipLogic.MIDDLE_SHIP_ID && checkPosition(position, whichShip, degree)) {
+
+            delete(shipLogic.getMiddleShipArray());
+            setMiddleShipContainer(position, degree, fieldValues.SETPLAYERPOSITION_E);
+            shipLogic.setMiddleShipIsSetOnField(true);
+        }
+        //großes Schiff
+        if (whichShip == shipLogic.BIG_SHIP_ID && checkPosition(position, whichShip, degree)) {
+            delete(shipLogic.getBigShipArray());
+
+            setBigShipContainer(position, degree, fieldValues.SETFIELDPOSITION_F);
+            getShipLogic().setBigShipIsSetOnField(true);
+        }
     }
 
 

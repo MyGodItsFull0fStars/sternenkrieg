@@ -179,35 +179,36 @@ public class Map extends AppCompatActivity {
                         int y = (int) event.getY();
                         int position = position(x, y);
 
-                        //kleines Schiff
-                        if (which_ship == playerFieldShipContainer.getShipLogic().SMALL_SHIP_ID) {
-                            if (!playerFieldShipContainer.playerFieldPositionContainsString(position, fieldValues.SETFIELDPOSITION_D) ||
-                                    !playerFieldShipContainer.playerFieldPositionContainsString(position, fieldValues.SETFIELDPOSITION_F)
-                                    ) {
-
-                                delete(playerFieldShipContainer.getShipLogic().getSmallShipArray());
-                                //neue Position gesetzt
-                                playerFieldShipContainer.setSmallShipContainer(position, fieldValues.SETFIELDPOSITION_D);
-                                playerFieldShipContainer.getShipLogic().setSmallShipIsSetOnField(true);
-                            }
-                        }
-
-                        //mittleres Schiff
-                        if (which_ship == playerFieldShipContainer.getShipLogic().MIDDLE_SHIP_ID &&
-                                playerFieldShipContainer.checkPosition(position, which_ship, degree)) {
-
-                            delete(playerFieldShipContainer.getShipLogic().getMiddleShipArray());
-                            playerFieldShipContainer.setMiddleShipContainer(position, degree, fieldValues.SETPLAYERPOSITION_E);
-                            playerFieldShipContainer.getShipLogic().setMiddleShipIsSetOnField(true);
-                        }
-                        //großes Schiff
-                        if (which_ship == playerFieldShipContainer.getShipLogic().BIG_SHIP_ID &&
-                                playerFieldShipContainer.checkPosition(position, which_ship, degree)) {
-                            delete(playerFieldShipContainer.getShipLogic().getBigShipArray());
-
-                            playerFieldShipContainer.setBigShipContainer(position, degree, fieldValues.SETFIELDPOSITION_F);
-                            playerFieldShipContainer.getShipLogic().setBigShipIsSetOnField(true);
-                        }
+                        playerFieldShipContainer.setShipOnPlayerFieldWithDragAndDrop(position, which_ship, degree);
+//                        //kleines Schiff
+//                        if (which_ship == playerFieldShipContainer.getShipLogic().SMALL_SHIP_ID) {
+//                            if (!playerFieldShipContainer.playerFieldPositionContainsString(position, fieldValues.SETFIELDPOSITION_D) ||
+//                                    !playerFieldShipContainer.playerFieldPositionContainsString(position, fieldValues.SETFIELDPOSITION_F)
+//                                    ) {
+//
+//                                delete(playerFieldShipContainer.getShipLogic().getSmallShipArray());
+//                                //neue Position gesetzt
+//                                playerFieldShipContainer.setSmallShipContainer(position, fieldValues.SETFIELDPOSITION_D);
+//                                playerFieldShipContainer.getShipLogic().setSmallShipIsSetOnField(true);
+//                            }
+//                        }
+//
+//                        //mittleres Schiff
+//                        if (which_ship == playerFieldShipContainer.getShipLogic().MIDDLE_SHIP_ID &&
+//                                playerFieldShipContainer.checkPosition(position, which_ship, degree)) {
+//
+//                            delete(playerFieldShipContainer.getShipLogic().getMiddleShipArray());
+//                            playerFieldShipContainer.setMiddleShipContainer(position, degree, fieldValues.SETPLAYERPOSITION_E);
+//                            playerFieldShipContainer.getShipLogic().setMiddleShipIsSetOnField(true);
+//                        }
+//                        //großes Schiff
+//                        if (which_ship == playerFieldShipContainer.getShipLogic().BIG_SHIP_ID &&
+//                                playerFieldShipContainer.checkPosition(position, which_ship, degree)) {
+//                            delete(playerFieldShipContainer.getShipLogic().getBigShipArray());
+//
+//                            playerFieldShipContainer.setBigShipContainer(position, degree, fieldValues.SETFIELDPOSITION_F);
+//                            playerFieldShipContainer.getShipLogic().setBigShipIsSetOnField(true);
+//                        }
 
                         draw(playerFieldShipContainer.getPlayerFieldLogic().getPlayerField());
                         setShipsVisible();
@@ -284,8 +285,6 @@ public class Map extends AppCompatActivity {
                 return false;
             }
         });
-
-
     }
 
 
@@ -404,7 +403,6 @@ public class Map extends AppCompatActivity {
      *
      * @param shipArray used to delete the fields in the player field
      */
-    // TODO: 16/06/2017 Refactor to Container class and only call method from container and draw() method
     public void delete(int shipArray[]) {
         playerFieldShipContainer.delete(shipArray);
         draw(playerFieldShipContainer.getPlayerFieldLogic().getPlayerField());
