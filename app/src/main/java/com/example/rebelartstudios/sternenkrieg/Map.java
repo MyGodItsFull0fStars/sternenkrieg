@@ -182,13 +182,13 @@ public class Map extends AppCompatActivity {
                         playerFieldShipContainer.setShipOnPlayerFieldWithDragAndDrop(position, which_ship, degree);
 //                        //kleines Schiff
 //                        if (which_ship == playerFieldShipContainer.getShipLogic().SMALL_SHIP_ID) {
-//                            if (!playerFieldShipContainer.playerFieldPositionContainsString(position, fieldValues.SETFIELDPOSITION_D) ||
-//                                    !playerFieldShipContainer.playerFieldPositionContainsString(position, fieldValues.SETFIELDPOSITION_F)
+//                            if (!playerFieldShipContainer.playerFieldPositionContainsString(position, fieldValues.SETFIELDPOSITION_SMALL) ||
+//                                    !playerFieldShipContainer.playerFieldPositionContainsString(position, fieldValues.SETFIELDPOSITION_BIG)
 //                                    ) {
 //
 //                                delete(playerFieldShipContainer.getShipLogic().getSmallShipArray());
 //                                //neue Position gesetzt
-//                                playerFieldShipContainer.setSmallShipContainer(position, fieldValues.SETFIELDPOSITION_D);
+//                                playerFieldShipContainer.setSmallShipContainer(position, fieldValues.SETFIELDPOSITION_SMALL);
 //                                playerFieldShipContainer.getShipLogic().setSmallShipIsSetOnField(true);
 //                            }
 //                        }
@@ -198,7 +198,7 @@ public class Map extends AppCompatActivity {
 //                                playerFieldShipContainer.checkPosition(position, which_ship, degree)) {
 //
 //                            delete(playerFieldShipContainer.getShipLogic().getMiddleShipArray());
-//                            playerFieldShipContainer.setMiddleShipContainer(position, degree, fieldValues.SETPLAYERPOSITION_E);
+//                            playerFieldShipContainer.setMiddleShipContainer(position, degree, fieldValues.SETPLAYERPOSITION_MIDDLE);
 //                            playerFieldShipContainer.getShipLogic().setMiddleShipIsSetOnField(true);
 //                        }
 //                        //großes Schiff
@@ -206,12 +206,12 @@ public class Map extends AppCompatActivity {
 //                                playerFieldShipContainer.checkPosition(position, which_ship, degree)) {
 //                            delete(playerFieldShipContainer.getShipLogic().getBigShipArray());
 //
-//                            playerFieldShipContainer.setBigShipContainer(position, degree, fieldValues.SETFIELDPOSITION_F);
+//                            playerFieldShipContainer.setBigShipContainer(position, degree, fieldValues.SETFIELDPOSITION_BIG);
 //                            playerFieldShipContainer.getShipLogic().setBigShipIsSetOnField(true);
 //                        }
 
                         draw(playerFieldShipContainer.getPlayerFieldLogic().getPlayerField());
-                        setShipsVisible();
+
 
 
                         if (playerFieldShipContainer.getShipLogic().allShipsSetOnPlayerField()) {
@@ -224,6 +224,7 @@ public class Map extends AppCompatActivity {
                     }
 
                     case DragEvent.ACTION_DRAG_ENDED: {
+                        setShipsVisible();
                         return (true);
 
                     }

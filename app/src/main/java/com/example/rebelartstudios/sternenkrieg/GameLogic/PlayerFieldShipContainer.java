@@ -49,7 +49,7 @@ public class PlayerFieldShipContainer {
     public void delete(int[] shipArray) {
         if (shipArray != null && shipArray.length >= 0 && shipArray.length <= 3) {
             for (int position : shipArray) {
-                playerFieldLogic.setPFSmallShipPosition(position, fieldValues.SETFIELDPOSITION_ZERO);
+                playerFieldLogic.setPFSmallShipPosition(position, fieldValues.SETFIELDPOSITION_EMPTY);
             }
         }
     }
@@ -107,13 +107,13 @@ public class PlayerFieldShipContainer {
 
 
         if (whichShip == shipLogic.BIG_SHIP_ID) {
-            if (playerFieldBigShipContainsString(position, degree, fieldValues.SETFIELDPOSITION_D) ||
-                    playerFieldBigShipContainsString(position, degree, fieldValues.SETPLAYERPOSITION_E)) {
+            if (playerFieldBigShipContainsString(position, degree, fieldValues.SETFIELDPOSITION_SMALL) ||
+                    playerFieldBigShipContainsString(position, degree, fieldValues.SETPLAYERPOSITION_MIDDLE)) {
                 return false;
             }
         } else if (whichShip == shipLogic.MIDDLE_SHIP_ID) {
-            if (playerFieldMiddleShipContainsString(position, degree, fieldValues.SETFIELDPOSITION_D) ||
-                    playerFieldMiddleShipContainsString(position, degree, fieldValues.SETFIELDPOSITION_F)) {
+            if (playerFieldMiddleShipContainsString(position, degree, fieldValues.SETFIELDPOSITION_SMALL) ||
+                    playerFieldMiddleShipContainsString(position, degree, fieldValues.SETFIELDPOSITION_BIG)) {
                 return false;
             }
         }
@@ -135,13 +135,13 @@ public class PlayerFieldShipContainer {
     public void setShipOnPlayerFieldWithDragAndDrop(int position, int whichShip, int degree) {
         //kleines Schiff
         if (whichShip == shipLogic.SMALL_SHIP_ID && checkPosition(position, whichShip, degree)) {
-            if (!playerFieldPositionContainsString(position, fieldValues.SETFIELDPOSITION_D) ||
-                    !playerFieldPositionContainsString(position, fieldValues.SETFIELDPOSITION_F)
+            if (!playerFieldPositionContainsString(position, fieldValues.SETFIELDPOSITION_SMALL) ||
+                    !playerFieldPositionContainsString(position, fieldValues.SETFIELDPOSITION_BIG)
                     ) {
 
                 delete(shipLogic.getSmallShipArray());
                 //neue Position gesetzt
-                setSmallShipContainer(position, fieldValues.SETFIELDPOSITION_D);
+                setSmallShipContainer(position, fieldValues.SETFIELDPOSITION_SMALL);
                 getShipLogic().setSmallShipIsSetOnField(true);
             }
         }
@@ -150,14 +150,14 @@ public class PlayerFieldShipContainer {
         if (whichShip == shipLogic.MIDDLE_SHIP_ID && checkPosition(position, whichShip, degree)) {
 
             delete(shipLogic.getMiddleShipArray());
-            setMiddleShipContainer(position, degree, fieldValues.SETPLAYERPOSITION_E);
+            setMiddleShipContainer(position, degree, fieldValues.SETPLAYERPOSITION_MIDDLE);
             shipLogic.setMiddleShipIsSetOnField(true);
         }
         //großes Schiff
         if (whichShip == shipLogic.BIG_SHIP_ID && checkPosition(position, whichShip, degree)) {
             delete(shipLogic.getBigShipArray());
 
-            setBigShipContainer(position, degree, fieldValues.SETFIELDPOSITION_F);
+            setBigShipContainer(position, degree, fieldValues.SETFIELDPOSITION_BIG);
             getShipLogic().setBigShipIsSetOnField(true);
         }
     }
