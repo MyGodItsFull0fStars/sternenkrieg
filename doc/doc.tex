@@ -86,6 +86,7 @@ Univ.-Ass. Dipl.-Ing. Christian Macho
 \begin{figure}[H]
 	\centering
  	\includegraphics[width=1\textwidth]{img/main}
+	\caption{Startbildschirm von Sternenkrieg}
 \end{figure}
 \end{center}
 \hfill \break
@@ -94,13 +95,9 @@ Univ.-Ass. Dipl.-Ing. Christian Macho
 
 \newpage
 
-\section{First section}
+\section{Einleitung}
 
-Your text goes here.
-
-\subsection{A subsection}
-
-More text.
+Sternenkrieg <TODO>
 
 \section{Grundlegender Aufbau}
 Sternenkrieg orientiert sich am Spielprinzip von "Schiffe versenken". Ziel ist es, die vom Gegner platzierten Schiffe als erster Spieler zu zerstören. Als Erweiterung zum herkömmlichen Spiel, bietet Sternenkrieg weitere Features, deren technische Funktionalität hier kurz erläutert wird. Dieses Kapitel soll zum Verständnis des Ablaufs im Programm beitragen.
@@ -109,27 +106,25 @@ Sternenkrieg orientiert sich am Spielprinzip von "Schiffe versenken". Ziel ist e
 \section{Klassen im Überblick}
 In diesem Kapitel werden die allgemeinen Klassen und die dazugehörigen Activities von Sternenkrieg beschrieben. Besonders wichtige Klassen und Methoden werden ausführlicher behandelt.
 
-\subsection{Main}
-Die Klasse "Main" stellt den Startscreen sowie das Hauptmenü dar. Eingebunden werden hier das Hintergrundbild sowie die Buttons zur Menüauswahl. Falls das Spiel zum ersten Mal gestartet wird, muss vom Spieler ein Name eingegeben werden.
-
 \subsection{About}
 Die Klasse "About" gibt einen kurzen Text über Sternenkrieg aus und hat sonst keine weitere Funktionalitäten.
 
 \subsection{Dice}
+Die Klasse "Dice" steht einen Würfel zur Verfügung. Dieser Würfel wird am Beginn des Spiels verwendet um den Beginner des Spiels zu bestimmen. Der Würfel wird außerdem bei den PowerUps verwendet, um eine Zufallszahl zu erhalten.
+Das Würfeln erfolgt durch Schütteln des Smartphones. Hierfür wird ein SensorEvent-Listener verwendet. Unterstützt wird die Klasse Dice durch die Klasse res/Sensors.
 
 \subsection{DiceClass}
 
 \subsection{HighScore}
+
+\subsection{Main}
+Die Klasse "Main" stellt den Startscreen sowie das Hauptmenü dar. Eingebunden werden hier das Hintergrundbild sowie die Buttons zur Menüauswahl. Falls das Spiel zum ersten Mal gestartet wird, muss vom Spieler ein Name eingegeben werden.
 
 \subsection{MainSocket}
 
 \subsection{Map}
 
 \subsection{MapLoad}
-
-\subsection{Modi}
-
-\subsection{Networking}
 
 \subsection{Options}
 Die Klasse "Options" behandelt alle Einstellungsmöglichkeiten von Sternenkrieg. Dazu zählen:
@@ -143,10 +138,6 @@ Die Speicherung der Einstellungen erfolgt mithilfe von SharedPreferences ("prefs
 \subsection{PlayAudio}
 
 \subsection{PowerUp}
-
-\subsection{QRReader}
-
-\subsection{Sensoren}
 
 \subsection{Spielfeld}
 
@@ -208,9 +199,16 @@ In der Klasse "PlayerFieldLogic" wird die Logik des Spielfelds verwaltet. Die Sp
 
 \subsection{WriteHost}
 
+\section{Resources-Klassen im Überblick}
+
+\subsection{QRReader}
+
+\subsection{Sensors}
+
 \section{Erklärung besonderer Funktionen}
 
 \subsection{Shared Preferences}
 
+\section{Zusammenfassung}
 
 \end{document}
