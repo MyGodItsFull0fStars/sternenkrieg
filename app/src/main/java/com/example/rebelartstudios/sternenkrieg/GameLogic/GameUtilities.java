@@ -29,7 +29,7 @@ public class GameUtilities {
     static SharedPreferences.Editor editor;
 
     public GameUtilities(Context context) {
-        GameUtilities.sharedPreferences = context.getSharedPreferences("pref", Context.MODE_PRIVATE);
+        GameUtilities.sharedPreferences = context.getSharedPreferences("prefs", Context.MODE_PRIVATE);
         GameUtilities.editor = sharedPreferences.edit();
     }
 
