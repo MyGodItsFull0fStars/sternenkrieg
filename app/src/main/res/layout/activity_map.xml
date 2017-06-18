@@ -3,6 +3,7 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_gravity="center"
     android:background="@drawable/map"
     android:id="@+id/activity_map"
     android:layout_width="match_parent"
@@ -42,25 +43,6 @@
         app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/ship3_armour" />
 
-    <GridView
-        android:id="@+id/gridView"
-        android:layout_width="368dp"
-        android:layout_height="0dp"
-        android:layout_marginEnd="250dp"
-        android:layout_marginRight="200dp"
-        android:layout_marginTop="85dp"
-        android:background="#999999"
-        android:gravity="center_horizontal"
-        android:numColumns="8"
-        android:padding="0dp"
-        android:verticalSpacing="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0"
-        tools:layout_constraintBottom_creator="1"
-        tools:layout_constraintTop_creator="1" />
-
     <ImageView
         android:id="@+id/image_turn"
         android:layout_width="78dp"
@@ -97,13 +79,54 @@
         android:layout_marginRight="8dp"
         android:layout_marginTop="8dp"
         android:text="@string/placeShips"
-        android:textSize="30sp"
+        android:textColor="@android:color/white"
+        android:textSize="35dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.383"
+        app:layout_constraintHorizontal_bias="0.411"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.026" />
+        app:layout_constraintVertical_bias="0.028" />
+
+    <ProgressBar
+        android:id="@+id/progressBarNextMap"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="50dp"
+        android:layout_height="47dp"
+        android:layout_alignEnd="@+id/textView"
+        android:layout_alignParentBottom="true"
+        android:layout_alignRight="@+id/textView"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="33dp"
+        android:layout_marginTop="8dp"
+        android:progressDrawable="@drawable/circular_progress_bar"
+        app:layout_constraintBottom_toBottomOf="@+id/play"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintLeft_toLeftOf="@+id/play"
+        app:layout_constraintRight_toRightOf="@+id/play"
+        app:layout_constraintTop_toTopOf="@+id/play"
+        app:layout_constraintVertical_bias="0.692" />
+
+    <GridView
+        android:id="@+id/gridView"
+        android:layout_width="368dp"
+        android:layout_height="368dp"
+        android:layout_marginEnd="250dp"
+        android:layout_marginRight="224dp"
+        android:layout_marginTop="85dp"
+        android:gravity="center_horizontal"
+        android:numColumns="8"
+        android:padding="0dp"
+        android:verticalSpacing="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.864"
+        tools:layout_constraintBottom_creator="1"
+        tools:layout_constraintTop_creator="1" />
 
 
 </android.support.constraint.ConstraintLayout>

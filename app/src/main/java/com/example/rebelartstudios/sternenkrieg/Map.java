@@ -17,6 +17,7 @@ import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.rebelartstudios.sternenkrieg.GameLogic.GameUtilities;
@@ -41,6 +42,7 @@ public class Map extends AppCompatActivity {
     GridView gridView;
     ImageView imageView;
     ImageView ship1, ship2, ship3, turn, play;
+    ProgressBar proNext;
 
     int width;
     int height;
@@ -304,6 +306,8 @@ public class Map extends AppCompatActivity {
         ship3 = (ImageView) findViewById(R.id.image_ship3);
         turn = (ImageView) findViewById(R.id.image_turn);
         play = (ImageView) findViewById(R.id.play);
+        proNext = (ProgressBar) findViewById(R.id.progressBarNextMap);
+        proNext.setVisibility(View.INVISIBLE);
     }
 
 
@@ -313,8 +317,11 @@ public class Map extends AppCompatActivity {
      */
     private void initializeShipView() {
         gridView = (GridView) findViewById(R.id.gridView);
-        gridView.getLayoutParams().height = height - 350;
-        gridView.getLayoutParams().width = height - 350;
+        gridView = (GridView) findViewById(R.id.gridView);
+        gridView.getLayoutParams().height = (height - 350);
+        gridView.getLayoutParams().width = (height - 350);
+        gridView.setTranslationY(-60f);
+        gridView.setTranslationX(-10f);
         ship1.getLayoutParams().height = (height - 350) / 8;
         ship1.getLayoutParams().width = (height - 350) / 8;
         ship2.getLayoutParams().height = (height - 350) / 8;
@@ -339,6 +346,8 @@ public class Map extends AppCompatActivity {
                     game.setPlayerMap(playerFieldShipContainer.getPlayerFieldLogic().getPlayerField());
                     finish = true;
                     util.messageSend("boolean", Phost);
+                    play.setVisibility(View.INVISIBLE);
+                    proNext.setVisibility(View.VISIBLE);
                     if (!Phost) {
                         new CountDownTimer(200, 100) {
                             public void onTick(long millisUntilFinished) {

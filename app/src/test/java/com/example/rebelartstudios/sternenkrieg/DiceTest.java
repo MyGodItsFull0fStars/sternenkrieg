@@ -1,4 +1,4 @@
-package com.example.rebelartstudios.test;
+package com.example.rebelartstudios.sternenkrieg;
 
 
 import com.example.rebelartstudios.sternenkrieg.DiceClass;
