@@ -1,10 +1,13 @@
 package com.example.rebelartstudios.sternenkrieg;
 
+import com.example.rebelartstudios.sternenkrieg.gamelogic.PlayerFieldValues;
 import com.example.rebelartstudios.sternenkrieg.gamelogic.ShipLogic;
 
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+
+import static junit.framework.Assert.fail;
 
 /**
  * ShipLogic UnitTest class
@@ -13,6 +16,7 @@ import org.junit.Test;
 public class ShipLogicTest {
     private ShipLogic shipLogic_no_parameters;
     private ShipLogic shipLogic_with_parameters;
+    private PlayerFieldValues fieldValues;
 
     private int[] smallArray;
     private int[] middleArray;
@@ -25,13 +29,18 @@ public class ShipLogicTest {
         middleArray = new int[2];
         bigArray = new int[3];
         shipLogic_with_parameters = new ShipLogic(smallArray, middleArray, bigArray);
+        fieldValues = new PlayerFieldValues();
     }
 
     @Test
     public void checkInitialisation() {
-        Assert.assertEquals(shipLogic_no_parameters.getSmallShipArray().length, shipLogic_with_parameters.getSmallShipArray().length);
-        Assert.assertEquals(shipLogic_no_parameters.getMiddleShipArray().length, shipLogic_with_parameters.getMiddleShipArray().length);
-        Assert.assertEquals(shipLogic_no_parameters.getBigShipArray().length, shipLogic_with_parameters.getBigShipArray().length);
+        try {
+            Assert.assertEquals(smallArray.length, shipLogic_no_parameters.getSmallShipArray().length, shipLogic_with_parameters.getSmallShipArray().length);
+            Assert.assertEquals(middleArray.length, shipLogic_no_parameters.getMiddleShipArray().length, shipLogic_with_parameters.getMiddleShipArray().length);
+            Assert.assertEquals(bigArray.length, shipLogic_no_parameters.getBigShipArray().length, shipLogic_with_parameters.getBigShipArray().length);
+        } catch (Exception e) {
+            fail("Exception should not be reached");
+        }
     }
 
     @Test
@@ -67,7 +76,160 @@ public class ShipLogicTest {
         Assert.assertEquals(shipLogic_no_parameters.getSmallShipArray(), shipLogic_with_parameters.getSmallShipArray());
         Assert.assertEquals(shipLogic_no_parameters.getSmallShipArray()[0], 1);
         Assert.assertEquals(shipLogic_with_parameters.getSmallShipArray()[0], 1);
+
     }
+
+
+    /******************************************************** Boundary Tests Start********************************************************************/
+
+    @Test
+    public void checkSetSmallShipPositionInBoundariesThrowsNoException() {
+        try {
+            for (int position = 0; position < fieldValues.FIELDSIZE; position++) {
+                shipLogic_no_parameters.setSmallShipPosition(position);
+                shipLogic_with_parameters.setSmallShipPosition(position);
+            }
+        } catch (IllegalArgumentException e) {
+            fail("IllegalArgumentException should not be reached" + e.toString());
+        }
+    }
+
+    @Test
+    public void checkSetSmallShipPositionOutOfBoundariesThrowsException() {
+        try {
+            shipLogic_no_parameters.setSmallShipPosition(-1);
+            fail("Should not be reached");
+            shipLogic_with_parameters.setSmallShipPosition(-1);
+        } catch (IllegalArgumentException e) {
+            Assert.assertEquals(e.toString(), "java.lang.IllegalArgumentException: Parameter position in setSmallShipPosition out of range");
+        }
+
+        try {
+            shipLogic_no_parameters.setSmallShipPosition(64);
+            fail("Should not be reached, IllegalArgumentException expected");
+
+        } catch (IllegalArgumentException e) {
+            Assert.assertEquals(e.toString(), "java.lang.IllegalArgumentException: Parameter position in setSmallShipPosition out of range");
+        }
+    }
+
+    @Test
+    public void checkMiddleShipPositionInBoundariesThrowsNoException() {
+        try {
+            for (int position = 1; position < fieldValues.FIELDSIZE; position++) {
+                shipLogic_no_parameters.setMiddleShipPosition(position, fieldValues.HORIZONTAL);
+                shipLogic_with_parameters.setMiddleShipPosition(position, fieldValues.HORIZONTAL);
+            }
+
+        } catch (IllegalArgumentException e) {
+            fail("IllegalArgumentException should not be reached: " + e.toString());
+        }
+
+        try {
+            for (int position = 8; position < fieldValues.FIELDSIZE; position++) {
+                shipLogic_no_parameters.setMiddleShipPosition(position, fieldValues.VERTICAL);
+                shipLogic_with_parameters.setMiddleShipPosition(position, fieldValues.VERTICAL);
+            }
+        } catch (IllegalArgumentException e) {
+            fail("IllegalArgumentException should not be reached: " + e.toString());
+        }
+    }
+
+    @Test
+    public void checkMiddleShipPositionOutOfBoundariesThrowsException() {
+
+        // Out of boundaries on the left field side
+        try {
+            shipLogic_no_parameters.setMiddleShipPosition(0, fieldValues.HORIZONTAL);
+            fail("IllegalArgumentException expected");
+        } catch (IllegalArgumentException e) {
+            Assert.assertEquals(e.toString(), "java.lang.IllegalArgumentException: Position in parameter is out of the field boundaries");
+        }
+
+        // Out of boundaries on the right field side
+        try {
+            shipLogic_no_parameters.setMiddleShipPosition(64, fieldValues.HORIZONTAL);
+            fail("IllegalArgumentException expected");
+        } catch (IllegalArgumentException e) {
+            Assert.assertEquals(e.toString(), "java.lang.IllegalArgumentException: Position in parameter is out of the field boundaries");
+        }
+
+        // Out of boundaries on the top field side
+        try {
+            shipLogic_no_parameters.setMiddleShipPosition(7, fieldValues.VERTICAL);
+            fail("IllegalArgumentException expected");
+        } catch (IllegalArgumentException e) {
+            Assert.assertEquals(e.toString(), "java.lang.IllegalArgumentException: Position in parameter is out of the field boundaries");
+        }
+
+        // Out of boundaries on the bottom field side
+        try {
+            shipLogic_no_parameters.setMiddleShipPosition(64, fieldValues.VERTICAL);
+            fail("IllegalArgumentException expected");
+        } catch (IllegalArgumentException e) {
+            Assert.assertEquals(e.toString(), "java.lang.IllegalArgumentException: Position in parameter is out of the field boundaries");
+        }
+    }
+
+
+    @Test
+    public void checkBigShipPositionInBoundariesThrowsNoException() {
+        // Check horizontal boundaries
+        try {
+            for (int position = 1; position < fieldValues.FIELDSIZE - 1; position++) {
+                shipLogic_no_parameters.setBigShipPosition(1, fieldValues.HORIZONTAL);
+            }
+        } catch (IllegalArgumentException e) {
+            fail("IllegalArgumentException should not be reached: " + e.toString());
+        }
+
+        // Check vertical boundaries
+        try {
+            for (int position = 8; position < fieldValues.FIELDSIZE - 8; position++) {
+                shipLogic_no_parameters.setBigShipPosition(position, fieldValues.VERTICAL);
+            }
+        } catch (IllegalArgumentException e) {
+            fail("IllegalArgumentException should not be reached: " + e.toString());
+        }
+    }
+
+    @Test
+    public void checkBigShipPositionOutOfBoundariesThrowsIllegalArgumentException() {
+        // Horizontal boundaries left upper field side
+        try {
+            shipLogic_no_parameters.setBigShipPosition(0, fieldValues.HORIZONTAL);
+            fail("IllegalArgumentException expected");
+        } catch (IllegalArgumentException e) {
+            Assert.assertEquals(e.toString(), "java.lang.IllegalArgumentException: Position in parameter is out of the field boundaries");
+        }
+
+        // Horizontal boundaries right bottom field side
+        try {
+            shipLogic_no_parameters.setBigShipPosition(63, fieldValues.HORIZONTAL);
+            fail("IllegalArgumentException expected");
+        } catch (IllegalArgumentException e) {
+            Assert.assertEquals(e.toString(), "java.lang.IllegalArgumentException: Position in parameter is out of the field boundaries");
+        }
+
+        // Vertical boundaries upper field side
+        try {
+            shipLogic_no_parameters.setBigShipPosition(5, fieldValues.VERTICAL);
+            fail("IllegalArgumentException expected");
+        } catch (IllegalArgumentException e) {
+            Assert.assertEquals(e.toString(), "java.lang.IllegalArgumentException: Position in parameter is out of the field boundaries");
+        }
+
+        // Vertical boundaries bottom field side
+        try {
+            shipLogic_no_parameters.setBigShipPosition(61, fieldValues.VERTICAL);
+            fail("IllegalArgumentException expected");
+        } catch (IllegalArgumentException e) {
+            Assert.assertEquals(e.toString(), "java.lang.IllegalArgumentException: Position in parameter is out of the field boundaries");
+        }
+    }
+
+
+    /******************************************************** Boundary Tests End ********************************************************************/
 
     @Test
     public void insertIntoMiddleShipWithCorrectSize() {
@@ -112,6 +274,7 @@ public class ShipLogicTest {
         // input parameters all null
         try {
             shipLogic_with_parameters = new ShipLogic(null, null, null);
+            fail("IllegalArgumentException expected");
         } catch (IllegalArgumentException e) {
             Assert.assertEquals(e.toString(), exceptionString);
         }
@@ -119,6 +282,7 @@ public class ShipLogicTest {
         // first input parameter is null
         try {
             shipLogic_with_parameters = new ShipLogic(null, middleArray, bigArray);
+            fail("IllegalArgumentException expected");
         } catch (IllegalArgumentException e) {
             Assert.assertEquals(e.toString(), exceptionString);
         }
@@ -126,6 +290,7 @@ public class ShipLogicTest {
         // second input parameter is null
         try {
             shipLogic_with_parameters = new ShipLogic(smallArray, null, bigArray);
+            fail("IllegalArgumentException expected");
         } catch (IllegalArgumentException e) {
             Assert.assertEquals(e.toString(), exceptionString);
         }
@@ -133,6 +298,7 @@ public class ShipLogicTest {
         // third input parameter is null
         try {
             shipLogic_with_parameters = new ShipLogic(smallArray, middleArray, null);
+            fail("IllegalArgumentException expected");
         } catch (IllegalArgumentException e) {
             Assert.assertEquals(e.toString(), exceptionString);
         }
