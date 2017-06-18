@@ -22,10 +22,13 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
+import com.example.rebelartstudios.sternenkrieg.GameLogic.GameUtilities;
+
 public class Options extends AppCompatActivity {
     ImageView back;
 
     SharedPreferences sharedPreferences;
+    GameUtilities game;
 
     ToggleButton toggleSoundBtn;
     TextView textViewStatus;
@@ -161,10 +164,7 @@ public class Options extends AppCompatActivity {
 
                 .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        String name = one.getText().toString(); // TODO name check
-                        SharedPreferences.Editor editor = sharedPreferences.edit();
-                        editor.putString("username", name);
-                        editor.apply();
+                        game.setUsername(one.getText().toString()); // TODO name check
                         textViewName.setText(sharedPreferences.getString("username", "kein Name2"));
                         // CONFIRM
                     }
