@@ -125,7 +125,8 @@ public class ShipLogic {
      * @param position the position on the player field
      */
     public void setSmallShipPosition(int position) {
-        small_ship[0] = position;
+        if (inRange(position)) small_ship[0] = position;
+        else throw new IllegalArgumentException("Parameter position in setSmallShipPosition out of range");
     }
 
     /**
