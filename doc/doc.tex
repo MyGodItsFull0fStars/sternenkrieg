@@ -121,6 +121,8 @@ Die Klasse "About" gibt einen kurzen Text über Sternenkrieg aus und hat sonst k
 
 \subsection{HighScore}
 
+\subsection{MainSocket}
+
 \subsection{Map}
 
 \subsection{MapLoad}
@@ -146,18 +148,37 @@ Die Speicherung der Einstellungen erfolgt mithilfe von SharedPreferences ("prefs
 
 \subsection{Sensoren}
 
-\subsection{socketMain}
-
 \subsection{Spielfeld}
 
 \section{GameLogic-Klassen im Überblick}
 In diesem Kapitel werden die GameLogic-Klassen näher erläutert. Wie der Name schon sagt, beinhalten diese Klassen die eigentliche Spiellogik.
 
 \subsection{GameUtilities}
+Die Klasse "GameUtilities" verwaltet das Speichern der Informationen zum Spiel, darunter:
+\begin{itemize}
+\item Fortschritt
+\item Highscore
+\item Level
+\item Sound an/aus
+\item Username
+\end{itemize}
+
+Diese Informationen werden in den Shared Preferences "prefs" gespeichert. 
+
+Die Klasse bietet unter anderem folgende Methoden:
+\begin{itemize}
+\item ArrayList<String> getHighscore() - liefert den aktuellen Highscore
+\item void setHighscore() - setzt den aktuellen Highscore
+\item void deleteHighscore() - löscht den Highscore
+
+\item String getUsername() - liefert den gespeicherten Namen des Spielers
+\item void setUsername(String username) - setzt einen neuen Namen (beim Start des Spiels bzw. in den Optionen)
+\end{itemize}
 
 \subsection{NetworkStats}
 
 \subsection{PlayerFieldLogic}
+In der Klasse "PlayerFieldLogic" wird die Logik des Spielfelds verwaltet. Die Spielfelddaten werden in einem String-Array gespeichert. Abhängig von den gespeicherten Informationen werden die Felder unterschiedlich gefärbt.
 
 \subsection{PlayerFieldShipContainer}
 
