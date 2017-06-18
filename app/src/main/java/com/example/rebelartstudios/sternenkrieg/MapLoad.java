@@ -104,15 +104,15 @@ public class MapLoad extends BaseAdapter {
         } else if (mobile.equals(fieldValues.SETFIELDPOSITION_SMALL)) {
             imageView.setBackgroundResource(R.drawable.kleinesschiff);
         } else if (mobile.equals(fieldValues.SETPLAYERPOSITION_MIDDLE1)) {
-            imageView.setBackgroundResource(R.drawable.mittleresSchiff1);
+            imageView.setBackgroundResource(R.drawable.mittleresschiff1);
         } else if (mobile.equals(fieldValues.SETPLAYERPOSITION_MIDDLE2)) {
-            imageView.setBackgroundResource(R.drawable.mittleresSchiff2);
+            imageView.setBackgroundResource(R.drawable.mittleresschiff2);
         } else if (mobile.equals(fieldValues.SETFIELDPOSITION_BIG1)) {
-            imageView.setBackgroundResource(R.drawable.mittleresSchiff1);
+            imageView.setBackgroundResource(R.drawable.grosesschiff1);
         } else if (mobile.equals(fieldValues.SETFIELDPOSITION_BIG2)) {
-            imageView.setBackgroundResource(R.drawable.mittleresSchiff1);
+            imageView.setBackgroundResource(R.drawable.grosesschiff2);
         } else if (mobile.equals(fieldValues.SETFIELDPOSITION_BIG3)) {
-            imageView.setBackgroundResource(R.drawable.mittleresSchiff1);
+            imageView.setBackgroundResource(R.drawable.grosesschiff3);
 
         } else if (mobile.equals(fieldValues.SETFIELDPOSITION_ENEMYHIT)) {
             imageView.setBackgroundColor(Color.YELLOW); //hit for enemy
