@@ -29,7 +29,7 @@
         android:layout_marginTop="19dp"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/image_ship1"
-        app:srcCompat="@drawable/mittleresSchiff" />
+        app:srcCompat="@drawable/mittleresschiff" />
 
     <ImageView
         android:id="@+id/image_ship3"
@@ -41,7 +41,7 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/image_ship2"
         app:layout_constraintVertical_bias="0.0"
-        app:srcCompat="@drawable/ship3_armour" />
+        app:srcCompat="@drawable/grosesschiff" />
 
     <ImageView
         android:id="@+id/image_turn"
