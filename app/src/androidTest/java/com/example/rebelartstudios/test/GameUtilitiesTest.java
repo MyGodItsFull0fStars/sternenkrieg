@@ -1,4 +1,5 @@
-package com.example.rebelartstudios.sternenkrieg;
+package com.example.rebelartstudios.test;
+
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -31,7 +32,7 @@ public class GameUtilitiesTest {
     SharedPreferences.Editor editor;
 
     @Before
-    public void before() throws Exception {
+    public void before() {
         instrumentationCtx = InstrumentationRegistry.getContext();
         game = new GameUtilities(instrumentationCtx);
         pref = instrumentationCtx.getSharedPreferences("pref", Context.MODE_PRIVATE);
