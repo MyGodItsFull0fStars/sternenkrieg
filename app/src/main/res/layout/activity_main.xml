@@ -95,8 +95,6 @@
                 android:layout_width="250dp"
                 android:layout_height="45dp"
                 android:backgroundTint="@color/colorPrimary"
-
-
                 android:text="@string/play"
                 android:textColor="@color/common_signin_btn_dark_text_default"
                 android:textSize="20sp" />
@@ -113,11 +111,18 @@
             <Button
                 android:id="@+id/options"
                 android:layout_width="250dp"
-
-
                 android:layout_height="45dp"
                 android:backgroundTint="@color/colorPrimary"
                 android:text="@string/options"
+                android:textColor="@color/common_signin_btn_dark_text_default"
+                android:textSize="20sp" />
+
+            <Button
+                android:id="@+id/about"
+                android:layout_width="250dp"
+                android:layout_height="45dp"
+                android:backgroundTint="@color/colorPrimary"
+                android:text="@string/about"
                 android:textColor="@color/common_signin_btn_dark_text_default"
                 android:textSize="20sp" />
 

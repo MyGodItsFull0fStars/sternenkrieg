@@ -30,6 +30,7 @@ public class Main extends AppCompatActivity {
     Button socketBtn;
     Button highscoreBtn;
     Button optionsBtn;
+    Button aboutBtn;
 
     ImageView background;
     ImageView logo;
@@ -135,9 +136,10 @@ public class Main extends AppCompatActivity {
      * Called in the onCreate() method at start of activity
      */
     private void initializeClasses() {
-        socketBtn = (Button) findViewById(R.id.Socket);
-        highscoreBtn = (Button) findViewById(R.id.dice);
+        socketBtn = (Button) findViewById(R.id.socket);
+        highscoreBtn = (Button) findViewById(R.id.highscore);
         optionsBtn = (Button) findViewById(R.id.options);
+        aboutBtn = (Button) findViewById(R.id.about);
 
         txtUsername = (TextView) findViewById(R.id.text_username);
         txtLevel = (TextView) findViewById(R.id.txt_level);
@@ -173,6 +175,15 @@ public class Main extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Main.this, Options.class);
+                startActivity(intent);
+            }
+        });
+
+        // Options
+        aboutBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Main.this, About.class);
                 startActivity(intent);
             }
         });
