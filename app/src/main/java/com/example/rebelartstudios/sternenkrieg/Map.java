@@ -22,7 +22,7 @@ import android.widget.Toast;
 
 import com.example.rebelartstudios.sternenkrieg.GameLogic.GameUtilities;
 import com.example.rebelartstudios.sternenkrieg.GameLogic.NetworkStats;
-import com.example.rebelartstudios.sternenkrieg.GameLogic.PlayerFieldPositionString;
+import com.example.rebelartstudios.sternenkrieg.GameLogic.PlayerFieldValues;
 import com.example.rebelartstudios.sternenkrieg.GameLogic.PlayerFieldShipContainer;
 import com.example.rebelartstudios.sternenkrieg.Network.AcceptThread;
 import com.example.rebelartstudios.sternenkrieg.Network.NetworkUtilities;
@@ -73,7 +73,7 @@ public class Map extends AppCompatActivity {
     NetworkUtilities util;
     NetworkStats stats = new NetworkStats();
 
-    PlayerFieldPositionString fieldValues = new PlayerFieldPositionString();
+    PlayerFieldValues fieldValues = new PlayerFieldValues();
     int degree = fieldValues.HORIZONTAL;
     PlayerFieldShipContainer playerFieldShipContainer;
 

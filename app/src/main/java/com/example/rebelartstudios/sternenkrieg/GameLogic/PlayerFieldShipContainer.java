@@ -14,21 +14,21 @@ import java.util.Arrays;
 public class PlayerFieldShipContainer {
     PlayerFieldLogic playerFieldLogic;
     ShipLogic shipLogic;
-    PlayerFieldPositionString fieldValues;
+    PlayerFieldValues fieldValues;
     ArrayList<Integer> failures_right = new ArrayList<>(Arrays.asList(7, 15, 23, 31, 39, 47, 55, 63));
     ArrayList<Integer> failures_left = new ArrayList<>(Arrays.asList(8, 16, 24, 32, 40, 48, 56));
 
     public PlayerFieldShipContainer() {
         playerFieldLogic = new PlayerFieldLogic();
         shipLogic = new ShipLogic();
-        fieldValues = new PlayerFieldPositionString();
+        fieldValues = new PlayerFieldValues();
     }
 
 
     public PlayerFieldShipContainer(PlayerFieldLogic playerFieldLogic, ShipLogic shipLogic) {
         this.playerFieldLogic = playerFieldLogic;
         this.shipLogic = shipLogic;
-        fieldValues = new PlayerFieldPositionString();
+        fieldValues = new PlayerFieldValues();
     }
 
     public void setSmallShipContainer(int position, String input) {

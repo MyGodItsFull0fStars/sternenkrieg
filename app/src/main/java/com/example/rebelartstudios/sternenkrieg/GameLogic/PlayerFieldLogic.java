@@ -13,7 +13,7 @@ import java.util.Arrays;
 public class PlayerFieldLogic {
     public String[] playerField;
     private final int PLAYERFIELDSIZE = 64;
-    PlayerFieldPositionString fieldStrings = new PlayerFieldPositionString();
+    PlayerFieldValues fieldStrings = new PlayerFieldValues();
 
     /**
      * Error messages for the Exception output.

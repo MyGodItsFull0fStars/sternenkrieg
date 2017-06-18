@@ -9,7 +9,7 @@ import android.util.Log;
  */
 
 public class ShipLogic {
-    private PlayerFieldPositionString fieldStrings = new PlayerFieldPositionString();
+    private PlayerFieldValues fieldValues = new PlayerFieldValues();
 
     /**
      * Ship arrays used in the player field to save the positions of the ships
@@ -39,6 +39,7 @@ public class ShipLogic {
     private boolean middleShipIsSetOnField;
     private boolean bigShipIsSetOnField;
 
+    String positionOutOfFieldException = "Position in parameter is out of the field boundaries";
 
     /**
      * Ship constructor with the int arrays for the ships
@@ -112,7 +113,7 @@ public class ShipLogic {
      * @param array used to set the array small_ship
      */
     public void setSmallShipArray(int[] array) {
-        if (array != null && array.length == SMALL_SHIP_SIZE) {
+        if (array != null && array.length == SMALL_SHIP_SIZE && inRange(array[0])) {
             this.small_ship = array;
         } else {
             throw new IllegalArgumentException(wrongArraySizeExceptionMessage);
@@ -150,7 +151,7 @@ public class ShipLogic {
      *                 if degree is wrongly set, a Log message will be send
      */
     public void setMiddleShipPosition(int position, int degree) {
-        if (degree == fieldStrings.HORIZONTAL || degree == fieldStrings.VERTICAL) {
+        if (degree == fieldValues.HORIZONTAL || degree == fieldValues.VERTICAL) {
             middleShipPosition(position, getSibling(degree));
         } else {
             Log.e(tag, "Degree is not correctly set");
@@ -182,7 +183,7 @@ public class ShipLogic {
      *                 if degree is wrong, the method will send an exception
      */
     public void setBigShipPosition(int position, int degree) {
-        if (degree == fieldStrings.HORIZONTAL || degree == fieldStrings.VERTICAL) {
+        if (degree == fieldValues.HORIZONTAL || degree == fieldValues.VERTICAL) {
             bigShipPosition(position, getSibling(degree));
         } else {
             String degreeException = "Wrong degree value";
@@ -193,13 +194,14 @@ public class ShipLogic {
 
     /**
      * Returns the value of the position siblings, depending on a vertical or horizontal degree
+     *
      * @param degree used to determine the return value
      * @return the value which will be returned. Horizontal returns 1 and vertical returns 8
      */
     public int getSibling(int degree) {
-        if (degree == fieldStrings.HORIZONTAL) {
+        if (degree == fieldValues.HORIZONTAL) {
             return 1;
-        } else if (degree == fieldStrings.VERTICAL) {
+        } else if (degree == fieldValues.VERTICAL) {
             return 8;
         } else {
             throw new IllegalArgumentException("Degree not correctly set");
@@ -213,8 +215,10 @@ public class ShipLogic {
      * @param amount   which will be used to set the siblings of the position
      */
     private void middleShipPosition(int position, int amount) {
-        middle_ship[0] = position - amount;
-        middle_ship[1] = position;
+        if (inRange(position) && inRange(position - amount)) {
+            middle_ship[0] = position - amount;
+            middle_ship[1] = position;
+        } else throw new IllegalArgumentException(positionOutOfFieldException);
     }
 
     /**
@@ -224,9 +228,11 @@ public class ShipLogic {
      * @param amount   used to correctly set the siblings of the origin position
      */
     private void bigShipPosition(int position, int amount) {
-        big_ship[0] = position - amount;
-        big_ship[1] = position;
-        big_ship[2] = position + amount;
+        if (inRange(position - amount) && inRange(position) && inRange(position + amount)) {
+            big_ship[0] = position - amount;
+            big_ship[1] = position;
+            big_ship[2] = position + amount;
+        } else throw new IllegalArgumentException(positionOutOfFieldException);
     }
 
     /**
@@ -239,14 +245,16 @@ public class ShipLogic {
     /**
      * Sets the position
      *
-     * @param number the parameter to set the position
+     * @param number the parameter to set the position, if position is in field range
      */
     public void setPosition(int number) {
-        this.position = number;
+        if (inRange(number)) this.position = number;
+        else throw new IllegalArgumentException(positionOutOfFieldException);
     }
 
     /**
      * Getter Method, used in Map Activity class when a ship is set on the player field
+     *
      * @return when the ship is set on the player field, returns true, else false
      */
     public boolean isSmallShipIsSetOnField() {
@@ -273,6 +281,7 @@ public class ShipLogic {
 
     /**
      * Setter method for the boolean smallShipIsSetOnField, called in Map Activity after
+     *
      * @param smallShipIsSetOnField
      */
     public void setSmallShipIsSetOnField(boolean smallShipIsSetOnField) {
@@ -289,6 +298,10 @@ public class ShipLogic {
 
     public boolean allShipsSetOnPlayerField() {
         return isSmallShipIsSetOnField() && isMiddleShipIsSetOnField() && isBigShipIsSetOnField();
+    }
+
+    private boolean inRange(int position) {
+        return position >= 0 && position < fieldValues.FIELDSIZE;
     }
 
 }
