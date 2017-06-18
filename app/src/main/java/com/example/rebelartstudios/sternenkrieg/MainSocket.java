@@ -10,11 +10,7 @@ import android.widget.Button;
 import com.example.rebelartstudios.sternenkrieg.Network.Client1;
 import com.example.rebelartstudios.sternenkrieg.Network.Host;
 
-/**
- * Created by wenboda on 2017/5/1.
- */
-
-public class socketMain extends AppCompatActivity {
+public class MainSocket extends AppCompatActivity {
 
     Button s;
     Button c;
@@ -40,7 +36,7 @@ public class socketMain extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
-                intent.setClass(socketMain.this, Host.class);
+                intent.setClass(MainSocket.this, Host.class);
                 startActivity(intent);
             }
         });
@@ -49,7 +45,7 @@ public class socketMain extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
-                intent.setClass(socketMain.this, Client1.class);
+                intent.setClass(MainSocket.this, Client1.class);
                 startActivity(intent);
             }
         });

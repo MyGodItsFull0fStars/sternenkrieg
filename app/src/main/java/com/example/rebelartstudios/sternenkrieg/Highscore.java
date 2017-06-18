@@ -15,7 +15,7 @@ import com.example.rebelartstudios.sternenkrieg.GameLogic.GameUtilities;
 
 import java.util.ArrayList;
 
-public class HighScore extends AppCompatActivity {
+public class Highscore extends AppCompatActivity {
 
     ListView listHighScore;
     private ArrayAdapter<String> listAdapter;

@@ -27,12 +27,10 @@ import com.example.rebelartstudios.sternenkrieg.GameLogic.GameUtilities;
 
 public class Main extends AppCompatActivity {
 
-    Button startBtn;
-    Button optionsBtn;
-    Button aboutBtn;
-    Button diceBtn;
     Button socketBtn;
-    Button powerupBtn;
+    Button highscoreBtn;
+    Button optionsBtn;
+
     ImageView background;
     ImageView logo;
     GameUtilities game;
@@ -137,10 +135,9 @@ public class Main extends AppCompatActivity {
      * Called in the onCreate() method at start of activity
      */
     private void initializeClasses() {
-        startBtn = (Button) findViewById(R.id.start);
-        optionsBtn = (Button) findViewById(R.id.options);
-        diceBtn = (Button) findViewById(R.id.dice);
         socketBtn = (Button) findViewById(R.id.Socket);
+        highscoreBtn = (Button) findViewById(R.id.dice);
+        optionsBtn = (Button) findViewById(R.id.options);
 
         txtUsername = (TextView) findViewById(R.id.text_username);
         txtLevel = (TextView) findViewById(R.id.txt_level);
@@ -152,30 +149,30 @@ public class Main extends AppCompatActivity {
      */
     private void initializeOnClickListeners() {
 
-        // Options
-        optionsBtn.setOnClickListener(new View.OnClickListener() {
+        // Socket (Game Start)
+        socketBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Main.this, Options.class);
+                Intent intent = new Intent(Main.this, MainSocket.class);
                 startActivity(intent);
             }
         });
 
-        // Dice
-        diceBtn.setOnClickListener(new View.OnClickListener() {
+        // Highscore
+        highscoreBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Main.this, HighScore.class);
+                Intent intent = new Intent(Main.this, Highscore.class);
                 game.setHighscoreMain(false);
                 startActivity(intent);
             }
         });
 
-        // socketBtn
-        socketBtn.setOnClickListener(new View.OnClickListener() {
+        // Options
+        optionsBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Main.this, socketMain.class);
+                Intent intent = new Intent(Main.this, Options.class);
                 startActivity(intent);
             }
         });

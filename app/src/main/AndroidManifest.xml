@@ -66,7 +66,7 @@
             android:name=".About"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="landscape" />
-        <activity android:name=".socketMain" />
+        <activity android:name=".MainSocket" />
         <activity
             android:name=".Network.Host"
             android:configChanges="orientation|keyboardHidden"
@@ -90,7 +90,7 @@
             android:screenOrientation="landscape" />
 
         <activity
-            android:name=".HighScore"
+            android:name=".Highscore"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="landscape" />
     </application>

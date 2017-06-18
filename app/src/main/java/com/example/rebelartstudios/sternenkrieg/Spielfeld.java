@@ -667,7 +667,7 @@ public class Spielfeld extends AppCompatActivity {
                     .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                             // CONFIRM
-                            Intent intent = new Intent(Spielfeld.this, HighScore.class);
+                            Intent intent = new Intent(Spielfeld.this, Highscore.class);
                             game.setPoints(highScore);
                             game.setHighscoreMain(true);
                             startActivity(intent);
@@ -685,7 +685,7 @@ public class Spielfeld extends AppCompatActivity {
                     .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                             // CONFIRM
-                            Intent intent = new Intent(Spielfeld.this, HighScore.class);
+                            Intent intent = new Intent(Spielfeld.this, Highscore.class);
                             game.setPoints(highScore);
                             game.setHighscoreMain(true);
                             startActivity(intent);
