@@ -53,13 +53,46 @@
 
 %%% The "real" document content comes below...
 
-\title{Brief Article}
-\author{The Author}
-%\date{} % Activate to display a given date or no date (if empty),
-         % otherwise the current date is printed 
+\title{Sternenkrieg}
+\author{Christian Bauer\\ xyz@edu.aau.at
+\and Lukas Pagitz \\ xyz@edu.aau.at
+\and Anja Ressmann \\ xyz@edu.aau.at
+\and Christoph Roither \\ xyz@edu.aau.at
+\and Boda Wen \\ xyz@edu.aau.at}
+\date{21.06.2017}
+
+% Eigene Änderungen
+\usepackage[ngerman]{babel} % Silbentrennung
+\setlength\parindent{0pt} %  keine Einrückung
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage[autostyle=true,german=quotes]{csquotes}
+\usepackage{hyperref}
 
 \begin{document}
 \maketitle
+
+\begin{center}
+Software Engineering II - SS 16/17
+
+\hfill \break
+
+Univ.-Prof. Dipl.-Ing. Dr. Martin Pinzger
+
+Univ.-Ass. Dipl.-Ing. Christian Macho
+
+\hfill \break
+\\[3em]
+\begin{figure}[H]
+	\centering
+ 	\includegraphics[width=1\textwidth]{img/main}
+\end{figure}
+\end{center}
+\hfill \break
+\newpage
+\tableofcontents
+
+\newpage
 
 \section{First section}
 
@@ -68,5 +101,95 @@ Your text goes here.
 \subsection{A subsection}
 
 More text.
+
+\section{Grundlegender Aufbau}
+Sternenkrieg orientiert sich am Spielprinzip von "Schiffe versenken". Ziel ist es, die vom Gegner platzierten Schiffe als erster Spieler zu zerstören. Als Erweiterung zum herkömmlichen Spiel, bietet Sternenkrieg weitere Features, deren technische Funktionalität hier kurz erläutert wird. Dieses Kapitel soll zum Verständnis des Ablaufs im Programm beitragen.
+
+
+\section{Klassen im Überblick}
+In diesem Kapitel werden die allgemeinen Klassen und die dazugehörigen Activities von Sternenkrieg beschrieben. Besonders wichtige Klassen und Methoden werden ausführlicher behandelt.
+
+\subsection{Main}
+Die Klasse "Main" stellt den Startscreen sowie das Hauptmenü dar. Eingebunden werden hier das Hintergrundbild sowie die Buttons zur Menüauswahl. Falls das Spiel zum ersten Mal gestartet wird, muss vom Spieler ein Name eingegeben werden.
+
+\subsection{About}
+Die Klasse "About" gibt einen kurzen Text über Sternenkrieg aus und hat sonst keine weitere Funktionalitäten.
+
+\subsection{Dice}
+
+\subsection{DiceClass}
+
+\subsection{HighScore}
+
+\subsection{Map}
+
+\subsection{MapLoad}
+
+\subsection{Modi}
+
+\subsection{Networking}
+
+\subsection{Options}
+Die Klasse "Options" behandelt alle Einstellungsmöglichkeiten von Sternenkrieg. Dazu zählen:
+\begin{itemize}
+\item Name
+\item Sound an/aus
+\item Sprache (DE/EN)
+\end{itemize}
+Die Speicherung der Einstellungen erfolgt mithilfe von SharedPreferences ("prefs"). Diese bieten eine einfache Speicherung von Variablen, welche ebenfalls sehr einfach aktualisiert werden können. Nach einer Änderung wird die entsprechende Variable neu abgespeichert und steht somit auch den anderen Klassen zur Verfügung.
+
+\subsection{PlayAudio}
+
+\subsection{PowerUp}
+
+\subsection{QRReader}
+
+\subsection{Sensoren}
+
+\subsection{socketMain}
+
+\subsection{Spielfeld}
+
+\section{GameLogic-Klassen im Überblick}
+In diesem Kapitel werden die GameLogic-Klassen näher erläutert. Wie der Name schon sagt, beinhalten diese Klassen die eigentliche Spiellogik.
+
+\subsection{GameUtilities}
+
+\subsection{NetworkStats}
+
+\subsection{PlayerFieldLogic}
+
+\subsection{PlayerFieldShipContainer}
+
+\subsection{PlayerFieldValues}
+
+\subsection{ShipLogic}
+
+\section{Network-Klassen im Überblick}
+
+\subsection{AcceptThread}
+
+\subsection{Client1}
+
+\subsection{Host}
+
+\subsection{myhandler}
+
+\subsection{NetworkUtilities}
+
+\subsection{ReceiveThreadClient}
+
+\subsection{ReceiveThreadHost}
+
+\subsection{StartThread}
+
+\subsection{WriteClient}
+
+\subsection{WriteHost}
+
+\section{Erklärung besonderer Funktionen}
+
+\subsection{Shared Preferences}
+
 
 \end{document}
