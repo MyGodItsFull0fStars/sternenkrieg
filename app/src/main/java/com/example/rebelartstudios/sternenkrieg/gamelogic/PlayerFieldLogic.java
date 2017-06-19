@@ -104,18 +104,14 @@ public class PlayerFieldLogic {
      * @param input    string used to signalize the state
      */
     public void setMiddleShipPositionWithSiblingIndex(int position, int degree, String input) {
-        if (inRange(position) && inRange(position - getSibling(degree))) {
+        if (inRange(position - getSibling(degree)) && inRange(position)) {
             if (degree == fieldStrings.HORIZONTAL) {
                 playerField[position - getSibling(degree)] = input + ONE;
                 playerField[position] = input + TWO;
             } else if (degree == fieldStrings.VERTICAL) {
                 playerField[position - getSibling(degree)] = input + THREE;
                 playerField[position] = input + FOUR;
-            } else {
-                throw new IllegalArgumentException("Given degree is not defined");
             }
-        } else {
-            throw new IllegalArgumentException(playerFieldPositionOutOfRange);
         }
     }
 
@@ -124,8 +120,13 @@ public class PlayerFieldLogic {
         if (inRange(position) && inRange(position - getSibling(degree))) {
             playerField[position - getSibling(degree)] = input;
             playerField[position] = input;
-        } else {
-            throw new IllegalArgumentException(playerFieldPositionOutOfRange);
+        }
+    }
+
+    public void setBigShipPositionToString(int position, int degree, String input) {
+        setMiddleShipPositionToString(position, degree, input);
+        if (inRange(position + getSibling(degree))){
+            playerField[position + getSibling(degree)] = input;
         }
     }
 
@@ -148,8 +149,6 @@ public class PlayerFieldLogic {
                 playerField[position] = input + FIVE;
                 playerField[position + getSibling(degree)] = input + SIX;
             }
-        } else {
-            throw new IllegalArgumentException(playerFieldPositionOutOfRange);
         }
 
     }
@@ -162,7 +161,12 @@ public class PlayerFieldLogic {
      * @return TRUE if position is in the field, FALSE if position is out of range
      */
     public boolean inRange(int position) {
-        return position >= 0 && position < PLAYERFIELDSIZE;
+        if (position >= 0 && position < fieldStrings.FIELDSIZE) {
+            return true;
+        } else {
+            throw new IllegalArgumentException(playerFieldPositionOutOfRange);
+        }
+
     }
 
     /**
@@ -175,9 +179,9 @@ public class PlayerFieldLogic {
     public String getStringInPosition(int position) {
         if (inRange(position)) {
             return getPlayerField()[position];
-        } else {
-            throw new IllegalArgumentException(playerFieldPositionOutOfRange);
-        }
+
+            // can't be reached, because of thrown Exception in inRange()
+        } else return null;
     }
 
     /**
