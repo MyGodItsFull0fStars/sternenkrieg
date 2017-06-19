@@ -13,7 +13,7 @@ import static junit.framework.Assert.fail;
  * ShipLogic UnitTest class
  */
 
-public class ShipLogicTest {
+public class ShipLogicTests {
     private ShipLogic shipLogic_no_parameters;
     private ShipLogic shipLogic_with_parameters;
     private PlayerFieldValues fieldValues;

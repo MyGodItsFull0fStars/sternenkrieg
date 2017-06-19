@@ -13,7 +13,7 @@ import org.junit.Test;
 * @since <pre>Jun 15, 2017</pre> 
 * @version 1.0 
 */ 
-public class NetworkUtilitiesTest {
+public class NetworkUtilitiesTests {
 
     NetworkUtilities util;
 

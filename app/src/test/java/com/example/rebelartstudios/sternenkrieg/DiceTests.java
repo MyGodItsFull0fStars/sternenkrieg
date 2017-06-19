@@ -12,7 +12,7 @@ import static org.junit.Assert.assertTrue;
  * Created by christianbauer on 24/05/2017.
  */
 
-public class DiceTest {
+public class DiceTests {
     DiceClass diceClass = new DiceClass();
 
 

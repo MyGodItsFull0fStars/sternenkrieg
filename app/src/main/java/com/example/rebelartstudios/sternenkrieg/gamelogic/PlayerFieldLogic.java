@@ -3,7 +3,7 @@ package com.example.rebelartstudios.sternenkrieg.gamelogic;
 import java.util.Arrays;
 
 /**
- * Class is used to set the player field logic in the Map Activity class
+ * Class is used to set the player field logic in the Map Activity class`
  * The player field values are stored in a string array
  * Depending on the info in the single fields, the field will be colored to give feedback to the player
  */
@@ -21,7 +21,7 @@ public class PlayerFieldLogic {
     /**
      * Error messages for the Exception output.
      */
-    String playerFieldWrongSizeErrorMessage = "Parameter is of wrong size";
+    String playerFieldWrongSizeErrorMessage = "Parameter has the wrong size";
     String playerFieldPositionOutOfRange = "Parameter is not in range of player field";
 
     /**
@@ -65,10 +65,10 @@ public class PlayerFieldLogic {
      * @param playerfield used to set the playerField variable of the PlayerFieldLogic class
      */
     public void setPlayerField(String[] playerfield) {
-        if (playerfield.length == PLAYERFIELDSIZE) {
+        if (playerfield != null && playerfield.length == PLAYERFIELDSIZE) {
             this.playerField = playerfield;
         } else {
-            throw new IllegalStateException(playerFieldWrongSizeErrorMessage);
+            throw new IllegalArgumentException(playerFieldWrongSizeErrorMessage);
         }
     }
 
@@ -114,7 +114,7 @@ public class PlayerFieldLogic {
         if (inRange(position) && inRange(position - getSibling(degree))) {
             playerField[position - getSibling(degree)] = input;
             playerField[position] = input;
-        } else{
+        } else {
             throw new IllegalArgumentException(playerFieldPositionOutOfRange);
         }
     }
@@ -128,7 +128,7 @@ public class PlayerFieldLogic {
      * @param input    string used to signalize the state
      */
     public void setPFBigShipPositionWithSiblingIndex(int position, int degree, String input) {
-        if (inRange(position + getSibling(degree))){
+        if (inRange(position + getSibling(degree))) {
             playerField[position - getSibling(degree)] = input + ONE;
             playerField[position] = input + TWO;
             playerField[position + getSibling(degree)] = input + THREE;
@@ -145,7 +145,7 @@ public class PlayerFieldLogic {
      * @param position which will be checked
      * @return TRUE if position is in the field, FALSE if position is out of range
      */
-    private boolean inRange(int position) {
+    public boolean inRange(int position) {
         return position >= 0 && position < PLAYERFIELDSIZE;
     }
 
@@ -168,7 +168,7 @@ public class PlayerFieldLogic {
      * @param degree parameter which is either horizontal = 0 or vertical = 1
      * @return if horizontal return 1, if vertical, return 8, else throw exception
      */
-    protected int getSibling(int degree) {
+    public int getSibling(int degree) {
         if (degree == fieldStrings.HORIZONTAL) {
             return 1;
         } else if (degree == fieldStrings.VERTICAL) {
