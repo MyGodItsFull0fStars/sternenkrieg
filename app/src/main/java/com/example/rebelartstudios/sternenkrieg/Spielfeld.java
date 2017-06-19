@@ -114,6 +114,7 @@ public class Spielfeld extends AppCompatActivity {
     int who_is_starting;
 
     String mapString = "Map";
+
     /*******Networking*****/
 
     @Override
@@ -391,13 +392,13 @@ public class Spielfeld extends AppCompatActivity {
                     String shipType = map2[position];
            /* hit ship of enemy */
                     if (map2[position].equals("a") || map2[position].equals("b") || map2[position].equals("c")) {
-                        map2[position] = 4 + "";
+                        map2[position] = fieldValues.SETFIELDPOSITION_PLAYERHIT;
                         vib.vibrate(500);
                         highScore += 80;
 
                 /* miss enemy's ships */
                     } else if (map2[position].equals(fieldValues.SETFIELDPOSITION_EMPTY)) {
-                        map2[position] = 1 + "";
+                        map2[position] = fieldValues.SETFIELDPOSITION_MISS;
                         highScore -= 20;
                     }
 
@@ -462,14 +463,17 @@ public class Spielfeld extends AppCompatActivity {
 
 
     public void checkShoot(int position, int player) {
-        if (map1[position].equals("d") || map1[position].equals("e") || map1[position].equals("f")) {
-            map1[position] = 3 + "";
+        fieldValues.initialiseShipLists();
+        if (fieldValues.smallShipStringList.contains(map1[position])
+                || fieldValues.middleShipStringList.contains(map1[position])
+                || fieldValues.bigShipStringList.contains(map1[position])) {
+            map1[position] = fieldValues.SETFIELDPOSITION_ENEMYHIT;
             vib.vibrate(500);
             highScore = highScore - 30;
 
                     /* opponent misses */
         } else if (map1[position].equals(fieldValues.SETFIELDPOSITION_EMPTY)) {
-            map1[position] = 5 + "";
+            map1[position] = fieldValues.SETFIELDPOSITION_ENEMYMISS;
             highScore = highScore + 10;
         }
         draw(map1, gridView1); // update map

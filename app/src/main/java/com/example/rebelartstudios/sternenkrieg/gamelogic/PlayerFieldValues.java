@@ -5,6 +5,22 @@ import java.util.LinkedList;
 public final class PlayerFieldValues {
 
     public LinkedList<String> checkAvailabilityList;
+    public LinkedList<String> smallShipStringList;
+    public LinkedList<String> middleShipStringList;
+    public LinkedList<String> bigShipStringList;
+
+    public void initialiseShipLists(){
+        smallShipStringList.add(SETFIELDPOSITION_SMALL);
+
+        middleShipStringList.add(SETPLAYERPOSITION_MIDDLE);
+        middleShipStringList.add(SETPLAYERPOSITION_MIDDLE1);
+        middleShipStringList.add(SETPLAYERPOSITION_MIDDLE2);
+
+        bigShipStringList.add(SETFIELDPOSITION_BIG);
+        bigShipStringList.add(SETFIELDPOSITION_BIG1);
+        bigShipStringList.add(SETFIELDPOSITION_BIG2);
+        bigShipStringList.add(SETFIELDPOSITION_BIG3);
+    }
 
     public final String SETFIELDPOSITION_A = "a";
     public final String SETFIELDPOSITION_B = "b";
