@@ -90,7 +90,7 @@ public class Dice extends AppCompatActivity {
         mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 
         Dice.imageDice = (ImageView) findViewById(R.id.imageDice);
-        dicegoto =(ImageView) findViewById(R.id.dicegoto);
+        dicegoto = (ImageView) findViewById(R.id.dicegoto);
         dicegoto.setVisibility(View.INVISIBLE);
         diceenemy = (ImageView) findViewById(R.id.diceenemy);
         diceenemy.setVisibility(View.INVISIBLE);
@@ -191,10 +191,10 @@ public class Dice extends AppCompatActivity {
 
     }
 
-    public void animation(){
-        Animation scale = new ScaleAnimation(imageDice.getScaleX(),imageDice.getScaleX()/2, imageDice.getScaleY(),imageDice.getScaleY()/2, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+    public void animation() {
+        Animation scale = new ScaleAnimation(imageDice.getScaleX(), imageDice.getScaleX() / 2, imageDice.getScaleY(), imageDice.getScaleY() / 2, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
         scale.setDuration(1000);
-        TranslateAnimation slideUp = new TranslateAnimation(-dicegoto.getX(),-imageDice.getX(),0,0);
+        TranslateAnimation slideUp = new TranslateAnimation(-dicegoto.getX(), -imageDice.getX(), 0, 0);
         slideUp.setDuration(1000);
         AnimationSet animSet = new AnimationSet(true);
         animSet.setFillEnabled(true);
@@ -213,8 +213,8 @@ public class Dice extends AppCompatActivity {
             public void onAnimationEnd(Animation animation) {
                 textscore.setText("You got:" + value);
                 prog1.setVisibility(View.VISIBLE);
-                if(!came)
-                textscoreenemy.setText("Waiting for Enemy");
+                if (!came)
+                    textscoreenemy.setText("Waiting for Enemy");
 
             }
 
@@ -231,9 +231,11 @@ public class Dice extends AppCompatActivity {
         switch (mode) {
             case 1:
                 whoStarts = diceClass.whoIsStarting(value, gegnervalue);
-               game.setWhoIsStarting(whoStarts);
-                if (whoStarts == 2)
+                game.setWhoIsStarting(whoStarts);
+                if (whoStarts == 2) {
                     intent.setClass(Dice.this, Dice.class);
+                    goNext.setText("Dice again");
+                }
                 break;
 
             case 2:
@@ -241,7 +243,18 @@ public class Dice extends AppCompatActivity {
                 break;
             default:
                 break;
+
         }
+        new CountDownTimer(3000, 100) {
+            public void onTick(long millisUntilFinished) {
+            }
+
+            @Override
+            public void onFinish() {
+                goNext.setVisibility(View.VISIBLE);
+            }
+
+        }.start();
     }
 
     private void sollfinish() {
@@ -249,7 +262,6 @@ public class Dice extends AppCompatActivity {
             diceClass.changeDiceImageEnemy(gegnervalue);
             prog1.setVisibility(View.INVISIBLE);
             diceenemy.setVisibility(View.VISIBLE);
-            goNext.setVisibility(View.VISIBLE);
             onFinish();
         }
     }
@@ -274,7 +286,7 @@ public class Dice extends AppCompatActivity {
             message = util.handleMessage(msg);
             if ("boolean".equals(message)) {
                 finishEnemy = true;
-                Log.i(Dice.class.getName(),"Boolean");
+                Log.i(Dice.class.getName(), "Boolean");
                 syncClose();
             } else if (!("".equals(message))) {
                 gegnervalue = Integer.parseInt(message);
