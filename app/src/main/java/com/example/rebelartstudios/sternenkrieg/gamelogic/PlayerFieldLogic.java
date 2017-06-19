@@ -88,7 +88,7 @@ public class PlayerFieldLogic {
      * @param position the position which will we changed to wanted state
      * @param input
      */
-    public void setPFSmallShipPosition(int position, String input) {
+    public void setSmallShipPosition(int position, String input) {
         if (inRange(position)) {
             playerField[position] = input;
         }
@@ -103,14 +103,16 @@ public class PlayerFieldLogic {
      * @param degree   used to decide between horizontal/vertical setting of player field state
      * @param input    string used to signalize the state
      */
-    public void setPFMiddleShipPositionWithSiblingIndex(int position, int degree, String input) {
+    public void setMiddleShipPositionWithSiblingIndex(int position, int degree, String input) {
         if (inRange(position) && inRange(position - getSibling(degree))) {
-            if(degree==0) {
+            if (degree == fieldStrings.HORIZONTAL) {
                 playerField[position - getSibling(degree)] = input + ONE;
                 playerField[position] = input + TWO;
-            } else {
+            } else if (degree == fieldStrings.VERTICAL) {
                 playerField[position - getSibling(degree)] = input + THREE;
                 playerField[position] = input + FOUR;
+            } else {
+                throw new IllegalArgumentException("Given degree is not defined");
             }
         } else {
             throw new IllegalArgumentException(playerFieldPositionOutOfRange);
@@ -135,13 +137,13 @@ public class PlayerFieldLogic {
      * @param degree   used to decide between horizontal/vertical setting of player field state
      * @param input    string used to signalize the state
      */
-    public void setPFBigShipPositionWithSiblingIndex(int position, int degree, String input) {
-        if (inRange(position - getSibling(degree)) && inRange(position) && inRange(position + getSibling(degree))){
-            if(degree==0) {
+    public void setBigShipPositionWithSiblingIndex(int position, int degree, String input) {
+        if (inRange(position - getSibling(degree)) && inRange(position) && inRange(position + getSibling(degree))) {
+            if (degree == fieldStrings.HORIZONTAL) {
                 playerField[position - getSibling(degree)] = input + ONE;
                 playerField[position] = input + TWO;
                 playerField[position + getSibling(degree)] = input + THREE;
-            } else {
+            } else if (degree == fieldStrings.VERTICAL) {
                 playerField[position - getSibling(degree)] = input + FOUR;
                 playerField[position] = input + FIVE;
                 playerField[position + getSibling(degree)] = input + SIX;

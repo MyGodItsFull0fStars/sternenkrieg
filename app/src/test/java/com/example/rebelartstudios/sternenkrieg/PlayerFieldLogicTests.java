@@ -119,7 +119,7 @@ public class PlayerFieldLogicTests {
     public void checkSetPFSmallShipPositionThrowsNOException() {
         try {
             for (int i = -100; i < fieldValues.FIELDSIZE * 2; i++) {
-                playerFieldLogic.setPFSmallShipPosition(i, fieldValues.SETFIELDPOSITION_A);
+                playerFieldLogic.setSmallShipPosition(i, fieldValues.SETFIELDPOSITION_A);
             }
         } catch (Exception e) {
             fail("Exception should not be reached");
@@ -140,7 +140,15 @@ public class PlayerFieldLogicTests {
     public void checkSetPFMiddleShipPositionWithSiblingIndexThrowsNOException() {
         try {
             for (int position = 1; position < fieldValues.FIELDSIZE; position++) {
-                playerFieldLogic.setPFMiddleShipPositionWithSiblingIndex(position, fieldValues.HORIZONTAL, fieldValues.SETFIELDPOSITION_A);
+                playerFieldLogic.setMiddleShipPositionWithSiblingIndex(position, fieldValues.HORIZONTAL, fieldValues.SETFIELDPOSITION_A);
+            }
+        } catch (IllegalArgumentException e) {
+            fail("IllegalArgumentException should not be reached");
+        }
+
+        try {
+            for (int position = 8; position < fieldValues.FIELDSIZE; position++) {
+                playerFieldLogic.setMiddleShipPositionWithSiblingIndex(position, fieldValues.VERTICAL, fieldValues.SETFIELDPOSITION_A);
             }
         } catch (IllegalArgumentException e) {
             fail("IllegalArgumentException should not be reached");
@@ -148,14 +156,104 @@ public class PlayerFieldLogicTests {
     }
 
     @Test
-    public void checkSetPFMiddleShipPositionWithSiblingIndexThrowsException(){
+    public void checkSetPFMiddleShipPositionWithSiblingIndexThrowsException() {
         try {
-            playerFieldLogic.setPFMiddleShipPositionWithSiblingIndex(0, fieldValues.HORIZONTAL, fieldValues.SETFIELDPOSITION_A);
+            playerFieldLogic.setMiddleShipPositionWithSiblingIndex(0, fieldValues.HORIZONTAL, fieldValues.SETFIELDPOSITION_A);
+            fail("IllegalArgumentException expected");
+        } catch (IllegalArgumentException e) {
+            Assert.assertEquals(e.getMessage(), "Parameter is not in range of player field");
+        }
+
+        try {
+            playerFieldLogic.setMiddleShipPositionWithSiblingIndex(4, fieldValues.VERTICAL, fieldValues.SETFIELDPOSITION_A);
+            fail("IllegalArgumentException expected");
+        } catch (IllegalArgumentException e) {
+            Assert.assertEquals(e.getMessage(), "Parameter is not in range of player field");
+        }
+        try {
+            playerFieldLogic.setMiddleShipPositionWithSiblingIndex(65, fieldValues.VERTICAL, fieldValues.SETFIELDPOSITION_A);
             fail("IllegalArgumentException expected");
         } catch (IllegalArgumentException e) {
             Assert.assertEquals(e.getMessage(), "Parameter is not in range of player field");
         }
     }
 
+    @Test
+    public void checkSetMiddleShipPositionToString() {
+        try {
+            for (int position = 1; position < fieldValues.FIELDSIZE; position++) {
+                playerFieldLogic.setMiddleShipPositionToString(position, fieldValues.HORIZONTAL, fieldValues.SETFIELDPOSITION_A);
+            }
+        } catch (IllegalArgumentException e) {
+            fail("IllegalArgumentException should not be reached");
+        }
 
+        try {
+            for (int position = 8; position < fieldValues.FIELDSIZE; position++) {
+                playerFieldLogic.setMiddleShipPositionToString(position, fieldValues.VERTICAL, fieldValues.SETFIELDPOSITION_A);
+            }
+        } catch (IllegalArgumentException e) {
+            fail("IllegalArgumentException should not be reached");
+        }
+    }
+
+    @Test
+    public void checkSetMiddleShipPositionToStringThrowsException() {
+        try {
+            playerFieldLogic.setMiddleShipPositionToString(0, fieldValues.HORIZONTAL, fieldValues.SETFIELDPOSITION_A);
+        } catch (IllegalArgumentException e) {
+            Assert.assertEquals(e.getMessage(), "Parameter is not in range of player field");
+        }
+
+        try {
+            playerFieldLogic.setMiddleShipPositionToString(65, fieldValues.HORIZONTAL, fieldValues.SETFIELDPOSITION_A);
+        } catch (IllegalArgumentException e) {
+            Assert.assertEquals(e.getMessage(), "Parameter is not in range of player field");
+        }
+    }
+
+    @Test
+    public void checkBigShipPositionWithSiblingIndexThrowsNoException() {
+
+    }
+
+    @Test
+    public void checkBigShipPositionWithSiblingIndexThrowsException() {
+
+    }
+
+    @Test
+    public void checkGetStringInPosition() {
+        for (int position = 0; position < fieldValues.FIELDSIZE; position++) {
+            Assert.assertEquals(fieldValues.SETFIELDPOSITION_EMPTY, playerFieldLogic.getStringInPosition(position));
+        }
+
+        playerFieldLogic.setSmallShipPosition(5, fieldValues.SETFIELDPOSITION_A);
+        Assert.assertTrue(fieldValues.SETFIELDPOSITION_A.equals(playerFieldLogic.getStringInPosition(5)));
+
+        for (int position = 0; position < fieldValues.FIELDSIZE; position++) {
+            playerFieldLogic.setSmallShipPosition(position, fieldValues.SETFIELDPOSITION_B);
+        }
+
+        for (int position = 0; position < fieldValues.FIELDSIZE; position++) {
+            Assert.assertTrue(fieldValues.SETFIELDPOSITION_B.equals(playerFieldLogic.getStringInPosition(position)));
+        }
+    }
+
+    @Test
+    public void checkGetStringPositionThrowsException(){
+        try {
+            playerFieldLogic.getStringInPosition(-1);
+            fail("IllegalArgumentException expected");
+        } catch (IllegalArgumentException e) {
+            Assert.assertEquals(e.getMessage(), "Parameter is not in range of player field");
+        }
+
+        try {
+            playerFieldLogic.getStringInPosition(65);
+            fail("IllegalArgumentException expected");
+        } catch (IllegalArgumentException e) {
+            Assert.assertEquals(e.getMessage(), "Parameter is not in range of player field");
+        }
+    }
 }

@@ -110,7 +110,7 @@ public class Map extends AppCompatActivity {
         width = size.x;
         height = size.y;
 
-        game= new GameUtilities(getApplicationContext());
+        game = new GameUtilities(getApplicationContext());
 
         initializeShipView();
 
@@ -182,38 +182,8 @@ public class Map extends AppCompatActivity {
                         int position = position(x, y);
 
                         playerFieldShipContainer.setShipOnPlayerFieldWithDragAndDrop(position, which_ship, degree);
-//                        //kleines Schiff
-//                        if (which_ship == playerFieldShipContainer.getShipLogic().SMALL_SHIP_ID) {
-//                            if (!playerFieldShipContainer.playerFieldPositionContainsString(position, fieldValues.SETFIELDPOSITION_SMALL) ||
-//                                    !playerFieldShipContainer.playerFieldPositionContainsString(position, fieldValues.SETFIELDPOSITION_BIG)
-//                                    ) {
-//
-//                                delete(playerFieldShipContainer.getShipLogic().getSmallShipArray());
-//                                //neue Position gesetzt
-//                                playerFieldShipContainer.setSmallShipContainer(position, fieldValues.SETFIELDPOSITION_SMALL);
-//                                playerFieldShipContainer.getShipLogic().setSmallShipIsSetOnField(true);
-//                            }
-//                        }
-//
-//                        //mittleres Schiff
-//                        if (which_ship == playerFieldShipContainer.getShipLogic().MIDDLE_SHIP_ID &&
-//                                playerFieldShipContainer.checkPosition(position, which_ship, degree)) {
-//
-//                            delete(playerFieldShipContainer.getShipLogic().getMiddleShipArray());
-//                            playerFieldShipContainer.setMiddleShipContainer(position, degree, fieldValues.SETPLAYERPOSITION_MIDDLE);
-//                            playerFieldShipContainer.getShipLogic().setMiddleShipIsSetOnField(true);
-//                        }
-//                        //großes Schiff
-//                        if (which_ship == playerFieldShipContainer.getShipLogic().BIG_SHIP_ID &&
-//                                playerFieldShipContainer.checkPosition(position, which_ship, degree)) {
-//                            delete(playerFieldShipContainer.getShipLogic().getBigShipArray());
-//
-//                            playerFieldShipContainer.setBigShipContainer(position, degree, fieldValues.SETFIELDPOSITION_BIG);
-//                            playerFieldShipContainer.getShipLogic().setBigShipIsSetOnField(true);
-//                        }
 
                         draw(playerFieldShipContainer.getPlayerFieldLogic().getPlayerField());
-
 
 
                         if (playerFieldShipContainer.getShipLogic().allShipsSetOnPlayerField()) {
@@ -249,9 +219,8 @@ public class Map extends AppCompatActivity {
                 ClipData data = ClipData.newPlainText("", "");
                 View.DragShadowBuilder shadow = new View.DragShadowBuilder(ship1);
                 v.startDrag(data, shadow, null, 0);
-                //small ship
 
-               // which_ship = playerFieldShipContainer.getShipLogic().SMALL_SHIP_ID;
+                which_ship = playerFieldShipContainer.getShipLogic().SMALL_SHIP_ID;
 
                 ship1.setVisibility(View.INVISIBLE);
                 return false;
@@ -315,7 +284,6 @@ public class Map extends AppCompatActivity {
 
 
     /**
-
      * Initializes the ShipViews in the onCreate() method
      */
     private void initializeShipView() {
@@ -412,8 +380,6 @@ public class Map extends AppCompatActivity {
 //        playerFieldShipContainer.delete(shipArray);
 //        draw(playerFieldShipContainer.getPlayerFieldLogic().getPlayerField());
 //    }
-
-
     public void draw(String[] array) {
         gridView.setAdapter(mapLoad);
     }
@@ -433,7 +399,6 @@ public class Map extends AppCompatActivity {
 
     // There are the Message from other player. We can work with "message" to change our map, uppower and ship.
     class Myhandler extends Handler {
-
 
 
         public void handleMessage(Message msg) {

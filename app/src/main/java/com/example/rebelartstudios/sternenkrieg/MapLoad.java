@@ -95,7 +95,7 @@ public class MapLoad extends BaseAdapter {
                         mobile.equals(fieldValues.SETFIELDPOSITION_B) ||
                         mobile.equals(fieldValues.SETFIELDPOSITION_C)) {
             imageView.setBackgroundColor(Color.WHITE); //no action
-           // imageView.getBackground().setAlpha(70);
+            imageView.getBackground().setAlpha(70);
         } else if (mobile.equals(fieldValues.SETFIELDPOSITION_MISS)) {
             imageView.setBackgroundColor(Color.MAGENTA); //miss for player
         } else if (mobile.equals(fieldValues.SETFIELDPOSITION_TWO)){

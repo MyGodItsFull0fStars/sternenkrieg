@@ -48,7 +48,7 @@ public class PlayerFieldShipContainer {
      */
     public void setSmallShipContainer(int position, String input) {
         shipLogic.setSmallShipPosition(position);
-        playerFieldLogic.setPFSmallShipPosition(position, input);
+        playerFieldLogic.setSmallShipPosition(position, input);
     }
 
     /**
@@ -60,7 +60,7 @@ public class PlayerFieldShipContainer {
      */
     public void setMiddleShipContainer(int position, int degree, String input) {
         shipLogic.setMiddleShipPosition(position, degree);
-        playerFieldLogic.setPFMiddleShipPositionWithSiblingIndex(position, degree, input);
+        playerFieldLogic.setMiddleShipPositionWithSiblingIndex(position, degree, input);
     }
 
     /**
@@ -72,7 +72,7 @@ public class PlayerFieldShipContainer {
      */
     public void setBigShipContainer(int position, int degree, String input) {
         shipLogic.setBigShipPosition(position, degree);
-        playerFieldLogic.setPFBigShipPositionWithSiblingIndex(position, degree, input);
+        playerFieldLogic.setBigShipPositionWithSiblingIndex(position, degree, input);
     }
 
     /**
@@ -83,7 +83,7 @@ public class PlayerFieldShipContainer {
     public void delete(int[] shipArray) {
         if (shipArray != null && shipArray.length >= 0 && shipArray.length <= 3) {
             for (int position : shipArray) {
-                playerFieldLogic.setPFSmallShipPosition(position, fieldValues.SETFIELDPOSITION_EMPTY);
+                playerFieldLogic.setSmallShipPosition(position, fieldValues.SETFIELDPOSITION_EMPTY);
             }
         }
     }
