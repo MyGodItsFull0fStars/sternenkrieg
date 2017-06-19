@@ -5,118 +5,191 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:keepScreenOn="true"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@drawable/backgroundmenue"
+    android:gravity="center"
+    tools:layout_editor_absoluteY="25dp"
+    tools:layout_editor_absoluteX="0dp">
 
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:hint="Nicht verbinden"
-        android:id="@+id/tvIP"
-        tools:layout_constraintTop_creator="1"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="132dp"
-        tools:layout_constraintLeft_creator="1"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginLeft="68dp"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/tv" />
-
-
-    <TextView
-        android:id="@+id/tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:hint="Nicht verbinden"
-        android:textSize="30sp"
-        tools:layout_constraintTop_creator="1"
-        tools:layout_constraintLeft_creator="1"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintHorizontal_bias="0.177"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintVertical_bias="0.498" />
-
-
-    <TextView
-        android:id="@+id/ip"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:hint="Host"
-        android:textSize="30sp"
-        tools:layout_constraintTop_creator="1"
-        tools:layout_constraintLeft_creator="1"
-        android:layout_marginRight="264dp"
-        app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginTop="26dp"
-        app:layout_constraintTop_toBottomOf="@+id/textserver" />
-
-
-    <Button
-        android:id="@+id/qr_button"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
-        android:text="QR"
-        android:textColor="@color/common_signin_btn_dark_text_default"
-        android:textSize="20sp"
-        tools:layout_conversion_absoluteX="337dp"
-        tools:layout_conversion_absoluteY="291dp"
-        tools:layout_conversion_absoluteWidth="200dp"
-        tools:layout_conversion_absoluteHeight="48dp"
-        android:layout_marginRight="75dp"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginBottom="102dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintTop_toBottomOf="@+id/textserver"
-        app:layout_constraintVertical_bias="1.0" />
-
-    <Button
-        android:id="@+id/btn_starten"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:enabled="false"
-        android:text="Starten"
-        android:textSize="30sp"
-        tools:layout_conversion_absoluteX="55dp"
-        tools:layout_conversion_absoluteY="150dp"
-        tools:layout_conversion_absoluteWidth="200dp"
-        tools:layout_conversion_absoluteHeight="55dp"
-        android:layout_marginLeft="97dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@+id/qr_button"
-        android:layout_marginRight="8dp"
-        app:layout_constraintHorizontal_bias="0.052"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginBottom="94dp" />
 
     <TextView
         android:id="@+id/textserver"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_weight="0.30"
         android:text="Server"
+        android:textColor="@android:color/white"
         android:textSize="36sp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:gravity="center_horizontal" />
 
-    <TextView
-        android:id="@+id/textView11"
-        android:layout_width="169dp"
-        android:layout_height="47dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginRight="0dp"
-        android:layout_marginTop="0dp"
-        android:text="IP Adresse:"
-        android:textSize="30sp"
-        app:layout_constraintBottom_toBottomOf="@+id/ip"
-        app:layout_constraintRight_toLeftOf="@+id/ip"
-        app:layout_constraintTop_toTopOf="@+id/ip"
-        app:layout_constraintVertical_bias="0.0" />
+    <LinearLayout
+        android:layout_width="579dp"
+        android:layout_height="51dp"
+        android:orientation="horizontal"
+        android:layout_marginRight="7dp"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginLeft="8dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="7dp"
+        android:id="@+id/linearLayout7"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@+id/textserver">
+
+        <TextView
+            android:id="@+id/tvIP"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/textView11"
+            android:layout_alignStart="@+id/textView11"
+            android:layout_below="@+id/textserver"
+            android:hint="Nicht verbinden"
+            android:textColor="@android:color/white"
+            android:textColorHint="@android:color/white"
+            android:textSize="30sp"
+            tools:layout_editor_absoluteX="8dp"
+            tools:layout_editor_absoluteY="276dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout8"
+        android:layout_width="576dp"
+        android:layout_height="46dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:orientation="horizontal"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout7">
+
+        <TextView
+            android:id="@+id/textView11"
+            android:layout_width="wrap_content"
+            android:layout_height="47dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/tvIP"
+            android:text="IP Adresse:"
+            android:textColor="@android:color/white"
+            android:textSize="30sp"
+            tools:layout_editor_absoluteX="80dp"
+            tools:layout_editor_absoluteY="205dp" />
+
+        <TextView
+            android:id="@+id/ip"
+            android:layout_width="100dp"
+            android:layout_height="44dp"
+            android:layout_alignBottom="@+id/textView11"
+            android:layout_alignEnd="@+id/btn_starten"
+            android:layout_alignRight="@+id/btn_starten"
+            android:layout_weight="1"
+            android:hint="Host"
+            android:textColor="@android:color/white"
+            android:textSize="30sp"
+            tools:layout_editor_absoluteX="369dp"
+            tools:layout_editor_absoluteY="219dp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="23dp"
+        android:orientation="horizontal"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout8"
+        android:id="@+id/linearLayout9"
+        app:layout_constraintHorizontal_bias="0.0">
+
+        <TextView
+            android:id="@+id/textView12"
+            android:layout_width="10dp"
+            android:layout_height="20dp"
+            android:layout_weight="0.30" />
+
+        <Button
+            android:id="@+id/btn_starten"
+            android:layout_width="200dp"
+            android:layout_height="60dp"
+            android:layout_alignLeft="@+id/textView11"
+            android:layout_alignStart="@+id/textView11"
+            android:layout_alignTop="@+id/qr_button"
+            android:enabled="false"
+            android:text="Starten"
+            android:background="@color/colorPrimary"
+            android:textSize="20sp"
+            android:textColor="@color/common_signin_btn_dark_text_default"
+            tools:layout_conversion_absoluteHeight="55dp"
+            tools:layout_conversion_absoluteWidth="200dp"
+            tools:layout_conversion_absoluteX="55dp"
+            tools:layout_conversion_absoluteY="150dp"
+            tools:layout_editor_absoluteX="55dp"
+            tools:layout_editor_absoluteY="150dp" />
+
+        <TextView
+            android:id="@+id/textView13"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.30" />
+
+        <Button
+            android:id="@+id/qr_button"
+            android:layout_width="200dp"
+            android:layout_height="60dp"
+            android:layout_below="@+id/ip"
+            android:layout_toRightOf="@+id/btn_starten"
+            android:background="@color/colorPrimary"
+            android:textSize="20sp"
+            android:textColor="@color/common_signin_btn_dark_text_default"
+            android:text="QR"
+            tools:layout_conversion_absoluteHeight="55dp"
+            tools:layout_conversion_absoluteWidth="200dp"
+            tools:layout_conversion_absoluteX="337dp"
+            tools:layout_conversion_absoluteY="291dp"
+            tools:layout_editor_absoluteX="337dp"
+            tools:layout_editor_absoluteY="291dp" />
+
+        <TextView
+            android:id="@+id/textView14"
+            android:layout_width="10dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.30" />
+
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/imageServerBack"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:layout_alignParentBottom="true"
+        app:srcCompat="@drawable/back"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintHorizontal_bias="0.034"
+        android:layout_marginLeft="8dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp" />
 
 
 </android.support.constraint.ConstraintLayout>

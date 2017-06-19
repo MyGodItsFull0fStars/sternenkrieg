@@ -35,7 +35,7 @@ public class GameUtilitiesTest {
     public void before() {
         instrumentationCtx = InstrumentationRegistry.getContext();
         game = new GameUtilities(instrumentationCtx);
-        pref = instrumentationCtx.getSharedPreferences("pref", Context.MODE_PRIVATE);
+        pref = instrumentationCtx.getSharedPreferences("prefs", Context.MODE_PRIVATE);
         editor = pref.edit();
     }
 
@@ -112,9 +112,10 @@ public class GameUtilitiesTest {
     public void testDeleteHighscore() throws Exception {
         ArrayList<String> list = new ArrayList<>();
         editor.putInt("counter", 5);
+        game.setUsername("Chris");
         editor.commit();
         for (int i = 0; i < 5; i++)
-            list.add("Unbekannt");
+            list.add("Chris");
         assertEquals(list, game.getHighscore());
         list.clear();
         game.deleteHighscore();

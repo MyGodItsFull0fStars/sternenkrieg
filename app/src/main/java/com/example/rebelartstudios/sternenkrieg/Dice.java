@@ -22,6 +22,7 @@ import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TableLayout;
 import android.widget.TextView;
 
 import com.example.rebelartstudios.sternenkrieg.gamelogic.GameUtilities;
@@ -48,10 +49,19 @@ public class Dice extends AppCompatActivity {
     private TextView textscoreenemy;
     private int value;
     Sensors sensors = new Sensors();
-    DiceClass diceClass = new DiceClass();
+    DiceClass diceClass;
     NetworkUtilities util;
     NetworkStats stats = new NetworkStats();
     GameUtilities game;
+    TextView statistik;
+    TextView statistik1;
+    TextView statistik2;
+    TextView statistik3;
+    TextView statistik4;
+    TextView statistik5;
+    TextView statistik6;
+    TableLayout tabledice;
+
 
     private int gegnervalue;
     boolean finish = false;
@@ -88,12 +98,20 @@ public class Dice extends AppCompatActivity {
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-
+        diceClass = new DiceClass(getApplicationContext());
         Dice.imageDice = (ImageView) findViewById(R.id.imageDice);
         dicegoto = (ImageView) findViewById(R.id.dicegoto);
         dicegoto.setVisibility(View.INVISIBLE);
         diceenemy = (ImageView) findViewById(R.id.diceenemy);
         diceenemy.setVisibility(View.INVISIBLE);
+        statistik = (TextView) findViewById(R.id.textWarscheinlichkeit);
+        statistik1 = (TextView) findViewById(R.id.textDiceOne);
+        statistik2 = (TextView) findViewById(R.id.textDiceTwo);
+        statistik3 = (TextView) findViewById(R.id.textDiceThree);
+        statistik4 = (TextView) findViewById(R.id.textDiceFour);
+        statistik5 = (TextView) findViewById(R.id.textDiceFive);
+        statistik6 = (TextView) findViewById(R.id.textDiceSix);
+        tabledice=(TableLayout) findViewById(R.id.tableDice);
 
         prog1 = (ProgressBar) findViewById(R.id.progressBar);
         prog1.setVisibility(View.INVISIBLE);
@@ -213,6 +231,7 @@ public class Dice extends AppCompatActivity {
             public void onAnimationEnd(Animation animation) {
                 textscore.setText("You got:" + value);
                 prog1.setVisibility(View.VISIBLE);
+                statistikVisibility();
                 if (!came)
                     textscoreenemy.setText("Waiting for Enemy");
 
@@ -272,6 +291,18 @@ public class Dice extends AppCompatActivity {
             startActivity(intent);
         }
 
+    }
+
+    public void statistikVisibility(){
+        statistik.setVisibility(View.VISIBLE);
+      tabledice.setVisibility(View.VISIBLE);
+
+        statistik1.setText("1: "+diceClass.getOneprobability());
+        statistik2.setText("2: "+diceClass.getTwoprobability());
+        statistik3.setText("3: "+diceClass.getThreeprobability());
+        statistik4.setText("4: "+diceClass.getFourprobability());
+        statistik5.setText("5: "+diceClass.getFiveprobability());
+        statistik6.setText("6: "+diceClass.getSixprobability());
     }
 
 

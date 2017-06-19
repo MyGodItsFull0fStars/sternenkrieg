@@ -1,5 +1,7 @@
 package com.example.rebelartstudios.sternenkrieg;
 
+import com.example.rebelartstudios.sternenkrieg.gamelogic.DiceTests;
+
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 

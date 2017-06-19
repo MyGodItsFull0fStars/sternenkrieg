@@ -3,9 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:background="@drawable/backgroundmenue"
+    android:gravity="center"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:keepScreenOn="true"
+
     tools:context="com.example.rebelartstudios.sternenkrieg.About">
 
     <TextView
@@ -38,8 +40,9 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginTop="79dp"
-        android:backgroundTint="@color/colorPrimary"
         android:text="@string/playSound"
+        android:background="@color/colorPrimary"
+        android:textSize="20sp"
         android:textColor="@color/common_signin_btn_dark_text_default"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"

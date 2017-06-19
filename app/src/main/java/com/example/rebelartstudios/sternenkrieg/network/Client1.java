@@ -3,6 +3,7 @@ package com.example.rebelartstudios.sternenkrieg.network;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
@@ -10,24 +11,23 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.rebelartstudios.sternenkrieg.Dice;
+import com.example.rebelartstudios.sternenkrieg.MainSocket;
+import com.example.rebelartstudios.sternenkrieg.R;
+import com.example.rebelartstudios.sternenkrieg.gamelogic.GameUtilities;
 import com.example.rebelartstudios.sternenkrieg.gamelogic.NetworkStats;
 import com.example.rebelartstudios.sternenkrieg.res.QRReader;
-import com.example.rebelartstudios.sternenkrieg.R;
 
 import java.io.IOException;
 import java.net.Socket;
 
 public class Client1 extends AppCompatActivity implements View.OnClickListener {
-    private TextView tv;
-    private EditText et;
     private EditText IPet;
     private Handler myhandler;
     private Socket socket;
-    private Button btnSend;
     private Button btnStart;
     private Button btnStop;
     private StartThread st;
@@ -37,9 +37,10 @@ public class Client1 extends AppCompatActivity implements View.OnClickListener {
     String ipFromQR;
     Button btnQR;
     Bundle extras;
-    Button btnBeretien;
     boolean ifstart = true;
     NetworkStats stats = new NetworkStats();
+    GameUtilities game;
+    ImageView back;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,15 +48,12 @@ public class Client1 extends AppCompatActivity implements View.OnClickListener {
         setContentView(R.layout.activity_client);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         initializeButtonsViews();
+        game = new GameUtilities(getApplicationContext());
 
         setButtonOnStartState(true);
-
-
-        btnSend.setOnClickListener(this);
         btnStart.setOnClickListener(this);
         btnStop.setOnClickListener(this);
         btnQR.setOnClickListener(this);
-        btnBeretien.setOnClickListener(this);
 
         myhandler = new myhandlerclient();
 
@@ -68,6 +66,14 @@ public class Client1 extends AppCompatActivity implements View.OnClickListener {
             this.ip = IPet.toString();
         }
 
+
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Client1.this, MainSocket.class);
+                startActivity(intent);
+            }
+        });
     }
 
 
@@ -80,13 +86,31 @@ public class Client1 extends AppCompatActivity implements View.OnClickListener {
                 st = new StartThread(socket, ip, rt, myhandler, 54321);
                 st.start();
                 setButtonOnStartState(false);
-                break;
-            case R.id.btnSend:
-                String info = et.getText().toString();
-                socket = st.getSocket();
-                Thread wirte = new WriteClient(true, socket, info);
-                wirte.start();
-                et.setText("");
+                new CountDownTimer(800, 100) {
+                    public void onTick(long millisUntilFinished) {
+                        System.out.print(millisUntilFinished);
+                    }
+
+                    @Override
+                    public void onFinish() {
+
+                        try {
+                            socket = st.getSocket();
+                        } catch (NullPointerException e) {
+                            Log.e(tag, "NullPointerException in Client: " + e.toString());
+                        }
+
+
+                        try {
+                            Thread wirte = new WriteClient(true, socket, "//Bereiten");
+                            wirte.start();
+                        } catch (NullPointerException e) {
+                            Log.e(tag, "NullPointerException in Client: " + e.toString());
+                        }
+                    }
+
+                }.start();
+
                 break;
             case R.id.btnStop:
                 exit();
@@ -95,23 +119,6 @@ public class Client1 extends AppCompatActivity implements View.OnClickListener {
                 Intent intent = new Intent(Client1.this, QRReader.class);
                 startActivity(intent);
                 break;
-            case R.id.btn_bereiten:
-                try {
-                    socket = st.getSocket();
-                } catch (NullPointerException e) {
-                    Log.e(tag, "NullPointerException in Client: " + e.toString());
-                }
-
-
-                try {
-                    info = "//Bereiten";
-                    wirte = new WriteClient(true, socket, info);
-                    wirte.start();
-                } catch (NullPointerException e) {
-                    Log.e(tag, "NullPointerException in Client: " + e.toString());
-                }
-                break;
-
             default:
                 break;
         }
@@ -130,7 +137,6 @@ public class Client1 extends AppCompatActivity implements View.OnClickListener {
      * @param flag
      */
     private void setButtonOnStartState(boolean flag) {
-        btnSend.setEnabled(!flag);
         btnStop.setEnabled(!flag);
         btnStart.setEnabled(flag);
         IPet.setEnabled(flag);
@@ -148,7 +154,6 @@ public class Client1 extends AppCompatActivity implements View.OnClickListener {
                 case 1:
                     String str = (String) msg.obj;
                     Log.i(Client1.class.getName(),"Client: "+str);
-                    tv.setText(str);
                     if (("exit").equals(str)) {
                         exit();
                     } else if (("//Starten").equals(str)) {
@@ -169,7 +174,6 @@ public class Client1 extends AppCompatActivity implements View.OnClickListener {
                     displayToast("Erfolg");
                     break;
                 case 2:
-                    tv.setText(null);
                     setButtonOnStartState(true);
                     break;
                 default:
@@ -186,15 +190,11 @@ public class Client1 extends AppCompatActivity implements View.OnClickListener {
      * Also the value ip gets the content from IPet
      */
     private void initializeButtonsViews() {
-        tv = (TextView) findViewById(R.id.TV);
-        et = (EditText) findViewById(R.id.et);
         IPet = (EditText) findViewById(R.id.IPet);
-
-        btnSend = (Button) findViewById(R.id.btnSend);
         btnStart = (Button) findViewById(R.id.btnStart);
         btnStop = (Button) findViewById(R.id.btnStop);
         btnQR = (Button) findViewById(R.id.QRClient);
-        btnBeretien = (Button) findViewById(R.id.btn_bereiten);
+        back=(ImageView) findViewById(R.id.imageClientBack);
 
         this.ip = IPet.getText().toString();
     }
@@ -222,7 +222,6 @@ public class Client1 extends AppCompatActivity implements View.OnClickListener {
             socket = null;
             st.setTryconnect(false);
             btnStart.setEnabled(true);
-            btnBeretien.setEnabled(false);
 
             st.interrupt();
         } catch (NullPointerException e) {

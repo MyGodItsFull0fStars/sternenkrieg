@@ -12,11 +12,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.rebelartstudios.sternenkrieg.Dice;
+import com.example.rebelartstudios.sternenkrieg.MainSocket;
 import com.example.rebelartstudios.sternenkrieg.R;
+import com.example.rebelartstudios.sternenkrieg.gamelogic.GameUtilities;
 import com.example.rebelartstudios.sternenkrieg.gamelogic.NetworkStats;
 import com.example.rebelartstudios.sternenkrieg.res.QRReader;
 
@@ -27,7 +30,6 @@ import java.net.Socket;
 
 public class Host extends AppCompatActivity {
 
-    private TextView tv = null;
     private TextView iPtv = null;
     private Button btnQR = null;
     private Socket socket = new Socket();
@@ -43,6 +45,8 @@ public class Host extends AppCompatActivity {
     Button btnStarten;
     boolean ifstart = true;
     NetworkStats stats= new NetworkStats();
+    GameUtilities game;
+    ImageView back;
 
 
     @Override
@@ -52,7 +56,7 @@ public class Host extends AppCompatActivity {
         setContentView(R.layout.activity_servers);
 
         mHandler = new MyHandler();
-
+        game = new GameUtilities(getApplicationContext());
 
         WifiManager wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         if (!wifiManager.isWifiEnabled()) {
@@ -102,7 +106,6 @@ public class Host extends AppCompatActivity {
                 switch (msg.what) {
                     case 1:
                         String str = (String) msg.obj;
-                        tv.setText(str);
                         try {
                             if ("exit".equals(str)) {
                                 ExitHost();
@@ -121,7 +124,6 @@ public class Host extends AppCompatActivity {
                     case 2:
                         displayToast("Client getrennt");
 
-                        tv.setText(null);//
                         iPtv.setText(null);
                         try {
                             socket.close();
@@ -139,11 +141,11 @@ public class Host extends AppCompatActivity {
     }
 
     private void initializeButtons() {
-        tv = (TextView) findViewById(R.id.tv);
         iPtv = (TextView) findViewById(R.id.tvIP);
         ip = (TextView) findViewById(R.id.ip);
         btnQR = (Button) findViewById(R.id.qr_button);
         btnStarten = (Button)findViewById(R.id.btn_starten);
+        back=(ImageView) findViewById(R.id.imageServerBack);
 
 
         if (("0.0.0.0").equals(ipS)) {
@@ -155,6 +157,14 @@ public class Host extends AppCompatActivity {
 
     private void initializeOnClickListeners() {
 
+
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Host.this, MainSocket.class);
+                startActivity(intent);
+            }
+        });
 
 
             btnQR.setOnClickListener(new View.OnClickListener() {
