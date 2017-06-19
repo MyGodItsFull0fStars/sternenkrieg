@@ -1,6 +1,26 @@
 package com.example.rebelartstudios.sternenkrieg.gamelogic;
 
+import java.util.LinkedList;
+
 public final class PlayerFieldValues {
+
+    public LinkedList<String> checkAvailabilityList;
+    public LinkedList<String> smallShipStringList;
+    public LinkedList<String> middleShipStringList;
+    public LinkedList<String> bigShipStringList;
+
+    public void initialiseShipLists(){
+        smallShipStringList.add(SETFIELDPOSITION_SMALL);
+
+        middleShipStringList.add(SETPLAYERPOSITION_MIDDLE);
+        middleShipStringList.add(SETPLAYERPOSITION_MIDDLE1);
+        middleShipStringList.add(SETPLAYERPOSITION_MIDDLE2);
+
+        bigShipStringList.add(SETFIELDPOSITION_BIG);
+        bigShipStringList.add(SETFIELDPOSITION_BIG1);
+        bigShipStringList.add(SETFIELDPOSITION_BIG2);
+        bigShipStringList.add(SETFIELDPOSITION_BIG3);
+    }
 
     public final String SETFIELDPOSITION_A = "a";
     public final String SETFIELDPOSITION_B = "b";
@@ -39,6 +59,18 @@ public final class PlayerFieldValues {
     public final String SETFIELDPOSITION_PLAYERHIT = "4";
     public final String SETFIELDPOSITION_ENEMYMISS = "5";
 
+    public void initialiseCheckAvailabilityList(){
+        checkAvailabilityList.add(SETFIELDPOSITION_SMALL);
+        checkAvailabilityList.add(SETPLAYERPOSITION_MIDDLE);
+        checkAvailabilityList.add(SETPLAYERPOSITION_MIDDLE1);
+        checkAvailabilityList.add(SETPLAYERPOSITION_MIDDLE2);
+        checkAvailabilityList.add(SETFIELDPOSITION_BIG);
+        checkAvailabilityList.add(SETFIELDPOSITION_BIG1);
+        checkAvailabilityList.add(SETFIELDPOSITION_BIG2);
+        checkAvailabilityList.add(SETFIELDPOSITION_BIG3);
+        checkAvailabilityList.add(SETFIELDPOSITION_ENEMYHIT);
+        checkAvailabilityList.add(SETFIELDPOSITION_ENEMYMISS);
+    }
 
     /**
      * Used to set the position color in the playerfield array to '0' "ZERO"

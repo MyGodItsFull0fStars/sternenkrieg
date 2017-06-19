@@ -214,31 +214,55 @@ public class PlayerFieldShipContainer {
      */
     public void setShipOnPlayerFieldWithDragAndDrop(int position, int whichShip, int degree) {
 
-        if (whichShip == shipLogic.SMALL_SHIP_ID && checkPosition(position, whichShip, degree)) {
-            if (!playerFieldPositionContainsString(position, fieldValues.SETFIELDPOSITION_SMALL) ||
-                    !playerFieldPositionContainsString(position, fieldValues.SETFIELDPOSITION_BIG)
-                    ) {
+        if (whichShip == shipLogic.SMALL_SHIP_ID                // Small ship
+                && checkPosition(position, whichShip, degree)   // if small ship is in boundaries
+                && playerFieldAtPositionEmpty(position, whichShip, degree))        // if field is empty
 
-                delete(shipLogic.getSmallShipArray());
-                setSmallShipContainer(position, fieldValues.SETFIELDPOSITION_SMALL);
-                getShipLogic().setSmallShipIsSetOnField(true);
-            }
+        {
+            delete(shipLogic.getSmallShipArray());
+            setSmallShipContainer(position, fieldValues.SETFIELDPOSITION_SMALL);
+            getShipLogic().setSmallShipIsSetOnField(true);
         }
 
-        if (whichShip == shipLogic.MIDDLE_SHIP_ID && checkPosition(position, whichShip, degree)) {
+
+        if (whichShip == shipLogic.MIDDLE_SHIP_ID &&            // Middle ship
+                checkPosition(position, whichShip, degree) &&   // if middle ship is in boundaries
+                playerFieldAtPositionEmpty(position, whichShip, degree)) {         // if field is empty
 
             delete(shipLogic.getMiddleShipArray());
             setMiddleShipContainer(position, degree, fieldValues.SETPLAYERPOSITION_MIDDLE);
             shipLogic.setMiddleShipIsSetOnField(true);
         }
 
-        if (whichShip == shipLogic.BIG_SHIP_ID && checkPosition(position, whichShip, degree)) {
-            delete(shipLogic.getBigShipArray());
+        if (whichShip == shipLogic.BIG_SHIP_ID                  // Big ship
+                && checkPosition(position, whichShip, degree)   // If big ship is in boundaries
+                && playerFieldAtPositionEmpty(position, whichShip, degree))        // if field is empty
 
+        {
+            delete(shipLogic.getBigShipArray());
             setBigShipContainer(position, degree, fieldValues.SETFIELDPOSITION_BIG);
             getShipLogic().setBigShipIsSetOnField(true);
         }
     }
 
+    /**
+     * Used to determine if the positions of a ship are all empty
+     *
+     * @param position  the center position of a ship
+     * @param whichShip the identifier, used to declare the ship
+     * @param degree    used to declare if ship position is horizontal/vertical
+     * @return returns true, if all fields of a ship are empty, false if at least one position is not empty
+     */
+    private boolean playerFieldAtPositionEmpty(int position, int whichShip, int degree) {
+        if (whichShip == shipLogic.SMALL_SHIP_ID) {
+            return getPlayerFieldLogic().getStringInPosition(position).equals(fieldValues.SETFIELDPOSITION_EMPTY);
+        } else if (whichShip == shipLogic.MIDDLE_SHIP_ID) {
+            return getPlayerFieldLogic().middleShipFieldContainsString(position, degree, fieldValues.SETFIELDPOSITION_EMPTY);
+        } else if (whichShip == shipLogic.BIG_SHIP_ID) {
+            return getPlayerFieldLogic().bigShipFieldContainsString(position, degree, fieldValues.SETFIELDPOSITION_EMPTY);
+        } else {
+            throw new IllegalArgumentException("Wrong parameter at playerFieldAtPositionEmpty()");
+        }
+    }
 
 }
