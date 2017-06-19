@@ -251,7 +251,7 @@ public class Spielfeld extends AppCompatActivity {
                                 ship2Rotated = false;
                             }
                             break;
-                        case "f1":case "f2":case "f3":case "f4": case "f5":
+                        case "f1":case "f2":case "f3":case "f4": case "f5":case "f6":
                             countF.add(i);
                             if (map1[i + 1].equals("f2")) {
                                 ship3Rotated = false;
