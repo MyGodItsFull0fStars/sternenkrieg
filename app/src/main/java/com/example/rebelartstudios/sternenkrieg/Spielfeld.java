@@ -239,15 +239,15 @@ public class Spielfeld extends AppCompatActivity {
                         case "d":
                             countD.add(i);
                             break;
-                        case "e":
+                        case "e1":case "e2":case "e3": case "e4":
                             countE.add(i);
-                            if (map1[i + 1].equals("e")) {
+                            if (map1[i + 1].equals("e2")) {
                                 ship2Rotated = false;
                             }
                             break;
-                        case "f":
+                        case "f1":case "f2":case "f3":case "f4": case "f5":
                             countF.add(i);
-                            if (map1[i + 1].equals("f")) {
+                            if (map1[i + 1].equals("f2")) {
                                 ship3Rotated = false;
                             }
                             break;
@@ -265,16 +265,28 @@ public class Spielfeld extends AppCompatActivity {
                     }
 
                     if (countE.size() == 2) {
-                        for (int j = 0; j < countE.size(); j++) {
-                            map1[countE.get(j)] = "h";
-                        }
+                       if(ship2Rotated){
+                           map1[countE.get(0)] = "h2";
+                           map1[countE.get(1)] = "h4";
+                       } else {
+                           map1[countE.get(0)] = "h1";
+                           map1[countE.get(1)] = "h2";
+                       }
+
                         countE.clear();
                     }
 
                     if (countF.size() == 3) {
-                        for (int j = 0; j < countF.size(); j++) {
-                            map1[countF.get(j)] = "i";
-                        }
+                       if(ship3Rotated) {
+                           map1[countF.get(0)] = "i4";
+                           map1[countF.get(1)] = "i5";
+                           map1[countF.get(2)] = "i6";
+                       }else {
+                           map1[countF.get(0)] = "i1";
+                           map1[countF.get(1)] = "i2";
+                           map1[countF.get(2)] = "i3";
+                       }
+
                         countF.clear();
                     }
                 }
@@ -291,13 +303,36 @@ public class Spielfeld extends AppCompatActivity {
                         // final int posi=position;
                         final String posis = map1[position];
 
-                        if (posis.equals("g") || posis.equals("h") || posis.equals("i")) {
-                            for (int i = 0; i < map1.length; i++) {
-                                if (map1[i].equals(posis)) {
+                        if (posis.equals("g") || posis.equals("h1") || posis.equals("h2") || posis.equals("h3") || posis.equals("h4")
+                                ||  posis.equals("i1")  ||  posis.equals("i2")  ||  posis.equals("i3")
+                                ||  posis.equals("i4")  ||  posis.equals("i5")  ||  posis.equals("i6")) {
 
-                                    map1[i] = 4 + "";
+                            switch (posis) {
+                                case "g":
+                                    map1[position]= 4+"";
+                                    draw(map1, gridView1);
+                                    break;
+                                case"h1":case "h2":case "h3": case "h4":
+                                    for (int i = 0; i < map1.length; i++) {
+                                    if (map1[i].equals("h1") || map1[i].equals("h2") || map1[i].equals("h3") || map1[i].equals("h4")) {
+
+                                        map1[i] = 4 + "";
+                                    }
+
+                                    draw(map1, gridView1);
                                 }
-                                draw(map1, gridView1);
+                                break;
+                                case"i1":case "i2":case "i3":  case"i4":case "i5":case "i6":
+                                    for (int i = 0; i < map1.length; i++) {
+                                        if (map1[i].equals("i1") || map1[i].equals("i2") || map1[i].equals("i3")
+                                                || map1[i].equals("i4") || map1[i].equals("i5") || map1[i].equals("i6")) {
+
+                                            map1[i] = 4 + "";
+                                        }
+
+                                        draw(map1, gridView1);
+                                    }
+                                    break;
                             }
 
 
@@ -313,10 +348,10 @@ public class Spielfeld extends AppCompatActivity {
             @Override
             public void onClick(View v) {
             /* show power-ups - options2==powerups */
-                options1.setImageDrawable(getResources().getDrawable(R.drawable.scanner));
-                options2.setImageDrawable(getResources().getDrawable(R.drawable.doubleshot));
-                options3.setImageDrawable(getResources().getDrawable(R.drawable.explosionradius));
-                options4.setImageDrawable(getResources().getDrawable(R.drawable.armour));
+                options1.setImageDrawable(getResources().getDrawable(R.drawable.powerup1));
+                options2.setImageDrawable(getResources().getDrawable(R.drawable.powerup2));
+                options3.setImageDrawable(getResources().getDrawable(R.drawable.powerup3));
+                options4.setImageDrawable(getResources().getDrawable(R.drawable.powerup4));
 
                 check = false;
 
@@ -487,7 +522,10 @@ public class Spielfeld extends AppCompatActivity {
                 //      Toast.LENGTH_SHORT).show();
 
                 /* enemy hits one of player's ships */
-                if (map1[position].equals("d") || map1[position].equals("e") || map1[position].equals("f")) {
+                if (map1[position].equals("d") || map1[position].equals("e1") || map1[position].equals("e2")
+                        || map1[position].equals("e3") || map1[position].equals("e4") || map1[position].equals("f1")
+                        || map1[position].equals("f2") || map1[position].equals("f3") || map1[position].equals("f4")
+                        || map1[position].equals("f5") || map1[position].equals("f6")) {
                     map1[position] = 3 + "";
                     vib.vibrate(500);
                     highScore = highScore - 30;
@@ -538,28 +576,28 @@ public class Spielfeld extends AppCompatActivity {
 
                         }
                         break;
-                    case "h":
+                    case "h1": case "h2": case "h3": case "h4":
                         if (relocateShip(position, posis, ship2Rotated) && !ship2Rotated) { //check if ship is placeable for not rotated ship
-                            map1[position] = "e";
-                            map1[position + 1] = "e"; //relocate ship unrotated
+                            map1[position] = "e1";
+                            map1[position + 1] = "e2"; //relocate ship unrotated
                             shipPlaced = true;
                         } else if (relocateShip(position, posis, ship2Rotated) && ship2Rotated) { //check if ship is placeable for rotated ship
-                            map1[position] = "e";
-                            map1[position + 8] = "e"; //relocate ship rotated
+                            map1[position] = "e3";
+                            map1[position + 8] = "e4"; //relocate ship rotated
                             shipPlaced = true;
 
                         }
                         break;
-                    case "i":
+                    case "i1": case "i2": case "i3": case "i4": case "i5": case "i6":
                         if (relocateShip(position, posis, ship3Rotated) && !ship3Rotated) { //check if ship is placeable for not rotated ship
-                            map1[position] = "f";
-                            map1[position + 1] = "f";
-                            map1[position - 1] = "f"; //relocate ship unrotated
+                            map1[position] = "f2";
+                            map1[position + 1] = "f3";
+                            map1[position - 1] = "f1"; //relocate ship unrotated
                             shipPlaced = true;
                         } else if (relocateShip(position, posis, ship3Rotated) && ship3Rotated) { //check if ship is placeable for rotated ship
-                            map1[position - 8] = "f";
-                            map1[position] = "f";
-                            map1[position + 8] = "f"; //relocate ship rotated
+                            map1[position - 8] = "f4";
+                            map1[position] = "f5";
+                            map1[position + 8] = "f6"; //relocate ship rotated
                             shipPlaced = true;
                         }
                         break;
@@ -574,11 +612,35 @@ public class Spielfeld extends AppCompatActivity {
                             case "g":
                                 map1[i] = "d";
                                 break;
-                            case "h":
-                                map1[i] = "e";
+                            case "h1":
+                                map1[i] = "e1";
                                 break;
-                            case "i":
-                                map1[i] = "f";
+                            case "h2":
+                                map1[i] = "e2";
+                                break;
+                            case "h3":
+                                map1[i] = "e3";
+                                break;
+                            case "h4":
+                                map1[i] = "e4";
+                                break;
+                            case "i1":
+                                map1[i] = "f1";
+                                break;
+                            case "i2":
+                                map1[i] = "f2";
+                                break;
+                            case "i3":
+                                map1[i] = "f3";
+                                break;
+                            case "i4":
+                                map1[i] = "f4";
+                                break;
+                            case "i5":
+                                map1[i] = "f5";
+                                break;
+                            case "i6":
+                                map1[i] = "f6";
                                 break;
                             default:
                                 break;
@@ -597,7 +659,6 @@ public class Spielfeld extends AppCompatActivity {
     }
 
     public boolean relocateShip(int position, String posis, boolean shipRotated) {
-        //TODO: check if ship can actually be placed here, e.g. if there is not another ship and if this position hasn't been targeted by the enemy before
 
         ArrayList<Integer> failures_right = new ArrayList<Integer>(Arrays.asList(-1, 7, 15, 23, 31, 39, 47, 55, 63));
         ArrayList<Integer> failures_left = new ArrayList<Integer>(Arrays.asList(8, 16, 24, 32, 40, 48, 56, 64));
@@ -607,13 +668,13 @@ public class Spielfeld extends AppCompatActivity {
                 if (checkAvailability(position)) {
                     return true;
                 }
-            case "h":
+            case "h1":  case "h2":  case "h3":  case "h4":
                 if (shipRotated == false) {
                     return !(failures_left.contains(position + 1) || !checkAvailability(position) || !checkAvailability(position + 1));
                 } else{
                     return !(position + 1 > 63 || !checkAvailability(position) || !checkAvailability(position + 8));
                 }
-            case "i":
+            case "i1": case "i2": case "i3": case "i4": case "i5": case "i6":
                 if (shipRotated == false) {
                     return !(failures_left.contains(position + 1) || failures_right.contains(position - 1)
                             || !checkAvailability(position) || !checkAvailability(position - 1) || !checkAvailability(position + 1));
@@ -634,15 +695,15 @@ public class Spielfeld extends AppCompatActivity {
         switch (map1[position]) {
             case "d":
                 return false;
-            case "e":
+            case "e1":  case "e2":  case "e3":  case "e4":
                 return false;
-            case "f":
+            case "f1": case "f2": case "f3": case "41": case "f5": case "f6":
                 return false;
             case "g":
                 return false;
-            case "h":
+            case "h1": case "h2": case "h3": case "h4":
                 return false;
-            case "i":
+            case "i1": case "i2": case "i3": case "i4": case "i5": case "i6":
                 return false;
             case "3":
                 return false;

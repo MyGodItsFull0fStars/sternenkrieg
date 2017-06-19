@@ -20,6 +20,10 @@ public final class PlayerFieldValues {
     public final String SETPLAYERPOSITION_MIDDLE1 = "e1";
     public final String SETPLAYERPOSITION_MIDDLE2 = "e2";
 
+    public final String SETPLAYERPOSITION_MIDDLE1R = "e3";
+    public final String SETPLAYERPOSITION_MIDDLE2R = "e4";
+
+
     /**
      * Used to set the position color in the playerfield array to 'f'
      * The character 'f' is used for the position of the big ship
@@ -29,9 +33,25 @@ public final class PlayerFieldValues {
     public final String SETFIELDPOSITION_BIG2 = "f2";
     public final String SETFIELDPOSITION_BIG3 = "f3";
 
+    public final String SETFIELDPOSITION_BIG1R = "f4";
+    public final String SETFIELDPOSITION_BIG2R = "f5";
+    public final String SETFIELDPOSITION_BIG3R = "f6";
+
+
+
     public final String SETFIELDPOSITION_G = "g";
-    public final String SETFIELDPOSITION_H = "h";
-    public final String SETFIELDPOSITION_I = "i";
+
+    public final String SETFIELDPOSITION_H1 = "h1";
+    public final String SETFIELDPOSITION_H2 = "h2";
+    public final String SETFIELDPOSITION_H3 = "h3";
+    public final String SETFIELDPOSITION_H4 = "h4";
+
+    public final String SETFIELDPOSITION_I1 = "i1";
+    public final String SETFIELDPOSITION_I2 = "i2";
+    public final String SETFIELDPOSITION_I3 = "i3";
+    public final String SETFIELDPOSITION_I4 = "i4";
+    public final String SETFIELDPOSITION_I5 = "i5";
+    public final String SETFIELDPOSITION_I6 = "i6";
 
     public final String SETFIELDPOSITION_MISS = "1";
     public final String SETFIELDPOSITION_TWO = "2";

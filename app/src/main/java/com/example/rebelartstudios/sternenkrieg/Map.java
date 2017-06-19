@@ -216,7 +216,7 @@ public class Map extends AppCompatActivity {
 
                         if (playerFieldShipContainer.getShipLogic().allShipsSetOnPlayerField()) {
 
-                            play.setImageDrawable(getResources().getDrawable(R.drawable.arrow_right_other));
+                            play.setImageDrawable(getResources().getDrawable(R.drawable.forward));
                         }
 
                         return (true);

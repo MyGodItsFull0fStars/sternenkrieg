@@ -16,6 +16,9 @@ public class PlayerFieldLogic {
     private final String ONE = "1";
     private final String TWO = "2";
     private final String THREE = "3";
+    private final String FOUR = "4";
+    private final String FIVE = "5";
+    private final String SIX = "6";
 
 
     /**
@@ -102,8 +105,13 @@ public class PlayerFieldLogic {
      */
     public void setPFMiddleShipPositionWithSiblingIndex(int position, int degree, String input) {
         if (inRange(position) && inRange(position - getSibling(degree))) {
-            playerField[position - getSibling(degree)] = input + ONE;
-            playerField[position] = input + TWO;
+            if(degree==0) {
+                playerField[position - getSibling(degree)] = input + ONE;
+                playerField[position] = input + TWO;
+            } else {
+                playerField[position - getSibling(degree)] = input + THREE;
+                playerField[position] = input + FOUR;
+            }
         } else {
             throw new IllegalArgumentException(playerFieldPositionOutOfRange);
         }
@@ -128,10 +136,16 @@ public class PlayerFieldLogic {
      * @param input    string used to signalize the state
      */
     public void setPFBigShipPositionWithSiblingIndex(int position, int degree, String input) {
-        if (inRange(position + getSibling(degree))){
-            playerField[position - getSibling(degree)] = input + ONE;
-            playerField[position] = input + TWO;
-            playerField[position + getSibling(degree)] = input + THREE;
+        if (inRange(position - getSibling(degree)) && inRange(position) && inRange(position + getSibling(degree))){
+            if(degree==0) {
+                playerField[position - getSibling(degree)] = input + ONE;
+                playerField[position] = input + TWO;
+                playerField[position + getSibling(degree)] = input + THREE;
+            } else {
+                playerField[position - getSibling(degree)] = input + FOUR;
+                playerField[position] = input + FIVE;
+                playerField[position + getSibling(degree)] = input + SIX;
+            }
         } else {
             throw new IllegalArgumentException(playerFieldPositionOutOfRange);
         }

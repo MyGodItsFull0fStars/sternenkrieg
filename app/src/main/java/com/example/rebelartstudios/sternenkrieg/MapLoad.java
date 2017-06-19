@@ -102,17 +102,29 @@ public class MapLoad extends BaseAdapter {
             imageView.setBackgroundColor(Color.RED); //your own ships
 
         } else if (mobile.equals(fieldValues.SETFIELDPOSITION_SMALL)) {
-            imageView.setBackgroundResource(R.drawable.kleinesschiff);
+            imageView.setBackgroundResource(R.drawable.ship1_small);
+
         } else if (mobile.equals(fieldValues.SETPLAYERPOSITION_MIDDLE1)) {
-            imageView.setBackgroundResource(R.drawable.mittleresschiff1);
+            imageView.setBackgroundResource(R.drawable.ship2_small1);
         } else if (mobile.equals(fieldValues.SETPLAYERPOSITION_MIDDLE2)) {
-            imageView.setBackgroundResource(R.drawable.mittleresschiff2);
+            imageView.setBackgroundResource(R.drawable.ship2_small2);
+        } else if (mobile.equals(fieldValues.SETPLAYERPOSITION_MIDDLE1R)) {
+            imageView.setBackgroundResource(R.drawable.ship2_small1r);
+        } else if (mobile.equals(fieldValues.SETPLAYERPOSITION_MIDDLE2R)) {
+            imageView.setBackgroundResource(R.drawable.ship2_small2r);
+
         } else if (mobile.equals(fieldValues.SETFIELDPOSITION_BIG1)) {
-            imageView.setBackgroundResource(R.drawable.grosesschiff1);
+            imageView.setBackgroundResource(R.drawable.ship3_small1);
         } else if (mobile.equals(fieldValues.SETFIELDPOSITION_BIG2)) {
-            imageView.setBackgroundResource(R.drawable.grosesschiff2);
+            imageView.setBackgroundResource(R.drawable.ship3_small2);
         } else if (mobile.equals(fieldValues.SETFIELDPOSITION_BIG3)) {
-            imageView.setBackgroundResource(R.drawable.grosesschiff3);
+            imageView.setBackgroundResource(R.drawable.ship3_small3);
+        } else if (mobile.equals(fieldValues.SETFIELDPOSITION_BIG1R)) {
+            imageView.setBackgroundResource(R.drawable.ship3_small1r);
+        } else if (mobile.equals(fieldValues.SETFIELDPOSITION_BIG2R)) {
+            imageView.setBackgroundResource(R.drawable.ship3_small2r);
+        } else if (mobile.equals(fieldValues.SETFIELDPOSITION_BIG3R)) {
+            imageView.setBackgroundResource(R.drawable.ship3_small3r);
 
         } else if (mobile.equals(fieldValues.SETFIELDPOSITION_ENEMYHIT)) {
             imageView.setBackgroundColor(Color.YELLOW); //hit for enemy
@@ -121,8 +133,10 @@ public class MapLoad extends BaseAdapter {
         } else if (mobile.equals(fieldValues.SETFIELDPOSITION_ENEMYMISS)) {
             imageView.setBackgroundColor(Color.BLUE); //miss for enemy
         } else if (mobile.equals(fieldValues.SETFIELDPOSITION_G) ||
-                mobile.equals(fieldValues.SETFIELDPOSITION_H) ||
-                mobile.equals(fieldValues.SETFIELDPOSITION_I))
+                mobile.equals(fieldValues.SETFIELDPOSITION_H1) ||  mobile.equals(fieldValues.SETFIELDPOSITION_H2) ||
+                mobile.equals(fieldValues.SETFIELDPOSITION_H3) ||  mobile.equals(fieldValues.SETFIELDPOSITION_H4) ||
+                mobile.equals(fieldValues.SETFIELDPOSITION_I1) || mobile.equals(fieldValues.SETFIELDPOSITION_I2) ||  mobile.equals(fieldValues.SETFIELDPOSITION_I3) ||
+        mobile.equals(fieldValues.SETFIELDPOSITION_I4) || mobile.equals(fieldValues.SETFIELDPOSITION_I5) ||  mobile.equals(fieldValues.SETFIELDPOSITION_I6) )
             imageView.setBackgroundColor(Color.CYAN); //hit for player
     }
 }

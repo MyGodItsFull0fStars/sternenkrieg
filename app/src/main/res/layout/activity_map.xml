@@ -19,7 +19,7 @@
         android:layout_marginTop="41dp"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/image_turn"
-        app:srcCompat="@drawable/kleinesschiff" />
+        app:srcCompat="@drawable/ship1_small" />
 
     <ImageView
         android:id="@+id/image_ship2"
@@ -29,7 +29,7 @@
         android:layout_marginTop="19dp"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/image_ship1"
-        app:srcCompat="@drawable/mittleresschiff" />
+        app:srcCompat="@drawable/ship2_small" />
 
     <ImageView
         android:id="@+id/image_ship3"
@@ -41,7 +41,7 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/image_ship2"
         app:layout_constraintVertical_bias="0.0"
-        app:srcCompat="@drawable/grosesschiff" />
+        app:srcCompat="@drawable/ship3_small" />
 
     <ImageView
         android:id="@+id/image_turn"
@@ -51,7 +51,7 @@
         android:layout_marginTop="16dp"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/rotate_other"
+        app:srcCompat="@drawable/rotate"
         tools:layout_editor_absoluteX="290dp" />
 
     <ImageView
@@ -68,7 +68,7 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.984"
-        app:srcCompat="@drawable/arrow_right_bw_other" />
+        app:srcCompat="@drawable/forward_grey" />
 
     <TextView
         android:id="@+id/textView4"

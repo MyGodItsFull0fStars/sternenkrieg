@@ -30,7 +30,7 @@
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:scaleType="centerInside"
-                android:src="@drawable/arrow_left" />
+                android:src="@drawable/back" />
 
             <TextView
                 android:id="@+id/textView"
