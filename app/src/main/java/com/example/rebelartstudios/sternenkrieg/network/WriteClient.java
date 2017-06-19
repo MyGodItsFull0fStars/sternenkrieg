@@ -44,4 +44,11 @@ public class WriteClient extends Thread {
         }
     }
 
+    public String getmessage(){
+        return info;
+    }
+    public Socket getSocket(){
+        return socket;
+    }
+
 }

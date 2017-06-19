@@ -6,10 +6,13 @@ import com.example.rebelartstudios.sternenkrieg.network.AcceptThread;
 import com.example.rebelartstudios.sternenkrieg.network.ReceiveThreadClient;
 import com.example.rebelartstudios.sternenkrieg.network.ReceiveThreadHost;
 import com.example.rebelartstudios.sternenkrieg.network.StartThread;
+import com.example.rebelartstudios.sternenkrieg.network.WriteClient;
+import com.example.rebelartstudios.sternenkrieg.network.WriteHost;
 
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -29,6 +32,9 @@ public class NetworkingUnitTest {
     String ip;
     ReceiveThreadClient receiveThreadClient;
     Handler handlerC = new Handler();
+    WriteClient wc;
+    WriteHost wh;
+    OutputStream os;
 
     @Before
     public void setUp(){
@@ -39,6 +45,8 @@ public class NetworkingUnitTest {
         startThread = new StartThread(socketC,ip,receiveThreadClient,handlerC,12345);
         acceptThread.start();
         startThread.start();
+        wc = new WriteClient(true,socketC,"richtig");
+        wh = new WriteHost(socketH,os,"richtig");
     }
     @Test
     public void test_ClientServers(){
@@ -52,5 +60,16 @@ public class NetworkingUnitTest {
     public void test_Receive(){
 //        assertEquals(acceptThread.get,socketH);
         assertEquals(startThread.getRt(),receiveThreadClient);
+    }
+
+    @Test
+    public void test_write_message(){
+        assertEquals(wc.getmessage(),"richtig");
+        assertEquals(wh.getmessage(),"richtig");
+    }
+    @Test
+    public void test_write_socket(){
+        assertEquals(wc.getSocket(),socketC);
+        assertEquals(wh.getSocket(),socketH);
     }
 }

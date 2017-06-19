@@ -36,4 +36,11 @@ public class WriteHost extends Thread {
         }
     }
 
+    public String getmessage(){
+        return info;
+    }
+    public Socket getSocket(){
+        return socket;
+    }
+
 }
