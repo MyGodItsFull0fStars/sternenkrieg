@@ -18,7 +18,7 @@ import java.net.Socket;
 
 import static org.junit.Assert.assertEquals;
 
-public class NetworkingUnitTest {
+public class NetworkingUnitTests {
 
     Socket socketH;
     Socket socketC;
