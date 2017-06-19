@@ -29,6 +29,7 @@ import android.widget.TextView;
 import com.example.rebelartstudios.sternenkrieg.gamelogic.GameUtilities;
 import com.example.rebelartstudios.sternenkrieg.gamelogic.NetworkStats;
 import com.example.rebelartstudios.sternenkrieg.gamelogic.PlayerFieldShipContainer;
+import com.example.rebelartstudios.sternenkrieg.gamelogic.PlayerFieldValues;
 import com.example.rebelartstudios.sternenkrieg.network.AcceptThread;
 import com.example.rebelartstudios.sternenkrieg.network.NetworkUtilities;
 import com.example.rebelartstudios.sternenkrieg.network.ReceiveThreadClient;
@@ -46,8 +47,20 @@ public class Spielfeld extends AppCompatActivity {
     GridView gridView1;
     GridView gridView2;
     ImageView imageView, options, options1, options2, options3, options4;
+
+
+    /****************Refactoring objects start ****************************************************************************/
     PlayerFieldShipContainer playerFieldShipContainer;
     PlayerFieldShipContainer enemyFieldShipContainer;
+    PlayerFieldValues fieldValues = new PlayerFieldValues();
+
+    private void initializeContainerObjects() {
+        playerFieldShipContainer = new PlayerFieldShipContainer();
+        enemyFieldShipContainer = new PlayerFieldShipContainer();
+    }
+
+    /****************Refactoring objects end *****************************************************************************/
+
     String map1[];
     String map2[];
     int width;
@@ -100,6 +113,8 @@ public class Spielfeld extends AppCompatActivity {
     GameUtilities game;
     int who_is_starting;
 
+    String mapString = "Map";
+
     /*******Networking*****/
 
     @Override
@@ -108,7 +123,7 @@ public class Spielfeld extends AppCompatActivity {
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_gameplay);
 
-        game  = new GameUtilities(getApplicationContext());
+        game = new GameUtilities(getApplicationContext());
         /****Networking****/
 
 
@@ -185,7 +200,7 @@ public class Spielfeld extends AppCompatActivity {
 
         /* --- END OF LIGHT SENSOR --- */
 
-       initializeImageViews();
+        initializeImageViews();
 
 
         vib = (Vibrator) this.getSystemService(Context.VIBRATOR_SERVICE);
@@ -195,10 +210,7 @@ public class Spielfeld extends AppCompatActivity {
             public void onClick(View v) {
             /* determine whether options or powerups should be displayed */
                 if (check) {
-                    options1.setVisibility(View.INVISIBLE);
-                    options2.setVisibility(View.INVISIBLE);
-                    options3.setVisibility(View.INVISIBLE);
-                    options4.setVisibility(View.INVISIBLE);
+                    setOptionButtonsInvisible();
                     check = false;
                 } else {
                     options1.setImageDrawable(getResources().getDrawable(R.drawable.cheat_sternenkriege));
@@ -206,10 +218,7 @@ public class Spielfeld extends AppCompatActivity {
                     options3.setImageDrawable(getResources().getDrawable(R.drawable.options_sternenkriege));
                     options4.setImageDrawable(getResources().getDrawable(R.drawable.help_sternenkriege));
 
-                    options1.setVisibility(View.VISIBLE);
-                    options2.setVisibility(View.VISIBLE);
-                    options3.setVisibility(View.VISIBLE);
-                    options4.setVisibility(View.VISIBLE);
+                    setOptionButtonsVisible();
                     check = true;
                 }
             }
@@ -224,10 +233,7 @@ public class Spielfeld extends AppCompatActivity {
                 final boolean ship2RotatedFinal;
                 final boolean ship3RotatedFinal;
 
-                options1.setVisibility(View.INVISIBLE);
-                options2.setVisibility(View.INVISIBLE);
-                options3.setVisibility(View.INVISIBLE);
-                options4.setVisibility(View.INVISIBLE);
+                setOptionButtonsInvisible();
 
                 check = false;
                 LinkedList<Integer> countD = new LinkedList<>();
@@ -378,8 +384,8 @@ public class Spielfeld extends AppCompatActivity {
             for (String data : map1)
                 sendField += data;
 
-            map2 = new String[64];
-            Arrays.fill(map2, "0");
+            map2 = new String[fieldValues.FIELDSIZE];
+            Arrays.fill(map2, fieldValues.SETFIELDPOSITION_EMPTY);
             util.messageSend("Map," + sendField, Phost);
             System.out.println("Send" + sendField);
         }
@@ -421,13 +427,13 @@ public class Spielfeld extends AppCompatActivity {
                     String shipType = map2[position];
            /* hit ship of enemy */
                     if (map2[position].equals("a") || map2[position].equals("b") || map2[position].equals("c")) {
-                        map2[position] = 4 + "";
+                        map2[position] = fieldValues.SETFIELDPOSITION_PLAYERHIT;
                         vib.vibrate(500);
                         highScore += 80;
 
                 /* miss enemy's ships */
-                    } else if (map2[position].equals("0")) {
-                        map2[position] = 1 + "";
+                    } else if (map2[position].equals(fieldValues.SETFIELDPOSITION_EMPTY)) {
+                        map2[position] = fieldValues.SETFIELDPOSITION_MISS;
                         highScore -= 20;
                     }
 
@@ -472,7 +478,7 @@ public class Spielfeld extends AppCompatActivity {
         //Player beginns
         System.out.println("Shoot: " + shoot);
         pointsPlayer += game.getDicescore();
-        System.out.println("POints:" + pointsPlayer);
+        System.out.println("Points:" + pointsPlayer);
         if (who_is_starting == 0 && oneshoot) {
             shoot = true;
         }
@@ -485,21 +491,24 @@ public class Spielfeld extends AppCompatActivity {
         game.setPlayerMap(map1);
         game.setEnemyMap(map2);
         stats.setMode(2);
-        System.out.println("Spielfeld ENde Value" + value);
+        System.out.println("Spielfeld Ende Value" + value);
         util.close();
         startActivity(intent);
     }
 
 
     public void checkShoot(int position, int player) {
-        if (map1[position].equals("d") || map1[position].equals("e") || map1[position].equals("f")) {
-            map1[position] = 3 + "";
+        fieldValues.initialiseShipLists();
+        if (fieldValues.smallShipStringList.contains(map1[position])
+                || fieldValues.middleShipStringList.contains(map1[position])
+                || fieldValues.bigShipStringList.contains(map1[position])) {
+            map1[position] = fieldValues.SETFIELDPOSITION_ENEMYHIT;
             vib.vibrate(500);
             highScore = highScore - 30;
 
                     /* opponent misses */
-        } else if (map1[position].equals("0")) {
-            map1[position] = 5 + "";
+        } else if (map1[position].equals(fieldValues.SETFIELDPOSITION_EMPTY)) {
+            map1[position] = fieldValues.SETFIELDPOSITION_ENEMYMISS;
             highScore = highScore + 10;
         }
         draw(map1, gridView1); // update map
@@ -546,7 +555,7 @@ public class Spielfeld extends AppCompatActivity {
         });
     }
 
-    private void initializeImageViews(){
+    private void initializeImageViews() {
         imageView = (ImageView) findViewById(R.id.grid_item_image);
         options = (ImageView) findViewById(R.id.options);
 
@@ -557,13 +566,27 @@ public class Spielfeld extends AppCompatActivity {
         options4 = (ImageView) findViewById(R.id.options4);
     }
 
+    private void setOptionButtonsInvisible() {
+        options1.setVisibility(View.INVISIBLE);
+        options2.setVisibility(View.INVISIBLE);
+        options3.setVisibility(View.INVISIBLE);
+        options4.setVisibility(View.INVISIBLE);
+    }
+
+    private void setOptionButtonsVisible() {
+        options1.setVisibility(View.VISIBLE);
+        options2.setVisibility(View.VISIBLE);
+        options3.setVisibility(View.VISIBLE);
+        options4.setVisibility(View.VISIBLE);
+    }
+
     public void relocate(final String posis, final boolean ship2Rotated, final boolean ship3Rotated) {
         gridView1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
 
                 for (int i = 0; i < map1.length; i++) { //ship is no longer located here; set to 0
                     if (map1[i].equals("4")) {
-                        map1[i] = 0 + "";
+                        map1[i] = fieldValues.SETFIELDPOSITION_EMPTY;
                     }
                 }
                 boolean shipPlaced = false;
@@ -671,14 +694,14 @@ public class Spielfeld extends AppCompatActivity {
             case "h1":  case "h2":  case "h3":  case "h4":
                 if (shipRotated == false) {
                     return !(failures_left.contains(position + 1) || !checkAvailability(position) || !checkAvailability(position + 1));
-                } else{
+                } else {
                     return !(position + 1 > 63 || !checkAvailability(position) || !checkAvailability(position + 8));
                 }
             case "i1": case "i2": case "i3": case "i4": case "i5": case "i6":
                 if (shipRotated == false) {
                     return !(failures_left.contains(position + 1) || failures_right.contains(position - 1)
                             || !checkAvailability(position) || !checkAvailability(position - 1) || !checkAvailability(position + 1));
-                } else{
+                } else {
                     return !(position - 8 < 0 || position + 8 > 63
                             || !checkAvailability(position) || !checkAvailability(position + 8) || !checkAvailability(position - 8));
                 }
@@ -691,6 +714,7 @@ public class Spielfeld extends AppCompatActivity {
 
     public boolean checkAvailability(int position) {
         //  if(map1[position].equals(posis)){ return true;} else {
+        fieldValues.initialiseCheckAvailabilityList();
 
         switch (map1[position]) {
             case "d":
@@ -712,8 +736,6 @@ public class Spielfeld extends AppCompatActivity {
             default:
                 return true;
         }
-        //  }
-
     }
 
     public void draw(String[] array, GridView gridView) {
@@ -769,23 +791,24 @@ public class Spielfeld extends AppCompatActivity {
 
     public boolean gameOver(String ship, String[] map) {
             /* checks if String "ship" (either checks whether player has any ships left or if an
-            etire ship of the opponent has been destroyed) is still present in array "map";
+            entire ship of the opponent has been destroyed) is still present in array "map";
             if not, method returns true */
-        int isthegameoveryet = 0;
-        for (int i = 0; i < 64; i++) {
+        int isTheGameOverYet = 0;
+        for (int i = 0; i < fieldValues.FIELDSIZE; i++) {
             if ((map[i].equals(ship))) {
-                isthegameoveryet++;
+                isTheGameOverYet++;
             }
         }
 
-        return isthegameoveryet == 0;
+        return isTheGameOverYet == 0;
 
     }
 
     public void decrementAmount() { //if one entire ship of enemy has been destroyed, update Score
         amountShips--;
         TextView tex = ((TextView) findViewById(R.id.amountShips));
-        tex.setText(amountShips + "/3");
+        String text = amountShips + "/3";
+        tex.setText(text);
 
         if (amountShips == 0) {
             alert("a");
@@ -825,7 +848,7 @@ public class Spielfeld extends AppCompatActivity {
                     message = (String) msg.obj;
                     System.out.println(message);
                     String[] mapMsg = message.split(",");
-                    if (mapMsg[0].equals("Map")) {
+                    if (mapMsg[0].equals(mapString)) {
                         map2 = mapMsg[1].split("");
                         String[] map3 = new String[64];
                         for (int i = 0; i < map3.length; i++)
@@ -834,7 +857,7 @@ public class Spielfeld extends AppCompatActivity {
                         map2 = map3;
                         draw(map2, gridView2);
                         util.messageSend("Gotit,1", Phost);
-                        System.out.println("Map" + mapMsg[1]);
+                        System.out.println(mapString + mapMsg[1]);
 
                     }
                     if (mapMsg[0].equals("Gotit")) {
@@ -860,8 +883,8 @@ public class Spielfeld extends AppCompatActivity {
                         for (String data : map1)
                             sendMap += data;
 
-                        map2 = new String[64];
-                        Arrays.fill(map2, "0");
+                        map2 = new String[fieldValues.FIELDSIZE];
+                        Arrays.fill(map2, fieldValues.SETFIELDPOSITION_EMPTY);
                         util.messageSend("Map," + sendMap, Phost);
                         System.out.println("Send" + sendMap);
                     }
@@ -873,5 +896,6 @@ public class Spielfeld extends AppCompatActivity {
         }
 
     }
+
 
 }

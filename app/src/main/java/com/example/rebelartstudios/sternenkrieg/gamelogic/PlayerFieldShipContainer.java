@@ -245,6 +245,14 @@ public class PlayerFieldShipContainer {
         }
     }
 
+    /**
+     * Used to determine if the positions of a ship are all empty
+     *
+     * @param position  the center position of a ship
+     * @param whichShip the identifier, used to declare the ship
+     * @param degree    used to declare if ship position is horizontal/vertical
+     * @return returns true, if all fields of a ship are empty, false if at least one position is not empty
+     */
     private boolean playerFieldAtPositionEmpty(int position, int whichShip, int degree) {
         if (whichShip == shipLogic.SMALL_SHIP_ID) {
             return getPlayerFieldLogic().getStringInPosition(position).equals(fieldValues.SETFIELDPOSITION_EMPTY);

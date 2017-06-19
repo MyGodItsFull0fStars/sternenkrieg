@@ -15,7 +15,7 @@ import static org.junit.Assert.assertTrue;
 * @since <pre>Jun 14, 2017</pre> 
 * @version 1.0 
 */ 
-public class NetworkStatsTest {
+public class NetworkStatsTests {
     NetworkStats stats;
 
 @Before
