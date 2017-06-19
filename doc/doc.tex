@@ -100,7 +100,26 @@ Univ.-Ass. Dipl.-Ing. Christian Macho
 Sternenkrieg <TODO>
 
 \section{Grundlegender Aufbau}
+\subsection{Spielablauf}
 Sternenkrieg orientiert sich am Spielprinzip von "Schiffe versenken". Ziel ist es, die vom Gegner platzierten Schiffe als erster Spieler zu zerstören. Als Erweiterung zum herkömmlichen Spiel, bietet Sternenkrieg weitere Features, deren technische Funktionalität hier kurz erläutert wird. Dieses Kapitel soll zum Verständnis des Ablaufs im Programm beitragen.
+
+Gestartet wird das Spiel mit einem Klick auf den Button "Play". Danach muss eine Verbindung zwischen beiden Spielern hergestellt werden. Hierzu ist es notwendig, dass sich die Smartphones beider Spieler im gleichen WLAN-Netzwerk befinden. Ein Spieler übernimmt im Spiel den Server, der andere übernimmt den Client.
+
+Der Server-Spieler startet danach den Server und bekommt eine IP-Adresse angezeigt, welche er dem Client-Spieler übermittelt. Dieser verbindet sich damit zum Server. Sobald die Verbindung erfolgreich war, melden sich beide Spieler als bereit und das Spiel beginnt.
+
+Um zu entscheiden, welcher der beiden Spieler das Spiel beginnen soll, muss gewürfelt werden. Dies geschieht durch Schütteln des Smartphones. Der Wert des jeweiligen Gegners wird dabei über das Netzwerk übertragen.
+
+Nun beginnt das eigentliche Spiel: Jeder Spieler muss seine Schiffe (ein kleines, ein mittleres und ein großes) platzieren. Ziel des Gegners ist es nun, die Schiffe des Gegners zu zerstören, bevor die eigenen vernichtet werden.
+
+Im weiteren Spielverlauf werden auch die besonderen Features von Sternenkrieg sichtbar. Diese sind unter anderem eine Schummelfunktion sowie ein PowerUp-System.
+
+\subsection{Menüaufbau}
+Das Menü von Sternenkrieg bietet - abgesehen vom eigentlichen Spiel - noch folgende Buttons:
+\begin{itemize}
+\item Highscore -- zeigt den Highscore von Sternenkrieg an
+\item Optoins -- öffnet die Einstellungen des Spiels
+\item About -- zeigt eine kurze About Us-Meldung an
+\end{itemize}
 
 
 \section{Klassen im Überblick}
