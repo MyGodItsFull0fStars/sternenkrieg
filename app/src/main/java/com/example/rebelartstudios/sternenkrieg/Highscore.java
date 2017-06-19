@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.example.rebelartstudios.sternenkrieg.gamelogic.GameUtilities;
@@ -20,8 +21,8 @@ public class Highscore extends AppCompatActivity {
     private ArrayAdapter<String> listAdapter;
     private ArrayList<String> list;
     Button deleteHighscore;
-    Intent intent;
     GameUtilities game;
+    ImageView back;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +35,7 @@ public class Highscore extends AppCompatActivity {
 
         list = new ArrayList<>();
         listAdapter = new ArrayAdapter<>(this, R.layout.high_score_row);
-
+        back=(ImageView) findViewById(R.id.imageHighscoreReturn);
         listHighScore.setBackgroundColor(Color.WHITE);
         game = new GameUtilities(getApplicationContext());
         if (game.isHighscoreMain()) {
@@ -53,6 +54,15 @@ public class Highscore extends AppCompatActivity {
                 game.deleteHighscore();
                 listAdapter.clear();
                 list.clear();
+            }
+        });
+
+
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Highscore.this, Main.class);
+                startActivity(intent);
             }
         });
 

@@ -12,14 +12,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.rebelartstudios.sternenkrieg.Dice;
+import com.example.rebelartstudios.sternenkrieg.R;
 import com.example.rebelartstudios.sternenkrieg.gamelogic.NetworkStats;
 import com.example.rebelartstudios.sternenkrieg.res.QRReader;
-import com.example.rebelartstudios.sternenkrieg.R;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -29,17 +28,13 @@ import java.net.Socket;
 public class Host extends AppCompatActivity {
 
     private TextView tv = null;
-    private EditText et = null;
     private TextView iPtv = null;
-    private Button btnSend = null;
-    private Button btnAccept = null;
     private Button btnQR = null;
     private Socket socket = new Socket();
     private ServerSocket mServerSocket = null;
     boolean running = true;
     private AcceptThread mAcceptThread;
     private Handler mHandler = null;
-    private Button btnServersEnd = null;
     private ReceiveThreadHost mReceiveThreadHost;
     private TextView ip;
     String ipS;
@@ -70,8 +65,12 @@ public class Host extends AppCompatActivity {
 
 
         initializeButtons();
-        btnSend.setEnabled(false); // lass Button Send unenabled
         initializeOnClickListeners();
+
+        running = true;
+        mAcceptThread = new AcceptThread(running, mServerSocket, socket, mHandler, mReceiveThreadHost,54321);
+        mAcceptThread.start();
+        iPtv.setText("Warte auf Verbindung");
 
 
 
@@ -130,8 +129,6 @@ public class Host extends AppCompatActivity {
                         } catch (IOException e) {
                             Log.e(tag, "IOException in ReceiveThreadHost: " + e.toString());
                         }
-                        btnAccept.setEnabled(true);
-                        btnSend.setEnabled(false);
                         break;
                     default:
                         break;
@@ -143,11 +140,7 @@ public class Host extends AppCompatActivity {
 
     private void initializeButtons() {
         tv = (TextView) findViewById(R.id.tv);
-        et = (EditText) findViewById(R.id.etSend);
         iPtv = (TextView) findViewById(R.id.tvIP);
-        btnAccept = (Button) findViewById(R.id.btnAccept);
-        btnSend = (Button) findViewById(R.id.btnSend);
-        btnServersEnd = (Button) findViewById(R.id.btnHostEnd);
         ip = (TextView) findViewById(R.id.ip);
         btnQR = (Button) findViewById(R.id.qr_button);
         btnStarten = (Button)findViewById(R.id.btn_starten);
@@ -162,40 +155,7 @@ public class Host extends AppCompatActivity {
 
     private void initializeOnClickListeners() {
 
-            btnAccept.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    running = true;
 
-                    mAcceptThread = new AcceptThread(running, mServerSocket, socket, mHandler, mReceiveThreadHost,54321);
-
-
-                    mAcceptThread.start();
-                    btnSend.setEnabled(true);
-                    btnAccept.setEnabled(false);
-                    btnServersEnd.setEnabled(true);
-                    iPtv.setText("Warte auf Verbindung");
-
-
-                }
-            });
-            //Send
-            btnSend.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-
-                    socket = mAcceptThread.getSocket();
-
-                    String info = et.getText().toString();
-                    WriteHost wh = new WriteHost(socket, os, info);
-
-                    wh.start();
-
-                    et.setText("");
-
-                }
-            });
 
             btnQR.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -224,8 +184,7 @@ public class Host extends AppCompatActivity {
                 }
             });
 
-            View.OnClickListener exit = new onclicklistenerExit();
-            btnServersEnd.setOnClickListener(exit);
+
 
     }
 
@@ -246,9 +205,6 @@ public class Host extends AppCompatActivity {
 
         close();
         iPtv.setText("Host beendet");
-        btnSend.setEnabled(false);
-        btnServersEnd.setEnabled(false);
-        btnAccept.setEnabled(true);
 
     }
 
@@ -265,7 +221,6 @@ public class Host extends AppCompatActivity {
             displayToast("nicht Erfolg");
 
 
-            btnAccept.setEnabled(true);
             btnStarten.setEnabled(false);
         }
         try {

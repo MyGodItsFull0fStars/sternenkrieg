@@ -10,11 +10,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 
 public class About extends AppCompatActivity {
 
     Button testSoundBtn;
     Button hackBtn;
+    ImageView back;
 
     SharedPreferences sharedPreferences;
 
@@ -27,6 +29,14 @@ public class About extends AppCompatActivity {
         // Just a playSound example
         sharedPreferences = getSharedPreferences("prefs", Context.MODE_PRIVATE);
         final MediaPlayer mp = MediaPlayer.create(this, R.raw.shake_dice);
+        back=(ImageView) findViewById(R.id.imageAboutReturn);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(About.this, Main.class);
+                startActivity(intent);
+            }
+        });
 
         testSoundBtn = (Button) findViewById(R.id.testSound);
         testSoundBtn.setOnClickListener(new View.OnClickListener() {

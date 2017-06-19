@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/dicebackground"
+    android:keepScreenOn="true"
     tools:context="com.example.rebelartstudios.sternenkrieg.Dice">
 
     <TextView
