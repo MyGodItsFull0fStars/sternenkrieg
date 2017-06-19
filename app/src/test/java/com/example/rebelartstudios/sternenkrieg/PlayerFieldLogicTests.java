@@ -118,7 +118,7 @@ public class PlayerFieldLogicTests {
     @Test
     public void checkSetPFSmallShipPositionThrowsNOException() {
         try {
-            for (int i = -100; i < fieldValues.FIELDSIZE * 2; i++) {
+            for (int i = 0; i < fieldValues.FIELDSIZE; i++) {
                 playerFieldLogic.setSmallShipPosition(i, fieldValues.SETFIELDPOSITION_A);
             }
         } catch (Exception e) {
@@ -128,8 +128,19 @@ public class PlayerFieldLogicTests {
 
     @Test
     public void checkInRangeMethod() {
-        Assert.assertFalse(playerFieldLogic.inRange(-1));
-        Assert.assertFalse(playerFieldLogic.inRange(65));
+        try {
+            playerFieldLogic.inRange(-1);
+            fail("IllegalArgumentException expected");
+        } catch (IllegalArgumentException e) {
+            Assert.assertEquals(e.getMessage(), "Parameter is not in range of player field");
+        }
+
+        try {
+
+            playerFieldLogic.inRange(65);
+        } catch (IllegalArgumentException e) {
+            Assert.assertEquals(e.getMessage(), "Parameter is not in range of player field");
+        }
 
         for (int position = 0; position < fieldValues.FIELDSIZE; position++) {
             Assert.assertTrue(playerFieldLogic.inRange(position));
@@ -158,7 +169,7 @@ public class PlayerFieldLogicTests {
     @Test
     public void checkSetPFMiddleShipPositionWithSiblingIndexThrowsException() {
         try {
-            playerFieldLogic.setMiddleShipPositionWithSiblingIndex(0, fieldValues.HORIZONTAL, fieldValues.SETFIELDPOSITION_A);
+            playerFieldLogic.setMiddleShipPositionWithSiblingIndex(-1, fieldValues.HORIZONTAL, fieldValues.SETFIELDPOSITION_A);
             fail("IllegalArgumentException expected");
         } catch (IllegalArgumentException e) {
             Assert.assertEquals(e.getMessage(), "Parameter is not in range of player field");
@@ -175,6 +186,14 @@ public class PlayerFieldLogicTests {
             fail("IllegalArgumentException expected");
         } catch (IllegalArgumentException e) {
             Assert.assertEquals(e.getMessage(), "Parameter is not in range of player field");
+        }
+
+        // Exception comes from getSibling
+        try {
+            playerFieldLogic.setMiddleShipPositionWithSiblingIndex(1, 3, fieldValues.SETFIELDPOSITION_A);
+            fail("IllegalArgumentException expected");
+        } catch (IllegalArgumentException e) {
+            Assert.assertEquals(e.getMessage(), "Given degree is not allowed");
         }
     }
 
@@ -210,10 +229,28 @@ public class PlayerFieldLogicTests {
         } catch (IllegalArgumentException e) {
             Assert.assertEquals(e.getMessage(), "Parameter is not in range of player field");
         }
+
     }
 
     @Test
     public void checkBigShipPositionWithSiblingIndexThrowsNoException() {
+
+        try {
+            for (int position = 1; position < fieldValues.FIELDSIZE - 1; position++) {
+                playerFieldLogic.setBigShipPositionWithSiblingIndex(position, fieldValues.HORIZONTAL, fieldValues.SETFIELDPOSITION_A);
+            }
+
+        } catch (Exception e) {
+            fail("Exception should not be reached");
+        }
+
+        try {
+            for (int position = 8; position < fieldValues.FIELDSIZE - 8; position++) {
+                playerFieldLogic.setBigShipPositionWithSiblingIndex(position, fieldValues.VERTICAL, fieldValues.SETFIELDPOSITION_A);
+            }
+        } catch (Exception e) {
+            fail("Exception should not be reached");
+        }
 
     }
 
@@ -241,7 +278,7 @@ public class PlayerFieldLogicTests {
     }
 
     @Test
-    public void checkGetStringPositionThrowsException(){
+    public void checkGetStringPositionThrowsException() {
         try {
             playerFieldLogic.getStringInPosition(-1);
             fail("IllegalArgumentException expected");
@@ -254,6 +291,40 @@ public class PlayerFieldLogicTests {
             fail("IllegalArgumentException expected");
         } catch (IllegalArgumentException e) {
             Assert.assertEquals(e.getMessage(), "Parameter is not in range of player field");
+        }
+    }
+
+    @Test
+    public void checkMiddleShipFieldContainsString() {
+        for (int position = 1; position < fieldValues.FIELDSIZE; position++) {
+            Assert.assertTrue(playerFieldLogic.middleShipFieldContainsString(position, fieldValues.HORIZONTAL, fieldValues.SETFIELDPOSITION_EMPTY));
+        }
+
+        for (int position = 8; position < fieldValues.FIELDSIZE; position++) {
+            Assert.assertTrue(playerFieldLogic.middleShipFieldContainsString(position, fieldValues.VERTICAL, fieldValues.SETFIELDPOSITION_EMPTY));
+        }
+    }
+
+    @Test
+    public void checkBigShipFieldContainsString() {
+        for (int position = 1; position < fieldValues.FIELDSIZE - 1; position++) {
+            Assert.assertTrue(playerFieldLogic.bigShipFieldContainsString(position, fieldValues.HORIZONTAL, fieldValues.SETFIELDPOSITION_EMPTY));
+        }
+
+        for (int position = 8; position < fieldValues.FIELDSIZE - 8; position++) {
+            Assert.assertTrue(playerFieldLogic.bigShipFieldContainsString(position, fieldValues.HORIZONTAL, fieldValues.SETFIELDPOSITION_EMPTY));
+        }
+
+        playerFieldLogic.setBigShipPositionToString(1, fieldValues.HORIZONTAL, fieldValues.SETFIELDPOSITION_A);
+
+        for (int position = 0; position < 3; position++) {
+            Assert.assertTrue(fieldValues.SETFIELDPOSITION_A.equals(playerFieldLogic.getStringInPosition(position)));
+        }
+
+        playerFieldLogic.setBigShipPositionToString(12, fieldValues.VERTICAL, fieldValues.SETFIELDPOSITION_B);
+
+        for (int position = 4; position < 20; position += 8) {
+            Assert.assertTrue(fieldValues.SETFIELDPOSITION_B.equals(playerFieldLogic.getStringInPosition(position)));
         }
     }
 }
