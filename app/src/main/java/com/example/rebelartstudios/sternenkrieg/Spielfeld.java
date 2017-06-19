@@ -28,6 +28,7 @@ import android.widget.TextView;
 
 import com.example.rebelartstudios.sternenkrieg.gamelogic.GameUtilities;
 import com.example.rebelartstudios.sternenkrieg.gamelogic.NetworkStats;
+import com.example.rebelartstudios.sternenkrieg.gamelogic.PlayerFieldShipContainer;
 import com.example.rebelartstudios.sternenkrieg.network.AcceptThread;
 import com.example.rebelartstudios.sternenkrieg.network.NetworkUtilities;
 import com.example.rebelartstudios.sternenkrieg.network.ReceiveThreadClient;
@@ -45,6 +46,8 @@ public class Spielfeld extends AppCompatActivity {
     GridView gridView1;
     GridView gridView2;
     ImageView imageView, options, options1, options2, options3, options4;
+    PlayerFieldShipContainer playerFieldShipContainer;
+    PlayerFieldShipContainer enemyFieldShipContainer;
     String map1[];
     String map2[];
     int width;
@@ -182,15 +185,7 @@ public class Spielfeld extends AppCompatActivity {
 
         /* --- END OF LIGHT SENSOR --- */
 
-
-        imageView = (ImageView) findViewById(R.id.grid_item_image);
-        options = (ImageView) findViewById(R.id.options);
-
-        /* set option-buttons */
-        options1 = (ImageView) findViewById(R.id.options1);
-        options2 = (ImageView) findViewById(R.id.options2);
-        options3 = (ImageView) findViewById(R.id.options3);
-        options4 = (ImageView) findViewById(R.id.options4);
+       initializeImageViews();
 
 
         vib = (Vibrator) this.getSystemService(Context.VIBRATOR_SERVICE);
@@ -511,6 +506,17 @@ public class Spielfeld extends AppCompatActivity {
 
             }
         });
+    }
+
+    private void initializeImageViews(){
+        imageView = (ImageView) findViewById(R.id.grid_item_image);
+        options = (ImageView) findViewById(R.id.options);
+
+        /* set option-buttons */
+        options1 = (ImageView) findViewById(R.id.options1);
+        options2 = (ImageView) findViewById(R.id.options2);
+        options3 = (ImageView) findViewById(R.id.options3);
+        options4 = (ImageView) findViewById(R.id.options4);
     }
 
     public void relocate(final String posis, final boolean ship2Rotated, final boolean ship3Rotated) {

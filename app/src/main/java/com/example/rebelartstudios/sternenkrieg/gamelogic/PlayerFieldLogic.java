@@ -101,24 +101,21 @@ public class PlayerFieldLogic {
      * @param input    string used to signalize the state
      */
     public void setPFMiddleShipPositionWithSiblingIndex(int position, int degree, String input) {
-        setMiddleShipPositionWithSiblingIndex(position, getSibling(degree), input);
-    }
-
-    /**
-     * Sets the position of the player field with the logic of the middle ship
-     *
-     * @param position the position of the player field position
-     * @param sibling  used to set the position of the siblings of position
-     *                 siblings can be set horizontally or vertically to position
-     * @param input    is the string input used to signal, which state the field will get
-     *                 character 'e' for setting the middle ship
-     */
-    private void setMiddleShipPositionWithSiblingIndex(int position, int sibling, String input) {
-        if (inRange(position) && inRange(position - sibling)) {
-            playerField[position - sibling] = input + ONE;
+        if (inRange(position) && inRange(position - getSibling(degree))) {
+            playerField[position - getSibling(degree)] = input + ONE;
             playerField[position] = input + TWO;
         } else {
-            throw new IllegalStateException(playerFieldPositionOutOfRange);
+            throw new IllegalArgumentException(playerFieldPositionOutOfRange);
+        }
+    }
+
+
+    public void setMiddleShipPositionToString(int position, int degree, String input) {
+        if (inRange(position) && inRange(position - getSibling(degree))) {
+            playerField[position - getSibling(degree)] = input;
+            playerField[position] = input;
+        } else{
+            throw new IllegalArgumentException(playerFieldPositionOutOfRange);
         }
     }
 
@@ -131,25 +128,16 @@ public class PlayerFieldLogic {
      * @param input    string used to signalize the state
      */
     public void setPFBigShipPositionWithSiblingIndex(int position, int degree, String input) {
-        setBigShipPositionWithSiblingIndex(position, getSibling(degree), input);
+        if (inRange(position + getSibling(degree))){
+            playerField[position - getSibling(degree)] = input + ONE;
+            playerField[position] = input + TWO;
+            playerField[position + getSibling(degree)] = input + THREE;
+        } else {
+            throw new IllegalArgumentException(playerFieldPositionOutOfRange);
+        }
+
     }
 
-    /**
-     * Sets the position of the player field with the logic of the big ship
-     *
-     * @param position the position of the middle piece
-     * @param sibling  used to set the position of the siblings of position
-     *                 siblings can be set horizontally or vertically to position
-     * @param input    is the string input used to signal, which state the field will get
-     *                 character 'f' for setting the big ship
-     */
-    private void setBigShipPositionWithSiblingIndex(int position, int sibling, String input) {
-        /* DRY */
-        setMiddleShipPositionWithSiblingIndex(position, sibling, input);
-        if (inRange(position + sibling)) {
-            playerField[position + sibling] = input + THREE;
-        } else throw new IllegalArgumentException(playerFieldPositionOutOfRange);
-    }
 
     /**
      * Checks if the given parameter is in range of the player field
@@ -180,7 +168,7 @@ public class PlayerFieldLogic {
      * @param degree parameter which is either horizontal = 0 or vertical = 1
      * @return if horizontal return 1, if vertical, return 8, else throw exception
      */
-    private int getSibling(int degree) {
+    protected int getSibling(int degree) {
         if (degree == fieldStrings.HORIZONTAL) {
             return 1;
         } else if (degree == fieldStrings.VERTICAL) {
@@ -189,4 +177,14 @@ public class PlayerFieldLogic {
             throw new IllegalArgumentException("Given degree is not allowed");
         }
     }
+
+    public boolean middleShipFieldContainsString(int position, int degree, String input) {
+        return getStringInPosition(position).equals(input) && getStringInPosition(position - getSibling(degree)).equals(input);
+    }
+
+    public boolean bigShipFieldContainsString(int position, int degree, String input) {
+        return middleShipFieldContainsString(position, degree, input) && getStringInPosition(position).equals(input);
+    }
+
+
 }
