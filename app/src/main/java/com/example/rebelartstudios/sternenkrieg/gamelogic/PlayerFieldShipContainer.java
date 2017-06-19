@@ -60,7 +60,7 @@ public class PlayerFieldShipContainer {
      */
     public void setMiddleShipContainer(int position, int degree, String input) {
         shipLogic.setMiddleShipPosition(position, degree);
-        playerFieldLogic.setPFMiddleShipPosition(position, degree, input);
+        playerFieldLogic.setPFMiddleShipPositionWithSiblingIndex(position, degree, input);
     }
 
     /**
@@ -72,7 +72,7 @@ public class PlayerFieldShipContainer {
      */
     public void setBigShipContainer(int position, int degree, String input) {
         shipLogic.setBigShipPosition(position, degree);
-        playerFieldLogic.setPFBigShipPosition(position, degree, input);
+        playerFieldLogic.setPFBigShipPositionWithSiblingIndex(position, degree, input);
     }
 
     /**

@@ -48,10 +48,10 @@ public class MainTest {
     /**
      * Test to check if the button to start the server/client activity is clickable
      */
-    @Test
-    public void testSocketButton(){
-        onView(withId(R.id.Socket)).perform(click());
-    }
+//    @Test
+//    public void testSocketButton(){
+//        onView(withId(R.id.Socket)).perform(click());
+//    }
 
     /**
      * Test to check if the button to start options activity class is clickable
@@ -64,10 +64,10 @@ public class MainTest {
     /**
      * Test to check if the button start the roll the dice activity is clickable
      */
-    @Test
-    public void testDiceButton(){
-        onView(withId(R.id.dice)).perform(click());
-    }
+//    @Test
+//    public void testDiceButton(){
+//        onView(withId(R.id.dice)).perform(click());
+//    }
 
     /**
      * Test to check if the button to start the PowerUp activity is clickable
