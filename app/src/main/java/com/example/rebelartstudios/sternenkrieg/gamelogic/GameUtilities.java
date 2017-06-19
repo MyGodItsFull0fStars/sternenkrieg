@@ -35,7 +35,7 @@ public class GameUtilities {
     }
 
     public void load() {
-        setUsername(sharedPreferences.getString("username", "Unbekannt"));
+        setUsername(sharedPreferences.getString("username", null));
         setLevel(sharedPreferences.getInt("level", 1));
         setPercent(sharedPreferences.getInt("percent", 0));
         setSound(sharedPreferences.getBoolean("sound", true));

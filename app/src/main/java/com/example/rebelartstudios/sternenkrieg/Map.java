@@ -18,6 +18,7 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.rebelartstudios.sternenkrieg.gamelogic.GameUtilities;
@@ -43,6 +44,7 @@ public class Map extends AppCompatActivity {
     ImageView imageView;
     ImageView ship1, ship2, ship3, turn, play;
     ProgressBar proNext;
+    TextView textwaiting;
 
     int width;
     int height;
@@ -249,7 +251,7 @@ public class Map extends AppCompatActivity {
                 v.startDrag(data, shadow, null, 0);
                 //small ship
 
-                which_ship = playerFieldShipContainer.getShipLogic().SMALL_SHIP_ID;
+               // which_ship = playerFieldShipContainer.getShipLogic().SMALL_SHIP_ID;
 
                 ship1.setVisibility(View.INVISIBLE);
                 return false;
@@ -308,6 +310,7 @@ public class Map extends AppCompatActivity {
         play = (ImageView) findViewById(R.id.play);
         proNext = (ProgressBar) findViewById(R.id.progressBarNextMap);
         proNext.setVisibility(View.INVISIBLE);
+        textwaiting = (TextView) findViewById(R.id.textMapWaiting);
     }
 
 
@@ -348,6 +351,7 @@ public class Map extends AppCompatActivity {
                     util.messageSend("boolean", Phost);
                     play.setVisibility(View.INVISIBLE);
                     proNext.setVisibility(View.VISIBLE);
+                    textwaiting.setVisibility(View.VISIBLE);
                     if (!Phost) {
                         new CountDownTimer(200, 100) {
                             public void onTick(long millisUntilFinished) {
@@ -402,12 +406,12 @@ public class Map extends AppCompatActivity {
      * Receives an integer array containing the positions, which will be deleted
      * in the player field
      *
-     * @param shipArray used to delete the fields in the player field
+     * @param //shipArray used to delete the fields in the player field
      */
-    public void delete(int shipArray[]) {
-        playerFieldShipContainer.delete(shipArray);
-        draw(playerFieldShipContainer.getPlayerFieldLogic().getPlayerField());
-    }
+//    public void delete(int shipArray[]) {
+//        playerFieldShipContainer.delete(shipArray);
+//        draw(playerFieldShipContainer.getPlayerFieldLogic().getPlayerField());
+//    }
 
 
     public void draw(String[] array) {

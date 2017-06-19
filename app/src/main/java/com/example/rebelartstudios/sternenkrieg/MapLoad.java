@@ -95,14 +95,14 @@ public class MapLoad extends BaseAdapter {
                         mobile.equals(fieldValues.SETFIELDPOSITION_B) ||
                         mobile.equals(fieldValues.SETFIELDPOSITION_C)) {
             imageView.setBackgroundColor(Color.WHITE); //no action
-            imageView.getBackground().setAlpha(70);
+           // imageView.getBackground().setAlpha(70);
         } else if (mobile.equals(fieldValues.SETFIELDPOSITION_MISS)) {
             imageView.setBackgroundColor(Color.MAGENTA); //miss for player
         } else if (mobile.equals(fieldValues.SETFIELDPOSITION_TWO)){
             imageView.setBackgroundColor(Color.RED); //your own ships
 
         } else if (mobile.equals(fieldValues.SETFIELDPOSITION_SMALL)) {
-            imageView.setBackgroundResource(R.drawable.kleinesschiff);
+            imageView.setBackgroundColor(Color.RED);
         } else if (mobile.equals(fieldValues.SETPLAYERPOSITION_MIDDLE1)) {
             imageView.setBackgroundResource(R.drawable.mittleresschiff1);
         } else if (mobile.equals(fieldValues.SETPLAYERPOSITION_MIDDLE2)) {

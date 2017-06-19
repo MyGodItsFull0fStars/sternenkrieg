@@ -128,5 +128,18 @@
         tools:layout_constraintBottom_creator="1"
         tools:layout_constraintTop_creator="1" />
 
+    <TextView
+        android:id="@+id/textMapWaiting"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        android:layout_marginBottom="8dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="17dp"
+        android:text="TextView"
+        app:layout_constraintBottom_toBottomOf="@+id/progressBarNextMap"
+        app:layout_constraintRight_toLeftOf="@+id/progressBarNextMap"
+        app:layout_constraintTop_toTopOf="@+id/progressBarNextMap" />
+
 
 </android.support.constraint.ConstraintLayout>
