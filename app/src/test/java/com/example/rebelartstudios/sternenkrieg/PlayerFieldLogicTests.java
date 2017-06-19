@@ -87,6 +87,7 @@ public class PlayerFieldLogicTests {
         } catch (IllegalArgumentException e) {
             Assert.assertEquals(e.toString(), errorMessage);
         }
+
     }
 
 
@@ -102,14 +103,14 @@ public class PlayerFieldLogicTests {
             playerFieldLogic.getSibling(-1);
             fail("IllegalArgumentException expected");
         } catch (IllegalArgumentException e) {
-            Assert.assertEquals(e.toString(), "java.lang.IllegalArgumentException: Given degree is not allowed");
+            Assert.assertEquals(e.getMessage(), "Given degree is not allowed");
         }
 
         try {
             playerFieldLogic.getSibling(8);
             fail("IllegalArgumentException expected");
         } catch (IllegalArgumentException e) {
-            Assert.assertEquals(e.toString(), "java.lang.IllegalArgumentException: Given degree is not allowed");
+            Assert.assertEquals(e.getMessage(), "Given degree is not allowed");
         }
     }
 
@@ -145,4 +146,16 @@ public class PlayerFieldLogicTests {
             fail("IllegalArgumentException should not be reached");
         }
     }
+
+    @Test
+    public void checkSetPFMiddleShipPositionWithSiblingIndexThrowsException(){
+        try {
+            playerFieldLogic.setPFMiddleShipPositionWithSiblingIndex(0, fieldValues.HORIZONTAL, fieldValues.SETFIELDPOSITION_A);
+            fail("IllegalArgumentException expected");
+        } catch (IllegalArgumentException e) {
+            Assert.assertEquals(e.getMessage(), "Parameter is not in range of player field");
+        }
+    }
+
+
 }
