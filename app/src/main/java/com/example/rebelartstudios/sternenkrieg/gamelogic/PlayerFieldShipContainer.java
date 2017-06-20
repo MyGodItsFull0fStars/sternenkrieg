@@ -1,5 +1,7 @@
 package com.example.rebelartstudios.sternenkrieg.gamelogic;
 
+import com.example.rebelartstudios.sternenkrieg.ErrorMessages;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -33,7 +35,7 @@ public class PlayerFieldShipContainer {
      */
     public PlayerFieldShipContainer(PlayerFieldLogic playerFieldLogic, ShipLogic shipLogic) {
         if (playerFieldLogic == null || shipLogic == null) {
-            throw new IllegalArgumentException("Given parameter was null");
+            throw new IllegalArgumentException(ErrorMessages.NULL_PARAMETER);
         }
         this.playerFieldLogic = playerFieldLogic;
         this.shipLogic = shipLogic;
@@ -93,7 +95,7 @@ public class PlayerFieldShipContainer {
      * @param input    the input which will be checked with the position
      * @return if the value at position and the input string are equal, then return true, otherwise false
      */
-    public boolean playerFieldPositionContainsString(int position, String input) {
+    public boolean positionContainsString(int position, String input) {
         return input.equals(playerFieldLogic.getPlayerField()[position]);
     }
 
@@ -134,7 +136,7 @@ public class PlayerFieldShipContainer {
     public boolean checkPosition(int position, int whichShip, int degree) {
 
         if (!inRange(position, 0, 63)) {
-            throw new IllegalArgumentException("Position is out of range");
+            throw new IllegalArgumentException(ErrorMessages.POSITION_OUT_OF_RANGE);
         }
 
 
@@ -261,7 +263,7 @@ public class PlayerFieldShipContainer {
         } else if (whichShip == shipLogic.BIG_SHIP_ID) {
             return getPlayerFieldLogic().bigShipFieldContainsString(position, degree, fieldValues.SETFIELDPOSITION_EMPTY);
         } else {
-            throw new IllegalArgumentException("Wrong parameter at playerFieldAtPositionEmpty()");
+            throw new IllegalArgumentException(ErrorMessages.ILLEGAL_SHIP_ID);
         }
     }
 

@@ -91,6 +91,9 @@ public class PlayerFieldLogic {
      * @param input
      */
     public void setSmallShipPosition(int position, String input) {
+        if (input == null) {
+            throw new IllegalArgumentException(ErrorMessages.NULL_PARAMETER);
+        }
         if (inRange(position)) {
             playerField[position] = input;
         }
@@ -106,6 +109,9 @@ public class PlayerFieldLogic {
      * @param input    string used to signalize the state
      */
     public void setMiddleShipPositionWithSiblingIndex(int position, int degree, String input) {
+        if (input == null) {
+            throw new IllegalArgumentException(ErrorMessages.NULL_PARAMETER);
+        }
         if (inRange(position - getSibling(degree)) && inRange(position)) {
             if (degree == fieldStrings.HORIZONTAL) {
                 playerField[position - getSibling(degree)] = input + ONE;
@@ -119,6 +125,9 @@ public class PlayerFieldLogic {
 
 
     public void setMiddleShipPositionToString(int position, int degree, String input) {
+        if (input == null) {
+            throw new IllegalArgumentException(ErrorMessages.NULL_PARAMETER);
+        }
         if (inRange(position) && inRange(position - getSibling(degree))) {
             playerField[position - getSibling(degree)] = input;
             playerField[position] = input;
@@ -141,6 +150,9 @@ public class PlayerFieldLogic {
      * @param input    string used to signalize the state
      */
     public void setBigShipPositionWithSiblingIndex(int position, int degree, String input) {
+        if (input == null) {
+            throw new IllegalArgumentException(ErrorMessages.NULL_PARAMETER);
+        }
         if (inRange(position - getSibling(degree)) && inRange(position) && inRange(position + getSibling(degree))) {
             if (degree == fieldStrings.HORIZONTAL) {
                 playerField[position - getSibling(degree)] = input + ONE;
@@ -201,10 +213,16 @@ public class PlayerFieldLogic {
     }
 
     public boolean middleShipFieldContainsString(int position, int degree, String input) {
+        if (input == null) {
+            throw new IllegalArgumentException(ErrorMessages.NULL_PARAMETER);
+        }
         return getStringInPosition(position).equals(input) && getStringInPosition(position - getSibling(degree)).equals(input);
     }
 
     public boolean bigShipFieldContainsString(int position, int degree, String input) {
+        if (input == null) {
+            throw new IllegalArgumentException(ErrorMessages.NULL_PARAMETER);
+        }
         return middleShipFieldContainsString(position, degree, input) && getStringInPosition(position).equals(input);
     }
 
