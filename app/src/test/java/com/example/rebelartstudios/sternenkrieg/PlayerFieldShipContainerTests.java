@@ -47,7 +47,7 @@ public class PlayerFieldShipContainerTests {
     }
 
     @Test
-    public void checkInitializationConstructorWithParameterThrowsException() {
+    public void checkInitializationConstructorWithParameter() throws IllegalArgumentException {
         try {
             container = new PlayerFieldShipContainer(null, new ShipLogic());
             fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_EXPECTED);
@@ -81,7 +81,7 @@ public class PlayerFieldShipContainerTests {
     }
 
     @Test
-    public void smallShipContainerMethodOutOfBoundsThrowsException() {
+    public void smallShipContainerMethodOutOfBounds() throws IllegalArgumentException {
 
         try {
             container.setSmallShipContainer(-1, fieldValues.SETFIELDPOSITION_B);
@@ -99,7 +99,7 @@ public class PlayerFieldShipContainerTests {
     }
 
     @Test
-    public void setSmallShipContainerThrowsExceptionWithNULLString() {
+    public void setSmallShipContainerWithNULLString()throws IllegalArgumentException {
         try {
             container.setSmallShipContainer(0, null);
             fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_EXPECTED);
@@ -141,7 +141,7 @@ public class PlayerFieldShipContainerTests {
     }
 
     @Test
-    public void setMiddleShipContainerThrowsExceptionWithOutOfBoundsParameters() {
+    public void setMiddleShipContainerWithOutOfBoundsParameters() throws IllegalArgumentException{
 
         // Clearly out of left field boundaries
         try {
@@ -169,7 +169,7 @@ public class PlayerFieldShipContainerTests {
     }
 
     @Test
-    public void setMiddleShipContainerThrowsExceptionWithNULLParameter() {
+    public void setMiddleShipContainerWithNULLParameter() throws IllegalArgumentException{
         // At the start of array
         try {
             container.setMiddleShipContainer(1, fieldValues.HORIZONTAL, null);
@@ -204,7 +204,7 @@ public class PlayerFieldShipContainerTests {
     }
 
     @Test
-    public void setMiddleShipContainerThrowsExceptionWithWrongDegree() {
+    public void setMiddleShipContainerWithWrongDegree() throws IllegalArgumentException{
         try {
             container.setMiddleShipContainer(1, 2, fieldValues.SETFIELDPOSITION_A);
             fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_EXPECTED);
@@ -242,7 +242,7 @@ public class PlayerFieldShipContainerTests {
     }
 
     @Test
-    public void setBigShipContainerThrowsExceptionWithOutOfBoundariesParams() {
+    public void setBigShipContainerWithOutOfBoundariesParams() throws IllegalArgumentException {
 
         // Center position out of range
         try {
@@ -292,7 +292,7 @@ public class PlayerFieldShipContainerTests {
 
 
     @Test
-    public void setBigShipContainerThrowsExceptionWithWrongDegree() {
+    public void setBigShipContainerWithWrongDegree() throws IllegalArgumentException {
         try {
             container.setBigShipContainer(1, 2, fieldValues.SETFIELDPOSITION_A);
             fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_EXPECTED);
@@ -309,7 +309,7 @@ public class PlayerFieldShipContainerTests {
     }
 
     @Test
-    public void setBigShipContainerThrowsExceptionWithNULLParams() {
+    public void setBigShipContainerWithNULLParams() throws IllegalArgumentException {
         try {
             container.setBigShipContainer(1, fieldValues.HORIZONTAL, null);
             fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_EXPECTED);
@@ -342,6 +342,18 @@ public class PlayerFieldShipContainerTests {
         for (int position = 4; position < fieldValues.FIELDSIZE; position++) {
             Assert.assertTrue(container.positionContainsString(position, fieldValues.SETFIELDPOSITION_A));
         }
-
     }
+
+
+    @Test
+    public void deleteMethodNullParams() throws IllegalArgumentException {
+        try {
+            container.delete(null);
+            fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_EXPECTED);
+        } catch (IllegalArgumentException e) {
+            Assert.assertEquals(e.getMessage(), ErrorMessages.NULL_PARAMETER);
+        }
+    }
+
+
 }
