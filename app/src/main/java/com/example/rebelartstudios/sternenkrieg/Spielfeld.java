@@ -334,8 +334,10 @@ public class Spielfeld extends AppCompatActivity {
 
         if (sendMap) {
             String sendField = "";
-            for (String data : map1)
-                sendField += data;
+            for (String data : map1) {
+                sendField += data + "x";
+                System.out.println(sendField);
+            }
 
             map2 = new String[fieldValues.FIELDSIZE];
             Arrays.fill(map2, fieldValues.SETFIELDPOSITION_EMPTY);
@@ -805,12 +807,7 @@ public class Spielfeld extends AppCompatActivity {
                     System.out.println(message);
                     String[] mapMsg = message.split(",");
                     if (mapMsg[0].equals(mapString)) {
-                        map2 = mapMsg[1].split("");
-                        String[] map3 = new String[64];
-                        for (int i = 0; i < map3.length; i++)
-                            map3[i] = map2[i + 1];
-
-                        map2 = map3;
+                        map2 = mapMsg[1].split("x");
                         draw(map2, gridView2);
                         util.messageSend("Gotit,1", Phost);
                         System.out.println(mapString + mapMsg[1]);
@@ -837,7 +834,7 @@ public class Spielfeld extends AppCompatActivity {
                     if (sendMap) {
                         String sendMap = "";
                         for (String data : map1)
-                            sendMap += data;
+                            sendMap += data+"x";
 
                         map2 = new String[fieldValues.FIELDSIZE];
                         Arrays.fill(map2, fieldValues.SETFIELDPOSITION_EMPTY);
