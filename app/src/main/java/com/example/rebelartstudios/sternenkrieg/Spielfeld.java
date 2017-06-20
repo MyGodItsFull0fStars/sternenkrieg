@@ -182,10 +182,12 @@ public class Spielfeld extends AppCompatActivity {
                 ImageView background = (ImageView) findViewById(R.id.background_stars);
 
 
-                if (mLightQuantity >= 300)
-                    background.setBackgroundResource(R.drawable.amhellsten);
-                else if (mLightQuantity > 180 && mLightQuantity < 300)
+                if (mLightQuantity >= 600)
                     background.setBackgroundResource(R.drawable.dunkel);
+                else if (mLightQuantity > 300 && mLightQuantity < 600)
+                    background.setBackgroundResource(R.drawable.heller2);
+                else if (mLightQuantity > 180 && mLightQuantity < 300)
+                    background.setBackgroundResource(R.drawable.heller);
                 else
                     background.setBackgroundResource(R.drawable.amdunkelsten);
             }
@@ -720,7 +722,7 @@ public class Spielfeld extends AppCompatActivity {
 
     public boolean checkAvailability(int position) {
         //  if(map1[position].equals(posis)){ return true;} else {
-        fieldValues.initialiseCheckAvailabilityList();
+      //  fieldValues.initialiseCheckAvailabilityList();
 
         switch (map1[position]) {
             case "d":

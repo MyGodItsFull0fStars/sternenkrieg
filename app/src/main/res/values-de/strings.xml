@@ -12,7 +12,7 @@ https://developer.android.com/guide/topics/resources/localization.html
     <string name="connection_type_client">Client</string>
 
     <string name="about">Über uns</string>
-    <string name="aboutGame">Über Sternenkrieg</string>
+    <string name="aboutGame">Rebel Art Studios, Projektgruppe für Software Engineering 2. \nChristiann Bauer \nLukas Pagitz \nAnja Ressmann \nChristoph Roither \nBoda Wen</string>
     <string name="dice">Würfel</string>
     <string name="highscore">Highscore</string>
     <string name="options">Optionen</string>
@@ -20,7 +20,7 @@ https://developer.android.com/guide/topics/resources/localization.html
     <string name="playSound">Sound abspielen</string>
     <string name="send">Senden</string>
     <string name="sound">Sound</string>
-    <string name="status">Status</string>
+    <string name="status">Deaktiviert</string>
 
     <string name="enabled">Aktiviert</string>
     <string name="disabled">Deaktiviert</string>

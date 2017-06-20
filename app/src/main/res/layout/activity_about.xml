@@ -2,53 +2,56 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@drawable/backgroundmenue"
-    android:gravity="center"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/backgroundpic"
+    android:gravity="center"
     android:keepScreenOn="true"
 
     tools:context="com.example.rebelartstudios.sternenkrieg.About">
 
     <TextView
         android:id="@+id/textViewAbout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="377dp"
+        android:layout_height="110dp"
         android:layout_marginTop="8dp"
         android:text="@string/aboutGame"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.501"
+        android:textColor="#FFFFFF"
+        android:gravity="center"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView"
-        app:layout_constraintVertical_bias="0.109" />
+        app:layout_constraintVertical_bias="0.0"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/testSound"
+        app:layout_constraintHorizontal_bias="0.502" />
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="300dp"
-        android:layout_height="141dp"
-        android:layout_marginTop="34dp"
+        android:layout_width="270dp"
+        android:layout_height="88dp"
+        android:layout_marginTop="-22dp"
         android:contentDescription="@string/logo_desc"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/logo" />
+        app:srcCompat="@drawable/logo"
+        app:layout_constraintHorizontal_bias="0.501" />
 
     <Button
         android:id="@+id/testSound"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginTop="79dp"
-        android:text="@string/playSound"
+        android:layout_marginBottom="59dp"
         android:background="@color/colorPrimary"
-        android:textSize="20sp"
+        android:text="@string/playSound"
+        android:textAlignment="center"
         android:textColor="@color/common_signin_btn_dark_text_default"
+        android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewAbout"
-        app:layout_constraintVertical_bias="0.109"/>
+        app:layout_constraintRight_toRightOf="parent" />
 
     <ImageView
         android:id="@+id/imageAboutReturn"
