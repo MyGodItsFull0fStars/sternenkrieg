@@ -31,7 +31,6 @@ public class GameUtilities {
     }
 
 
-
     public void onDestroy() {
         //onDestroy
 
@@ -48,7 +47,7 @@ public class GameUtilities {
         return sharedPreferences.getInt("score", 0) + points;
     }
 
-    public void level() {
+    public static void level() {
         GameUtilities.scoreForLevel = setScoreForLevel();
         int levelBoundaries = (1000 + 400 * (level - 1)) * level;
 
