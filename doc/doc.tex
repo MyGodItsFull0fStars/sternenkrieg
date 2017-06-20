@@ -169,6 +169,8 @@ Die Speicherung der Einstellungen erfolgt mithilfe von SharedPreferences ("prefs
 \section{GameLogic-Klassen im Überblick}
 In diesem Kapitel werden die GameLogic-Klassen näher erläutert. Wie der Name schon sagt, beinhalten diese Klassen die eigentliche Spiellogik.
 
+\subsection{FieldValues}
+
 \subsection{GameUtilities}
 Die Klasse "GameUtilities" verwaltet das Speichern der Informationen zum Spiel, darunter:
 \begin{itemize}
@@ -194,13 +196,41 @@ Die Klasse bietet unter anderem folgende Methoden:
 \subsection{NetworkStats}
 
 \subsection{PlayerFieldLogic}
-In der Klasse "PlayerFieldLogic" wird die Logik des Spielfelds verwaltet. Die Spielfelddaten werden in einem String-Array gespeichert. Abhängig von den gespeicherten Informationen werden die Felder unterschiedlich gefärbt.
+In der Klasse "PlayerFieldLogic" wird die Logik des Spielfelds verwaltet. Die Spielfelddaten werden in einem String-Array playerField gespeichert.
+
+Ähnlich wie die ShipLogic-Klasse besitzt auch diese Klasse mehrere Methoden, um die einzelnen Schiffsgrößen auf dem Spielfeld zu platzieren. Dies geschieht durch Übergabe der Position, des Winkels und eines Strings zur. Dabei wird bei den einzelnen Parametern überprüft, ob die Position der zu setzenden Felder gültig ist, ob der Winkel entweder horizontal oder vertikal ist und ob der String gültig ist.
+
+\subsubsection{ContainsString}
+Für die verschiedenen Schiffsgrößen existieren eigene ContrainsString-Methoden. Dabei werden Methoden aus der Klasse ShipLogic zur Überprüfung verwendet (inRange, getSibling, String != null).
 
 \subsection{PlayerFieldShipContainer}
+Um den Workflow und die Lesbarkeit zu erhöhen, werden die Klassen ShipLogic und PlayerFieldLogic in der Klasse "PlayerFieldShipContainer" zusammengeführt, um Arbeitsschritte zu verringern. Der Konstruktor beinhaltet genau diese beiden Klassen.
 
-\subsection{PlayerFieldValues}
+Es existieren drei setShipContainer-Methoden (für die drei Größen), wobei das jeweilige Schiff in beiden Klassen gesetzt wird.
 
 \subsection{ShipLogic}
+Die Klasse "ShipLogic" koopieriert mit der Klasse PlayerFieldLogic. In der Klasse ShipLogic werden die Schiffspositionen abgespeichert und bei Bedarf (z.B. beim Löschen der Schiffspositionen auf dem Spielfeld) abgerufen.
+
+\subsubsection{Positionen der Schiffe}
+Die Positionen der Schiffe werden in diesen Variablen gespeichert:
+\begin{itemize}
+\item int[] small\_ship
+\item int[] middle\_ship
+\item int[] big\_ship
+\end{itemize}
+
+Für alle Arrays stehen entsprechende get-Methoden zur Verfügung.
+
+Die Position jedes Schiffes kann entweder über das Array gesetzt oder direkt als Position mit horizontalem/vertikalem Winkel angegeben werden. Der Winkel wird mit der Methode getSibling(int position) aufgerufen und übergibt den Abstand zu der Position.
+
+\subsubsection{getSibling}
+Die Methode int getSibling(int position) überprüft den übergebenen Parameter und liefert als Rückgabewert entweder 1 oder 8, welcher für die Positionierung der Siblings verwendet wird. Bei horizontaler Ausrichtung werden diese um eine Position versetzt auf das Spielfeld gesetzt, bei vertikaler Ausrichtung um 8 Positionen versetzt positioniert. Bei middleShip und bigShip wird stets mit dem Vorgänger-Sibling begonnen (position - sibling-Abstand bzw. position + sibling-Abstand).
+
+\subsubsection{ShipIsSetOnField}
+Schiffe können per Drag\&Drop auf dem Spielfeld platziert werden. Es existieren daher drei boolean-Variablen, welche angeben, ob ein Schiff bereits positioniert wurde oder nicht. Um zu prüfen, ob bereits alle Schiffe gesetzt wurden, steht die Methode allShipsSetOnPlayerField() zur Verfügung. Falls diese Methode true als Rückgabewert liefert, wird das ImageView in der Map-Activity auf aktiviert gesetzt und der Spieler kann fortfahren.
+
+\subsubsection{inRange}
+Diese Methode prüft, ob sich die übergegebenen Positionen innerhalb des Spielfelds befinden.
 
 \section{Network-Klassen im Überblick}
 Alle Netzwerk-bezogenen Klassen befinden sich im Package "network". Im Spiel Sternenkrieg übernimmt ein Spieler die Rolle des Servers, der andere die des Clients. Es wird sozusagen ein Server erstellt, zu welchem sich der Client verbindet. Im weiteren Spielverlauf spielt dies keine Rolle.
