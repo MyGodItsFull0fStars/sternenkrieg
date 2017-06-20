@@ -101,9 +101,9 @@ Sternenkrieg <TODO>
 
 \section{Grundlegender Aufbau}
 \subsection{Spielablauf}
-Sternenkrieg orientiert sich am Spielprinzip von "Schiffe versenken". Ziel ist es, die vom Gegner platzierten Schiffe als erster Spieler zu zerstören. Als Erweiterung zum herkömmlichen Spiel, bietet Sternenkrieg weitere Features, deren technische Funktionalität hier kurz erläutert wird. Dieses Kapitel soll zum Verständnis des Ablaufs im Programm beitragen.
+Sternenkrieg orientiert sich am Spielprinzip von \enquote{Schiffe versenken}. Ziel ist es, die vom Gegner platzierten Schiffe als erster Spieler zu zerstören. Als Erweiterung zum herkömmlichen Spiel, bietet Sternenkrieg weitere Features, deren technische Funktionalität hier kurz erläutert wird. Dieses Kapitel soll zum Verständnis des Ablaufs im Programm beitragen.
 
-Gestartet wird das Spiel mit einem Klick auf den Button "Play". Danach muss eine Verbindung zwischen beiden Spielern hergestellt werden. Hierzu ist es notwendig, dass sich die Smartphones beider Spieler im gleichen WLAN-Netzwerk befinden. Ein Spieler übernimmt im Spiel den Server, der andere übernimmt den Client.
+Gestartet wird das Spiel mit einem Klick auf den Button \enquote{Play}. Danach muss eine Verbindung zwischen beiden Spielern hergestellt werden. Hierzu ist es notwendig, dass sich die Smartphones beider Spieler im gleichen WLAN-Netzwerk befinden. Ein Spieler übernimmt im Spiel den Server, der andere übernimmt den Client.
 
 Der Server-Spieler startet danach den Server und bekommt eine IP-Adresse angezeigt, welche er dem Client-Spieler übermittelt. Dieser verbindet sich damit zum Server. Sobald die Verbindung erfolgreich war, melden sich beide Spieler als bereit und das Spiel beginnt.
 
@@ -126,25 +126,25 @@ Das Menü von Sternenkrieg bietet - abgesehen vom eigentlichen Spiel - noch folg
 In diesem Kapitel werden die allgemeinen Klassen und die dazugehörigen Activities von Sternenkrieg beschrieben. Besonders wichtige Klassen und Methoden werden ausführlicher behandelt.
 
 \subsection{About}
-Die Klasse "About" gibt einen kurzen Text über Sternenkrieg aus und hat sonst keine weitere Funktionalitäten.
+Die Klasse \enquote{About} gibt einen kurzen Text über Sternenkrieg aus und hat sonst keine weitere Funktionalitäten.
 
 \subsection{Dice}
-Die Klasse "Dice" steht einen Würfel zur Verfügung. Dieser Würfel wird am Beginn des Spiels verwendet um den Beginner des Spiels zu bestimmen. Der Würfel wird außerdem bei den PowerUps verwendet, um eine Zufallszahl zu erhalten.
+Die Klasse \enquote{Dice} steht einen Würfel zur Verfügung. Dieser Würfel wird am Beginn des Spiels verwendet um den Beginner des Spiels zu bestimmen. Der Würfel wird außerdem bei den PowerUps verwendet, um eine Zufallszahl zu erhalten.
 Das Würfeln erfolgt durch Schütteln des Smartphones. Hierfür wird ein SensorEvent-Listener verwendet. Unterstützt wird die Klasse Dice durch die Klasse res/Sensors.
 
 Die Auswahl des korrekten Würfels (Spielstart oder PowerUps) erfolgt durch die Auswahl eines Modus (Variable mode). mode = 1 steht hierbei für den Spielstart, mode = 2 für das PowerUp-System.
 
 \subsection{DiceClass}
-Die Klasse "DiceClass" unterstützt den Würfel mit einigen ausgelagerten Methoden (Wechseln der Bilder und Abrufen der Variablen).
+Die Klasse \enquote{DiceClass} unterstützt den Würfel mit einigen ausgelagerten Methoden (Wechseln der Bilder und Abrufen der Variablen).
 
 \subsection{Highscore}
-Die Klasse "Highscore" zeigt den Highscore des Spiels an. Die Daten werden dabei aus der Klasse GameUtilities geholt.
+Die Klasse \enquote{Highscore} zeigt den Highscore des Spiels an. Die Daten werden dabei aus der Klasse GameUtilities geholt.
 
 \subsection{Main}
-Die Klasse "Main" stellt den Startscreen sowie das Hauptmenü dar. Eingebunden werden hier das Hintergrundbild sowie die Buttons zur Menüauswahl. Falls das Spiel zum ersten Mal gestartet wird, muss vom Spieler ein Name eingegeben werden.
+Die Klasse \enquote{Main} stellt den Startscreen sowie das Hauptmenü dar. Eingebunden werden hier das Hintergrundbild sowie die Buttons zur Menüauswahl. Falls das Spiel zum ersten Mal gestartet wird, muss vom Spieler ein Name eingegeben werden.
 
 \subsection{MainSocket}
-Die Klasse "MainSocket" wird nach Klick auf "Play" im Hauptmenü aufgerufen. In diesem Menü kann ein neues Spiel erstellt ("Server") bzw. einem Spiel beigetreten ("Client") werden.
+Die Klasse \enquote{MainSocket} wird nach Klick auf \enquote{Play} im Hauptmenü aufgerufen. In diesem Menü kann ein neues Spiel erstellt (\enquote{Server}) bzw. einem Spiel beigetreten (\enquote{Client}) werden.
 Der Server-Spieler bekommt eine IP-Adresse angezeigt, welche er dem Client-Spieler übermittelt. Dieser gibt diese IP-Adresse ein und verbindet sich damit zum Server.
 
 \subsection{Map}
@@ -152,13 +152,13 @@ Der Server-Spieler bekommt eine IP-Adresse angezeigt, welche er dem Client-Spiel
 \subsection{MapLoad}
 
 \subsection{Options}
-Die Klasse "Options" behandelt alle Einstellungsmöglichkeiten von Sternenkrieg. Dazu zählen:
+Die Klasse \enquote{Options} behandelt alle Einstellungsmöglichkeiten von Sternenkrieg. Dazu zählen:
 \begin{itemize}
 \item Name
 \item Sound an/aus
 \item Sprache (DE/EN)
 \end{itemize}
-Die Speicherung der Einstellungen erfolgt mithilfe von SharedPreferences ("prefs"). Diese bieten eine einfache Speicherung von Variablen, welche ebenfalls sehr einfach aktualisiert werden können. Nach einer Änderung wird die entsprechende Variable neu abgespeichert und steht somit auch den anderen Klassen zur Verfügung.
+Die Speicherung der Einstellungen erfolgt mithilfe von SharedPreferences (\enquote{prefs}). Diese bieten eine einfache Speicherung von Variablen, welche ebenfalls sehr einfach aktualisiert werden können. Nach einer Änderung wird die entsprechende Variable neu abgespeichert und steht somit auch den anderen Klassen zur Verfügung.
 
 \subsection{PlayAudio}
 
@@ -172,7 +172,7 @@ In diesem Kapitel werden die GameLogic-Klassen näher erläutert. Wie der Name s
 \subsection{FieldValues}
 
 \subsection{GameUtilities}
-Die Klasse "GameUtilities" verwaltet das Speichern der Informationen zum Spiel, darunter:
+Die Klasse \enquote{GameUtilities} verwaltet das Speichern der Informationen zum Spiel, darunter:
 \begin{itemize}
 \item Fortschritt
 \item Highscore
@@ -181,7 +181,7 @@ Die Klasse "GameUtilities" verwaltet das Speichern der Informationen zum Spiel, 
 \item Username
 \end{itemize}
 
-Diese Informationen werden in den Shared Preferences "prefs" gespeichert. 
+Diese Informationen werden in den Shared Preferences \enquote{prefs} gespeichert. 
 
 Die Klasse bietet unter anderem folgende Methoden:
 \begin{itemize}
@@ -196,7 +196,7 @@ Die Klasse bietet unter anderem folgende Methoden:
 \subsection{NetworkStats}
 
 \subsection{PlayerFieldLogic}
-In der Klasse "PlayerFieldLogic" wird die Logik des Spielfelds verwaltet. Die Spielfelddaten werden in einem String-Array playerField gespeichert.
+In der Klasse \enquote{PlayerFieldLogic} wird die Logik des Spielfelds verwaltet. Die Spielfelddaten werden in einem String-Array playerField gespeichert.
 
 Ähnlich wie die ShipLogic-Klasse besitzt auch diese Klasse mehrere Methoden, um die einzelnen Schiffsgrößen auf dem Spielfeld zu platzieren. Dies geschieht durch Übergabe der Position, des Winkels und eines Strings zur. Dabei wird bei den einzelnen Parametern überprüft, ob die Position der zu setzenden Felder gültig ist, ob der Winkel entweder horizontal oder vertikal ist und ob der String gültig ist.
 
@@ -204,12 +204,12 @@ In der Klasse "PlayerFieldLogic" wird die Logik des Spielfelds verwaltet. Die Sp
 Für die verschiedenen Schiffsgrößen existieren eigene ContrainsString-Methoden. Dabei werden Methoden aus der Klasse ShipLogic zur Überprüfung verwendet (inRange, getSibling, String != null).
 
 \subsection{PlayerFieldShipContainer}
-Um den Workflow und die Lesbarkeit zu erhöhen, werden die Klassen ShipLogic und PlayerFieldLogic in der Klasse "PlayerFieldShipContainer" zusammengeführt, um Arbeitsschritte zu verringern. Der Konstruktor beinhaltet genau diese beiden Klassen.
+Um den Workflow und die Lesbarkeit zu erhöhen, werden die Klassen ShipLogic und PlayerFieldLogic in der Klasse \enquote{PlayerFieldShipContainer} zusammengeführt, um Arbeitsschritte zu verringern. Der Konstruktor beinhaltet genau diese beiden Klassen.
 
 Es existieren drei setShipContainer-Methoden (für die drei Größen), wobei das jeweilige Schiff in beiden Klassen gesetzt wird.
 
 \subsection{ShipLogic}
-Die Klasse "ShipLogic" koopieriert mit der Klasse PlayerFieldLogic. In der Klasse ShipLogic werden die Schiffspositionen abgespeichert und bei Bedarf (z.B. beim Löschen der Schiffspositionen auf dem Spielfeld) abgerufen.
+Die Klasse \enquote{ShipLogic} koopieriert mit der Klasse PlayerFieldLogic. In der Klasse ShipLogic werden die Schiffspositionen abgespeichert und bei Bedarf (z.B. beim Löschen der Schiffspositionen auf dem Spielfeld) abgerufen.
 
 \subsubsection{Positionen der Schiffe}
 Die Positionen der Schiffe werden in diesen Variablen gespeichert:
@@ -233,36 +233,36 @@ Schiffe können per Drag\&Drop auf dem Spielfeld platziert werden. Es existieren
 Diese Methode prüft, ob sich die übergegebenen Positionen innerhalb des Spielfelds befinden.
 
 \section{Network-Klassen im Überblick}
-Alle Netzwerk-bezogenen Klassen befinden sich im Package "network". Im Spiel Sternenkrieg übernimmt ein Spieler die Rolle des Servers, der andere die des Clients. Es wird sozusagen ein Server erstellt, zu welchem sich der Client verbindet. Im weiteren Spielverlauf spielt dies keine Rolle.
+Alle Netzwerk-bezogenen Klassen befinden sich im Package \enquote{network}. Im Spiel Sternenkrieg übernimmt ein Spieler die Rolle des Servers, der andere die des Clients. Es wird sozusagen ein Server erstellt, zu welchem sich der Client verbindet. Im weiteren Spielverlauf spielt dies keine Rolle.
 
 \subsection{AcceptThread}
-Die Klasse "AcceptThread" stellt einen Thread für die Socket-Kommunikation zur Verfügung. In dieser Klasse wird der SocketServer erstellt (siehe StartThread für Socket).
+Die Klasse \enquote{AcceptThread} stellt einen Thread für die Socket-Kommunikation zur Verfügung. In dieser Klasse wird der SocketServer erstellt (siehe StartThread für Socket).
 
 \subsection{Client}
-Die Klasse "Client" wird vom Client-Spieler geöffnet. Dieser verbindet sich mithilfe eines Threads per Socket zum Server. Wurde eine Verbindung hergestellt, kann der Server-Spieler das Spiel starten.
+Die Klasse \enquote{Client} wird vom Client-Spieler geöffnet. Dieser verbindet sich mithilfe eines Threads per Socket zum Server. Wurde eine Verbindung hergestellt, kann der Server-Spieler das Spiel starten.
 
 \subsection{Host}
-Die Klasse "Host" wird vom Server-Spieler geöffnet. Dieser öffnet einen Socket (per Thread) und wartet anschließend auf die Verbindung vom Client. Die eigentlichen Spieldaten werden in der Klasse GameUtilities gespeichert.
+Die Klasse \enquote{Host} wird vom Server-Spieler geöffnet. Dieser öffnet einen Socket (per Thread) und wartet anschließend auf die Verbindung vom Client. Die eigentlichen Spieldaten werden in der Klasse GameUtilities gespeichert.
 Wurde die Verbindung erfolgreich hergestellt und das Spiel manuell vom Host gestartet, beginnt das Würfeln für den Spielstart.
 
 \subsection{NetworkUtilities}
-Die Klasse "NetworkUtilities" stellt die zentrale Schnittstelle für das Netzwerk dar und verbindet alle anderen Netzwerk-Klassen miteinander 
+Die Klasse \enquote{NetworkUtilities} stellt die zentrale Schnittstelle für das Netzwerk dar und verbindet alle anderen Netzwerk-Klassen miteinander 
 
 \subsection{ReceiveThreadClient/ReceiveThreadHost}
-Die Klassen "ReceiveThreadClient" bzw. "ReceiveThreadHost" dienen zum Empfangen von Nachrichten über den Socket. Eine Klasse dient dabei für den Server-Spieler, die andere für den Client-Spieler. Write-Klassen: siehe WriteClient/WriteHost. 
+Die Klassen \enquote{ReceiveThreadClient} bzw. \enquote{ReceiveThreadHost} dienen zum Empfangen von Nachrichten über den Socket. Eine Klasse dient dabei für den Server-Spieler, die andere für den Client-Spieler. Write-Klassen: siehe WriteClient/WriteHost. 
 
 \subsection{StartThread}
-Die Klasse "StartThread" stellt einen Thread für die Socket-Kommunikation zur Verfügung. In dieser Klasse wird der eigentliche Socket erstellt (siehe AcceptThread für SocketServer).
+Die Klasse \enquote{StartThread} stellt einen Thread für die Socket-Kommunikation zur Verfügung. In dieser Klasse wird der eigentliche Socket erstellt (siehe AcceptThread für SocketServer).
 
 \subsection{WriteClient/WriteHost}
-Die Klassen "WriteClient" bzw. "WriteHost" dienen zum Senden von Text an den Client-Spieler bzw. an den Server-Spieler. Dabei wird die Nachricht über den entsprechenden Socket verschickt. Receive-Klassen: siehe ReceiveThreadClient/ReceiveThreadHost.
+Die Klassen \enquote{WriteClient} bzw. \enquote{WriteHost} dienen zum Senden von Text an den Client-Spieler bzw. an den Server-Spieler. Dabei wird die Nachricht über den entsprechenden Socket verschickt. Receive-Klassen: siehe ReceiveThreadClient/ReceiveThreadHost.
 
 \section{Resources-Klassen im Überblick}
 
 \subsection{animationClass}
 
 \subsection{ErrorMessages}
-Die Klasse "ErrorMessages" verwaltet zentrale Fehlermeldungen. In dieser Klasse werden nur Strings gespeichert.
+Die Klasse \enquote{ErrorMessages} verwaltet zentrale Fehlermeldungen. In dieser Klasse werden nur Strings gespeichert.
 
 \subsection{QRReader}
 
