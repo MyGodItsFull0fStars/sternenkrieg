@@ -3,6 +3,7 @@ package com.example.rebelartstudios.sternenkrieg;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.widget.ImageView;
 
 import java.util.Random;
 
@@ -21,7 +22,9 @@ public class DiceClass {
     private static int four;
     private static int five;
     private static int six;
-    private static int countdice;
+    protected static int countdice;
+    ImageView imageDice;
+    Context context;
 
     static SharedPreferences sharedPreferences;
     static SharedPreferences.Editor editor;
@@ -36,7 +39,7 @@ public class DiceClass {
         five=sharedPreferences.getInt("five",0);
         six=sharedPreferences.getInt("six",0);
         countdice=sharedPreferences.getInt("countdice",0);
-
+        this.context = context;
     }
 
     public int roll() {
@@ -44,68 +47,6 @@ public class DiceClass {
         return r.nextInt(6)+1;
     }
 
-    public static void changeDiceImage(int value) {
-
-        switch (value) {
-            case 1:
-                Dice.imageDice.setImageResource(R.drawable.one);
-                setOne(one+1);
-                setCountdice(countdice+1);
-                break;
-            case 2:
-                Dice.imageDice.setImageResource(R.drawable.two);
-                setTwo(two+1);
-                setCountdice(countdice+1);
-                break;
-            case 3:
-                Dice.imageDice.setImageResource(R.drawable.three);
-                setThree(three+1);
-                setCountdice(countdice+1);
-                break;
-            case 4:
-                Dice.imageDice.setImageResource(R.drawable.four);
-                setFour(four+1);
-                setCountdice(countdice+1);
-                break;
-            case 5:
-                Dice.imageDice.setImageResource(R.drawable.five);
-                setFive(five+1);
-                setCountdice(countdice+1);
-                break;
-            case 6:
-                Dice.imageDice.setImageResource(R.drawable.six);
-                setSix(six+1);
-                setCountdice(countdice+1);
-                break;
-            default:
-                break;
-        }
-    }
-    public static void changeDiceImageEnemy(int value) {
-
-        switch (value) {
-            case 1:
-                Dice.diceEnemy.setImageResource(R.drawable.one);
-                break;
-            case 2:
-                Dice.diceEnemy.setImageResource(R.drawable.two);
-                break;
-            case 3:
-                Dice.diceEnemy.setImageResource(R.drawable.three);
-                break;
-            case 4:
-                Dice.diceEnemy.setImageResource(R.drawable.four);
-                break;
-            case 5:
-                Dice.diceEnemy.setImageResource(R.drawable.five);
-                break;
-            case 6:
-                Dice.diceEnemy.setImageResource(R.drawable.six);
-                break;
-            default:
-                break;
-        }
-    }
 
     public int whoIsStarting(int playerSelf, int playerEnemy) {
         if (playerSelf > playerEnemy) {      // Player starts

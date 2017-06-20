@@ -40,12 +40,26 @@ import java.net.Socket;
 
 import pl.bclogic.pulsator4droid.library.PulsatorLayout;
 
+import static com.example.rebelartstudios.sternenkrieg.DiceClass.countdice;
+import static com.example.rebelartstudios.sternenkrieg.DiceClass.setCountdice;
+import static com.example.rebelartstudios.sternenkrieg.DiceClass.setFive;
+import static com.example.rebelartstudios.sternenkrieg.DiceClass.setFour;
+import static com.example.rebelartstudios.sternenkrieg.DiceClass.setOne;
+import static com.example.rebelartstudios.sternenkrieg.DiceClass.setSix;
+import static com.example.rebelartstudios.sternenkrieg.DiceClass.setThree;
+import static com.example.rebelartstudios.sternenkrieg.DiceClass.setTwo;
+import static com.example.rebelartstudios.sternenkrieg.R.drawable.five;
+import static com.example.rebelartstudios.sternenkrieg.R.drawable.four;
+import static com.example.rebelartstudios.sternenkrieg.R.drawable.one;
+import static com.example.rebelartstudios.sternenkrieg.R.drawable.six;
+import static com.example.rebelartstudios.sternenkrieg.R.drawable.three;
+import static com.example.rebelartstudios.sternenkrieg.R.drawable.two;
+
 public class Dice extends AppCompatActivity {
 
-    private SensorManager mSensorManager;
     private Sensor mSensor;
-    protected static ImageView imageDice;
-    private boolean shakeboolean = true;
+    protected ImageView imageDice;
+    private boolean shakeBoolean = true;
     private int whoStarts;
     private TextView textScore;
     private TextView textScoreEnemy;
@@ -99,10 +113,10 @@ public class Dice extends AppCompatActivity {
         setContentView(R.layout.activity_dice);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        SensorManager mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         diceClass = new DiceClass(getApplicationContext());
-        Dice.imageDice = (ImageView) findViewById(R.id.imageDice);
+        imageDice = (ImageView) findViewById(R.id.imageDice);
         diceGoto = (ImageView) findViewById(R.id.dicegoto);
         diceGoto.setVisibility(View.INVISIBLE);
         diceEnemy = (ImageView) findViewById(R.id.diceenemy);
@@ -179,9 +193,9 @@ public class Dice extends AppCompatActivity {
         @Override
         public void onSensorChanged(SensorEvent sensorEvent) {
 
-            if ("shake".equals(sensors.accelUpdate(sensorEvent)) && shakeboolean) {
+            if ("shake".equals(sensors.accelUpdate(sensorEvent)) && shakeBoolean) {
                 value = diceClass.roll();
-                shakeboolean = false;
+                shakeBoolean = false;
                 shake();
             }
         }
@@ -219,7 +233,7 @@ public class Dice extends AppCompatActivity {
                 break;
         }
         util.messageSend(Integer.toString(value), pHost);
-        DiceClass.changeDiceImage(value);
+        changeDiceImage(value);
         sendBoolean = true;
         sollfinish();
 
@@ -297,7 +311,7 @@ public class Dice extends AppCompatActivity {
 
     private void sollfinish() {
         if (sendBoolean && came) {
-            diceClass.changeDiceImageEnemy(enemyValue);
+            changeDiceImageEnemy(enemyValue);
             prog1.setVisibility(View.INVISIBLE);
             diceEnemy.setVisibility(View.VISIBLE);
             onFinish();
@@ -342,7 +356,7 @@ public class Dice extends AppCompatActivity {
             } else if (!("".equals(message))) {
                 enemyValue = Integer.parseInt(message);
                 textScoreEnemy.setText(game.getEnemyUsername() + " got:" + enemyValue);
-                diceClass.changeDiceImageEnemy(enemyValue);
+                changeDiceImageEnemy(enemyValue);
                 diceEnemy.setVisibility(View.VISIBLE);
                 came = true;
                 sollfinish();
@@ -352,5 +366,68 @@ public class Dice extends AppCompatActivity {
 
     }
 
+    public void changeDiceImage(int value) {
+
+        switch (value) {
+            case 1:
+                imageDice.setImageResource(one);
+                setOne(one + 1);
+                setCountdice(countdice + 1);
+                break;
+            case 2:
+                imageDice.setImageResource(two);
+                setTwo(two + 1);
+                setCountdice(countdice + 1);
+                break;
+            case 3:
+                imageDice.setImageResource(three);
+                setThree(three + 1);
+                setCountdice(countdice + 1);
+                break;
+            case 4:
+                imageDice.setImageResource(four);
+                setFour(four + 1);
+                setCountdice(countdice + 1);
+                break;
+            case 5:
+                imageDice.setImageResource(five);
+                setFive(five + 1);
+                setCountdice(countdice + 1);
+                break;
+            case 6:
+                imageDice.setImageResource(six);
+                setSix(six + 1);
+                setCountdice(countdice + 1);
+                break;
+            default:
+                break;
+        }
+    }
+
+    public static void changeDiceImageEnemy(int value) {
+
+        switch (value) {
+            case 1:
+                Dice.diceEnemy.setImageResource(one);
+                break;
+            case 2:
+                Dice.diceEnemy.setImageResource(two);
+                break;
+            case 3:
+                Dice.diceEnemy.setImageResource(three);
+                break;
+            case 4:
+                Dice.diceEnemy.setImageResource(four);
+                break;
+            case 5:
+                Dice.diceEnemy.setImageResource(five);
+                break;
+            case 6:
+                Dice.diceEnemy.setImageResource(six);
+                break;
+            default:
+                break;
+        }
+    }
 
 }

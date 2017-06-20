@@ -81,7 +81,6 @@ public class MapLoad extends BaseAdapter {
         return gridView;
     }
 
-
     /**
      * Sets the color of field
      *
