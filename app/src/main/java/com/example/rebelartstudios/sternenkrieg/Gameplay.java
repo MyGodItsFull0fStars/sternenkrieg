@@ -500,34 +500,46 @@ public class Gameplay extends AppCompatActivity {
                 || fieldValues.bigShipStringList.contains(map1[position])) {
             map1[position] = fieldValues.SET_FIELD_POSITION_ENEMY_HIT;
             vib.vibrate(500);
-            highScore = highScore - 30; }
+            highScore = highScore - 30;
+        }
 
         //hits ship with armour
         else if (fieldValues.smallShipArmourStringList.contains(map1[position])
-                    || fieldValues.middleShipArmourStringList.contains(map1[position])
-                    || fieldValues.bigShipArmourStringList.contains(map1[position])) {
-            switch(map1[position]) {
-                case "j": map1[position] = fieldValues.SET_PLAYER_POSITION_SMALL;
+                || fieldValues.middleShipArmourStringList.contains(map1[position])
+                || fieldValues.bigShipArmourStringList.contains(map1[position])) {
+            switch (map1[position]) {
+                case "j":
+                    map1[position] = fieldValues.SET_PLAYER_POSITION_SMALL;
                     break;
-                case "k1": map1[position] = fieldValues.SET_PLAYER_POSITION_MIDDLE1;
+                case "k1":
+                    map1[position] = fieldValues.SET_PLAYER_POSITION_MIDDLE1;
                     break;
-                case "k2": map1[position] = fieldValues.SET_PLAYER_POSITION_MIDDLE2;
+                case "k2":
+                    map1[position] = fieldValues.SET_PLAYER_POSITION_MIDDLE2;
                     break;
-                case "k3": map1[position] = fieldValues.SET_PLAYER_POSITION_MIDDLE1R;
+                case "k3":
+                    map1[position] = fieldValues.SET_PLAYER_POSITION_MIDDLE1R;
                     break;
-                case "k4": map1[position] = fieldValues.SET_PLAYER_POSITION_MIDDLE2R;
+                case "k4":
+                    map1[position] = fieldValues.SET_PLAYER_POSITION_MIDDLE2R;
                     break;
-                case "l1": map1[position] = fieldValues.SET_FIELD_POSITION_BIG1;
+                case "l1":
+                    map1[position] = fieldValues.SET_FIELD_POSITION_BIG1;
                     break;
-                case "l2": map1[position] = fieldValues.SET_FIELD_POSITION_BIG2;
+                case "l2":
+                    map1[position] = fieldValues.SET_FIELD_POSITION_BIG2;
                     break;
-                case "l3": map1[position] = fieldValues.SET_FIELD_POSITION_BIG3;
+                case "l3":
+                    map1[position] = fieldValues.SET_FIELD_POSITION_BIG3;
                     break;
-                case "l4": map1[position] = fieldValues.SET_FIELD_POSITION_BIG1R;
+                case "l4":
+                    map1[position] = fieldValues.SET_FIELD_POSITION_BIG1R;
                     break;
-                case "l5": map1[position] = fieldValues.SET_FIELD_POSITION_BIG2R;
+                case "l5":
+                    map1[position] = fieldValues.SET_FIELD_POSITION_BIG2R;
                     break;
-                case "l6": map1[position] = fieldValues.SET_FIELD_POSITION_BIG3R;
+                case "l6":
+                    map1[position] = fieldValues.SET_FIELD_POSITION_BIG3R;
                     break;
             }
             vib.vibrate(500);
@@ -668,7 +680,7 @@ public class Gameplay extends AppCompatActivity {
                 }
 
                 if (shipPlaced) {
-                     restoreShips();
+                    restoreShips();
 
                     draw(map1, gridView1);
 
@@ -1092,80 +1104,94 @@ public class Gameplay extends AppCompatActivity {
 
                 // checking if PowerUp still may be used
                 if (pu4used < pu4max) {
-                    GameUtilities.setDiceScore(GameUtilities.getDiceScore()-pu4points);
-                    Log.d(tag, "Using PowerUp4, new points: " + GameUtilities.getDiceScore());
-                    pu4used++;
+                    if (removePowerUpPoints(pu4points)) {
+                        GameUtilities.setDiceScore(GameUtilities.getDiceScore() - pu4points);
+                        Log.d(tag, "Using PowerUp4, new points: " + GameUtilities.getDiceScore());
+                        pu4used++;
 
-                    findIntactShips();
+                        findIntactShips();
 
-                    gridView1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                        public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+                        gridView1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                            public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
 
-                            // final int posi=position;
-                            final String posis = map1[position];
+                                // final int posi=position;
+                                final String posis = map1[position];
 
-                            if (posis.equals("g")) {
-                                map1[position] = "j";
-                            } else if (posis.equals("h1") || posis.equals("h2") || posis.equals("h3") || posis.equals("h4")) {
-                                for (int i = 0; i < map1.length; i++) {
-                                    switch (map1[i]) {
-                                        case "h1":
-                                            map1[i] = "k1";
-                                            break;
-                                        case "h2":
-                                            map1[i] = "k2";
-                                            break;
-                                        case "h3":
-                                            map1[i] = "k3";
-                                            break;
-                                        case "h4":
-                                            map1[i] = "k4";
-                                            break;
+                                if (posis.equals("g")) {
+                                    map1[position] = "j";
+                                } else if (posis.equals("h1") || posis.equals("h2") || posis.equals("h3") || posis.equals("h4")) {
+                                    for (int i = 0; i < map1.length; i++) {
+                                        switch (map1[i]) {
+                                            case "h1":
+                                                map1[i] = "k1";
+                                                break;
+                                            case "h2":
+                                                map1[i] = "k2";
+                                                break;
+                                            case "h3":
+                                                map1[i] = "k3";
+                                                break;
+                                            case "h4":
+                                                map1[i] = "k4";
+                                                break;
+                                        }
+                                    }
+                                } else if (fieldValues.i_list.contains(posis)) {
+                                    for (int i = 0; i < map1.length; i++) {
+                                        switch (map1[i]) {
+                                            case "i1":
+                                                map1[i] = "l1";
+                                                break;
+                                            case "i2":
+                                                map1[i] = "l2";
+                                                break;
+                                            case "i3":
+                                                map1[i] = "l3";
+                                                break;
+                                            case "i4":
+                                                map1[i] = "l4";
+                                                break;
+                                            case "i5":
+                                                map1[i] = "l5";
+                                                break;
+                                            case "i6":
+                                                map1[i] = "l6";
+                                                break;
+                                        }
                                     }
                                 }
-                            } else if (fieldValues.i_list.contains(posis)) {
-                                for (int i = 0; i < map1.length; i++) {
-                                    switch (map1[i]) {
-                                        case "i1":
-                                            map1[i] = "l1";
-                                            break;
-                                        case "i2":
-                                            map1[i] = "l2";
-                                            break;
-                                        case "i3":
-                                            map1[i] = "l3";
-                                            break;
-                                        case "i4":
-                                            map1[i] = "l4";
-                                            break;
-                                        case "i5":
-                                            map1[i] = "l5";
-                                            break;
-                                        case "i6":
-                                            map1[i] = "l6";
-                                            break;
-                                    }
-                                }
+
+                                restoreShips();
+
+                                draw(map1, gridView1);
+
+                                clickMap();
+
                             }
 
-                            restoreShips();
+                        });
 
-                            draw(map1, gridView1);
-
-                            clickMap();
-
-                        }
-
-                    });
-
-                    setOptionButtonsInvisible();
+                        setOptionButtonsInvisible();
 
 
+                    } else {
+                        powerUpDialog("Zu wenig Punkte!");
+                        Log.d(tag, "PowerUp4: Zu wenig Punkte");
+                    }
                 } else {
                     powerUpDialog("PowerUp already used!");
+                    Log.d(tag, "PowerUp4: Bereits verwendet");
                 }
             }
         });
+    }
+
+    public boolean removePowerUpPoints(int points) {
+        if (GameUtilities.getDiceScore() - points >= 0) {
+            GameUtilities.setDiceScore(GameUtilities.getDiceScore() - points);
+            return true;
+        }
+        return false;
     }
 
     public AlertDialog powerUpDialog(String text) {
@@ -1181,6 +1207,5 @@ public class Gameplay extends AppCompatActivity {
 
         return builder.create();
     }
-
 
 }
