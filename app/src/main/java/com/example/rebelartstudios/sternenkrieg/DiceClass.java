@@ -85,22 +85,22 @@ public class DiceClass {
 
         switch (value) {
             case 1:
-                Dice.diceenemy.setImageResource(R.drawable.one);
+                Dice.diceEnemy.setImageResource(R.drawable.one);
                 break;
             case 2:
-                Dice.diceenemy.setImageResource(R.drawable.two);
+                Dice.diceEnemy.setImageResource(R.drawable.two);
                 break;
             case 3:
-                Dice.diceenemy.setImageResource(R.drawable.three);
+                Dice.diceEnemy.setImageResource(R.drawable.three);
                 break;
             case 4:
-                Dice.diceenemy.setImageResource(R.drawable.four);
+                Dice.diceEnemy.setImageResource(R.drawable.four);
                 break;
             case 5:
-                Dice.diceenemy.setImageResource(R.drawable.five);
+                Dice.diceEnemy.setImageResource(R.drawable.five);
                 break;
             case 6:
-                Dice.diceenemy.setImageResource(R.drawable.six);
+                Dice.diceEnemy.setImageResource(R.drawable.six);
                 break;
             default:
                 break;

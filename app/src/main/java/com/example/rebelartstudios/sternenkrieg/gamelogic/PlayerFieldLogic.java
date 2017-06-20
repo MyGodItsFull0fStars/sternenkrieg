@@ -152,7 +152,6 @@ public class PlayerFieldLogic {
                 playerField[position + getSibling(degree)] = input + SIX;
             }
         }
-
     }
 
 
@@ -172,21 +171,6 @@ public class PlayerFieldLogic {
 
     }
 
-    /**
-     * Returns the string at the position of given parameter
-     * inRange() checks if parameter is in the range of player field
-     *
-     * @param position used to find the string in the array
-     * @return if successful, returns the string at array position
-     */
-    public String getStringInPosition(int position) {
-        Log.i(tag, "getStringInPosition");
-        if (inRange(position)) {
-            return getPlayerField()[position];
-
-            // can't be reached, because of thrown Exception in inRange()
-        } else return null;
-    }
 
     /**
      * @param degree parameter which is either horizontal = 0 or vertical = 1
@@ -201,6 +185,22 @@ public class PlayerFieldLogic {
         } else {
             throw new IllegalArgumentException(ErrorMessages.DEGREE_NOT_DEFINED);
         }
+    }
+
+    /**
+     * Returns the string at the position of given parameter
+     * inRange() checks if parameter is in the range of player field
+     *
+     * @param position used to find the string in the array
+     * @return if successful, returns the string at array position
+     */
+    public String getStringInPosition(int position) {
+        Log.i(tag, "getStringInPosition");
+        if (inRange(position)) {
+            return getPlayerField()[position];
+
+            // can't be reached, because of thrown Exception in inRange()
+        } else return null;
     }
 
     public boolean middleShipFieldContainsString(int position, int degree, String input) {

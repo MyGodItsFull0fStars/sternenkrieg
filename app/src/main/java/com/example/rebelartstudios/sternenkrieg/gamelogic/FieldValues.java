@@ -8,18 +8,55 @@ public final class FieldValues {
     public LinkedList<String> smallShipStringList;
     public LinkedList<String> middleShipStringList;
     public LinkedList<String> bigShipStringList;
+    public LinkedList<String> h_list;
+    public LinkedList<String> i_list;
+
+    public FieldValues(){
+        initialize_H_list();
+        initialize_I_list();
+        initialiseShipLists();
+        initialiseCheckAvailabilityList();
+    }
 
     public void initialiseShipLists(){
-        smallShipStringList.add(SETFIELDPOSITION_SMALL);
+        smallShipStringList = new LinkedList<>();
+        smallShipStringList.add(SETPLAYERPOSITION_SMALL);
 
         middleShipStringList.add(SETPLAYERPOSITION_MIDDLE1R);
         middleShipStringList.add(SETPLAYERPOSITION_MIDDLE2R);
+        middleShipStringList = new LinkedList<>();
+        middleShipStringList.add(SETPLAYERPOSITION_MIDDLE);
         middleShipStringList.add(SETPLAYERPOSITION_MIDDLE1);
         middleShipStringList.add(SETPLAYERPOSITION_MIDDLE2);
+        middleShipStringList.add(SETPLAYERPOSITION_MIDDLE1R);
+        middleShipStringList.add(SETPLAYERPOSITION_MIDDLE2R);
 
+        bigShipStringList = new LinkedList<>();
+        bigShipStringList.add(SETFIELDPOSITION_BIG);
         bigShipStringList.add(SETFIELDPOSITION_BIG1);
         bigShipStringList.add(SETFIELDPOSITION_BIG2);
         bigShipStringList.add(SETFIELDPOSITION_BIG3);
+        bigShipStringList.add(SETFIELDPOSITION_BIG1R);
+        bigShipStringList.add(SETFIELDPOSITION_BIG2R);
+        bigShipStringList.add(SETFIELDPOSITION_BIG3R);
+    }
+
+    public void initialize_H_list(){
+        h_list = new LinkedList<>();
+        h_list.add(SETFIELDPOSITION_H1);
+        h_list.add(SETFIELDPOSITION_H2);
+        h_list.add(SETFIELDPOSITION_H3);
+        h_list.add(SETFIELDPOSITION_H4);
+    }
+
+    public void initialize_I_list(){
+        i_list = new LinkedList<>();
+        i_list.add(SETFIELDPOSITION_I1);
+        i_list.add(SETFIELDPOSITION_I2);
+        i_list.add(SETFIELDPOSITION_I3);
+        i_list.add(SETFIELDPOSITION_I4);
+        i_list.add(SETFIELDPOSITION_I5);
+        i_list.add(SETFIELDPOSITION_I6);
         bigShipStringList.add(SETFIELDPOSITION_BIG1R);
         bigShipStringList.add(SETFIELDPOSITION_BIG2R);
         bigShipStringList.add(SETFIELDPOSITION_BIG3R);
@@ -48,7 +85,7 @@ public final class FieldValues {
      * Used to set the position color in the playerfield array to d
      * The character d is used for the position of the small ship
      */
-    public final String SETFIELDPOSITION_SMALL = "d";
+    public final String SETPLAYERPOSITION_SMALL = "d";
 
     /**
      * Used to set the position color in the playerfield array to e
@@ -91,6 +128,7 @@ public final class FieldValues {
     public final String SETFIELDPOSITION_I5 = "i5";
     public final String SETFIELDPOSITION_I6 = "i6";
 
+   public final String SETFIELDPOSITION_EMPTY = "0";
     public final String SETFIELDPOSITION_J = "j";
 
     public final String SETFIELDPOSITION_K1 = "k1";
@@ -111,8 +149,10 @@ public final class FieldValues {
     public final String SETFIELDPOSITION_PLAYERHIT = "4";
     public final String SETFIELDPOSITION_ENEMYMISS = "5";
 
+
     public void initialiseCheckAvailabilityList(){
-        checkAvailabilityList.add(SETFIELDPOSITION_SMALL);
+        checkAvailabilityList = new LinkedList<>();
+        checkAvailabilityList.add(SETPLAYERPOSITION_SMALL);
         checkAvailabilityList.add(SETPLAYERPOSITION_MIDDLE);
         checkAvailabilityList.add(SETPLAYERPOSITION_MIDDLE1);
         checkAvailabilityList.add(SETPLAYERPOSITION_MIDDLE2);
@@ -123,12 +163,6 @@ public final class FieldValues {
         checkAvailabilityList.add(SETFIELDPOSITION_ENEMYHIT);
         checkAvailabilityList.add(SETFIELDPOSITION_ENEMYMISS);
     }
-
-    /**
-     * Used to set the position color in the playerfield array to '0' "ZERO"
-     * The character '0' is used to set the position to an empty field
-     */
-    public final String SETFIELDPOSITION_EMPTY = "0";
 
 
     /**

@@ -101,7 +101,7 @@ public class MapLoad extends BaseAdapter {
         } else if (mobile.equals(fieldValues.SETFIELDPOSITION_TWO)){
             imageView.setBackgroundColor(Color.RED); //your own ships
 
-        } else if (mobile.equals(fieldValues.SETFIELDPOSITION_SMALL)) {
+        } else if (mobile.equals(fieldValues.SETPLAYERPOSITION_SMALL)) {
             imageView.setBackgroundResource(R.drawable.ship1_small);
 
         } else if (mobile.equals(fieldValues.SETPLAYERPOSITION_MIDDLE1)) {

@@ -62,7 +62,7 @@ public class Map extends AppCompatActivity {
     ServerSocket mServerSocket = null;
     Handler myhandler;
 
-    boolean Phost = false; // if this is host then phost is ture; if not is false.
+    boolean Phost = false; // if this is host then pHost is ture; if not is false.
     String message;
     ReceiveThreadHost receiveThreadHost;
     String ip;
@@ -122,7 +122,7 @@ public class Map extends AppCompatActivity {
         System.out.println("Map");
         Phost = stats.isPhost();
 
-        System.out.println("phost: " + Phost);
+        System.out.println("pHost: " + Phost);
         Net = stats.isNet();
         System.out.println("net: " + Net);
 
@@ -194,13 +194,13 @@ public class Map extends AppCompatActivity {
                             pulsatorLayout.start();
                             imageMapGoNext.setVisibility(View.VISIBLE);
                         }
-
+                        setShipsVisible();
                         return (true);
 
                     }
 
                     case DragEvent.ACTION_DRAG_ENDED: {
-                       // setShipsVisible();
+                        // setShipsVisible();
                         return (true);
 
                     }
@@ -324,7 +324,7 @@ public class Map extends AppCompatActivity {
                     imageMapGoNext.setVisibility(View.INVISIBLE);
                     pulsatorLayout.stop();
                     progWaiting.setVisibility(View.VISIBLE);
-                    textMapWaiting.setText("Waiting for "+game.getEnemyusername());
+                    textMapWaiting.setText("Waiting for " + game.getEnemyusername());
                     textMapWaiting.setVisibility(View.VISIBLE);
 
                     if (!Phost) {
