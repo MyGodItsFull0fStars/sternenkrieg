@@ -47,29 +47,29 @@ public class Dice extends AppCompatActivity {
     protected static ImageView imageDice;
     private boolean shakeboolean = true;
     private int whoStarts;
-    private TextView textscore;
-    private TextView textscoreenemy;
+    private TextView textScore;
+    private TextView textScoreEnemy;
     private int value;
     Sensors sensors = new Sensors();
     DiceClass diceClass;
     NetworkUtilities util;
     NetworkStats stats = new NetworkStats();
     GameUtilities game;
-    TextView statistik;
-    TextView statistik1;
-    TextView statistik2;
-    TextView statistik3;
-    TextView statistik4;
-    TextView statistik5;
-    TextView statistik6;
-    TableLayout tabledice;
-    private int gegnervalue;
+    TextView statistic;
+    TextView statistic_1;
+    TextView statistic_2;
+    TextView statistic_3;
+    TextView statistic_4;
+    TextView statistic_5;
+    TextView statistic_6;
+    TableLayout tableDice;
+    private int enemyValue;
     boolean finish = false;
     boolean finishEnemy = false;
     Intent intent = new Intent();
     ProgressBar prog1;
-    ImageView dicegoto;
-    static ImageView diceenemy;
+    ImageView diceGoto;
+    static ImageView diceEnemy;
     ImageView goNext;
     PulsatorLayout pulsator;
     ProgressBar progWaiting;
@@ -77,8 +77,8 @@ public class Dice extends AppCompatActivity {
     /********************Netz**************************/
     Socket socket = new Socket();
     ServerSocket mServerSocket = null;
-    Handler myhandler;
-    boolean phost = false; // if this is host then phost is ture; if not is false.
+    Handler myHandler;
+    boolean pHost = false; // if this is host then pHost is ture; if not is false.
     String message;
     ReceiveThreadHost receiveThreadHost;
     String ip;
@@ -87,7 +87,7 @@ public class Dice extends AppCompatActivity {
     StartThread startThread;
     OutputStream os = null;
     boolean net = false;
-    boolean sended = false;
+    boolean sendBoolean = false;
     boolean came = false;
     TextView waiting;
 
@@ -103,18 +103,18 @@ public class Dice extends AppCompatActivity {
         mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         diceClass = new DiceClass(getApplicationContext());
         Dice.imageDice = (ImageView) findViewById(R.id.imageDice);
-        dicegoto = (ImageView) findViewById(R.id.dicegoto);
-        dicegoto.setVisibility(View.INVISIBLE);
-        diceenemy = (ImageView) findViewById(R.id.diceenemy);
-        diceenemy.setVisibility(View.INVISIBLE);
-        statistik = (TextView) findViewById(R.id.textWarscheinlichkeit);
-        statistik1 = (TextView) findViewById(R.id.textDiceOne);
-        statistik2 = (TextView) findViewById(R.id.textDiceTwo);
-        statistik3 = (TextView) findViewById(R.id.textDiceThree);
-        statistik4 = (TextView) findViewById(R.id.textDiceFour);
-        statistik5 = (TextView) findViewById(R.id.textDiceFive);
-        statistik6 = (TextView) findViewById(R.id.textDiceSix);
-        tabledice = (TableLayout) findViewById(R.id.tableDice);
+        diceGoto = (ImageView) findViewById(R.id.dicegoto);
+        diceGoto.setVisibility(View.INVISIBLE);
+        diceEnemy = (ImageView) findViewById(R.id.diceenemy);
+        diceEnemy.setVisibility(View.INVISIBLE);
+        statistic = (TextView) findViewById(R.id.textWarscheinlichkeit);
+        statistic_1 = (TextView) findViewById(R.id.textDiceOne);
+        statistic_2 = (TextView) findViewById(R.id.textDiceTwo);
+        statistic_3 = (TextView) findViewById(R.id.textDiceThree);
+        statistic_4 = (TextView) findViewById(R.id.textDiceFour);
+        statistic_5 = (TextView) findViewById(R.id.textDiceFive);
+        statistic_6 = (TextView) findViewById(R.id.textDiceSix);
+        tableDice = (TableLayout) findViewById(R.id.tableDice);
         goNext = (ImageView) findViewById(R.id.imageGoNext);
         pulsator = (PulsatorLayout) findViewById(R.id.pulsatorMap);
         waiting = (TextView) findViewById(R.id.textMapWaiting);
@@ -122,31 +122,30 @@ public class Dice extends AppCompatActivity {
         prog1 = (ProgressBar) findViewById(R.id.progressBar);
         prog1.setVisibility(View.INVISIBLE);
 
-        textscore = (TextView) findViewById(R.id.text_score);
-        textscoreenemy = (TextView) findViewById(R.id.text_enemy_score);
+        textScore = (TextView) findViewById(R.id.text_score);
+        textScoreEnemy = (TextView) findViewById(R.id.text_enemy_score);
         game = new GameUtilities(getApplicationContext());
-        /********************Netz**************************/
 
-
-        phost = stats.isPhost();
+        /* ********************Networking************************* */
+        pHost = stats.isPhost();
         mode = stats.getMode();
         net = stats.isNet();
-        if (!phost) {
+        if (!pHost) {
             ip = stats.getIp();
         }
-        myhandler = new Myhandler();
-        util = new NetworkUtilities(phost, mAcceptThread, mServerSocket, socket, myhandler, receiveThreadHost, startThread, ip, receiveThreadClient);
+        myHandler = new Myhandler();
+        util = new NetworkUtilities(pHost, mAcceptThread, mServerSocket, socket, myHandler, receiveThreadHost, startThread, ip, receiveThreadClient);
         util.networkbuild();
         util.connection();
 
-        mSensorManager.registerListener(accelSensorListener, mSensor, SensorManager.SENSOR_DELAY_NORMAL);
-        /********************Netz**************************/
+        mSensorManager.registerListener(acceleratorSensorListener, mSensor, SensorManager.SENSOR_DELAY_NORMAL);
+        /* *******************Networking**************************/
         goNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                util.messageSend("boolean", phost);
+                util.messageSend("boolean", pHost);
                 finish = true;
-                if (!phost) {
+                if (!pHost) {
                     new CountDownTimer(200, 100) {
                         public void onTick(long millisUntilFinished) {
                             System.out.print(millisUntilFinished);
@@ -156,7 +155,9 @@ public class Dice extends AppCompatActivity {
                         public void onFinish() {
                             syncClose();
                             pulsator.setVisibility(View.INVISIBLE);
-                            waiting.setText("Waiting for "+game.getEnemyusername());
+                            String text = "Waiting for " + GameUtilities.getEnemyusername();
+
+                            waiting.setText(text);
                             waiting.setVisibility(View.VISIBLE);
                             progWaiting.setVisibility(View.VISIBLE);
 
@@ -174,7 +175,7 @@ public class Dice extends AppCompatActivity {
     }
 
 
-    private SensorEventListener accelSensorListener = new SensorEventListener() {
+    private SensorEventListener acceleratorSensorListener = new SensorEventListener() {
         @Override
         public void onSensorChanged(SensorEvent sensorEvent) {
 
@@ -208,17 +209,17 @@ public class Dice extends AppCompatActivity {
                 break;
 
             case 2:
-                value += game.getDicescore();
-                textscore.setText("You got:" + value);
-                game.setDicescore(value);
+                value += GameUtilities.getDicescore();
+                textScore.setText("You got:" + value);
+                GameUtilities.setDicescore(value);
                 break;
 
             default:
                 break;
         }
-        util.messageSend(Integer.toString(value), phost);
-        diceClass.changeDiceImage(value);
-        sended = true;
+        util.messageSend(Integer.toString(value), pHost);
+        DiceClass.changeDiceImage(value);
+        sendBoolean = true;
         sollfinish();
 
     }
@@ -226,7 +227,7 @@ public class Dice extends AppCompatActivity {
     public void animation() {
         Animation scale = new ScaleAnimation(imageDice.getScaleX(), imageDice.getScaleX() / 2, imageDice.getScaleY(), imageDice.getScaleY() / 2, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
         scale.setDuration(1000);
-        TranslateAnimation slideUp = new TranslateAnimation(-dicegoto.getX(), -imageDice.getX(), 0, 0);
+        TranslateAnimation slideUp = new TranslateAnimation(-diceGoto.getX(), -imageDice.getX(), 0, 0);
         slideUp.setDuration(1000);
         AnimationSet animSet = new AnimationSet(true);
         animSet.setFillEnabled(true);
@@ -243,11 +244,11 @@ public class Dice extends AppCompatActivity {
 
             @Override
             public void onAnimationEnd(Animation animation) {
-                textscore.setText("You got:" + value);
+                textScore.setText("You got:" + value);
                 prog1.setVisibility(View.VISIBLE);
                 statistikVisibility();
                 if (!came)
-                    textscoreenemy.setText("Waiting for "+game.getEnemyusername());
+                    textScoreEnemy.setText("Waiting for " + game.getEnemyusername());
 
             }
 
@@ -263,7 +264,7 @@ public class Dice extends AppCompatActivity {
         intent.setClass(Dice.this, Map.class);
         switch (mode) {
             case 1:
-                whoStarts = diceClass.whoIsStarting(value, gegnervalue);
+                whoStarts = diceClass.whoIsStarting(value, enemyValue);
                 game.setWhoIsStarting(whoStarts);
                 if (whoStarts == 2) {
                     goNext.setImageResource(R.drawable.dice3droll);
@@ -294,10 +295,10 @@ public class Dice extends AppCompatActivity {
     }
 
     private void sollfinish() {
-        if (sended && came) {
-            diceClass.changeDiceImageEnemy(gegnervalue);
+        if (sendBoolean && came) {
+            diceClass.changeDiceImageEnemy(enemyValue);
             prog1.setVisibility(View.INVISIBLE);
-            diceenemy.setVisibility(View.VISIBLE);
+            diceEnemy.setVisibility(View.VISIBLE);
             onFinish();
         }
     }
@@ -312,15 +313,15 @@ public class Dice extends AppCompatActivity {
     }
 
     public void statistikVisibility() {
-        statistik.setVisibility(View.VISIBLE);
-        tabledice.setVisibility(View.VISIBLE);
+        statistic.setVisibility(View.VISIBLE);
+        tableDice.setVisibility(View.VISIBLE);
 
-        statistik1.setText("1: " + diceClass.getOneprobability());
-        statistik2.setText("2: " + diceClass.getTwoprobability());
-        statistik3.setText("3: " + diceClass.getThreeprobability());
-        statistik4.setText("4: " + diceClass.getFourprobability());
-        statistik5.setText("5: " + diceClass.getFiveprobability());
-        statistik6.setText("6: " + diceClass.getSixprobability());
+        statistic_1.setText("1: " + diceClass.getOneprobability());
+        statistic_2.setText("2: " + diceClass.getTwoprobability());
+        statistic_3.setText("3: " + diceClass.getThreeprobability());
+        statistic_4.setText("4: " + diceClass.getFourprobability());
+        statistic_5.setText("5: " + diceClass.getFiveprobability());
+        statistic_6.setText("6: " + diceClass.getSixprobability());
     }
 
 
@@ -338,10 +339,10 @@ public class Dice extends AppCompatActivity {
                 Log.i(Dice.class.getName(), "Boolean");
                 syncClose();
             } else if (!("".equals(message))) {
-                gegnervalue = Integer.parseInt(message);
-                textscoreenemy.setText(game.getEnemyusername()+" got:" + gegnervalue);
-                diceClass.changeDiceImageEnemy(gegnervalue);
-                diceenemy.setVisibility(View.VISIBLE);
+                enemyValue = Integer.parseInt(message);
+                textScoreEnemy.setText(game.getEnemyusername() + " got:" + enemyValue);
+                diceClass.changeDiceImageEnemy(enemyValue);
+                diceEnemy.setVisibility(View.VISIBLE);
                 came = true;
                 sollfinish();
 
