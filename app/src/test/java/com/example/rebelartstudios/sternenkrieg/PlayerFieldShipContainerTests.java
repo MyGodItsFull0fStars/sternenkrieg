@@ -4,6 +4,7 @@ import com.example.rebelartstudios.sternenkrieg.gamelogic.PlayerFieldLogic;
 import com.example.rebelartstudios.sternenkrieg.gamelogic.PlayerFieldShipContainer;
 import com.example.rebelartstudios.sternenkrieg.gamelogic.FieldValues;
 import com.example.rebelartstudios.sternenkrieg.gamelogic.ShipLogic;
+import com.example.rebelartstudios.sternenkrieg.res.ErrorMessages;
 
 import org.junit.Assert;
 import org.junit.Before;

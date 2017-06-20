@@ -1,8 +1,4 @@
-package com.example.rebelartstudios.sternenkrieg;
-
-/**
- * Created by christianbauer on 20/06/2017.
- */
+package com.example.rebelartstudios.sternenkrieg.res;
 
 public class ErrorMessages {
     public static final String DEGREE_NOT_DEFINED = "Degree in parameter is not defined";
