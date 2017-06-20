@@ -200,7 +200,7 @@ public class Map extends AppCompatActivity {
                     }
 
                     case DragEvent.ACTION_DRAG_ENDED: {
-                        setShipsVisible();
+                       // setShipsVisible();
                         return (true);
 
                     }
