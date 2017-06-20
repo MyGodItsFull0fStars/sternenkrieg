@@ -132,14 +132,20 @@ Die Klasse "About" gibt einen kurzen Text über Sternenkrieg aus und hat sonst k
 Die Klasse "Dice" steht einen Würfel zur Verfügung. Dieser Würfel wird am Beginn des Spiels verwendet um den Beginner des Spiels zu bestimmen. Der Würfel wird außerdem bei den PowerUps verwendet, um eine Zufallszahl zu erhalten.
 Das Würfeln erfolgt durch Schütteln des Smartphones. Hierfür wird ein SensorEvent-Listener verwendet. Unterstützt wird die Klasse Dice durch die Klasse res/Sensors.
 
-\subsection{DiceClass}
+Die Auswahl des korrekten Würfels (Spielstart oder PowerUps) erfolgt durch die Auswahl eines Modus (Variable mode). mode = 1 steht hierbei für den Spielstart, mode = 2 für das PowerUp-System.
 
-\subsection{HighScore}
+\subsection{DiceClass}
+Die Klasse "DiceClass" unterstützt den Würfel mit einigen ausgelagerten Methoden (Wechseln der Bilder und Abrufen der Variablen).
+
+\subsection{Highscore}
+Die Klasse "Highscore" zeigt den Highscore des Spiels an. Die Daten werden dabei aus der Klasse GameUtilities geholt.
 
 \subsection{Main}
 Die Klasse "Main" stellt den Startscreen sowie das Hauptmenü dar. Eingebunden werden hier das Hintergrundbild sowie die Buttons zur Menüauswahl. Falls das Spiel zum ersten Mal gestartet wird, muss vom Spieler ein Name eingegeben werden.
 
 \subsection{MainSocket}
+Die Klasse "MainSocket" wird nach Klick auf "Play" im Hauptmenü aufgerufen. In diesem Menü kann ein neues Spiel erstellt ("Server") bzw. einem Spiel beigetreten ("Client") werden.
+Der Server-Spieler bekommt eine IP-Adresse angezeigt, welche er dem Client-Spieler übermittelt. Dieser gibt diese IP-Adresse ein und verbindet sich damit zum Server.
 
 \subsection{Map}
 
@@ -197,14 +203,16 @@ In der Klasse "PlayerFieldLogic" wird die Logik des Spielfelds verwaltet. Die Sp
 \subsection{ShipLogic}
 
 \section{Network-Klassen im Überblick}
+Alle Netzwerk-bezogenen Klassen befinden sich im Package "network". Im Spiel Sternenkrieg übernimmt ein Spieler die Rolle des Servers, der andere die des Clients. Es wird sozusagen ein Server erstellt, zu welchem sich der Client verbindet. Im weiteren Spielverlauf spielt dies keine Rolle.
 
 \subsection{AcceptThread}
 
-\subsection{Client1}
+\subsection{Client}
+Die Klasse "Client" wird vom Client-Spieler geöffnet. Dieser verbindet sich mithilfe eines Threads per Socket zum Server (Port 54321). Wurde eine Verbindung hergestellt, kann der Server-Spieler das Spiel starten.
 
 \subsection{Host}
-
-\subsection{myhandler}
+Die Klasse "Host" wird vom Server-Spieler geöffnet. Dieser öffnet einen Socket (per Thread) auf dem Port 54321 und wartet anschließend auf die Verbindung vom Client. Die eigentlichen Spieldaten werden in der Klasse GameUtilities gespeichert.
+Wurde die Verbindung erfolgreich hergestellt und das Spiel manuell vom Host gestartet, beginnt das Würfeln für den Spielstart.
 
 \subsection{NetworkUtilities}
 
@@ -219,6 +227,11 @@ In der Klasse "PlayerFieldLogic" wird die Logik des Spielfelds verwaltet. Die Sp
 \subsection{WriteHost}
 
 \section{Resources-Klassen im Überblick}
+
+\subsection{animationClass}
+
+\subsection{ErrorMessages}
+Die Klasse "ErrorMessages" verwaltet zentrale Fehlermeldungen. In dieser Klasse werden nur Strings gespeichert.
 
 \subsection{QRReader}
 

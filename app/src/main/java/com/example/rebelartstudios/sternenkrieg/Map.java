@@ -48,7 +48,7 @@ public class Map extends AppCompatActivity {
     TextView textMapWaiting;
     PulsatorLayout pulsatorLayout;
     ImageView imageMapGoNext;
-    ProgressBar progWaiting;
+    ProgressBar progressWaiting;
 
     int width;
     int height;
@@ -60,9 +60,9 @@ public class Map extends AppCompatActivity {
 
     Socket socket = new Socket();
     ServerSocket mServerSocket = null;
-    Handler myhandler;
+    Handler myHandler;
 
-    boolean Phost = false; // if this is host then pHost is ture; if not is false.
+    boolean playerHost = false; // if this is host then pHost is ture; if not is false.
     String message;
     ReceiveThreadHost receiveThreadHost;
     String ip;
@@ -118,28 +118,28 @@ public class Map extends AppCompatActivity {
 
         initializeShipView();
 
-        /********************Netz**************************/
+        /* *******************Networking**************************/
         System.out.println("Map");
-        Phost = stats.isPhost();
+        playerHost = stats.isPhost();
 
-        System.out.println("pHost: " + Phost);
+        System.out.println("pHost: " + playerHost);
         Net = stats.isNet();
         System.out.println("net: " + Net);
 
-        if (Phost == false) {
+        if (!playerHost) {
             ip = stats.getIp();
             System.out.println("Ip: " + ip);
         }
 
 
-        myhandler = new Myhandler();
+        myHandler = new Myhandler();
 
         util = new NetworkUtilities(
-                Phost,
+                playerHost,
                 mAcceptThread,
                 mServerSocket,
                 socket,
-                myhandler,
+                myHandler,
                 receiveThreadHost,
                 startThread,
                 ip,
@@ -151,7 +151,7 @@ public class Map extends AppCompatActivity {
         util.connection();
 
 
-        /********************Netz**************************/
+        /* *******************Networking**************************/
 
 
         //Glide.with(this).load(R.raw.fog).asGif().into(((ImageView)gridView));
@@ -283,7 +283,7 @@ public class Map extends AppCompatActivity {
         textMapWaiting = (TextView) findViewById(R.id.textMapWaiting);
         pulsatorLayout = (PulsatorLayout) findViewById(R.id.pulsatorMap);
         imageMapGoNext = (ImageView) findViewById(R.id.imageMapGoNext);
-        progWaiting = (ProgressBar) findViewById(R.id.progressBarMapWaiting);
+        progressWaiting = (ProgressBar) findViewById(R.id.progressBarMapWaiting);
     }
 
 
@@ -320,14 +320,14 @@ public class Map extends AppCompatActivity {
                     intent.setClass(Map.this, Spielfeld.class);
                     GameUtilities.setPlayerMap(playerFieldShipContainer.getPlayerFieldLogic().getPlayerField());
                     finish = true;
-                    util.messageSend("boolean", Phost);
+                    util.messageSend("boolean", playerHost);
                     imageMapGoNext.setVisibility(View.INVISIBLE);
                     pulsatorLayout.stop();
-                    progWaiting.setVisibility(View.VISIBLE);
+                    progressWaiting.setVisibility(View.VISIBLE);
                     textMapWaiting.setText("Waiting for " + game.getEnemyUsername());
                     textMapWaiting.setVisibility(View.VISIBLE);
 
-                    if (!Phost) {
+                    if (!playerHost) {
                         new CountDownTimer(200, 100) {
                             public void onTick(long millisUntilFinished) {
                                 System.out.print(millisUntilFinished);
