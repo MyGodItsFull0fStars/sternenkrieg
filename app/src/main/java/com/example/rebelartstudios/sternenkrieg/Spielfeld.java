@@ -92,7 +92,7 @@ public class Spielfeld extends AppCompatActivity {
     EditText player1_say;
     Socket socket = new Socket();
     ServerSocket mServerSocket = null;
-    Handler myhandler;
+    Handler myHandler;
     boolean Phost = false; // if this is host then phost is ture; if not is false.
     String message;
     ReceiveThreadHost receiveThreadHost;
@@ -102,10 +102,10 @@ public class Spielfeld extends AppCompatActivity {
     StartThread startThread;
     OutputStream os = null;
     boolean Net = false;
-    boolean sended;
+    boolean sendGridView2;
     boolean sendMap = true;
     boolean shoot = false;
-    boolean oneshoot = true;
+    boolean oneShoot = true;
     boolean dice = false;
     boolean dice2 = false;
     Intent intent = new Intent();
@@ -113,7 +113,7 @@ public class Spielfeld extends AppCompatActivity {
     NetworkStats stats = new NetworkStats();
     GameUtilities game;
     int who_is_starting;
-    ImageView shootplayer;
+    ImageView shootPlayer;
     ImageView shootEnemy;
 
     String mapString = "Map";
@@ -127,16 +127,16 @@ public class Spielfeld extends AppCompatActivity {
         setContentView(R.layout.activity_gameplay);
 
         game = new GameUtilities(getApplicationContext());
-        /****Networking****/
 
+        /****** Networking ****/
 
         send = (Button) findViewById(R.id.player1_send);
         player1_say = (EditText) findViewById(R.id.player1_say);
         System.out.println("Spielfeld");
         Phost = stats.isPhost();
         System.out.println("phost: " + Phost);
-        who_is_starting = game.getWhoIsStarting();
-        System.out.println("Whoisstarting: " + who_is_starting);
+        who_is_starting = GameUtilities.getWhoIsStarting();
+        System.out.println("Who is starting: " + who_is_starting);
         Net = stats.isNet();
         System.out.println("net: " + Net);
         if (Phost == false) {
@@ -145,8 +145,8 @@ public class Spielfeld extends AppCompatActivity {
         }
 
 
-        myhandler = new Myhandler();
-        util = new NetworkUtilities(Phost, mAcceptThread, mServerSocket, socket, myhandler, receiveThreadHost, startThread, ip, receiveThreadClient);
+        myHandler = new Myhandler();
+        util = new NetworkUtilities(Phost, mAcceptThread, mServerSocket, socket, myHandler, receiveThreadHost, startThread, ip, receiveThreadClient);
         util.networkbuild();
 
         util.connection();
@@ -382,7 +382,7 @@ public class Spielfeld extends AppCompatActivity {
 
         amountShips = 3;
 
-        map1 = game.getPlayerMap();
+        map1 = GameUtilities.getPlayerMap();
 
         if (sendMap) {
             String sendField = "";
@@ -422,8 +422,8 @@ public class Spielfeld extends AppCompatActivity {
                 if (shoot) {
 
                     util.messageSend("shoot," + position, Phost);
-                    oneshoot = false;
-                    sended = true;
+                    oneShoot = false;
+                    sendGridView2 = true;
 
                     //   messageSend("map,"+position,phost);
 
@@ -483,9 +483,9 @@ public class Spielfeld extends AppCompatActivity {
         System.out.println("Spielfeld Value" + who_is_starting);
         //Player beginns
         System.out.println("Shoot: " + shoot);
-        pointsPlayer += game.getDicescore();
+        pointsPlayer += GameUtilities.getDicescore();
         System.out.println("Points:" + pointsPlayer);
-        if (who_is_starting == 0 && oneshoot) {
+        if (who_is_starting == 0 && oneShoot) {
             shoot = true;
         }
 
@@ -494,9 +494,9 @@ public class Spielfeld extends AppCompatActivity {
 
     public void dice() {
         intent.setClass(Spielfeld.this, Dice.class);
-        game.setPlayerMap(map1);
-        game.setEnemyMap(map2);
-        stats.setMode(2);
+        GameUtilities.setPlayerMap(map1);
+        GameUtilities.setEnemyMap(map2);
+        NetworkStats.setMode(2);
         System.out.println("Spielfeld Ende Value" + value);
         util.close();
         startActivity(intent);
@@ -565,7 +565,7 @@ public class Spielfeld extends AppCompatActivity {
         imageView = (ImageView) findViewById(R.id.grid_item_image);
         options = (ImageView) findViewById(R.id.options);
         shootEnemy = (ImageView) findViewById(R.id.imageShootEnemy);
-        shootplayer = (ImageView) findViewById(R.id.imageShootPlayer);
+        shootPlayer = (ImageView) findViewById(R.id.imageShootPlayer);
 
         /* set option-buttons */
         options1 = (ImageView) findViewById(R.id.options1);
@@ -761,8 +761,8 @@ public class Spielfeld extends AppCompatActivity {
                         public void onClick(DialogInterface dialog, int id) {
                             // CONFIRM
                             Intent intent = new Intent(Spielfeld.this, Highscore.class);
-                            game.setPoints(highScore);
-                            game.setHighscoreMain(true);
+                            GameUtilities.setPoints(highScore);
+                            GameUtilities.setHighscoreMain(true);
                             startActivity(intent);
                         }
                     })
@@ -779,8 +779,8 @@ public class Spielfeld extends AppCompatActivity {
                         public void onClick(DialogInterface dialog, int id) {
                             // CONFIRM
                             Intent intent = new Intent(Spielfeld.this, Highscore.class);
-                            game.setPoints(highScore);
-                            game.setHighscoreMain(true);
+                            GameUtilities.setPoints(highScore);
+                            GameUtilities.setHighscoreMain(true);
                             startActivity(intent);
                         }
                     })
@@ -908,10 +908,10 @@ public class Spielfeld extends AppCompatActivity {
         //TODO: at work
         //animationClass(v.getX(),v.getY());
         System.out.println("Animtation");
-        shootplayer.setVisibility(View.VISIBLE);
+        shootPlayer.setVisibility(View.VISIBLE);
         TranslateAnimation slideUp = new TranslateAnimation(-x, -y, 0, 0);
         slideUp.setDuration(1000);
-        shootplayer.setAnimation(slideUp);
+        shootPlayer.setAnimation(slideUp);
 
 
 

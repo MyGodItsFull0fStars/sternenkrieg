@@ -26,10 +26,10 @@ import static org.junit.Assert.assertTrue;
  * @since <pre>Jun 17, 2017</pre>
  */
 public class GameUtilitiesTest {
-    GameUtilities game;
+    private GameUtilities game;
     private Context instrumentationCtx;
-    SharedPreferences pref;
-    SharedPreferences.Editor editor;
+    private SharedPreferences pref;
+    private SharedPreferences.Editor editor;
 
     @Before
     public void before() {
@@ -62,25 +62,25 @@ public class GameUtilitiesTest {
     @Test
     public void testLevel() throws Exception {
         game.load();
-        game.setPoints(0);
+        GameUtilities.setPoints(0);
         game.level();
         assertEquals(0, game.getScoreforlevel());
         assertEquals(1, game.getLevel());
         assertEquals(0, game.getPercent());
 
-        game.setPoints(500);
+        GameUtilities.setPoints(500);
         game.level();
         assertEquals(500, game.getScoreforlevel());
         assertEquals(1, game.getLevel());
         assertEquals(50, game.getPercent());
 
-        game.setPoints(499);
+        GameUtilities.setPoints(499);
         game.level();
         assertEquals(999, game.getScoreforlevel());
         assertEquals(1, game.getLevel());
         assertEquals(99, game.getPercent());
 
-        game.setPoints(1);
+        GameUtilities.setPoints(1);
         game.level();
         assertEquals(0, game.getScoreforlevel());
         assertEquals(2, game.getLevel());
@@ -111,8 +111,8 @@ public class GameUtilitiesTest {
     @Test
     public void testDeleteHighscore() throws Exception {
         ArrayList<String> list = new ArrayList<>();
-        game.setUsername("Chris");
-        game.setPoints(0);
+        GameUtilities.setUsername("Chris");
+        GameUtilities.setPoints(0);
         for (int i = 0; i < 5; i++) {
             list.add("Chris 0");
             game.setHighscore();
@@ -132,14 +132,15 @@ public class GameUtilitiesTest {
     public void testSetHighscore() throws Exception {
         ArrayList<String> list = new ArrayList<>();
         list.add("Chris 100");
-        game.setUsername("Chris");
-        game.setPoints(100);
+        GameUtilities.setUsername("Chris");
+        GameUtilities.setPoints(100);
         game.setHighscore();
         assertEquals(list, game.getHighscore());
 
+
         list.add("Chris0 1000");
-        game.setUsername("Chris0");
-        game.setPoints(1000);
+        GameUtilities.setUsername("Chris0");
+        GameUtilities.setPoints(1000);
         game.setHighscore();
         Collections.sort(list, Collections.<String>reverseOrder());
         assertEquals(list, game.getHighscore());
@@ -149,7 +150,7 @@ public class GameUtilitiesTest {
 
     @Test
     public void testsetScoreforlevel() {
-        game.setScoreforlevel(100);
+        GameUtilities.setScoreforlevel(100);
         assertEquals(100, game.getScoreforlevel());
     }
 
@@ -159,7 +160,7 @@ public class GameUtilitiesTest {
      */
     @Test
     public void testSetHighscoreMain() throws Exception {
-        game.setHighscoreMain(true);
+        GameUtilities.setHighscoreMain(true);
         assertTrue(game.isHighscoreMain());
 
     }
@@ -169,7 +170,7 @@ public class GameUtilitiesTest {
      */
     @Test
     public void testSetSound() throws Exception {
-        game.setSound(true);
+        GameUtilities.setSound(true);
         assertTrue(game.isSound());
     }
 
@@ -178,8 +179,8 @@ public class GameUtilitiesTest {
      */
     @Test
     public void testSetPercent() throws Exception {
-        game.setPercent(100);
-        assertEquals(100,game.getPercent());
+        GameUtilities.setPercent(100);
+        assertEquals(100, game.getPercent());
     }
 
 
@@ -188,8 +189,8 @@ public class GameUtilitiesTest {
      */
     @Test
     public void testSetUsername() throws Exception {
-        game.setUsername("Chris");
-        assertEquals("Chris",game.getUsername());
+        GameUtilities.setUsername("Chris");
+        assertEquals("Chris", game.getUsername());
     }
 
     /**
@@ -197,8 +198,8 @@ public class GameUtilitiesTest {
      */
     @Test
     public void testSetLevel() throws Exception {
-        game.setLevel(5);
-        assertEquals(5,game.getLevel());
+        GameUtilities.setLevel(5);
+        assertEquals(5, game.getLevel());
     }
 
 
@@ -207,8 +208,8 @@ public class GameUtilitiesTest {
      */
     @Test
     public void testSetPoints() throws Exception {
-        game.setPoints(45);
-        assertEquals(45,game.getPoints());
+        GameUtilities.setPoints(45);
+        assertEquals(45, GameUtilities.getPoints());
     }
 
 
@@ -217,8 +218,8 @@ public class GameUtilitiesTest {
      */
     @Test
     public void testSetDicescore() throws Exception {
-        game.setDicescore(1);
-        assertEquals(1,game.getDicescore());
+        GameUtilities.setDicescore(1);
+        assertEquals(1, GameUtilities.getDicescore());
     }
 
 
@@ -228,9 +229,9 @@ public class GameUtilitiesTest {
     @Test
     public void testSetPlayerMap() throws Exception {
         String[] array = new String[5];
-        Arrays.fill(array,"1");
-        game.setPlayerMap(array);
-        assertEquals(array,game.getPlayerMap());
+        Arrays.fill(array, "1");
+        GameUtilities.setPlayerMap(array);
+        assertEquals(array, GameUtilities.getPlayerMap());
     }
 
 
@@ -240,9 +241,9 @@ public class GameUtilitiesTest {
     @Test
     public void testSetEnemyMap() throws Exception {
         String[] array = new String[5];
-        Arrays.fill(array,"1");
-        game.setEnemyMap(array);
-        assertEquals(array,game.getEnemyMap());
+        Arrays.fill(array, "1");
+        GameUtilities.setEnemyMap(array);
+        assertEquals(array, GameUtilities.getEnemyMap());
     }
 
 
@@ -251,8 +252,8 @@ public class GameUtilitiesTest {
      */
     @Test
     public void testSetWhoIsStarting() throws Exception {
-        game.setWhoIsStarting(1);
-        assertEquals(1,game.getWhoIsStarting());
+        GameUtilities.setWhoIsStarting(1);
+        assertEquals(1, GameUtilities.getWhoIsStarting());
     }
 
 
