@@ -30,7 +30,7 @@ import android.widget.TextView;
 import com.example.rebelartstudios.sternenkrieg.gamelogic.GameUtilities;
 import com.example.rebelartstudios.sternenkrieg.gamelogic.NetworkStats;
 import com.example.rebelartstudios.sternenkrieg.gamelogic.PlayerFieldShipContainer;
-import com.example.rebelartstudios.sternenkrieg.gamelogic.PlayerFieldValues;
+import com.example.rebelartstudios.sternenkrieg.gamelogic.FieldValues;
 import com.example.rebelartstudios.sternenkrieg.network.AcceptThread;
 import com.example.rebelartstudios.sternenkrieg.network.NetworkUtilities;
 import com.example.rebelartstudios.sternenkrieg.network.ReceiveThreadClient;
@@ -53,7 +53,7 @@ public class Spielfeld extends AppCompatActivity {
     /****************Refactoring objects start ****************************************************************************/
     PlayerFieldShipContainer playerFieldShipContainer;
     PlayerFieldShipContainer enemyFieldShipContainer;
-    PlayerFieldValues fieldValues = new PlayerFieldValues();
+    FieldValues fieldValues = new FieldValues();
 
     private void initializeContainerObjects() {
         playerFieldShipContainer = new PlayerFieldShipContainer();

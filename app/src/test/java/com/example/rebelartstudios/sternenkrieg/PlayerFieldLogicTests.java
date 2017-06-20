@@ -1,7 +1,7 @@
 package com.example.rebelartstudios.sternenkrieg;
 
 import com.example.rebelartstudios.sternenkrieg.gamelogic.PlayerFieldLogic;
-import com.example.rebelartstudios.sternenkrieg.gamelogic.PlayerFieldValues;
+import com.example.rebelartstudios.sternenkrieg.gamelogic.FieldValues;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -18,13 +18,13 @@ import static junit.framework.Assert.fail;
 public class PlayerFieldLogicTests {
 
     PlayerFieldLogic playerFieldLogic;
-    PlayerFieldValues fieldValues;
+    FieldValues fieldValues;
 
 
     @Before
     public void setUp() {
         playerFieldLogic = new PlayerFieldLogic();
-        fieldValues = new PlayerFieldValues();
+        fieldValues = new FieldValues();
     }
 
     @Test
@@ -102,14 +102,14 @@ public class PlayerFieldLogicTests {
             playerFieldLogic.getSibling(-1);
             fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_EXPECTED);
         } catch (IllegalArgumentException e) {
-            Assert.assertEquals(e.getMessage(), ErrorMessages.DEGREE_NOT_ALLOWED);
+            Assert.assertEquals(e.getMessage(), ErrorMessages.DEGREE_NOT_DEFINED);
         }
 
         try {
             playerFieldLogic.getSibling(8);
             fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_EXPECTED);
         } catch (IllegalArgumentException e) {
-            Assert.assertEquals(e.getMessage(), ErrorMessages.DEGREE_NOT_ALLOWED);
+            Assert.assertEquals(e.getMessage(), ErrorMessages.DEGREE_NOT_DEFINED);
         }
     }
 
@@ -192,7 +192,7 @@ public class PlayerFieldLogicTests {
             playerFieldLogic.setMiddleShipPositionWithSiblingIndex(1, 3, fieldValues.SETFIELDPOSITION_A);
             fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_EXPECTED);
         } catch (IllegalArgumentException e) {
-            Assert.assertEquals(e.getMessage(), ErrorMessages.DEGREE_NOT_ALLOWED);
+            Assert.assertEquals(e.getMessage(), ErrorMessages.DEGREE_NOT_DEFINED);
         }
     }
 

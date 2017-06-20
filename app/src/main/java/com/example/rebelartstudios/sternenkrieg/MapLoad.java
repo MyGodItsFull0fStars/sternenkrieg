@@ -11,14 +11,14 @@ import android.view.WindowManager;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
-import com.example.rebelartstudios.sternenkrieg.gamelogic.PlayerFieldValues;
+import com.example.rebelartstudios.sternenkrieg.gamelogic.FieldValues;
 
 public class MapLoad extends BaseAdapter {
     private Context context;
     private final String[] mobileValues;
     private ImageView imageView;
     private View gridView;
-    private PlayerFieldValues fieldValues = new PlayerFieldValues();
+    private FieldValues fieldValues = new FieldValues();
 
     /**
      * Constructor for the MapLoad Class

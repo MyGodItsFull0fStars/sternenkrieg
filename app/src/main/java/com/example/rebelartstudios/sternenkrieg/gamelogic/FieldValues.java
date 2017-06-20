@@ -2,7 +2,7 @@ package com.example.rebelartstudios.sternenkrieg.gamelogic;
 
 import java.util.LinkedList;
 
-public final class PlayerFieldValues {
+public final class FieldValues {
 
     public LinkedList<String> checkAvailabilityList;
     public LinkedList<String> smallShipStringList;

@@ -15,8 +15,8 @@ import java.util.Arrays;
 public class PlayerFieldShipContainer {
     private PlayerFieldLogic playerFieldLogic;
     private ShipLogic shipLogic;
-    String tag="PlayerfieldShipContaine";
-    private PlayerFieldValues fieldValues;
+    String tag = "PlayerfieldShipContaine";
+    private FieldValues fieldValues;
     private ArrayList<Integer> failures_right = new ArrayList<>(Arrays.asList(7, 15, 23, 31, 39, 47, 55, 63));
     private ArrayList<Integer> failures_left = new ArrayList<>(Arrays.asList(8, 16, 24, 32, 40, 48, 56));
 
@@ -26,7 +26,7 @@ public class PlayerFieldShipContainer {
     public PlayerFieldShipContainer() {
         playerFieldLogic = new PlayerFieldLogic();
         shipLogic = new ShipLogic();
-        fieldValues = new PlayerFieldValues();
+        fieldValues = new FieldValues();
     }
 
 
@@ -43,7 +43,7 @@ public class PlayerFieldShipContainer {
         }
         this.playerFieldLogic = playerFieldLogic;
         this.shipLogic = shipLogic;
-        fieldValues = new PlayerFieldValues();
+        fieldValues = new FieldValues();
     }
 
     /**
@@ -79,7 +79,6 @@ public class PlayerFieldShipContainer {
      * @param input    string which will be written in the player field position
      */
     public void setBigShipContainer(int position, int degree, String input) {
-        Log.i(tag, "Crash");
         shipLogic.setBigShipPosition(position, degree);
         playerFieldLogic.setBigShipPositionWithSiblingIndex(position, degree, input);
     }
@@ -90,10 +89,16 @@ public class PlayerFieldShipContainer {
      * @param shipArray each position will be used to empty the player field
      */
     public void delete(int[] shipArray) {
-        Log.i(tag, "Crash");
-        if (shipArray != null && shipArray.length >= 0 && shipArray.length <= 3) {
-            for (int position : shipArray) {
-                playerFieldLogic.setSmallShipPosition(position, fieldValues.SETFIELDPOSITION_EMPTY);
+        if (shipArray == null) {
+            throw new IllegalArgumentException(ErrorMessages.NULL_PARAMETER);
+        }
+
+        if (shipArray.length > 0 && shipArray.length <= 3) {
+            Log.i(tag, "Crash");
+            if (shipArray.length >= 0 && shipArray.length <= 3) {
+                for (int position : shipArray) {
+                    playerFieldLogic.setSmallShipPosition(position, fieldValues.SETFIELDPOSITION_EMPTY);
+                }
             }
         }
     }
@@ -103,6 +108,7 @@ public class PlayerFieldShipContainer {
      * @param input    the input which will be checked with the position
      * @return if the value at position and the input string are equal, then return true, otherwise false
      */
+
     public boolean positionContainsString(int position, String input) {
         Log.i(tag, "Crash");
         return input.equals(playerFieldLogic.getPlayerField()[position]);

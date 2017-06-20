@@ -5,7 +5,7 @@ package com.example.rebelartstudios.sternenkrieg;
  */
 
 public class ErrorMessages {
-    public static final String DEGREE_NOT_ALLOWED = "Degree in parameter is not allowed";
+    public static final String DEGREE_NOT_DEFINED = "Degree in parameter is not defined";
     public static final String POSITION_OUT_OF_RANGE = "Position in parameter is out of field range";
     public static final String ARRAY_WRONG_SIZE = "Wrong array size in parameter";
     public static final String PLAYERFIELD_WRONG_SIZE = "Playerfield array size in parameter is incorrect";

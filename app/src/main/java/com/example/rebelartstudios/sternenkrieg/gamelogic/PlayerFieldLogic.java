@@ -15,7 +15,7 @@ import java.util.Arrays;
 public class PlayerFieldLogic {
     public String[] playerField;
     private final int PLAYERFIELDSIZE = 64;
-    PlayerFieldValues fieldStrings = new PlayerFieldValues();
+    FieldValues fieldStrings = new FieldValues();
 
     private final String ONE = "1";
     private final String TWO = "2";
@@ -221,7 +221,7 @@ public class PlayerFieldLogic {
         } else if (degree == fieldStrings.VERTICAL) {
             return 8;
         } else {
-            throw new IllegalArgumentException(ErrorMessages.DEGREE_NOT_ALLOWED);
+            throw new IllegalArgumentException(ErrorMessages.DEGREE_NOT_DEFINED);
         }
     }
 

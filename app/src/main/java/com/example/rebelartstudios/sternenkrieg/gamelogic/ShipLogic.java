@@ -9,7 +9,7 @@ import com.example.rebelartstudios.sternenkrieg.ErrorMessages;
  */
 
 public class ShipLogic {
-    private PlayerFieldValues fieldValues = new PlayerFieldValues();
+    private FieldValues fieldValues = new FieldValues();
 
     /**
      * Ship arrays used in the player field to save the positions of the ships
@@ -152,7 +152,7 @@ public class ShipLogic {
         if (degree == fieldValues.HORIZONTAL || degree == fieldValues.VERTICAL) {
             middleShipPosition(position, getSibling(degree));
         } else {
-            throw new IllegalArgumentException(ErrorMessages.DEGREE_NOT_ALLOWED);
+            throw new IllegalArgumentException(ErrorMessages.DEGREE_NOT_DEFINED);
         }
     }
 
@@ -186,7 +186,7 @@ public class ShipLogic {
         if (degree == fieldValues.HORIZONTAL || degree == fieldValues.VERTICAL) {
             bigShipPosition(position, getSibling(degree));
         } else {
-            throw new IllegalArgumentException(ErrorMessages.DEGREE_NOT_ALLOWED);
+            throw new IllegalArgumentException(ErrorMessages.DEGREE_NOT_DEFINED);
         }
     }
 
@@ -204,7 +204,7 @@ public class ShipLogic {
         } else if (degree == fieldValues.VERTICAL) {
             return 8;
         } else {
-            throw new IllegalArgumentException(ErrorMessages.DEGREE_NOT_ALLOWED);
+            throw new IllegalArgumentException(ErrorMessages.DEGREE_NOT_DEFINED);
         }
     }
 

@@ -1,6 +1,6 @@
 package com.example.rebelartstudios.sternenkrieg;
 
-import com.example.rebelartstudios.sternenkrieg.gamelogic.PlayerFieldValues;
+import com.example.rebelartstudios.sternenkrieg.gamelogic.FieldValues;
 import com.example.rebelartstudios.sternenkrieg.gamelogic.ShipLogic;
 
 import org.junit.Assert;
@@ -16,7 +16,7 @@ import static junit.framework.Assert.fail;
 public class ShipLogicTests {
     private ShipLogic shipLogic_no_parameters;
     private ShipLogic shipLogic_with_parameters;
-    private PlayerFieldValues fieldValues;
+    private FieldValues fieldValues;
 
     private int[] smallArray;
     private int[] middleArray;
@@ -29,7 +29,7 @@ public class ShipLogicTests {
         middleArray = new int[2];
         bigArray = new int[3];
         shipLogic_with_parameters = new ShipLogic(smallArray, middleArray, bigArray);
-        fieldValues = new PlayerFieldValues();
+        fieldValues = new FieldValues();
     }
 
     @Test
