@@ -59,7 +59,8 @@ public class Main extends AppCompatActivity {
 
         txtUsername.setText(game.getUsername());
         txtUsername.setTextColor(Color.WHITE);
-        txtLevel.setText("Level:" + game.getLevel());
+        String text = "Level: " + game.getLevel();
+        txtLevel.setText(text);
         txtLevel.setTextColor(Color.WHITE);
         levelProgress.setProgress(0);
         levelProgress.getProgressDrawable().setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN);
@@ -85,7 +86,8 @@ public class Main extends AppCompatActivity {
         initializeBackground();
         levelProgress.setProgress(0);
         levelProgress.setProgress(game.getPercent());
-        txtLevel.setText("Level:" + game.getLevel());
+        String text = "Level:" + game.getLevel();
+        txtLevel.setText(text);
         //musicStuff();
     }
 
@@ -165,7 +167,7 @@ public class Main extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Main.this, Highscore.class);
-                game.setHighscoreMain(false);
+                GameUtilities.setHighscoreMain(false);
                 startActivity(intent);
 
             }
@@ -208,7 +210,7 @@ public class Main extends AppCompatActivity {
 
                 .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        game.setUsername(one.getText().toString());
+                        GameUtilities.setUsername(one.getText().toString());
                         txtUsername.setText(game.getUsername());
                         txtUsername.setTextColor(Color.WHITE);
                         // CONFIRM
