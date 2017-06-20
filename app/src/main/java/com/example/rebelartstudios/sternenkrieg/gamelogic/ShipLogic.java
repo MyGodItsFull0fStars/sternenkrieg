@@ -39,8 +39,6 @@ public class ShipLogic {
     private boolean middleShipIsSetOnField;
     private boolean bigShipIsSetOnField;
 
-    private String positionOutOfFieldException = "Position in parameter is out of the field boundaries";
-
     /**
      * Ship constructor with the int arrays for the ships
      *
@@ -129,7 +127,7 @@ public class ShipLogic {
     /**
      * Gets an array as parameter, and since the array must be the same size, an exception will be thrown if otherwise.
      *
-     * @param array
+     * @param array integer array used to place the ship on the field
      */
     public void setMiddleShipArray(int[] array) {
         Log.i(tag, "Crash");
@@ -197,7 +195,7 @@ public class ShipLogic {
      * @param degree used to determine the return value
      * @return the value which will be returned. Horizontal returns 1 and vertical returns 8
      */
-    public int getSibling(int degree) {
+    int getSibling(int degree) {
         Log.i(tag, "Crash");
         if (degree == fieldValues.HORIZONTAL) {
             return 1;
@@ -266,16 +264,26 @@ public class ShipLogic {
     /**
      * Setter method for the boolean smallShipIsSetOnField, called in Map Activity after
      *
-     * @param smallShipIsSetOnField
+     * @param smallShipIsSetOnField returns if the smallShip is set on the field
      */
     public void setSmallShipIsSetOnField(boolean smallShipIsSetOnField) {
         this.smallShipIsSetOnField = smallShipIsSetOnField;
     }
 
+    /**
+     * Setter method for the boolean smallShipIsSetOnField, called in Map Activity after
+     *
+     * @param middleShipIsSetOnField returns if the smallShip is set on the field
+     */
     public void setMiddleShipIsSetOnField(boolean middleShipIsSetOnField) {
         this.middleShipIsSetOnField = middleShipIsSetOnField;
     }
 
+    /**
+     * Setter method for the boolean smallShipIsSetOnField, called in Map Activity after
+     *
+     * @param bigShipIsSetOnField returns if the smallShip is set on the field
+     */
     public void setBigShipIsSetOnField(boolean bigShipIsSetOnField) {
         this.bigShipIsSetOnField = bigShipIsSetOnField;
     }

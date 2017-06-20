@@ -20,6 +20,8 @@ public class GameUtilities {
     private static int whoIsStarting;
     private static boolean highscoreMain;
     private static int scoreforlevel;
+    private static String enemyusername;
+
 
     static SharedPreferences sharedPreferences;
     static SharedPreferences.Editor editor;
@@ -28,6 +30,8 @@ public class GameUtilities {
         GameUtilities.sharedPreferences = context.getSharedPreferences("prefs", Context.MODE_PRIVATE);
         GameUtilities.editor = sharedPreferences.edit();
     }
+
+
 
     public void onDestroy() {
         //onDestroy
@@ -103,6 +107,14 @@ public class GameUtilities {
 
     public static void setHighscoreMain(boolean highscoreMain) {
         GameUtilities.highscoreMain = highscoreMain;
+    }
+
+    public static String getEnemyusername() {
+        return enemyusername;
+    }
+
+    public static void setEnemyusername(String enemyusername) {
+        GameUtilities.enemyusername = enemyusername;
     }
 
     public boolean isSound() {

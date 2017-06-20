@@ -245,7 +245,7 @@ public class Dice extends AppCompatActivity {
                 prog1.setVisibility(View.VISIBLE);
                 statistikVisibility();
                 if (!came)
-                    textscoreenemy.setText("Waiting for Enemy");
+                    textscoreenemy.setText("Waiting for "+game.getEnemyusername());
 
             }
 

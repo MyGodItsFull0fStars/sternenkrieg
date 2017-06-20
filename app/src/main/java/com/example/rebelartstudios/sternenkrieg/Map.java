@@ -324,7 +324,9 @@ public class Map extends AppCompatActivity {
                     imageMapGoNext.setVisibility(View.INVISIBLE);
                     pulsatorLayout.stop();
                     progWaiting.setVisibility(View.VISIBLE);
+                    textMapWaiting.setText("Waiting for "+game.getEnemyusername());
                     textMapWaiting.setVisibility(View.VISIBLE);
+
                     if (!Phost) {
                         new CountDownTimer(200, 100) {
                             public void onTick(long millisUntilFinished) {

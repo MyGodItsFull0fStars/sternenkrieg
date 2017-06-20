@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.rebelartstudios.sternenkrieg.Dice;
@@ -43,6 +44,7 @@ public class Client1 extends AppCompatActivity implements View.OnClickListener {
     GameUtilities game;
     ImageView back;
     animationClass animationClass;
+    TextView textconnection;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,6 +106,12 @@ public class Client1 extends AppCompatActivity implements View.OnClickListener {
                         } catch (NullPointerException e) {
                             Log.e(tag, "NullPointerException in Client: " + e.toString());
                             Log.i(tag, "Crash");
+                        }
+                        try {
+                            Thread wirte = new WriteClient(true, socket, game.getUsername());
+                            wirte.start();
+                        } catch (NullPointerException e) {
+                            Log.e(tag, "NullPointerException in Client: " + e.toString());
                         }
 
 
@@ -174,6 +182,9 @@ public class Client1 extends AppCompatActivity implements View.OnClickListener {
                         startActivity(intentD);
 
 
+                    }else if(null!=str){
+                        game.setEnemyusername(str);
+                        textconnection.setText("Connected with: "+game.getEnemyusername());
                     }
                     break;
                 case 0:
@@ -201,6 +212,7 @@ public class Client1 extends AppCompatActivity implements View.OnClickListener {
         btnStop = (Button) findViewById(R.id.btnStop);
         btnQR = (Button) findViewById(R.id.QRClient);
         back = (ImageView) findViewById(R.id.imageClientBack);
+        textconnection=(TextView) findViewById(R.id.textconnected);
         this.ip = IPet.getText().toString();
     }
 
