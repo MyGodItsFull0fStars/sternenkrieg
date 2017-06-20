@@ -11,7 +11,7 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.example.rebelartstudios.sternenkrieg.R;
-import com.example.rebelartstudios.sternenkrieg.network.Client1;
+import com.example.rebelartstudios.sternenkrieg.network.Client;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.Result;
 import com.google.zxing.WriterException;
@@ -107,7 +107,7 @@ public class QRReader extends AppCompatActivity implements ZXingScannerView.Resu
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
 
-        Intent intent = new Intent(QRReader.this, Client1.class);
+        Intent intent = new Intent(QRReader.this, Client.class);
         intent.putExtra("QR", result.getText());
         startActivity(intent);
 

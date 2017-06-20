@@ -26,7 +26,7 @@ import com.example.rebelartstudios.sternenkrieg.res.animationClass;
 import java.io.IOException;
 import java.net.Socket;
 
-public class Client1 extends AppCompatActivity implements View.OnClickListener {
+public class Client extends AppCompatActivity implements View.OnClickListener {
     private EditText IPet;
     private Handler myhandler;
     private Socket socket;
@@ -54,7 +54,7 @@ public class Client1 extends AppCompatActivity implements View.OnClickListener {
         initializeButtonsViews();
         game = new GameUtilities(getApplicationContext());
         animationClass = new animationClass();
-       animationClass.glowAnimation(btnStart);
+        animationClass.glowAnimation(btnStart);
         setButtonOnStartState(true);
         btnStart.setOnClickListener(this);
         btnStop.setOnClickListener(this);
@@ -71,16 +71,14 @@ public class Client1 extends AppCompatActivity implements View.OnClickListener {
             this.ip = IPet.toString();
         }
 
-
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Client1.this, MainSocket.class);
+                Intent intent = new Intent(Client.this, MainSocket.class);
                 startActivity(intent);
             }
         });
     }
-
 
     @Override
     public void onClick(View v) {
@@ -100,37 +98,34 @@ public class Client1 extends AppCompatActivity implements View.OnClickListener {
 
                     @Override
                     public void onFinish() {
-
                         try {
                             socket = st.getSocket();
                         } catch (NullPointerException e) {
                             Log.e(tag, "NullPointerException in Client: " + e.toString());
                             Log.i(tag, "Crash");
                         }
+
                         try {
-                            Thread wirte = new WriteClient(true, socket, game.getUsername());
-                            wirte.start();
+                            Thread write = new WriteClient(true, socket, game.getUsername());
+                            write.start();
                         } catch (NullPointerException e) {
                             Log.e(tag, "NullPointerException in Client: " + e.toString());
                         }
 
-
                         try {
-                            Thread wirte = new WriteClient(true, socket, "//Bereiten");
-                            wirte.start();
+                            Thread write = new WriteClient(true, socket, "Bereit!");
+                            write.start();
                         } catch (NullPointerException e) {
                             Log.e(tag, "NullPointerException in Client: " + e.toString());
                         }
                     }
-
                 }.start();
-
                 break;
             case R.id.btnStop:
                 exit();
                 break;
             case R.id.QRClient:
-                Intent intent = new Intent(Client1.this, QRReader.class);
+                Intent intent = new Intent(Client.this, QRReader.class);
                 startActivity(intent);
                 break;
             default:
@@ -139,11 +134,9 @@ public class Client1 extends AppCompatActivity implements View.OnClickListener {
 
     }
 
-
     private void displayToast(String s) {
         Toast.makeText(this, s, Toast.LENGTH_SHORT).show();
     }
-
 
     /**
      * Enables or disables the buttons using a boolean
@@ -163,15 +156,14 @@ public class Client1 extends AppCompatActivity implements View.OnClickListener {
         @Override
         public void handleMessage(Message msg) {
 
-
             switch (msg.what) {
                 case 1:
                     String str = (String) msg.obj;
-                    Log.i(Client1.class.getName(), "Client: " + str);
+                    Log.i(Client.class.getName(), "Client: " + str);
                     if (("exit").equals(str)) {
                         exit();
-                    } else if (("//Starten").equals(str)) {
-                        Intent intentD = new Intent(Client1.this, Dice.class);
+                    } else if (("Start!").equals(str)) {
+                        Intent intentD = new Intent(Client.this, Dice.class);
 
                         ifstart = false;
                         close();
@@ -181,10 +173,9 @@ public class Client1 extends AppCompatActivity implements View.OnClickListener {
                         stats.setMode(1);
                         startActivity(intentD);
 
-
-                    }else if(null!=str){
+                    } else if (null != str) {
                         game.setEnemyusername(str);
-                        textconnection.setText("Connected with: "+game.getEnemyusername());
+                        textconnection.setText("Connected with: " + game.getEnemyusername());
                     }
                     break;
                 case 0:
@@ -201,7 +192,6 @@ public class Client1 extends AppCompatActivity implements View.OnClickListener {
 
     }
 
-
     /**
      * Initialization of the Buttons, TextView and EditTexts
      * Also the value ip gets the content from IPet
@@ -212,7 +202,7 @@ public class Client1 extends AppCompatActivity implements View.OnClickListener {
         btnStop = (Button) findViewById(R.id.btnStop);
         btnQR = (Button) findViewById(R.id.QRClient);
         back = (ImageView) findViewById(R.id.imageClientBack);
-        textconnection=(TextView) findViewById(R.id.textconnected);
+        textconnection = (TextView) findViewById(R.id.textconnected);
         this.ip = IPet.getText().toString();
     }
 
@@ -220,12 +210,11 @@ public class Client1 extends AppCompatActivity implements View.OnClickListener {
         rt = st.getRt();
         try {
             rt.setRunning(false);
-            Thread wirte = new WriteClient(false, socket, "exit");
-            wirte.start();
+            Thread write = new WriteClient(false, socket, "exit");
+            write.start();
         } catch (NullPointerException e) {
             Log.e(tag, "NullPointerException in Client: " + e.toString());
         }
-
 
         setButtonOnStartState(true);
         close();
@@ -248,6 +237,5 @@ public class Client1 extends AppCompatActivity implements View.OnClickListener {
             Log.e(tag, "IOException in Client: " + e.toString());
         }
     }
-
 
 }

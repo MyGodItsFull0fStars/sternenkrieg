@@ -45,11 +45,10 @@ public class Host extends AppCompatActivity {
     String tag = "Host";
     Button btnStarten;
     boolean ifstart = true;
-    NetworkStats stats= new NetworkStats();
+    NetworkStats stats = new NetworkStats();
     GameUtilities game;
     ImageView back;
     animationClass animationClass;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,19 +69,14 @@ public class Host extends AppCompatActivity {
         int ipAddress = wifiInfo.getIpAddress();
         ipS = intToIp(ipAddress);
 
-
         initializeButtons();
         initializeOnClickListeners();
         btnStarten.setBackgroundColor(getResources().getColor(R.color.black_overlay));
 
         running = true;
-        mAcceptThread = new AcceptThread(running, mServerSocket, socket, mHandler, mReceiveThreadHost,54321);
+        mAcceptThread = new AcceptThread(running, mServerSocket, socket, mHandler, mReceiveThreadHost, 54321);
         mAcceptThread.start();
         iPtv.setText("Warte auf Verbindung");
-
-
-
-
     }
 
     private String intToIp(int i) {
@@ -93,12 +87,11 @@ public class Host extends AppCompatActivity {
                 (i >> 24 & 0xFF);
     }
 
-
     private void displayToast(String s) {
         Toast.makeText(this, s, Toast.LENGTH_SHORT).show();
     }
 
-    public Handler getmHandler(){
+    public Handler getmHandler() {
         return mHandler;
     }
 
@@ -106,49 +99,48 @@ public class Host extends AppCompatActivity {
 
         public void handleMessage(Message msg) {
 
-
-                switch (msg.what) {
-                    case 1:
-                        String str = (String) msg.obj;
-                        try {
-                            if ("exit".equals(str)) {
-                                ExitHost();
-                            }else if (("//Bereiten").equals(str)){
-                                btnStarten.setEnabled(true);
-                                animationClass.glowAnimation(btnStarten);
-                            }else if(null != str){
-                                Log.i(tag, "Enemyusername");
-                                game.setEnemyusername(str);
-                                iPtv.setText("Connected with "+game.getEnemyusername());
-                                socket = mAcceptThread.getSocket();
-                                WriteHost writeHost = new WriteHost(socket, os, game.getUsername());
-                                writeHost.start();
-
-                            }
-                        } catch (NullPointerException e) {
-                            Log.e(tag, "NullpointerException in ReceiveThreadHost: " + e.toString());
+            switch (msg.what) {
+                case 1:
+                    String str = (String) msg.obj;
+                    try {
+                        if ("exit".equals(str)) {
+                            ExitHost();
+                        } else if (("Bereit!").equals(str)) {
+                            btnStarten.setEnabled(true);
+                            animationClass.glowAnimation(btnStarten);
+                        } else if (null != str) {
+                            Log.i(tag, "Enemyusername");
+                            game.setEnemyusername(str);
+                            iPtv.setText("Connected with " + game.getEnemyusername());
+                            socket = mAcceptThread.getSocket();
+                            WriteHost writeHost = new WriteHost(socket, os, game.getUsername());
+                            writeHost.start();
 
                         }
-                        break;
-                    case 0:
-                        displayToast("Erfolg");
-                        break;
-                    case 2:
-                        displayToast("Client getrennt");
+                    } catch (NullPointerException e) {
+                        Log.e(tag, "NullpointerException in ReceiveThreadHost: " + e.toString());
 
-                        iPtv.setText(null);
-                        try {
-                            socket.close();
-                            mServerSocket.close();
-                        } catch (IOException e) {
-                            Log.e(tag, "IOException in ReceiveThreadHost: " + e.toString());
-                        }
-                        break;
-                    default:
-                        break;
-                }
+                    }
+                    break;
+                case 0:
+                    displayToast("Erfolg!");
+                    break;
+                case 2:
+                    displayToast("Client getrennt");
 
+                    iPtv.setText(null);
+                    try {
+                        socket.close();
+                        mServerSocket.close();
+                    } catch (IOException e) {
+                        Log.e(tag, "IOException in ReceiveThreadHost: " + e.toString());
+                    }
+                    break;
+                default:
+                    break;
             }
+
+        }
 
     }
 
@@ -156,19 +148,17 @@ public class Host extends AppCompatActivity {
         iPtv = (TextView) findViewById(R.id.tvIP);
         ip = (TextView) findViewById(R.id.ip);
         btnQR = (Button) findViewById(R.id.qr_button);
-        btnStarten = (Button)findViewById(R.id.btn_starten);
-        back=(ImageView) findViewById(R.id.imageServerBack);
-
+        btnStarten = (Button) findViewById(R.id.btn_starten);
+        back = (ImageView) findViewById(R.id.imageServerBack);
 
         if (("0.0.0.0").equals(ipS)) {
-            ip.setText("不要用模拟器测试，否则是0。0。0。0");// diese Funktion geht nur Handy mit Wifi. Emulator geht nicht
+            ip.setText("Funktion im Emulator nicht verfügbar!");// diese Funktion geht nur Handy mit Wifi. Emulator geht nicht
         } else {
             ip.setText(ipS);
         }
     }
 
     private void initializeOnClickListeners() {
-
 
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -179,84 +169,70 @@ public class Host extends AppCompatActivity {
         });
 
 
-            btnQR.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(Host.this, QRReader.class);
-                    intent.putExtra("IP", ipS);
-                    startActivity(intent);
-                }
-            });
+        btnQR.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Host.this, QRReader.class);
+                intent.putExtra("IP", ipS);
+                startActivity(intent);
+            }
+        });
 
-            btnStarten.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    String info = "//Starten";
-                    socket = mAcceptThread.getSocket();
-                    WriteHost writeHost = new WriteHost(socket, os, info);
-                    writeHost.start();
+        btnStarten.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String info = "Start!";
+                socket = mAcceptThread.getSocket();
+                WriteHost writeHost = new WriteHost(socket, os, info);
+                writeHost.start();
 
-                    Intent intentD = new Intent(Host.this, Dice.class);
-                    ifstart = false;
-                    close();
-                    stats.setNet(true);
-                    stats.setPhost(true);
-                    stats.setMode(1);
-                    animationClass.stop();
-                    startActivity(intentD);
+                Intent intentD = new Intent(Host.this, Dice.class);
+                ifstart = false;
+                close();
+                stats.setNet(true);
+                stats.setPhost(true);
+                stats.setMode(1);
+                animationClass.stop();
+                startActivity(intentD);
 
-                }
-            });
-
-
-
+            }
+        });
     }
 
     private class onclicklistenerExit implements View.OnClickListener {
-
         public void onClick(View view) {
             ExitHost();
         }
     }
 
-
     public void ExitHost() {
-
         String info = "//exit";
         socket = mAcceptThread.getSocket();
-        WriteHost writeHost = new WriteHost(socket,os,info);
+        WriteHost writeHost = new WriteHost(socket, os, info);
         writeHost.start();
 
         close();
         iPtv.setText("Host beendet");
-
     }
 
-    public void close(){
-
+    public void close() {
         try {
-
             mAcceptThread.setRunning(false);
-
             mAcceptThread.setSocket(null);
-
         } catch (NullPointerException e) {
             Log.e(tag, "NullPointerException in Client: " + e.toString());
             displayToast("nicht Erfolg");
 
-
             btnStarten.setEnabled(false);
         }
-        try {
 
+        try {
             mAcceptThread.getmReceiveThreadHost().close();
             mAcceptThread.getmServerSocket().close();
             mAcceptThread.getSocket().close();
             mAcceptThread.interrupt();
-
         } catch (NullPointerException e) {
             Log.e(tag, "NullPointerException in Client: " + e.toString());
-
         } catch (IOException e) {
             Log.e(tag, "IOPointerException in Client: " + e.toString());
         }

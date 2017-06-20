@@ -8,7 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
-import com.example.rebelartstudios.sternenkrieg.network.Client1;
+import com.example.rebelartstudios.sternenkrieg.network.Client;
 import com.example.rebelartstudios.sternenkrieg.network.Host;
 
 public class MainSocket extends AppCompatActivity {
@@ -48,7 +48,7 @@ public class MainSocket extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
-                intent.setClass(MainSocket.this, Client1.class);
+                intent.setClass(MainSocket.this, Client.class);
                 startActivity(intent);
             }
         });

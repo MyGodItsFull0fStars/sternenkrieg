@@ -67,7 +67,7 @@
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="landscape" />
         <activity
-            android:name=".network.Client1"
+            android:name=".network.Client"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="landscape" />
         <activity
