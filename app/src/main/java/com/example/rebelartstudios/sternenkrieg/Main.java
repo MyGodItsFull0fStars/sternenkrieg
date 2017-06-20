@@ -170,7 +170,7 @@ public class Main extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Main.this, Highscore.class);
-                GameUtilities.setHighscoreMain(false);
+                GameUtilities.setHighScoreMain(false);
                 startActivity(intent);
 
             }

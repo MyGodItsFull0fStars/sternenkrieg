@@ -38,7 +38,7 @@ public void testConnection() throws Exception {
 
 /** 
 * 
-* Method: messageSend(String message, boolean Phost, boolean t) 
+* Method: messageSend(String message, boolean playerHost, boolean t)
 * 
 */ 
 @Test

@@ -155,7 +155,7 @@ public class Dice extends AppCompatActivity {
                         public void onFinish() {
                             syncClose();
                             pulsator.setVisibility(View.INVISIBLE);
-                            String text = "Waiting for " + GameUtilities.getEnemyusername();
+                            String text = "Waiting for " + GameUtilities.getEnemyUsername();
 
                             waiting.setText(text);
                             waiting.setVisibility(View.VISIBLE);
@@ -209,9 +209,10 @@ public class Dice extends AppCompatActivity {
                 break;
 
             case 2:
-                value += GameUtilities.getDicescore();
-                textScore.setText("You got:" + value);
-                GameUtilities.setDicescore(value);
+                value += GameUtilities.getDiceScore();
+                String text = "You got:" + value;
+                textScore.setText(text);
+                GameUtilities.setDiceScore(value);
                 break;
 
             default:
@@ -248,7 +249,7 @@ public class Dice extends AppCompatActivity {
                 prog1.setVisibility(View.VISIBLE);
                 statistikVisibility();
                 if (!came)
-                    textScoreEnemy.setText("Waiting for " + game.getEnemyusername());
+                    textScoreEnemy.setText("Waiting for " + game.getEnemyUsername());
 
             }
 
@@ -340,7 +341,7 @@ public class Dice extends AppCompatActivity {
                 syncClose();
             } else if (!("".equals(message))) {
                 enemyValue = Integer.parseInt(message);
-                textScoreEnemy.setText(game.getEnemyusername() + " got:" + enemyValue);
+                textScoreEnemy.setText(game.getEnemyUsername() + " got:" + enemyValue);
                 diceClass.changeDiceImageEnemy(enemyValue);
                 diceEnemy.setVisibility(View.VISIBLE);
                 came = true;

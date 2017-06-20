@@ -38,11 +38,11 @@ public class Highscore extends AppCompatActivity {
         back=(ImageView) findViewById(R.id.imageHighscoreReturn);
         listHighScore.setBackgroundColor(Color.WHITE);
         game = new GameUtilities(getApplicationContext());
-        if (game.isHighscoreMain()) {
+        if (game.isHighScoreMain()) {
             game.level();
-            game.setHighscore();
+            game.setHighScore();
         }
-        list = game.getHighscore();
+        list = game.getHighScore();
         listAdapter.addAll(list);
 
         //Highscore wird erzeugt
@@ -51,7 +51,7 @@ public class Highscore extends AppCompatActivity {
         deleteHighscore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                game.deleteHighscore();
+                game.deleteHighScore();
                 listAdapter.clear();
                 list.clear();
             }

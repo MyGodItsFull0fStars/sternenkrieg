@@ -250,7 +250,7 @@ public class Spielfeld extends AppCompatActivity {
                     public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                         fieldValues.initialize_H_list();
                         fieldValues.initialize_I_list();
-                        
+
                         final String positionString = map1[position];
 
                         if (positionString.equals(fieldValues.SETFIELDPOSITION_G)
@@ -470,7 +470,7 @@ public class Spielfeld extends AppCompatActivity {
         System.out.println("Spielfeld Value" + who_is_starting);
         //Player beginns
         System.out.println("Shoot: " + shoot);
-        pointsPlayer += GameUtilities.getDicescore();
+        pointsPlayer += GameUtilities.getDiceScore();
         System.out.println("Points:" + pointsPlayer);
         if (who_is_starting == 0 && oneShoot) {
             shoot = true;
@@ -636,47 +636,8 @@ public class Spielfeld extends AppCompatActivity {
                 }
 
                 if (shipPlaced) {
+                     restoreShips();
 
-                    for (int i = 0; i < map1.length; i++) {
-                        switch (map1[i]) {
-                            case "g":
-                                map1[i] = "d";
-                                break;
-                            case "h1":
-                                map1[i] = "e1";
-                                break;
-                            case "h2":
-                                map1[i] = "e2";
-                                break;
-                            case "h3":
-                                map1[i] = "e3";
-                                break;
-                            case "h4":
-                                map1[i] = "e4";
-                                break;
-                            case "i1":
-                                map1[i] = "f1";
-                                break;
-                            case "i2":
-                                map1[i] = "f2";
-                                break;
-                            case "i3":
-                                map1[i] = "f3";
-                                break;
-                            case "i4":
-                                map1[i] = "f4";
-                                break;
-                            case "i5":
-                                map1[i] = "f5";
-                                break;
-                            case "i6":
-                                map1[i] = "f6";
-                                break;
-                            default:
-                                break;
-                        }
-
-                    }
                     draw(map1, gridView1);
 
 
@@ -796,7 +757,7 @@ public class Spielfeld extends AppCompatActivity {
                             // CONFIRM
                             Intent intent = new Intent(Spielfeld.this, Highscore.class);
                             GameUtilities.setPoints(highScore);
-                            GameUtilities.setHighscoreMain(true);
+                            GameUtilities.setHighScoreMain(true);
                             startActivity(intent);
                         }
                     })
@@ -814,7 +775,7 @@ public class Spielfeld extends AppCompatActivity {
                             // CONFIRM
                             Intent intent = new Intent(Spielfeld.this, Highscore.class);
                             GameUtilities.setPoints(highScore);
-                            GameUtilities.setHighscoreMain(true);
+                            GameUtilities.setHighScoreMain(true);
                             startActivity(intent);
                         }
                     })
@@ -831,7 +792,7 @@ public class Spielfeld extends AppCompatActivity {
 
     }
 
-    // TODO: 20/06/2017  
+    // TODO: 20/06/2017
     public boolean gameOver(String ship, String[] map) {
             /* checks if String "ship" (either checks whether player has any ships left or if an
             entire ship of the opponent has been destroyed) is still present in array "map";
@@ -1030,6 +991,48 @@ public class Spielfeld extends AppCompatActivity {
 
     }
 
+    public void restoreShips() {
+        for (int i = 0; i < map1.length; i++) {
+            switch (map1[i]) {
+                case "g":
+                    map1[i] = "d";
+                    break;
+                case "h1":
+                    map1[i] = "e1";
+                    break;
+                case "h2":
+                    map1[i] = "e2";
+                    break;
+                case "h3":
+                    map1[i] = "e3";
+                    break;
+                case "h4":
+                    map1[i] = "e4";
+                    break;
+                case "i1":
+                    map1[i] = "f1";
+                    break;
+                case "i2":
+                    map1[i] = "f2";
+                    break;
+                case "i3":
+                    map1[i] = "f3";
+                    break;
+                case "i4":
+                    map1[i] = "f4";
+                    break;
+                case "i5":
+                    map1[i] = "f5";
+                    break;
+                case "i6":
+                    map1[i] = "f6";
+                    break;
+                default:
+                    break;
+            }
+
+        }
+    }
 
     public void powerUps() {
         options4.setOnClickListener(new View.OnClickListener() {  //in this case: options4 = powerup4: ship armour
@@ -1087,6 +1090,10 @@ public class Spielfeld extends AppCompatActivity {
                                 }
                             }
                         }
+
+                        restoreShips();
+
+                        draw(map1, gridView1);
 
                         clickMap();
 

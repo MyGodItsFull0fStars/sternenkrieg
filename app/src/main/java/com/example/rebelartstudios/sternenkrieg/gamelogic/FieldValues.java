@@ -11,25 +11,33 @@ public final class FieldValues {
     public LinkedList<String> h_list;
     public LinkedList<String> i_list;
 
-    public FieldValues(){
+    public FieldValues() {
         initialize_H_list();
         initialize_I_list();
         initialiseShipLists();
         initialiseCheckAvailabilityList();
     }
 
-    public void initialiseShipLists(){
+    public void initialiseShipLists() {
         smallShipStringList = new LinkedList<>();
+        middleShipStringList = new LinkedList<>();
+        bigShipStringList = new LinkedList<>();
+
         smallShipStringList.add(SETPLAYERPOSITION_SMALL);
 
-        middleShipStringList = new LinkedList<>();
         middleShipStringList.add(SETPLAYERPOSITION_MIDDLE);
         middleShipStringList.add(SETPLAYERPOSITION_MIDDLE1);
         middleShipStringList.add(SETPLAYERPOSITION_MIDDLE2);
         middleShipStringList.add(SETPLAYERPOSITION_MIDDLE1R);
         middleShipStringList.add(SETPLAYERPOSITION_MIDDLE2R);
+        middleShipStringList.add(SETPLAYERPOSITION_MIDDLE1R);
+        middleShipStringList.add(SETPLAYERPOSITION_MIDDLE2R);
+        middleShipStringList.add(SETFIELDPOSITION_K1);
+        middleShipStringList.add(SETFIELDPOSITION_K2);
+        middleShipStringList.add(SETFIELDPOSITION_K3);
+        middleShipStringList.add(SETFIELDPOSITION_K4);
 
-        bigShipStringList = new LinkedList<>();
+
         bigShipStringList.add(SETFIELDPOSITION_BIG);
         bigShipStringList.add(SETFIELDPOSITION_BIG1);
         bigShipStringList.add(SETFIELDPOSITION_BIG2);
@@ -37,9 +45,23 @@ public final class FieldValues {
         bigShipStringList.add(SETFIELDPOSITION_BIG1R);
         bigShipStringList.add(SETFIELDPOSITION_BIG2R);
         bigShipStringList.add(SETFIELDPOSITION_BIG3R);
+
+        bigShipStringList.add(SETFIELDPOSITION_BIG1R);
+        bigShipStringList.add(SETFIELDPOSITION_BIG2R);
+        bigShipStringList.add(SETFIELDPOSITION_BIG3R);
+
+        /* ships with armour */
+        smallShipStringList.add(SETFIELDPOSITION_J);
+
+        bigShipStringList.add(SETFIELDPOSITION_L1);
+        bigShipStringList.add(SETFIELDPOSITION_L2);
+        bigShipStringList.add(SETFIELDPOSITION_L3);
+        bigShipStringList.add(SETFIELDPOSITION_L4);
+        bigShipStringList.add(SETFIELDPOSITION_L5);
+        bigShipStringList.add(SETFIELDPOSITION_L6);
     }
 
-    public void initialize_H_list(){
+    public void initialize_H_list() {
         h_list = new LinkedList<>();
         h_list.add(SETFIELDPOSITION_H1);
         h_list.add(SETFIELDPOSITION_H2);
@@ -47,7 +69,7 @@ public final class FieldValues {
         h_list.add(SETFIELDPOSITION_H4);
     }
 
-    public void initialize_I_list(){
+    public void initialize_I_list() {
         i_list = new LinkedList<>();
         i_list.add(SETFIELDPOSITION_I1);
         i_list.add(SETFIELDPOSITION_I2);
@@ -55,6 +77,7 @@ public final class FieldValues {
         i_list.add(SETFIELDPOSITION_I4);
         i_list.add(SETFIELDPOSITION_I5);
         i_list.add(SETFIELDPOSITION_I6);
+
     }
 
     public final String SETFIELDPOSITION_A = "a";
@@ -93,7 +116,6 @@ public final class FieldValues {
     public final String SETFIELDPOSITION_BIG3R = "f6";
 
 
-
     public final String SETFIELDPOSITION_G = "g";
 
     public final String SETFIELDPOSITION_H1 = "h1";
@@ -109,6 +131,20 @@ public final class FieldValues {
     public final String SETFIELDPOSITION_I6 = "i6";
 
     public final String SETFIELDPOSITION_EMPTY = "0";
+    public final String SETFIELDPOSITION_J = "j";
+
+    public final String SETFIELDPOSITION_K1 = "k1";
+    public final String SETFIELDPOSITION_K2 = "k2";
+    public final String SETFIELDPOSITION_K3 = "k3";
+    public final String SETFIELDPOSITION_K4 = "k4";
+
+    public final String SETFIELDPOSITION_L1 = "l1";
+    public final String SETFIELDPOSITION_L2 = "l2";
+    public final String SETFIELDPOSITION_L3 = "l3";
+    public final String SETFIELDPOSITION_L4 = "l4";
+    public final String SETFIELDPOSITION_L5 = "l5";
+    public final String SETFIELDPOSITION_L6 = "l6";
+
     public final String SETFIELDPOSITION_MISS = "1";
     public final String SETFIELDPOSITION_TWO = "2";
     public final String SETFIELDPOSITION_ENEMYHIT = "3";
@@ -116,7 +152,7 @@ public final class FieldValues {
     public final String SETFIELDPOSITION_ENEMYMISS = "5";
 
 
-    public void initialiseCheckAvailabilityList(){
+    public void initialiseCheckAvailabilityList() {
         checkAvailabilityList = new LinkedList<>();
         checkAvailabilityList.add(SETPLAYERPOSITION_SMALL);
         checkAvailabilityList.add(SETPLAYERPOSITION_MIDDLE);
