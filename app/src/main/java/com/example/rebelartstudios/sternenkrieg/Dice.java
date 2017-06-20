@@ -19,7 +19,6 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
 import android.view.animation.ScaleAnimation;
 import android.view.animation.TranslateAnimation;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TableLayout;
@@ -37,6 +36,8 @@ import com.example.rebelartstudios.sternenkrieg.res.Sensors;
 import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+
+import pl.bclogic.pulsator4droid.library.PulsatorLayout;
 
 public class Dice extends AppCompatActivity {
 
@@ -61,11 +62,16 @@ public class Dice extends AppCompatActivity {
     TextView statistik5;
     TextView statistik6;
     TableLayout tabledice;
-
-
     private int gegnervalue;
     boolean finish = false;
     boolean finishEnemy = false;
+    Intent intent = new Intent();
+    ProgressBar prog1;
+    ImageView dicegoto;
+    static ImageView diceenemy;
+    ImageView goNext;
+    PulsatorLayout pulsator;
+    ProgressBar progWaiting;
     private int mode = 0; // 1 = game start, 2 = powerup
     /********************Netz**************************/
     Socket socket = new Socket();
@@ -80,13 +86,9 @@ public class Dice extends AppCompatActivity {
     StartThread startThread;
     OutputStream os = null;
     boolean net = false;
-    Button goNext;
     boolean sended = false;
     boolean came = false;
-    Intent intent = new Intent();
-    ProgressBar prog1;
-    ImageView dicegoto;
-    static ImageView diceenemy;
+    TextView waiting;
 
 
     /********************Netz**************************/
@@ -111,8 +113,11 @@ public class Dice extends AppCompatActivity {
         statistik4 = (TextView) findViewById(R.id.textDiceFour);
         statistik5 = (TextView) findViewById(R.id.textDiceFive);
         statistik6 = (TextView) findViewById(R.id.textDiceSix);
-        tabledice=(TableLayout) findViewById(R.id.tableDice);
-
+        tabledice = (TableLayout) findViewById(R.id.tableDice);
+        goNext = (ImageView) findViewById(R.id.imageGoNext);
+        pulsator = (PulsatorLayout) findViewById(R.id.pulsatorMap);
+        waiting = (TextView) findViewById(R.id.textMapWaiting);
+        progWaiting = (ProgressBar) findViewById(R.id.progressBarWaiting);
         prog1 = (ProgressBar) findViewById(R.id.progressBar);
         prog1.setVisibility(View.INVISIBLE);
 
@@ -120,7 +125,7 @@ public class Dice extends AppCompatActivity {
         textscoreenemy = (TextView) findViewById(R.id.text_enemy_score);
         game = new GameUtilities(getApplicationContext());
         /********************Netz**************************/
-        goNext = (Button) findViewById(R.id.gonext);
+
 
         phost = stats.isPhost();
         mode = stats.getMode();
@@ -138,7 +143,6 @@ public class Dice extends AppCompatActivity {
         goNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                goNext.setText("Waiting for Enemy to Finish");
                 util.messageSend("boolean", phost);
                 finish = true;
                 if (!phost) {
@@ -150,11 +154,19 @@ public class Dice extends AppCompatActivity {
                         @Override
                         public void onFinish() {
                             syncClose();
+                            pulsator.setVisibility(View.INVISIBLE);
+                            waiting.setVisibility(View.VISIBLE);
+                            progWaiting.setVisibility(View.VISIBLE);
+
                         }
 
                     }.start();
-                } else
+                } else {
+                    pulsator.setVisibility(View.INVISIBLE);
+                    waiting.setVisibility(View.VISIBLE);
+                    progWaiting.setVisibility(View.VISIBLE);
                     syncClose();
+                }
             }
         });
     }
@@ -253,7 +265,6 @@ public class Dice extends AppCompatActivity {
                 game.setWhoIsStarting(whoStarts);
                 if (whoStarts == 2) {
                     intent.setClass(Dice.this, Dice.class);
-                    goNext.setText("Dice again");
                 }
                 break;
 
@@ -271,6 +282,8 @@ public class Dice extends AppCompatActivity {
             @Override
             public void onFinish() {
                 goNext.setVisibility(View.VISIBLE);
+                pulsator.start();
+
             }
 
         }.start();
@@ -288,21 +301,22 @@ public class Dice extends AppCompatActivity {
     public void syncClose() {
         if (finish && finishEnemy) {
             util.close();
+            pulsator.stop();
             startActivity(intent);
         }
 
     }
 
-    public void statistikVisibility(){
+    public void statistikVisibility() {
         statistik.setVisibility(View.VISIBLE);
-      tabledice.setVisibility(View.VISIBLE);
+        tabledice.setVisibility(View.VISIBLE);
 
-        statistik1.setText("1: "+diceClass.getOneprobability());
-        statistik2.setText("2: "+diceClass.getTwoprobability());
-        statistik3.setText("3: "+diceClass.getThreeprobability());
-        statistik4.setText("4: "+diceClass.getFourprobability());
-        statistik5.setText("5: "+diceClass.getFiveprobability());
-        statistik6.setText("6: "+diceClass.getSixprobability());
+        statistik1.setText("1: " + diceClass.getOneprobability());
+        statistik2.setText("2: " + diceClass.getTwoprobability());
+        statistik3.setText("3: " + diceClass.getThreeprobability());
+        statistik4.setText("4: " + diceClass.getFourprobability());
+        statistik5.setText("5: " + diceClass.getFiveprobability());
+        statistik6.setText("6: " + diceClass.getSixprobability());
     }
 
 

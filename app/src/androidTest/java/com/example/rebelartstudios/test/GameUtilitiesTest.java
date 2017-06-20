@@ -50,7 +50,7 @@ public class GameUtilitiesTest {
         assertNotNull(game.getPercent());
         assertNotNull(game.isSound());
 
-        assertEquals("Unbekannt", game.getUsername());
+        assertEquals("", game.getUsername());
         assertEquals(1, game.getLevel());
         assertEquals(0, game.getPercent());
         assertEquals(true, game.isSound());
@@ -111,11 +111,12 @@ public class GameUtilitiesTest {
     @Test
     public void testDeleteHighscore() throws Exception {
         ArrayList<String> list = new ArrayList<>();
-        editor.putInt("counter", 5);
         game.setUsername("Chris");
-        editor.commit();
-        for (int i = 0; i < 5; i++)
-            list.add("Chris");
+        game.setPoints(0);
+        for (int i = 0; i < 5; i++) {
+            list.add("Chris 0");
+            game.setHighscore();
+        }
         assertEquals(list, game.getHighscore());
         list.clear();
         game.deleteHighscore();

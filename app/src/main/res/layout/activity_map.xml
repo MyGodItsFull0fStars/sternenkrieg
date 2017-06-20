@@ -55,22 +55,6 @@
         app:srcCompat="@drawable/rotate"
         tools:layout_editor_absoluteX="290dp" />
 
-    <ImageView
-        android:id="@+id/play"
-        android:layout_width="48dp"
-        android:layout_height="50dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.961"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.984"
-        app:srcCompat="@drawable/forward_grey" />
-
     <TextView
         android:id="@+id/textView4"
         android:layout_width="wrap_content"
@@ -88,28 +72,66 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.028" />
+    <TextView
+        android:id="@+id/textMapWaiting"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        android:text="Waiting for Enemy"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        android:layout_marginRight="8dp"
+        app:layout_constraintRight_toRightOf="@+id/pulsatorMap"
+        app:layout_constraintBottom_toBottomOf="@+id/pulsatorMap"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintTop_toTopOf="@+id/pulsatorMap"
+        android:layout_marginTop="8dp" />
+
+    <pl.bclogic.pulsator4droid.library.PulsatorLayout
+        android:id="@+id/pulsatorMap"
+        android:layout_width="71dp"
+        android:layout_height="70dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginRight="7dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.977"
+        app:pulse_color="@color/common_white"
+        app:pulse_count="4"
+        app:pulse_duration="4000"
+        app:pulse_interpolator="Decelerate"
+        app:pulse_repeat="0"
+        app:pulse_startFromScratch="false">
+
+        <ImageView
+            android:id="@+id/imageMapGoNext"
+            android:layout_width="43dp"
+            android:layout_height="40dp"
+            android:layout_centerInParent="true"
+            android:layout_marginBottom="16dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="16dp"
+            android:src="@drawable/forward"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="@+id/pulsatorMap"
+            app:layout_constraintRight_toRightOf="parent" />
+    </pl.bclogic.pulsator4droid.library.PulsatorLayout>
 
     <ProgressBar
-        android:id="@+id/progressBarNextMap"
-        style="?android:attr/progressBarStyleLarge"
-        android:layout_width="50dp"
-        android:layout_height="47dp"
-        android:layout_alignEnd="@+id/textView"
-        android:layout_alignParentBottom="true"
-        android:layout_alignRight="@+id/textView"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginLeft="0dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginStart="33dp"
-        android:layout_marginTop="8dp"
-        android:progressDrawable="@drawable/circular_progress_bar"
-        app:layout_constraintBottom_toBottomOf="@+id/play"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintLeft_toLeftOf="@+id/play"
-        app:layout_constraintRight_toRightOf="@+id/play"
-        app:layout_constraintTop_toTopOf="@+id/play"
-        app:layout_constraintVertical_bias="0.692" />
+        android:id="@+id/progressBarMapWaiting"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="24dp"
+        android:layout_height="28dp"
+        android:layout_marginBottom="0dp"
+        android:layout_marginRight="0dp"
+        android:layout_marginTop="0dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@+id/textMapWaiting"
+        app:layout_constraintRight_toLeftOf="@+id/textMapWaiting"
+        app:layout_constraintTop_toTopOf="@+id/textMapWaiting"
+        tools:layout_editor_absoluteY="290dp" />
 
     <GridView
         android:id="@+id/gridView"
@@ -128,21 +150,6 @@
         app:layout_constraintVertical_bias="0.864"
         tools:layout_constraintBottom_creator="1"
         tools:layout_constraintTop_creator="1" />
-
-    <TextView
-        android:id="@+id/textMapWaiting"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="17dp"
-        android:text="TextView"
-        android:textColor="@android:color/white"
-        android:textSize="18sp"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="@+id/progressBarNextMap"
-        app:layout_constraintRight_toLeftOf="@+id/progressBarNextMap"
-        app:layout_constraintTop_toTopOf="@+id/progressBarNextMap" />
 
 
 </android.support.constraint.ConstraintLayout>

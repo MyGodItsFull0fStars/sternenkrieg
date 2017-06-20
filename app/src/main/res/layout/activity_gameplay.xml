@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:keepScreenOn="true"
     android:layout_height="match_parent">
@@ -257,5 +258,30 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.795" />
+
+    <ImageView
+        android:id="@+id/imageShootPlayer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/options2"
+        app:layout_constraintLeft_toRightOf="@+id/options1"
+        app:srcCompat="@drawable/shoot" />
+
+    <ImageView
+        android:id="@+id/imageShootEnemy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        android:rotation="180"
+        app:srcCompat="@drawable/shoot"
+        app:layout_constraintRight_toLeftOf="@+id/options4"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/Start_play"
+        app:layout_constraintTop_toTopOf="@+id/options4"
+        android:layout_marginTop="8dp" />
 
 </android.support.constraint.ConstraintLayout>

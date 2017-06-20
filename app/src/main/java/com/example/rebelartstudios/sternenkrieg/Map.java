@@ -35,6 +35,8 @@ import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+import pl.bclogic.pulsator4droid.library.PulsatorLayout;
+
 /**
  * Map Class gets started after clicking the Main class.
  * In this class, the player sets the position of the ships using drag and drop.
@@ -42,9 +44,11 @@ import java.net.Socket;
 public class Map extends AppCompatActivity {
     GridView gridView;
     ImageView imageView;
-    ImageView ship1, ship2, ship3, turn, play;
-    ProgressBar proNext;
-    TextView textwaiting;
+    ImageView ship1, ship2, ship3, turn;
+    TextView textMapWaiting;
+    PulsatorLayout pulsatorLayout;
+    ImageView imageMapGoNext;
+    ProgressBar progWaiting;
 
     int width;
     int height;
@@ -187,8 +191,8 @@ public class Map extends AppCompatActivity {
 
 
                         if (playerFieldShipContainer.getShipLogic().allShipsSetOnPlayerField()) {
-
-                            play.setImageDrawable(getResources().getDrawable(R.drawable.forward));
+                            pulsatorLayout.start();
+                            imageMapGoNext.setVisibility(View.VISIBLE);
                         }
 
                         return (true);
@@ -276,10 +280,10 @@ public class Map extends AppCompatActivity {
         ship2 = (ImageView) findViewById(R.id.image_ship2);
         ship3 = (ImageView) findViewById(R.id.image_ship3);
         turn = (ImageView) findViewById(R.id.image_turn);
-        play = (ImageView) findViewById(R.id.play);
-        proNext = (ProgressBar) findViewById(R.id.progressBarNextMap);
-        proNext.setVisibility(View.INVISIBLE);
-        textwaiting = (TextView) findViewById(R.id.textMapWaiting);
+        textMapWaiting = (TextView) findViewById(R.id.textMapWaiting);
+        pulsatorLayout = (PulsatorLayout) findViewById(R.id.pulsatorMap);
+        imageMapGoNext = (ImageView) findViewById(R.id.imageMapGoNext);
+        progWaiting = (ProgressBar) findViewById(R.id.progressBarMapWaiting);
     }
 
 
@@ -307,7 +311,7 @@ public class Map extends AppCompatActivity {
      */
     private void initializeOnClickListenerOnButton() {
 
-        play.setOnClickListener(new View.OnClickListener() {
+        imageMapGoNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -317,9 +321,10 @@ public class Map extends AppCompatActivity {
                     game.setPlayerMap(playerFieldShipContainer.getPlayerFieldLogic().getPlayerField());
                     finish = true;
                     util.messageSend("boolean", Phost);
-                    play.setVisibility(View.INVISIBLE);
-                    proNext.setVisibility(View.VISIBLE);
-                    textwaiting.setVisibility(View.VISIBLE);
+                    imageMapGoNext.setVisibility(View.INVISIBLE);
+                    pulsatorLayout.stop();
+                    progWaiting.setVisibility(View.VISIBLE);
+                    textMapWaiting.setVisibility(View.VISIBLE);
                     if (!Phost) {
                         new CountDownTimer(200, 100) {
                             public void onTick(long millisUntilFinished) {

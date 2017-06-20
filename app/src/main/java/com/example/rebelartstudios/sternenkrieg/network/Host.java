@@ -22,6 +22,7 @@ import com.example.rebelartstudios.sternenkrieg.R;
 import com.example.rebelartstudios.sternenkrieg.gamelogic.GameUtilities;
 import com.example.rebelartstudios.sternenkrieg.gamelogic.NetworkStats;
 import com.example.rebelartstudios.sternenkrieg.res.QRReader;
+import com.example.rebelartstudios.sternenkrieg.res.animationClass;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -47,6 +48,7 @@ public class Host extends AppCompatActivity {
     NetworkStats stats= new NetworkStats();
     GameUtilities game;
     ImageView back;
+    animationClass animationClass;
 
 
     @Override
@@ -57,6 +59,7 @@ public class Host extends AppCompatActivity {
 
         mHandler = new MyHandler();
         game = new GameUtilities(getApplicationContext());
+        animationClass = new animationClass();
 
         WifiManager wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         if (!wifiManager.isWifiEnabled()) {
@@ -70,6 +73,7 @@ public class Host extends AppCompatActivity {
 
         initializeButtons();
         initializeOnClickListeners();
+        btnStarten.setBackgroundColor(getResources().getColor(R.color.black_overlay));
 
         running = true;
         mAcceptThread = new AcceptThread(running, mServerSocket, socket, mHandler, mReceiveThreadHost,54321);
@@ -111,6 +115,7 @@ public class Host extends AppCompatActivity {
                                 ExitHost();
                             }else if (("//Bereiten").equals(str)){
                                 btnStarten.setEnabled(true);
+                                animationClass.glowAnimation(btnStarten);
                             }
                         } catch (NullPointerException e) {
                             Log.e(tag, "NullpointerException in ReceiveThreadHost: " + e.toString());
@@ -189,6 +194,7 @@ public class Host extends AppCompatActivity {
                     stats.setNet(true);
                     stats.setPhost(true);
                     stats.setMode(1);
+                    animationClass.stop();
                     startActivity(intentD);
 
                 }

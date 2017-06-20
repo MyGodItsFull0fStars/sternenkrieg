@@ -19,6 +19,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Display;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.animation.TranslateAnimation;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -112,6 +113,8 @@ public class Spielfeld extends AppCompatActivity {
     NetworkStats stats = new NetworkStats();
     GameUtilities game;
     int who_is_starting;
+    ImageView shootplayer;
+    ImageView shootEnemy;
 
     String mapString = "Map";
 
@@ -428,6 +431,7 @@ public class Spielfeld extends AppCompatActivity {
            /* hit ship of enemy */
                     if (map2[position].equals("a") || map2[position].equals("b") || map2[position].equals("c")) {
                         map2[position] = fieldValues.SETFIELDPOSITION_PLAYERHIT;
+
                         vib.vibrate(500);
                         highScore += 80;
 
@@ -558,6 +562,8 @@ public class Spielfeld extends AppCompatActivity {
     private void initializeImageViews() {
         imageView = (ImageView) findViewById(R.id.grid_item_image);
         options = (ImageView) findViewById(R.id.options);
+        shootEnemy = (ImageView) findViewById(R.id.imageShootEnemy);
+        shootplayer = (ImageView) findViewById(R.id.imageShootPlayer);
 
         /* set option-buttons */
         options1 = (ImageView) findViewById(R.id.options1);
@@ -894,6 +900,18 @@ public class Spielfeld extends AppCompatActivity {
                     break;
             }
         }
+
+    }
+    public void animation(float x, float y) {
+        //TODO: at work
+        //animationClass(v.getX(),v.getY());
+        System.out.println("Animtation");
+        shootplayer.setVisibility(View.VISIBLE);
+        TranslateAnimation slideUp = new TranslateAnimation(-x, -y, 0, 0);
+        slideUp.setDuration(1000);
+        shootplayer.setAnimation(slideUp);
+
+
 
     }
 

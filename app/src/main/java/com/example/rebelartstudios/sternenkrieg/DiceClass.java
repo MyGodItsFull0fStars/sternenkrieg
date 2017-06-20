@@ -148,6 +148,7 @@ public class DiceClass {
 
     public static void setOne(int one) {
         editor.putInt("one",one);
+        editor.commit();
         DiceClass.one = one;
     }
 
@@ -166,6 +167,7 @@ public class DiceClass {
 
     public static void setThree(int three) {
         editor.putInt("three",three);
+        editor.commit();
         DiceClass.three = three;
     }
 
@@ -175,6 +177,7 @@ public class DiceClass {
 
     public static void setFour(int four) {
         editor.putInt("four",four);
+        editor.commit();
         DiceClass.four = four;
     }
 
@@ -184,6 +187,7 @@ public class DiceClass {
 
     public static void setFive(int five) {
         editor.putInt("five",five);
+        editor.commit();
         DiceClass.five = five;
     }
 
@@ -193,6 +197,7 @@ public class DiceClass {
 
     public static void setSix(int six) {
         editor.putInt("six",six);
+        editor.commit();
         DiceClass.six = six;
     }
 
@@ -201,6 +206,8 @@ public class DiceClass {
     }
 
     public static void setCountdice(int countdice) {
+        editor.putInt("countdice",countdice);
+        editor.commit();
         DiceClass.countdice = countdice;
     }
 }

@@ -3,7 +3,9 @@
     <color name="colorPrimary">#5f6fcb</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
-    <color name="common_signin_btn_dark_text_default">@android:color/white</color>
+    <color name="tab_background">#ffa500</color>
+    <color name="tab_glow">#5f6fcb</color>
+    <color name="common_white">@android:color/white</color>
 
     <color name="black_overlay">#66000000</color>
 </resources>

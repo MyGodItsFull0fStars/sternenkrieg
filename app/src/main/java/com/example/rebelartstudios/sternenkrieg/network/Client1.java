@@ -20,6 +20,7 @@ import com.example.rebelartstudios.sternenkrieg.R;
 import com.example.rebelartstudios.sternenkrieg.gamelogic.GameUtilities;
 import com.example.rebelartstudios.sternenkrieg.gamelogic.NetworkStats;
 import com.example.rebelartstudios.sternenkrieg.res.QRReader;
+import com.example.rebelartstudios.sternenkrieg.res.animationClass;
 
 import java.io.IOException;
 import java.net.Socket;
@@ -41,6 +42,7 @@ public class Client1 extends AppCompatActivity implements View.OnClickListener {
     NetworkStats stats = new NetworkStats();
     GameUtilities game;
     ImageView back;
+    animationClass animationClass;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +51,8 @@ public class Client1 extends AppCompatActivity implements View.OnClickListener {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         initializeButtonsViews();
         game = new GameUtilities(getApplicationContext());
-
+        animationClass = new animationClass();
+       animationClass.glowAnimation(btnStart);
         setButtonOnStartState(true);
         btnStart.setOnClickListener(this);
         btnStop.setOnClickListener(this);
@@ -85,7 +88,9 @@ public class Client1 extends AppCompatActivity implements View.OnClickListener {
                 this.ip = IPet.getText().toString();
                 st = new StartThread(socket, ip, rt, myhandler, 54321);
                 st.start();
+                animationClass.stop();
                 setButtonOnStartState(false);
+                btnStart.clearAnimation();
                 new CountDownTimer(800, 100) {
                     public void onTick(long millisUntilFinished) {
                         System.out.print(millisUntilFinished);
@@ -153,7 +158,7 @@ public class Client1 extends AppCompatActivity implements View.OnClickListener {
             switch (msg.what) {
                 case 1:
                     String str = (String) msg.obj;
-                    Log.i(Client1.class.getName(),"Client: "+str);
+                    Log.i(Client1.class.getName(), "Client: " + str);
                     if (("exit").equals(str)) {
                         exit();
                     } else if (("//Starten").equals(str)) {
@@ -194,8 +199,7 @@ public class Client1 extends AppCompatActivity implements View.OnClickListener {
         btnStart = (Button) findViewById(R.id.btnStart);
         btnStop = (Button) findViewById(R.id.btnStop);
         btnQR = (Button) findViewById(R.id.QRClient);
-        back=(ImageView) findViewById(R.id.imageClientBack);
-
+        back = (ImageView) findViewById(R.id.imageClientBack);
         this.ip = IPet.getText().toString();
     }
 
@@ -203,7 +207,7 @@ public class Client1 extends AppCompatActivity implements View.OnClickListener {
         rt = st.getRt();
         try {
             rt.setRunning(false);
-            Thread wirte = new WriteClient(false, socket,"exit" );
+            Thread wirte = new WriteClient(false, socket, "exit");
             wirte.start();
         } catch (NullPointerException e) {
             Log.e(tag, "NullPointerException in Client: " + e.toString());
@@ -231,4 +235,6 @@ public class Client1 extends AppCompatActivity implements View.OnClickListener {
             Log.e(tag, "IOException in Client: " + e.toString());
         }
     }
+
+
 }
