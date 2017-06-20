@@ -33,7 +33,7 @@ public class PlayerFieldLogicTests {
         try {
             playerFieldLogic.initializePlayerField();
         } catch (Exception e) {
-            fail("Exception should not be reached");
+            fail(ErrorMessages.EXCEPTION_REACHED);
         }
 
         for (int position = 0; position < fieldValues.FIELDSIZE; position++) {
@@ -43,8 +43,8 @@ public class PlayerFieldLogicTests {
 
     @Test
     public void checkGetPlayerFieldMethod() {
-        String[] array = new String[64];
-        Arrays.fill(array, "0");
+        String[] array = new String[fieldValues.FIELDSIZE];
+        Arrays.fill(array, fieldValues.SETFIELDPOSITION_EMPTY);
 
         Assert.assertTrue(Arrays.equals(array, playerFieldLogic.getPlayerField()));
     }
@@ -62,30 +62,29 @@ public class PlayerFieldLogicTests {
                 Assert.assertEquals("test", playerFieldLogic.getStringInPosition(i));
             }
         } catch (IllegalArgumentException e) {
-            fail("IllegalArgumentException should not be reached");
+            fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_REACHED);
         }
     }
 
     @Test
     public void checkSetPlayerFieldMethodThrowsException() {
-        String errorMessage = "java.lang.IllegalArgumentException: Parameter has the wrong size";
         try {
             playerFieldLogic.setPlayerField(null);
-            fail("IllegalArgumentException expected");
+            fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_EXPECTED);
         } catch (IllegalArgumentException e) {
-            Assert.assertEquals(e.toString(), errorMessage);
+            Assert.assertEquals(e.getMessage(), ErrorMessages.PLAYERFIELD_WRONG_SIZE);
         }
 
         try {
             playerFieldLogic.setPlayerField(new String[1]);
         } catch (IllegalArgumentException e) {
-            Assert.assertEquals(e.toString(), errorMessage);
+            Assert.assertEquals(e.getMessage(), ErrorMessages.PLAYERFIELD_WRONG_SIZE);
         }
 
         try {
             playerFieldLogic.setPlayerField(new String[100]);
         } catch (IllegalArgumentException e) {
-            Assert.assertEquals(e.toString(), errorMessage);
+            Assert.assertEquals(e.getMessage(), ErrorMessages.PLAYERFIELD_WRONG_SIZE);
         }
 
     }
@@ -101,16 +100,16 @@ public class PlayerFieldLogicTests {
     public void checkGetSiblingMethodThrowsException() {
         try {
             playerFieldLogic.getSibling(-1);
-            fail("IllegalArgumentException expected");
+            fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_EXPECTED);
         } catch (IllegalArgumentException e) {
-            Assert.assertEquals(e.getMessage(), "Given degree is not allowed");
+            Assert.assertEquals(e.getMessage(), ErrorMessages.DEGREE_NOT_ALLOWED);
         }
 
         try {
             playerFieldLogic.getSibling(8);
-            fail("IllegalArgumentException expected");
+            fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_EXPECTED);
         } catch (IllegalArgumentException e) {
-            Assert.assertEquals(e.getMessage(), "Given degree is not allowed");
+            Assert.assertEquals(e.getMessage(), ErrorMessages.DEGREE_NOT_ALLOWED);
         }
     }
 
@@ -122,7 +121,7 @@ public class PlayerFieldLogicTests {
                 playerFieldLogic.setSmallShipPosition(i, fieldValues.SETFIELDPOSITION_A);
             }
         } catch (Exception e) {
-            fail("Exception should not be reached");
+            fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_REACHED);
         }
     }
 
@@ -130,16 +129,16 @@ public class PlayerFieldLogicTests {
     public void checkInRangeMethod() {
         try {
             playerFieldLogic.inRange(-1);
-            fail("IllegalArgumentException expected");
+            fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_EXPECTED);
         } catch (IllegalArgumentException e) {
-            Assert.assertEquals(e.getMessage(), "Parameter is not in range of player field");
+            Assert.assertEquals(e.getMessage(), ErrorMessages.POSITION_OUT_OF_RANGE);
         }
 
         try {
 
             playerFieldLogic.inRange(65);
         } catch (IllegalArgumentException e) {
-            Assert.assertEquals(e.getMessage(), "Parameter is not in range of player field");
+            Assert.assertEquals(e.getMessage(), ErrorMessages.POSITION_OUT_OF_RANGE);
         }
 
         for (int position = 0; position < fieldValues.FIELDSIZE; position++) {
@@ -154,7 +153,7 @@ public class PlayerFieldLogicTests {
                 playerFieldLogic.setMiddleShipPositionWithSiblingIndex(position, fieldValues.HORIZONTAL, fieldValues.SETFIELDPOSITION_A);
             }
         } catch (IllegalArgumentException e) {
-            fail("IllegalArgumentException should not be reached");
+            fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_REACHED);
         }
 
         try {
@@ -162,7 +161,7 @@ public class PlayerFieldLogicTests {
                 playerFieldLogic.setMiddleShipPositionWithSiblingIndex(position, fieldValues.VERTICAL, fieldValues.SETFIELDPOSITION_A);
             }
         } catch (IllegalArgumentException e) {
-            fail("IllegalArgumentException should not be reached");
+            fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_REACHED);
         }
     }
 
@@ -170,30 +169,30 @@ public class PlayerFieldLogicTests {
     public void checkSetPFMiddleShipPositionWithSiblingIndexThrowsException() {
         try {
             playerFieldLogic.setMiddleShipPositionWithSiblingIndex(-1, fieldValues.HORIZONTAL, fieldValues.SETFIELDPOSITION_A);
-            fail("IllegalArgumentException expected");
+            fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_EXPECTED);
         } catch (IllegalArgumentException e) {
-            Assert.assertEquals(e.getMessage(), "Parameter is not in range of player field");
+            Assert.assertEquals(e.getMessage(), ErrorMessages.POSITION_OUT_OF_RANGE);
         }
 
         try {
             playerFieldLogic.setMiddleShipPositionWithSiblingIndex(4, fieldValues.VERTICAL, fieldValues.SETFIELDPOSITION_A);
-            fail("IllegalArgumentException expected");
+            fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_EXPECTED);
         } catch (IllegalArgumentException e) {
-            Assert.assertEquals(e.getMessage(), "Parameter is not in range of player field");
+            Assert.assertEquals(e.getMessage(), ErrorMessages.POSITION_OUT_OF_RANGE);
         }
         try {
             playerFieldLogic.setMiddleShipPositionWithSiblingIndex(65, fieldValues.VERTICAL, fieldValues.SETFIELDPOSITION_A);
-            fail("IllegalArgumentException expected");
+            fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_EXPECTED);
         } catch (IllegalArgumentException e) {
-            Assert.assertEquals(e.getMessage(), "Parameter is not in range of player field");
+            Assert.assertEquals(e.getMessage(), ErrorMessages.POSITION_OUT_OF_RANGE);
         }
 
         // Exception comes from getSibling
         try {
             playerFieldLogic.setMiddleShipPositionWithSiblingIndex(1, 3, fieldValues.SETFIELDPOSITION_A);
-            fail("IllegalArgumentException expected");
+            fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_EXPECTED);
         } catch (IllegalArgumentException e) {
-            Assert.assertEquals(e.getMessage(), "Given degree is not allowed");
+            Assert.assertEquals(e.getMessage(), ErrorMessages.DEGREE_NOT_ALLOWED);
         }
     }
 
@@ -204,7 +203,7 @@ public class PlayerFieldLogicTests {
                 playerFieldLogic.setMiddleShipPositionToString(position, fieldValues.HORIZONTAL, fieldValues.SETFIELDPOSITION_A);
             }
         } catch (IllegalArgumentException e) {
-            fail("IllegalArgumentException should not be reached");
+            fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_REACHED);
         }
 
         try {
@@ -212,7 +211,7 @@ public class PlayerFieldLogicTests {
                 playerFieldLogic.setMiddleShipPositionToString(position, fieldValues.VERTICAL, fieldValues.SETFIELDPOSITION_A);
             }
         } catch (IllegalArgumentException e) {
-            fail("IllegalArgumentException should not be reached");
+            fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_REACHED);
         }
     }
 
@@ -221,13 +220,13 @@ public class PlayerFieldLogicTests {
         try {
             playerFieldLogic.setMiddleShipPositionToString(0, fieldValues.HORIZONTAL, fieldValues.SETFIELDPOSITION_A);
         } catch (IllegalArgumentException e) {
-            Assert.assertEquals(e.getMessage(), "Parameter is not in range of player field");
+            Assert.assertEquals(e.getMessage(), ErrorMessages.POSITION_OUT_OF_RANGE);
         }
 
         try {
             playerFieldLogic.setMiddleShipPositionToString(65, fieldValues.HORIZONTAL, fieldValues.SETFIELDPOSITION_A);
         } catch (IllegalArgumentException e) {
-            Assert.assertEquals(e.getMessage(), "Parameter is not in range of player field");
+            Assert.assertEquals(e.getMessage(), ErrorMessages.POSITION_OUT_OF_RANGE);
         }
 
     }
@@ -241,7 +240,7 @@ public class PlayerFieldLogicTests {
             }
 
         } catch (Exception e) {
-            fail("Exception should not be reached");
+            fail(ErrorMessages.EXCEPTION_REACHED);
         }
 
         try {
@@ -249,7 +248,7 @@ public class PlayerFieldLogicTests {
                 playerFieldLogic.setBigShipPositionWithSiblingIndex(position, fieldValues.VERTICAL, fieldValues.SETFIELDPOSITION_A);
             }
         } catch (Exception e) {
-            fail("Exception should not be reached");
+            fail(ErrorMessages.EXCEPTION_REACHED);
         }
 
     }
@@ -279,29 +278,46 @@ public class PlayerFieldLogicTests {
 
     @Test
     public void checkGetStringPositionThrowsException() {
+        // out of boundaries on the left side
         try {
             playerFieldLogic.getStringInPosition(-1);
-            fail("IllegalArgumentException expected");
+            fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_EXPECTED);
         } catch (IllegalArgumentException e) {
-            Assert.assertEquals(e.getMessage(), "Parameter is not in range of player field");
+            Assert.assertEquals(e.getMessage(), ErrorMessages.POSITION_OUT_OF_RANGE);
         }
 
+        // out of boundaries on the right side
         try {
-            playerFieldLogic.getStringInPosition(65);
-            fail("IllegalArgumentException expected");
+            playerFieldLogic.getStringInPosition(64);
+            fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_EXPECTED);
         } catch (IllegalArgumentException e) {
-            Assert.assertEquals(e.getMessage(), "Parameter is not in range of player field");
+            Assert.assertEquals(e.getMessage(), ErrorMessages.POSITION_OUT_OF_RANGE);
         }
     }
 
     @Test
     public void checkMiddleShipFieldContainsString() {
+
+        // Iterate through the array, and check if initialization was correctly executed
         for (int position = 1; position < fieldValues.FIELDSIZE; position++) {
             Assert.assertTrue(playerFieldLogic.middleShipFieldContainsString(position, fieldValues.HORIZONTAL, fieldValues.SETFIELDPOSITION_EMPTY));
         }
 
         for (int position = 8; position < fieldValues.FIELDSIZE; position++) {
             Assert.assertTrue(playerFieldLogic.middleShipFieldContainsString(position, fieldValues.VERTICAL, fieldValues.SETFIELDPOSITION_EMPTY));
+        }
+
+        playerFieldLogic.setMiddleShipPositionToString(2, fieldValues.HORIZONTAL, fieldValues.SETFIELDPOSITION_B);
+
+        // The two values, which where set, return the correct string
+        for (int position = 1; position < 2; position++) {
+            Assert.assertTrue(fieldValues.SETFIELDPOSITION_B.equals(playerFieldLogic.getStringInPosition(position)));
+        }
+
+        // All other values in the array are still set to empty
+        Assert.assertTrue(fieldValues.SETFIELDPOSITION_EMPTY.equals(playerFieldLogic.getStringInPosition(0)));
+        for (int position = 3; position < fieldValues.FIELDSIZE; position++) {
+            Assert.assertTrue(fieldValues.SETFIELDPOSITION_EMPTY.equals(playerFieldLogic.getStringInPosition(position)));
         }
     }
 

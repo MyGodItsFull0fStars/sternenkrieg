@@ -14,7 +14,8 @@ import org.junit.runners.Suite;
         NetworkStatsTests.class,
         NetworkUtilitiesTests.class,
         PlayerFieldLogicTests.class,
-        ShipLogicTests.class
+        ShipLogicTests.class,
+        PlayerFieldShipContainerTests.class
 })
 
 public class UnitTestSuite {

@@ -39,7 +39,7 @@ public class ShipLogicTests {
             Assert.assertEquals(middleArray.length, shipLogic_no_parameters.getMiddleShipArray().length, shipLogic_with_parameters.getMiddleShipArray().length);
             Assert.assertEquals(bigArray.length, shipLogic_no_parameters.getBigShipArray().length, shipLogic_with_parameters.getBigShipArray().length);
         } catch (Exception e) {
-            fail("Exception should not be reached");
+            fail(ErrorMessages.EXCEPTION_REACHED);
         }
     }
 
@@ -90,7 +90,7 @@ public class ShipLogicTests {
                 shipLogic_with_parameters.setSmallShipPosition(position);
             }
         } catch (IllegalArgumentException e) {
-            fail("IllegalArgumentException should not be reached" + e.toString());
+            fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_REACHED);
         }
     }
 
@@ -98,18 +98,18 @@ public class ShipLogicTests {
     public void checkSetSmallShipPositionOutOfBoundariesThrowsException() {
         try {
             shipLogic_no_parameters.setSmallShipPosition(-1);
-            fail("Should not be reached");
+            fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_EXPECTED);
             shipLogic_with_parameters.setSmallShipPosition(-1);
         } catch (IllegalArgumentException e) {
-            Assert.assertEquals(e.toString(), "java.lang.IllegalArgumentException: Parameter position in setSmallShipPosition out of range");
+            Assert.assertEquals(e.getMessage(), ErrorMessages.POSITION_OUT_OF_RANGE);
         }
 
         try {
             shipLogic_no_parameters.setSmallShipPosition(64);
-            fail("Should not be reached, IllegalArgumentException expected");
+            fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_EXPECTED);
 
         } catch (IllegalArgumentException e) {
-            Assert.assertEquals(e.toString(), "java.lang.IllegalArgumentException: Parameter position in setSmallShipPosition out of range");
+            Assert.assertEquals(e.getMessage(), ErrorMessages.POSITION_OUT_OF_RANGE);
         }
     }
 
@@ -122,7 +122,7 @@ public class ShipLogicTests {
             }
 
         } catch (IllegalArgumentException e) {
-            fail("IllegalArgumentException should not be reached: " + e.toString());
+            fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_REACHED);
         }
 
         try {
@@ -131,7 +131,7 @@ public class ShipLogicTests {
                 shipLogic_with_parameters.setMiddleShipPosition(position, fieldValues.VERTICAL);
             }
         } catch (IllegalArgumentException e) {
-            fail("IllegalArgumentException should not be reached: " + e.toString());
+            fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_REACHED);
         }
     }
 
@@ -141,33 +141,33 @@ public class ShipLogicTests {
         // Out of boundaries on the left field side
         try {
             shipLogic_no_parameters.setMiddleShipPosition(0, fieldValues.HORIZONTAL);
-            fail("IllegalArgumentException expected");
+            fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_EXPECTED);
         } catch (IllegalArgumentException e) {
-            Assert.assertEquals(e.toString(), "java.lang.IllegalArgumentException: Position in parameter is out of the field boundaries");
+            Assert.assertEquals(e.getMessage(), ErrorMessages.POSITION_OUT_OF_RANGE);
         }
 
         // Out of boundaries on the right field side
         try {
             shipLogic_no_parameters.setMiddleShipPosition(64, fieldValues.HORIZONTAL);
-            fail("IllegalArgumentException expected");
+            fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_EXPECTED);
         } catch (IllegalArgumentException e) {
-            Assert.assertEquals(e.toString(), "java.lang.IllegalArgumentException: Position in parameter is out of the field boundaries");
+            Assert.assertEquals(e.getMessage(), ErrorMessages.POSITION_OUT_OF_RANGE);
         }
 
         // Out of boundaries on the top field side
         try {
             shipLogic_no_parameters.setMiddleShipPosition(7, fieldValues.VERTICAL);
-            fail("IllegalArgumentException expected");
+            fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_EXPECTED);
         } catch (IllegalArgumentException e) {
-            Assert.assertEquals(e.toString(), "java.lang.IllegalArgumentException: Position in parameter is out of the field boundaries");
+            Assert.assertEquals(e.getMessage(), ErrorMessages.POSITION_OUT_OF_RANGE);
         }
 
         // Out of boundaries on the bottom field side
         try {
             shipLogic_no_parameters.setMiddleShipPosition(64, fieldValues.VERTICAL);
-            fail("IllegalArgumentException expected");
+            fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_EXPECTED);
         } catch (IllegalArgumentException e) {
-            Assert.assertEquals(e.toString(), "java.lang.IllegalArgumentException: Position in parameter is out of the field boundaries");
+            Assert.assertEquals(e.getMessage(), ErrorMessages.POSITION_OUT_OF_RANGE);
         }
     }
 
@@ -180,7 +180,7 @@ public class ShipLogicTests {
                 shipLogic_no_parameters.setBigShipPosition(1, fieldValues.HORIZONTAL);
             }
         } catch (IllegalArgumentException e) {
-            fail("IllegalArgumentException should not be reached: " + e.toString());
+            fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_REACHED);
         }
 
         // Check vertical boundaries
@@ -189,7 +189,7 @@ public class ShipLogicTests {
                 shipLogic_no_parameters.setBigShipPosition(position, fieldValues.VERTICAL);
             }
         } catch (IllegalArgumentException e) {
-            fail("IllegalArgumentException should not be reached: " + e.toString());
+            fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_REACHED);
         }
     }
 
@@ -198,33 +198,33 @@ public class ShipLogicTests {
         // Horizontal boundaries left upper field side
         try {
             shipLogic_no_parameters.setBigShipPosition(0, fieldValues.HORIZONTAL);
-            fail("IllegalArgumentException expected");
+            fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_EXPECTED);
         } catch (IllegalArgumentException e) {
-            Assert.assertEquals(e.toString(), "java.lang.IllegalArgumentException: Position in parameter is out of the field boundaries");
+            Assert.assertEquals(e.getMessage(), ErrorMessages.POSITION_OUT_OF_RANGE);
         }
 
         // Horizontal boundaries right bottom field side
         try {
             shipLogic_no_parameters.setBigShipPosition(63, fieldValues.HORIZONTAL);
-            fail("IllegalArgumentException expected");
+            fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_EXPECTED);
         } catch (IllegalArgumentException e) {
-            Assert.assertEquals(e.toString(), "java.lang.IllegalArgumentException: Position in parameter is out of the field boundaries");
+            Assert.assertEquals(e.getMessage(), ErrorMessages.POSITION_OUT_OF_RANGE);
         }
 
         // Vertical boundaries upper field side
         try {
             shipLogic_no_parameters.setBigShipPosition(5, fieldValues.VERTICAL);
-            fail("IllegalArgumentException expected");
+            fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_EXPECTED);
         } catch (IllegalArgumentException e) {
-            Assert.assertEquals(e.toString(), "java.lang.IllegalArgumentException: Position in parameter is out of the field boundaries");
+            Assert.assertEquals(e.getMessage(), ErrorMessages.POSITION_OUT_OF_RANGE);
         }
 
         // Vertical boundaries bottom field side
         try {
             shipLogic_no_parameters.setBigShipPosition(61, fieldValues.VERTICAL);
-            fail("IllegalArgumentException expected");
+            fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_EXPECTED);
         } catch (IllegalArgumentException e) {
-            Assert.assertEquals(e.toString(), "java.lang.IllegalArgumentException: Position in parameter is out of the field boundaries");
+            Assert.assertEquals(e.getMessage(), ErrorMessages.POSITION_OUT_OF_RANGE);
         }
     }
 
@@ -269,38 +269,37 @@ public class ShipLogicTests {
 
     @Test
     public void shipLogicConstructorThrowsException() {
-        String exceptionString = "java.lang.IllegalArgumentException: IllegalArgumentException at ShipLogic constructor";
 
         // input parameters all null
         try {
             shipLogic_with_parameters = new ShipLogic(null, null, null);
-            fail("IllegalArgumentException expected");
+            fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_EXPECTED);
         } catch (IllegalArgumentException e) {
-            Assert.assertEquals(e.toString(), exceptionString);
+            Assert.assertEquals(e.getMessage(), ErrorMessages.NULL_PARAMETER);
         }
 
         // first input parameter is null
         try {
             shipLogic_with_parameters = new ShipLogic(null, middleArray, bigArray);
-            fail("IllegalArgumentException expected");
+            fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_EXPECTED);
         } catch (IllegalArgumentException e) {
-            Assert.assertEquals(e.toString(), exceptionString);
+            Assert.assertEquals(e.getMessage(), ErrorMessages.NULL_PARAMETER);
         }
 
         // second input parameter is null
         try {
             shipLogic_with_parameters = new ShipLogic(smallArray, null, bigArray);
-            fail("IllegalArgumentException expected");
+            fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_EXPECTED);
         } catch (IllegalArgumentException e) {
-            Assert.assertEquals(e.toString(), exceptionString);
+            Assert.assertEquals(e.getMessage(), ErrorMessages.NULL_PARAMETER);
         }
 
         // third input parameter is null
         try {
             shipLogic_with_parameters = new ShipLogic(smallArray, middleArray, null);
-            fail("IllegalArgumentException expected");
+            fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_EXPECTED);
         } catch (IllegalArgumentException e) {
-            Assert.assertEquals(e.toString(), exceptionString);
+            Assert.assertEquals(e.getMessage(), ErrorMessages.NULL_PARAMETER);
         }
     }
 
