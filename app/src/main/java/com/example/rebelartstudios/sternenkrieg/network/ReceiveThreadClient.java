@@ -13,15 +13,19 @@ import java.net.Socket;
 public class ReceiveThreadClient extends Thread {
 
     private InputStream is;
-    boolean running;
-    String str = "";
-    Handler myhandler;
-    String tag = "Client";
+    private boolean running;
+    private String str = "";
+    private Handler myhandler;
+    private String tag = "Client";
 
-    public ReceiveThreadClient(Socket socket, boolean running, Handler myhandler) throws IOException {
+    ReceiveThreadClient(Socket socket,
+                        boolean running,
+                        Handler myHandler) throws IOException
+
+    {
         is = socket.getInputStream();
         this.running = running;
-        this.myhandler = myhandler;
+        this.myhandler = myHandler;
     }
 
     @Override

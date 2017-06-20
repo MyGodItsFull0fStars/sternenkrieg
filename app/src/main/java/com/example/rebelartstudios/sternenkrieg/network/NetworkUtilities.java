@@ -11,25 +11,33 @@ import java.net.Socket;
 
 public class NetworkUtilities {
 
-    boolean phost;
-    AcceptThread mAcceptThread;
-    ServerSocket mServerSocket;
-    Socket socket;
-    Handler myhandler;
-    ReceiveThreadHost receiveThreadHost;
-    OutputStream os = null;
-    StartThread startThread;
-    String ip;
-    ReceiveThreadClient receiveThreadClient;
-    String tag = "Dice";
-    String message = "";
+    private boolean pHost;
+    private AcceptThread mAcceptThread;
+    private ServerSocket mServerSocket;
+    private Socket socket;
+    private Handler myHandler;
+    private ReceiveThreadHost receiveThreadHost;
+    private OutputStream os = null;
+    private StartThread startThread;
+    private String ip;
+    private ReceiveThreadClient receiveThreadClient;
+    private String tag = "Dice";
+    private String message = "";
 
-    public NetworkUtilities(boolean phost, AcceptThread mAcceptThread, ServerSocket mServerSocket, Socket socket, Handler myhandler, ReceiveThreadHost receiveThreadHost, StartThread startThread, String ip, ReceiveThreadClient receiveThreadClient) {
-        this.phost = phost;
+    public NetworkUtilities(boolean pHost,
+                            AcceptThread mAcceptThread,
+                            ServerSocket mServerSocket,
+                            Socket socket,
+                            Handler myHandler,
+                            ReceiveThreadHost receiveThreadHost,
+                            StartThread startThread,
+                            String ip,
+                            ReceiveThreadClient receiveThreadClient) {
+        this.pHost = pHost;
         this.mAcceptThread = mAcceptThread;
         this.mServerSocket = mServerSocket;
         this.socket = socket;
-        this.myhandler = myhandler;
+        this.myHandler = myHandler;
         this.receiveThreadHost = receiveThreadHost;
         this.startThread = startThread;
         this.ip = ip;
@@ -38,32 +46,32 @@ public class NetworkUtilities {
 
     public void connection() {
         boolean running = true;
-        mAcceptThread = new AcceptThread(running, mServerSocket, socket, myhandler, receiveThreadHost, 12345);
+        mAcceptThread = new AcceptThread(running, mServerSocket, socket, myHandler, receiveThreadHost, 12345);
         mAcceptThread.start();
     }
 
-    public void messageSend(String message, boolean Phost) {
-        if (Phost) {
+    public void messageSend(String message, boolean pHost) {
+        if (pHost) {
             Socket socket1 = mAcceptThread.getSocket();
             WriteHost wh = new WriteHost(socket1, os, message);
             wh.start();
         } else {
             Socket socket1;
             socket1 = startThread.getSocket();
-            WriteClient wirte = new WriteClient(true, socket1, message);
-            wirte.start();
+            WriteClient write = new WriteClient(true, socket1, message);
+            write.start();
         }
     }
 
     public void networkbuild() {
-        if (!phost) {
-            this.startThread = new StartThread(socket, ip, receiveThreadClient, myhandler, 12345);
+        if (!pHost) {
+            this.startThread = new StartThread(socket, ip, receiveThreadClient, myHandler, 12345);
             startThread.start();
         }
     }
 
     public void close() {
-        if (phost) {
+        if (pHost) {
             try {
                 mAcceptThread.setRunning(false);
                 mAcceptThread.setSocket(null);
@@ -71,8 +79,8 @@ public class NetworkUtilities {
                 Log.e(tag, "NullPointerException in Client: " + e.toString());
             }
             try {
-                mAcceptThread.getmReceiveThreadHost().close();
-                mAcceptThread.getmServerSocket().close();
+                mAcceptThread.getMReceiveThreadHost().close();
+                mAcceptThread.getMServerSocket().close();
                 mAcceptThread.getSocket().close();
                 mAcceptThread.interrupt();
 
@@ -88,7 +96,7 @@ public class NetworkUtilities {
                 socket = startThread.getSocket();
                 socket.close();
                 socket = null;
-                startThread.setTryconnect(false);
+                startThread.setTryConnect(false);
                 startThread.interrupt();
             } catch (NullPointerException e) {
                 Log.e(tag, "NullPointerException in Client: " + e.toString());
