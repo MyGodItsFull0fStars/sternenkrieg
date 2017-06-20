@@ -16,6 +16,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.os.Vibrator;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.view.WindowManager;
@@ -45,6 +46,8 @@ import java.util.Arrays;
 import java.util.LinkedList;
 
 public class Gameplay extends AppCompatActivity {
+    String tag = "Gameplay";
+
     GridView gridView1;
     GridView gridView2;
     ImageView imageView, options, options1, options2, options3, options4;
@@ -1063,78 +1066,120 @@ public class Gameplay extends AppCompatActivity {
         }
     }
 
+    // used-counter of PowerUps
+    int pu1used = 0; // PowerUp 1 was used 0 times yet
+    int pu2used = 0;
+    int pu3used = 0;
+    int pu4used = 0;
+
+    // max use of PowerUps
+    int pu1max = 2; // PowerUp 1 may be used up to 3 times
+    int pu2max = 2;
+    int pu3max = 2;
+    int pu4max = 2;
+
+    // points of PowerUps
+    int pu1points = 0;
+    int pu2points = 0;
+    int pu3points = 0;
+    int pu4points = 0;
+
     public void powerUps() {
         options4.setOnClickListener(new View.OnClickListener() {  //in this case: options4 = powerup4: ship armour
             @Override
             public void onClick(View v) {
+                Log.d(tag, "PowerUp4 chosen, Current points: " + GameUtilities.getDiceScore());
 
-                findIntactShips();
+                // checking if PowerUp still may be used
+                if (pu4used < pu4max) {
+                    GameUtilities.setDiceScore(GameUtilities.getDiceScore()-pu4points);
+                    Log.d(tag, "Using PowerUp4, new points: " + GameUtilities.getDiceScore());
+                    pu4used++;
 
-                gridView1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+                    findIntactShips();
 
-                        // final int posi=position;
-                        final String posis = map1[position];
+                    gridView1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
 
-                        if (posis.equals("g")) {
-                            map1[position] = "j";
-                        } else if (posis.equals("h1") || posis.equals("h2") || posis.equals("h3") || posis.equals("h4")) {
-                            for (int i = 0; i < map1.length; i++) {
-                                switch (map1[i]) {
-                                    case "h1":
-                                        map1[i] = "k1";
-                                        break;
-                                    case "h2":
-                                        map1[i] = "k2";
-                                        break;
-                                    case "h3":
-                                        map1[i] = "k3";
-                                        break;
-                                    case "h4":
-                                        map1[i] = "k4";
-                                        break;
+                            // final int posi=position;
+                            final String posis = map1[position];
+
+                            if (posis.equals("g")) {
+                                map1[position] = "j";
+                            } else if (posis.equals("h1") || posis.equals("h2") || posis.equals("h3") || posis.equals("h4")) {
+                                for (int i = 0; i < map1.length; i++) {
+                                    switch (map1[i]) {
+                                        case "h1":
+                                            map1[i] = "k1";
+                                            break;
+                                        case "h2":
+                                            map1[i] = "k2";
+                                            break;
+                                        case "h3":
+                                            map1[i] = "k3";
+                                            break;
+                                        case "h4":
+                                            map1[i] = "k4";
+                                            break;
+                                    }
+                                }
+                            } else if (fieldValues.i_list.contains(posis)) {
+                                for (int i = 0; i < map1.length; i++) {
+                                    switch (map1[i]) {
+                                        case "i1":
+                                            map1[i] = "l1";
+                                            break;
+                                        case "i2":
+                                            map1[i] = "l2";
+                                            break;
+                                        case "i3":
+                                            map1[i] = "l3";
+                                            break;
+                                        case "i4":
+                                            map1[i] = "l4";
+                                            break;
+                                        case "i5":
+                                            map1[i] = "l5";
+                                            break;
+                                        case "i6":
+                                            map1[i] = "l6";
+                                            break;
+                                    }
                                 }
                             }
-                        } else if (fieldValues.i_list.contains(posis)) {
-                            for (int i = 0; i < map1.length; i++) {
-                                switch (map1[i]) {
-                                    case "i1":
-                                        map1[i] = "l1";
-                                        break;
-                                    case "i2":
-                                        map1[i] = "l2";
-                                        break;
-                                    case "i3":
-                                        map1[i] = "l3";
-                                        break;
-                                    case "i4":
-                                        map1[i] = "l4";
-                                        break;
-                                    case "i5":
-                                        map1[i] = "l5";
-                                        break;
-                                    case "i6":
-                                        map1[i] = "l6";
-                                        break;
-                                }
-                            }
+
+                            restoreShips();
+
+                            draw(map1, gridView1);
+
+                            clickMap();
+
                         }
 
-                        restoreShips();
+                    });
 
-                        draw(map1, gridView1);
+                    setOptionButtonsInvisible();
 
-                        clickMap();
 
-                    }
+                } else {
+                    powerUpDialog("PowerUp already used!");
+                }
+            }
+        });
+    }
 
-                });
-
-                setOptionButtonsInvisible();
-
+    public AlertDialog powerUpDialog(String text) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Error").setMessage(text);
+        builder.setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
 
             }
         });
+        builder.show();
+
+        return builder.create();
     }
 
 
