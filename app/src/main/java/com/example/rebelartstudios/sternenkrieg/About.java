@@ -15,7 +15,6 @@ import android.widget.ImageView;
 public class About extends AppCompatActivity {
 
     Button testSoundBtn;
-    Button hackBtn;
     ImageView back;
 
     SharedPreferences sharedPreferences;

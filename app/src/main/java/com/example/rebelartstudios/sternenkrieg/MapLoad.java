@@ -81,7 +81,6 @@ public class MapLoad extends BaseAdapter {
         return gridView;
     }
 
-
     /**
      * Sets the color of field
      *
@@ -144,6 +143,8 @@ public class MapLoad extends BaseAdapter {
             imageView.setBackgroundResource(R.drawable.ship3_small1_armour);
         } else if (mobile.equals(fieldValues.SETFIELDPOSITION_L2)) {
             imageView.setBackgroundResource(R.drawable.ship3_small2_armour);
+        } else if (mobile.equals(fieldValues.SETFIELDPOSITION_L3)) {
+            imageView.setBackgroundResource(R.drawable.ship3_small3_armour);
         } else if (mobile.equals(fieldValues.SETFIELDPOSITION_L4)) {
             imageView.setBackgroundResource(R.drawable.ship3_small1r_armour);
         } else if (mobile.equals(fieldValues.SETFIELDPOSITION_L5)) {
