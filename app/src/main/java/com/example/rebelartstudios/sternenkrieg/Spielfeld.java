@@ -528,6 +528,7 @@ public class Spielfeld extends AppCompatActivity {
                     break;
             }
             vib.vibrate(500);
+            draw(map1, gridView1);
                     /* opponent misses */
         } else if (map1[position].equals(fieldValues.SETFIELDPOSITION_EMPTY)) {
             map1[position] = fieldValues.SETFIELDPOSITION_ENEMYMISS;
