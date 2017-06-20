@@ -99,7 +99,7 @@ public class PlayerFieldShipContainerTests {
     }
 
     @Test
-    public void setSmallShipContainerWithNULLString()throws IllegalArgumentException {
+    public void setSmallShipContainerWithNULLString() throws IllegalArgumentException {
         try {
             container.setSmallShipContainer(0, null);
             fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_EXPECTED);
@@ -141,7 +141,7 @@ public class PlayerFieldShipContainerTests {
     }
 
     @Test
-    public void setMiddleShipContainerWithOutOfBoundsParameters() throws IllegalArgumentException{
+    public void setMiddleShipContainerWithOutOfBoundsParameters() throws IllegalArgumentException {
 
         // Clearly out of left field boundaries
         try {
@@ -169,7 +169,7 @@ public class PlayerFieldShipContainerTests {
     }
 
     @Test
-    public void setMiddleShipContainerWithNULLParameter() throws IllegalArgumentException{
+    public void setMiddleShipContainerWithNULLParameter() throws IllegalArgumentException {
         // At the start of array
         try {
             container.setMiddleShipContainer(1, fieldValues.HORIZONTAL, null);
@@ -204,7 +204,7 @@ public class PlayerFieldShipContainerTests {
     }
 
     @Test
-    public void setMiddleShipContainerWithWrongDegree() throws IllegalArgumentException{
+    public void setMiddleShipContainerWithWrongDegree() throws IllegalArgumentException {
         try {
             container.setMiddleShipContainer(1, 2, fieldValues.SETFIELDPOSITION_A);
             fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_EXPECTED);
@@ -355,5 +355,53 @@ public class PlayerFieldShipContainerTests {
         }
     }
 
+    @Test
+    public void inRangeMethod() {
+        // In range should always return true
+        for (int position = 0; position < fieldValues.FIELDSIZE; position++) {
+            Assert.assertTrue(container.inRange(position, 0, fieldValues.FIELDSIZE - 1));
+        }
+
+        // Out of range on left side should always return false
+        for (int position = -1; position > -fieldValues.FIELDSIZE; position--) {
+            Assert.assertFalse(container.inRange(position, 0, fieldValues.FIELDSIZE - 1));
+        }
+
+        for (int position = fieldValues.FIELDSIZE; position < fieldValues.FIELDSIZE * 2; position++) {
+            Assert.assertFalse(container.inRange(position, 0, fieldValues.FIELDSIZE - 1));
+        }
+    }
+
+    @Test
+    public void checkPositionWorksWithProperParams() {
+        // check if first position is available for small ship
+        Assert.assertTrue(container.checkPosition(0, container.getShipLogic().SMALL_SHIP_ID, fieldValues.HORIZONTAL));
+
+        // Sibling of middle ship is out of boundaries on the left side
+        Assert.assertFalse(container.checkPosition(0, container.getShipLogic().MIDDLE_SHIP_ID, fieldValues.HORIZONTAL));
+
+        // Sibling of big ship is out of boundaries on the left side
+        Assert.assertFalse(container.checkPosition(0, container.getShipLogic().BIG_SHIP_ID, fieldValues.HORIZONTAL));
+        Assert.assertFalse(container.checkPosition(63, container.getShipLogic().BIG_SHIP_ID, fieldValues.HORIZONTAL));
+    }
+
+    @Test
+    public void checkPositionOutOfRange() throws IllegalArgumentException {
+        // Out of boundaries on the left side
+        try {
+            container.checkPosition(-1, container.getShipLogic().SMALL_SHIP_ID, fieldValues.HORIZONTAL);
+            fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_EXPECTED);
+        } catch (IllegalArgumentException e) {
+            Assert.assertEquals(e.getMessage(), ErrorMessages.POSITION_OUT_OF_RANGE);
+        }
+
+        // Out of boundaries on the right side
+        try {
+            container.checkPosition(64, container.getShipLogic().SMALL_SHIP_ID, fieldValues.HORIZONTAL);
+            fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_EXPECTED);
+        } catch (IllegalArgumentException e) {
+            Assert.assertEquals(e.getMessage(), ErrorMessages.POSITION_OUT_OF_RANGE);
+        }
+    }
 
 }

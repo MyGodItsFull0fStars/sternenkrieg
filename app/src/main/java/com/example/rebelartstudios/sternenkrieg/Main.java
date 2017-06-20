@@ -23,7 +23,6 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.example.rebelartstudios.sternenkrieg.gamelogic.BackgroundSoundService;
 import com.example.rebelartstudios.sternenkrieg.gamelogic.GameUtilities;
 
 public class Main extends AppCompatActivity {
@@ -38,7 +37,6 @@ public class Main extends AppCompatActivity {
     GameUtilities game;
     TextView txtUsername;
     TextView txtLevel;
-    BackgroundSoundService bgsound = new BackgroundSoundService();
 
     ProgressBar levelProgress;
 
@@ -52,8 +50,7 @@ public class Main extends AppCompatActivity {
         initializeClasses();
         initializeOnClickListeners();
         initializeBackground();
-        Intent svc=new Intent(this, BackgroundSoundService.class);
-        startService(svc);
+
         game = new GameUtilities(getApplicationContext());
         game.load();
 
@@ -89,7 +86,6 @@ public class Main extends AppCompatActivity {
         levelProgress.setProgress(0);
         levelProgress.setProgress(game.getPercent());
         txtLevel.setText("Level:" + game.getLevel());
-
         //musicStuff();
     }
 

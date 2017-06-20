@@ -318,7 +318,7 @@ public class Map extends AppCompatActivity {
                 if (playerFieldShipContainer.getShipLogic().allShipsSetOnPlayerField()) {
 
                     intent.setClass(Map.this, Spielfeld.class);
-                    game.setPlayerMap(playerFieldShipContainer.getPlayerFieldLogic().getPlayerField());
+                    GameUtilities.setPlayerMap(playerFieldShipContainer.getPlayerFieldLogic().getPlayerField());
                     finish = true;
                     util.messageSend("boolean", Phost);
                     imageMapGoNext.setVisibility(View.INVISIBLE);
@@ -375,16 +375,7 @@ public class Map extends AppCompatActivity {
         return zehner + einer;
     }
 
-    /**
-     * Receives an integer array containing the positions, which will be deleted
-     * in the player field
-     *
-     * @param //shipArray used to delete the fields in the player field
-     */
-//    public void delete(int shipArray[]) {
-//        playerFieldShipContainer.delete(shipArray);
-//        draw(playerFieldShipContainer.getPlayerFieldLogic().getPlayerField());
-//    }
+
     public void draw(String[] array) {
         gridView.setAdapter(mapLoad);
     }
@@ -400,7 +391,6 @@ public class Map extends AppCompatActivity {
 
 
     /********************Netz**************************/
-
 
     // There are the Message from other player. We can work with "message" to change our map, uppower and ship.
     class Myhandler extends Handler {

@@ -12,14 +12,14 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * Created by christianbauer on 24/05/2017.
+ * Android tests for the dice class
  */
 
 public class DiceTests {
-    DiceClass diceClass;
+    private DiceClass diceClass;
     private Context instrumentationCtx;
-    SharedPreferences pref;
-    SharedPreferences.Editor editor;
+    private SharedPreferences pref;
+    private SharedPreferences.Editor editor;
 
 
     @Before
