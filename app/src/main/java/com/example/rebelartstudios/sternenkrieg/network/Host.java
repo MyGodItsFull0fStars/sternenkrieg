@@ -118,8 +118,8 @@ public class Host extends AppCompatActivity {
                                 animationClass.glowAnimation(btnStarten);
                             }else if(null != str){
                                 Log.i(tag, "Enemyusername");
-                                game.setEnemyusername(str);
-                                iPtv.setText("Connected with "+game.getEnemyusername());
+                                game.setEnemyUsername(str);
+                                iPtv.setText("Connected with "+game.getEnemyUsername());
                                 socket = mAcceptThread.getSocket();
                                 WriteHost writeHost = new WriteHost(socket, os, game.getUsername());
                                 writeHost.start();

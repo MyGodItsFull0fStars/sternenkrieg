@@ -250,7 +250,7 @@ public class Spielfeld extends AppCompatActivity {
                     public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                         fieldValues.initialize_H_list();
                         fieldValues.initialize_I_list();
-                        
+
                         final String positionString = map1[position];
 
                         if (positionString.equals(fieldValues.SETFIELDPOSITION_G)
@@ -470,7 +470,7 @@ public class Spielfeld extends AppCompatActivity {
         System.out.println("Spielfeld Value" + who_is_starting);
         //Player beginns
         System.out.println("Shoot: " + shoot);
-        pointsPlayer += GameUtilities.getDicescore();
+        pointsPlayer += GameUtilities.getDiceScore();
         System.out.println("Points:" + pointsPlayer);
         if (who_is_starting == 0 && oneShoot) {
             shoot = true;
@@ -757,7 +757,7 @@ public class Spielfeld extends AppCompatActivity {
                             // CONFIRM
                             Intent intent = new Intent(Spielfeld.this, Highscore.class);
                             GameUtilities.setPoints(highScore);
-                            GameUtilities.setHighscoreMain(true);
+                            GameUtilities.setHighScoreMain(true);
                             startActivity(intent);
                         }
                     })
@@ -775,7 +775,7 @@ public class Spielfeld extends AppCompatActivity {
                             // CONFIRM
                             Intent intent = new Intent(Spielfeld.this, Highscore.class);
                             GameUtilities.setPoints(highScore);
-                            GameUtilities.setHighscoreMain(true);
+                            GameUtilities.setHighScoreMain(true);
                             startActivity(intent);
                         }
                     })

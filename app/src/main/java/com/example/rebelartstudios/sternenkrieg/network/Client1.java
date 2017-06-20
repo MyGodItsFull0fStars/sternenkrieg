@@ -183,8 +183,8 @@ public class Client1 extends AppCompatActivity implements View.OnClickListener {
 
 
                     }else if(null!=str){
-                        game.setEnemyusername(str);
-                        textconnection.setText("Connected with: "+game.getEnemyusername());
+                        game.setEnemyUsername(str);
+                        textconnection.setText("Connected with: "+game.getEnemyUsername());
                     }
                     break;
                 case 0:

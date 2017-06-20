@@ -64,25 +64,25 @@ public class GameUtilitiesTest {
         game.load();
         GameUtilities.setPoints(0);
         game.level();
-        assertEquals(0, game.getScoreforlevel());
+        assertEquals(0, game.getScoreForLevel());
         assertEquals(1, game.getLevel());
         assertEquals(0, game.getPercent());
 
         GameUtilities.setPoints(500);
         game.level();
-        assertEquals(500, game.getScoreforlevel());
+        assertEquals(500, game.getScoreForLevel());
         assertEquals(1, game.getLevel());
         assertEquals(50, game.getPercent());
 
         GameUtilities.setPoints(499);
         game.level();
-        assertEquals(999, game.getScoreforlevel());
+        assertEquals(999, game.getScoreForLevel());
         assertEquals(1, game.getLevel());
         assertEquals(99, game.getPercent());
 
         GameUtilities.setPoints(1);
         game.level();
-        assertEquals(0, game.getScoreforlevel());
+        assertEquals(0, game.getScoreForLevel());
         assertEquals(2, game.getLevel());
         assertEquals(0, game.getPercent());
 
@@ -90,23 +90,23 @@ public class GameUtilitiesTest {
     }
 
     /**
-     * Method: getHighscore()
+     * Method: getHighScore()
      */
     @Test
     public void testGetHighscore() throws Exception {
         ArrayList<String> list = new ArrayList<>();
-        assertEquals(list, game.getHighscore());
+        assertEquals(list, game.getHighScore());
 
         list.add("Unbekannt");
         editor.putInt("counter", 1);
         editor.commit();
-        assertEquals(list, game.getHighscore());
+        assertEquals(list, game.getHighScore());
 
 
     }
 
     /**
-     * Method: deleteHighscore()
+     * Method: deleteHighScore()
      */
     @Test
     public void testDeleteHighscore() throws Exception {
@@ -115,18 +115,18 @@ public class GameUtilitiesTest {
         GameUtilities.setPoints(0);
         for (int i = 0; i < 5; i++) {
             list.add("Chris 0");
-            game.setHighscore();
+            game.setHighScore();
         }
-        assertEquals(list, game.getHighscore());
+        assertEquals(list, game.getHighScore());
         list.clear();
-        game.deleteHighscore();
-        assertEquals(list, game.getHighscore());
+        game.deleteHighScore();
+        assertEquals(list, game.getHighScore());
 
 
     }
 
     /**
-     * Method: setHighscore()
+     * Method: setHighScore()
      */
     @Test
     public void testSetHighscore() throws Exception {
@@ -134,34 +134,34 @@ public class GameUtilitiesTest {
         list.add("Chris 100");
         GameUtilities.setUsername("Chris");
         GameUtilities.setPoints(100);
-        game.setHighscore();
-        assertEquals(list, game.getHighscore());
+        game.setHighScore();
+        assertEquals(list, game.getHighScore());
 
 
         list.add("Chris0 1000");
         GameUtilities.setUsername("Chris0");
         GameUtilities.setPoints(1000);
-        game.setHighscore();
+        game.setHighScore();
         Collections.sort(list, Collections.<String>reverseOrder());
-        assertEquals(list, game.getHighscore());
+        assertEquals(list, game.getHighScore());
 
 
     }
 
     @Test
     public void testsetScoreforlevel() {
-        GameUtilities.setScoreforlevel(100);
-        assertEquals(100, game.getScoreforlevel());
+        GameUtilities.setScoreForLevel(100);
+        assertEquals(100, game.getScoreForLevel());
     }
 
 
     /**
-     * Method: setHighscoreMain(boolean highscoreMain)
+     * Method: setHighScoreMain(boolean highscoreMain)
      */
     @Test
     public void testSetHighscoreMain() throws Exception {
-        GameUtilities.setHighscoreMain(true);
-        assertTrue(game.isHighscoreMain());
+        GameUtilities.setHighScoreMain(true);
+        assertTrue(game.isHighScoreMain());
 
     }
 
@@ -214,12 +214,12 @@ public class GameUtilitiesTest {
 
 
     /**
-     * Method: setDicescore(int value)
+     * Method: setDiceScore(int value)
      */
     @Test
     public void testSetDicescore() throws Exception {
-        GameUtilities.setDicescore(1);
-        assertEquals(1, GameUtilities.getDicescore());
+        GameUtilities.setDiceScore(1);
+        assertEquals(1, GameUtilities.getDiceScore());
     }
 
 

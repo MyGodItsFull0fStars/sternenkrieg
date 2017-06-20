@@ -12,15 +12,14 @@ public class GameUtilities {
     private static int level;
     private static int percent;
     private static boolean sound;
-    private static ArrayList<String> highscore;
     private static int points;
-    private static int dicescore;
+    private static int diceScore;
     private static String[] playerMap;
     private static String[] enemyMap;
     private static int whoIsStarting;
-    private static boolean highscoreMain;
-    private static int scoreforlevel;
-    private static String enemyusername;
+    private static boolean highScoreMain;
+    private static int scoreForLevel;
+    private static String enemyUsername;
 
 
     static SharedPreferences sharedPreferences;
@@ -45,76 +44,80 @@ public class GameUtilities {
         setSound(sharedPreferences.getBoolean("sound", true));
     }
 
-    public void level() {
-        GameUtilities.scoreforlevel = sharedPreferences.getInt("score", 0) + points;
-        int levelgrenze = (1000 + 400 * (level - 1)) * level;
+    public static int setScoreForLevel(){
+        return sharedPreferences.getInt("score", 0) + points;
+    }
 
-        if (scoreforlevel >= levelgrenze) {
-            GameUtilities.scoreforlevel -= levelgrenze;
+    public void level() {
+        GameUtilities.scoreForLevel = setScoreForLevel();
+        int levelBoundaries = (1000 + 400 * (level - 1)) * level;
+
+        if (scoreForLevel >= levelBoundaries) {
+            GameUtilities.scoreForLevel -= levelBoundaries;
             setLevel(level + 1);
 
         }
-        levelgrenze = (1000 + 400 * (level - 1)) * level;
-        setPercent((int) (((double) scoreforlevel / ((double) levelgrenze)) * 100));
+        levelBoundaries = (1000 + 400 * (level - 1)) * level;
+        setPercent((int) (((double) scoreForLevel / ((double) levelBoundaries)) * 100));
 
-        setScoreforlevel(scoreforlevel);
+        setScoreForLevel(scoreForLevel);
 
 
     }
 
-    public ArrayList<String> getHighscore() {
-        highscore = new ArrayList<>();
+    public ArrayList<String> getHighScore() {
+        ArrayList<String> highScore = new ArrayList<>();
         int counter = sharedPreferences.getInt("counter", 0);
         for (int i = 0; i < counter; i++) {
-            highscore.add(sharedPreferences.getString("highscore" + i + "", "Unbekannt"));
+            highScore.add(sharedPreferences.getString("highScore" + i + "", "Unbekannt"));
         }
-        Collections.sort(highscore, Collections.<String>reverseOrder());
-        return highscore;
+        Collections.sort(highScore, Collections.<String>reverseOrder());
+        return highScore;
     }
 
-    public void deleteHighscore() {
+    public void deleteHighScore() {
         int counter = sharedPreferences.getInt("counter", 0);
         for (int i = 0; i < counter; i++)
-            editor.remove("highscore" + i + "");
+            editor.remove("highScore" + i + "");
         editor.putInt("counter", 0);
         editor.commit();
 
 
     }
 
-    public void setHighscore() {
+    public void setHighScore() {
         int counter = sharedPreferences.getInt("counter", 0);
-        editor.putString("highscore" + counter + "", username + " " + points);
+        editor.putString("highScore" + counter + "", username + " " + points);
         counter++;
         editor.putInt("counter", counter);
         editor.commit();
     }
 
 
-    public int getScoreforlevel() {
-        return scoreforlevel;
+    public int getScoreForLevel() {
+        return scoreForLevel;
     }
 
-    public static void setScoreforlevel(int scoreforlevel) {
-        GameUtilities.scoreforlevel = scoreforlevel;
-        editor.putInt("score", scoreforlevel);
+    public static void setScoreForLevel(int scoreForLevel) {
+        GameUtilities.scoreForLevel = scoreForLevel;
+        editor.putInt("score", scoreForLevel);
         editor.commit();
     }
 
-    public boolean isHighscoreMain() {
-        return highscoreMain;
+    public boolean isHighScoreMain() {
+        return highScoreMain;
     }
 
-    public static void setHighscoreMain(boolean highscoreMain) {
-        GameUtilities.highscoreMain = highscoreMain;
+    public static void setHighScoreMain(boolean highScoreMain) {
+        GameUtilities.highScoreMain = highScoreMain;
     }
 
-    public static String getEnemyusername() {
-        return enemyusername;
+    public static String getEnemyUsername() {
+        return enemyUsername;
     }
 
-    public static void setEnemyusername(String enemyusername) {
-        GameUtilities.enemyusername = enemyusername;
+    public static void setEnemyUsername(String enemyUsername) {
+        GameUtilities.enemyUsername = enemyUsername;
     }
 
     public boolean isSound() {
@@ -164,12 +167,12 @@ public class GameUtilities {
         GameUtilities.points = points;
     }
 
-    public static int getDicescore() {
-        return dicescore;
+    public static int getDiceScore() {
+        return diceScore;
     }
 
-    public static void setDicescore(int value) {
-        GameUtilities.dicescore = value;
+    public static void setDiceScore(int value) {
+        GameUtilities.diceScore = value;
     }
 
     public static String[] getPlayerMap() {
