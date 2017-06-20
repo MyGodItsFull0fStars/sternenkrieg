@@ -733,43 +733,54 @@ public class Spielfeld extends AppCompatActivity {
     public boolean checkAvailability(int position) {
         //  if(map1[position].equals(posis)){ return true;} else {
         //  fieldValues.initialiseCheckAvailabilityList();
-        //if ()
-        switch (map1[position]) {
-            case "d":
-                return false;
-            case "e1":
-            case "e2":
-            case "e3":
-            case "e4":
-                return false;
-            case "f1":
-            case "f2":
-            case "f3":
-            case "41":
-            case "f5":
-            case "f6":
-                return false;
-            case "g":
-                return false;
-            case "h1":
-            case "h2":
-            case "h3":
-            case "h4":
-                return false;
-            case "i1":
-            case "i2":
-            case "i3":
-            case "i4":
-            case "i5":
-            case "i6":
-                return false;
-            case "3":
-                return false;
-            case "5":
-                return false;
-            default:
-                return true;
+        if (fieldValues.smallShipStringList.contains(map1[position])
+                || fieldValues.middleShipStringList.contains(map1[position])
+                || fieldValues.bigShipStringList.contains(map1[position])
+                || fieldValues.SETFIELDPOSITION_G.equals(map1[position])
+                || fieldValues.h_list.contains(map1[position])
+                || fieldValues.i_list.contains(map1[position])
+                || fieldValues.SETFIELDPOSITION_ENEMYHIT.equals(map1[position])
+                || fieldValues.SETFIELDPOSITION_ENEMYMISS.equals(map1[position])){
+            return false;
+        } else {
+            return true;
         }
+//            switch (map1[position]) {
+//                case "d":
+//                    return false;
+//                case "e1":
+//                case "e2":
+//                case "e3":
+//                case "e4":
+//                    return false;
+//                case "f1":
+//                case "f2":
+//                case "f3":
+//                case "41":
+//                case "f5":
+//                case "f6":
+//                    return false;
+//                case "g":
+//                    return false;
+//                case "h1":
+//                case "h2":
+//                case "h3":
+//                case "h4":
+//                    return false;
+//                case "i1":
+//                case "i2":
+//                case "i3":
+//                case "i4":
+//                case "i5":
+//                case "i6":
+//                    return false;
+//                case "3":
+//                    return false;
+//                case "5":
+//                    return false;
+//                default:
+//                    return true;
+//            }
     }
 
     public void draw(String[] array, GridView gridView) {

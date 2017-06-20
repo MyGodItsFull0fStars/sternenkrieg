@@ -194,13 +194,13 @@ public class Map extends AppCompatActivity {
                             pulsatorLayout.start();
                             imageMapGoNext.setVisibility(View.VISIBLE);
                         }
-
+                        setShipsVisible();
                         return (true);
 
                     }
 
                     case DragEvent.ACTION_DRAG_ENDED: {
-                       // setShipsVisible();
+                        // setShipsVisible();
                         return (true);
 
                     }
@@ -324,7 +324,7 @@ public class Map extends AppCompatActivity {
                     imageMapGoNext.setVisibility(View.INVISIBLE);
                     pulsatorLayout.stop();
                     progWaiting.setVisibility(View.VISIBLE);
-                    textMapWaiting.setText("Waiting for "+game.getEnemyusername());
+                    textMapWaiting.setText("Waiting for " + game.getEnemyusername());
                     textMapWaiting.setVisibility(View.VISIBLE);
 
                     if (!Phost) {
