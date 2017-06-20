@@ -3,6 +3,7 @@ package com.example.rebelartstudios.sternenkrieg;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.graphics.Color;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -155,6 +156,7 @@ public class Dice extends AppCompatActivity {
                         public void onFinish() {
                             syncClose();
                             pulsator.setVisibility(View.INVISIBLE);
+                            waiting.setText("Waiting for "+game.getEnemyusername());
                             waiting.setVisibility(View.VISIBLE);
                             progWaiting.setVisibility(View.VISIBLE);
 
@@ -264,6 +266,8 @@ public class Dice extends AppCompatActivity {
                 whoStarts = diceClass.whoIsStarting(value, gegnervalue);
                 game.setWhoIsStarting(whoStarts);
                 if (whoStarts == 2) {
+                    goNext.setImageResource(R.drawable.dice3droll);
+                    pulsator.setColor(Color.RED);
                     intent.setClass(Dice.this, Dice.class);
                 }
                 break;
@@ -335,7 +339,7 @@ public class Dice extends AppCompatActivity {
                 syncClose();
             } else if (!("".equals(message))) {
                 gegnervalue = Integer.parseInt(message);
-                textscoreenemy.setText("Enemy got:" + gegnervalue);
+                textscoreenemy.setText(game.getEnemyusername()+" got:" + gegnervalue);
                 diceClass.changeDiceImageEnemy(gegnervalue);
                 diceenemy.setVisibility(View.VISIBLE);
                 came = true;
