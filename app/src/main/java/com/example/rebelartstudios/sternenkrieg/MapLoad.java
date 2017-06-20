@@ -89,6 +89,7 @@ public class MapLoad extends BaseAdapter {
      */
     private void setFieldColor(String mobile) {
 
+        // TODO: 20/06/2017 try to make this more readable
         if (
                 mobile.equals(fieldValues.SETFIELDPOSITION_EMPTY) ||
                         mobile.equals(fieldValues.SETFIELDPOSITION_A) ||
@@ -98,7 +99,7 @@ public class MapLoad extends BaseAdapter {
             imageView.getBackground().setAlpha(70);
         } else if (mobile.equals(fieldValues.SETFIELDPOSITION_MISS)) {
             imageView.setBackgroundColor(Color.MAGENTA); //miss for player
-        } else if (mobile.equals(fieldValues.SETFIELDPOSITION_TWO)){
+        } else if (mobile.equals(fieldValues.SETFIELDPOSITION_TWO)) {
             imageView.setBackgroundColor(Color.RED); //your own ships
 
         } else if (mobile.equals(fieldValues.SETPLAYERPOSITION_SMALL)) {
@@ -144,8 +145,6 @@ public class MapLoad extends BaseAdapter {
         } else if (mobile.equals(fieldValues.SETFIELDPOSITION_L2)) {
             imageView.setBackgroundResource(R.drawable.ship3_small2_armour);
         } else if (mobile.equals(fieldValues.SETFIELDPOSITION_L4)) {
-            imageView.setBackgroundResource(R.drawable.ship3_small3_armour);
-        } else if (mobile.equals(fieldValues.SETFIELDPOSITION_L4)) {
             imageView.setBackgroundResource(R.drawable.ship3_small1r_armour);
         } else if (mobile.equals(fieldValues.SETFIELDPOSITION_L5)) {
             imageView.setBackgroundResource(R.drawable.ship3_small2r_armour);
@@ -161,10 +160,10 @@ public class MapLoad extends BaseAdapter {
         } else if (mobile.equals(fieldValues.SETFIELDPOSITION_ENEMYMISS)) {
             imageView.setBackgroundColor(Color.BLUE); //miss for enemy
         } else if (mobile.equals(fieldValues.SETFIELDPOSITION_G) ||
-                mobile.equals(fieldValues.SETFIELDPOSITION_H1) ||  mobile.equals(fieldValues.SETFIELDPOSITION_H2) ||
-                mobile.equals(fieldValues.SETFIELDPOSITION_H3) ||  mobile.equals(fieldValues.SETFIELDPOSITION_H4) ||
-                mobile.equals(fieldValues.SETFIELDPOSITION_I1) || mobile.equals(fieldValues.SETFIELDPOSITION_I2) ||  mobile.equals(fieldValues.SETFIELDPOSITION_I3) ||
-        mobile.equals(fieldValues.SETFIELDPOSITION_I4) || mobile.equals(fieldValues.SETFIELDPOSITION_I5) ||  mobile.equals(fieldValues.SETFIELDPOSITION_I6) )
+                mobile.equals(fieldValues.SETFIELDPOSITION_H1) || mobile.equals(fieldValues.SETFIELDPOSITION_H2) ||
+                mobile.equals(fieldValues.SETFIELDPOSITION_H3) || mobile.equals(fieldValues.SETFIELDPOSITION_H4) ||
+                mobile.equals(fieldValues.SETFIELDPOSITION_I1) || mobile.equals(fieldValues.SETFIELDPOSITION_I2) || mobile.equals(fieldValues.SETFIELDPOSITION_I3) ||
+                mobile.equals(fieldValues.SETFIELDPOSITION_I4) || mobile.equals(fieldValues.SETFIELDPOSITION_I5) || mobile.equals(fieldValues.SETFIELDPOSITION_I6))
             imageView.setBackgroundColor(Color.CYAN); //hit for player
     }
 }
