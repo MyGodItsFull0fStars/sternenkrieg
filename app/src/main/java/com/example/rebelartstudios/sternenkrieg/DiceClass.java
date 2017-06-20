@@ -122,23 +122,23 @@ public class DiceClass {
     }
 
     public String getOneprobability() {
-        return String.valueOf(Math.round(one*100/countdice))+"%";
+        return String.valueOf(one*100/countdice)+"%";
     }
 
     public String getTwoprobability() {
-       return String.valueOf(Math.round(two*100/countdice))+"%";
+       return String.valueOf(two*100/countdice)+"%";
     }
     public String getThreeprobability() {
-        return String.valueOf(Math.round(three*100/countdice))+"%";
+        return String.valueOf(three*100/countdice)+"%";
     }
     public String getFourprobability() {
-        return String.valueOf(Math.round(four*100/countdice))+"%";
+        return String.valueOf(four*100/countdice)+"%";
     }
     public String getFiveprobability() {
-        return String.valueOf(Math.round(five*100/countdice))+"%";
+        return String.valueOf(five*100/countdice)+"%";
     }
     public String getSixprobability() {
-        return String.valueOf(Math.round(six*100/countdice))+"%";
+        return String.valueOf(six*100/countdice)+"%";
     }
 
 

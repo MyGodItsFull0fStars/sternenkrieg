@@ -116,6 +116,14 @@ public class Host extends AppCompatActivity {
                             }else if (("//Bereiten").equals(str)){
                                 btnStarten.setEnabled(true);
                                 animationClass.glowAnimation(btnStarten);
+                            }else if(null != str){
+                                Log.i(tag, "Enemyusername");
+                                game.setEnemyusername(str);
+                                iPtv.setText("Connected with "+game.getEnemyusername());
+                                socket = mAcceptThread.getSocket();
+                                WriteHost writeHost = new WriteHost(socket, os, game.getUsername());
+                                writeHost.start();
+
                             }
                         } catch (NullPointerException e) {
                             Log.e(tag, "NullpointerException in ReceiveThreadHost: " + e.toString());
@@ -123,7 +131,6 @@ public class Host extends AppCompatActivity {
                         }
                         break;
                     case 0:
-                        iPtv.setText("Client" + msg.obj + "Verbunden");
                         displayToast("Erfolg");
                         break;
                     case 2:
@@ -188,6 +195,7 @@ public class Host extends AppCompatActivity {
                     socket = mAcceptThread.getSocket();
                     WriteHost writeHost = new WriteHost(socket, os, info);
                     writeHost.start();
+
                     Intent intentD = new Intent(Host.this, Dice.class);
                     ifstart = false;
                     close();

@@ -38,7 +38,7 @@ public class GameUtilitiesTest {
         pref = instrumentationCtx.getSharedPreferences("prefs", Context.MODE_PRIVATE);
         editor = pref.edit();
     }
-
+    //TODO: enemyusername tests getter setter
     /**
      * Method: load()
      */

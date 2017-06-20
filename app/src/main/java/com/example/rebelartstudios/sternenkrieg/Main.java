@@ -23,6 +23,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.example.rebelartstudios.sternenkrieg.gamelogic.BackgroundSoundService;
 import com.example.rebelartstudios.sternenkrieg.gamelogic.GameUtilities;
 
 public class Main extends AppCompatActivity {
@@ -50,11 +51,13 @@ public class Main extends AppCompatActivity {
         initializeClasses();
         initializeOnClickListeners();
         initializeBackground();
+        Intent svc=new Intent(this, BackgroundSoundService.class);
+        startService(svc);
 
         game = new GameUtilities(getApplicationContext());
         game.load();
 
-        if (null == game.getUsername())
+        if ("".equals(game.getUsername()))
             generateName();
 
         txtUsername.setText(game.getUsername());
