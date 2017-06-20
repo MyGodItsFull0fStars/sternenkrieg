@@ -317,7 +317,7 @@ public class Map extends AppCompatActivity {
 
                 if (playerFieldShipContainer.getShipLogic().allShipsSetOnPlayerField()) {
 
-                    intent.setClass(Map.this, Spielfeld.class);
+                    intent.setClass(Map.this, Gameplay.class);
                     GameUtilities.setPlayerMap(playerFieldShipContainer.getPlayerFieldLogic().getPlayerField());
                     finish = true;
                     util.messageSend("boolean", playerHost);

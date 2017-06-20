@@ -50,7 +50,7 @@
             android:label="@string/app_name"
             android:screenOrientation="landscape" />
         <activity
-            android:name=".Spielfeld"
+            android:name=".Gameplay"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="landscape" />
         <activity

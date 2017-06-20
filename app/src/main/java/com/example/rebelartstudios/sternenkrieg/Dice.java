@@ -289,7 +289,7 @@ public class Dice extends AppCompatActivity {
                 break;
 
             case 2:
-                intent.setClass(Dice.this, Spielfeld.class);
+                intent.setClass(Dice.this, Gameplay.class);
                 break;
             default:
                 break;

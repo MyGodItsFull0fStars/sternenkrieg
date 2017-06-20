@@ -44,7 +44,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 
-public class Spielfeld extends AppCompatActivity {
+public class Gameplay extends AppCompatActivity {
     GridView gridView1;
     GridView gridView2;
     ImageView imageView, options, options1, options2, options3, options4;
@@ -132,7 +132,7 @@ public class Spielfeld extends AppCompatActivity {
 
         send = (Button) findViewById(R.id.player1_send);
         player1_say = (EditText) findViewById(R.id.player1_say);
-        System.out.println("Spielfeld");
+        System.out.println("Gameplay");
         Phost = stats.isPhost();
         System.out.println("pHost: " + Phost);
         who_is_starting = GameUtilities.getWhoIsStarting();
@@ -358,7 +358,7 @@ public class Spielfeld extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 /* go to options-menu */
-                intent.setClass(Spielfeld.this, Options.class);
+                intent.setClass(Gameplay.this, Options.class);
                 // intent.putExtra("gameOn", 1);
                 startActivity(intent);
 
@@ -467,7 +467,7 @@ public class Spielfeld extends AppCompatActivity {
 
 
     public void start() {
-        System.out.println("Spielfeld Value" + who_is_starting);
+        System.out.println("Gameplay Value" + who_is_starting);
         //Player beginns
         System.out.println("Shoot: " + shoot);
         pointsPlayer += GameUtilities.getDiceScore();
@@ -480,11 +480,11 @@ public class Spielfeld extends AppCompatActivity {
     }
 
     public void dice() {
-        intent.setClass(Spielfeld.this, Dice.class);
+        intent.setClass(Gameplay.this, Dice.class);
         GameUtilities.setPlayerMap(map1);
         GameUtilities.setEnemyMap(map2);
         NetworkStats.setMode(2);
-        System.out.println("Spielfeld Ende Value" + value);
+        System.out.println("Gameplay Ende Value" + value);
         util.close();
         startActivity(intent);
     }
@@ -784,7 +784,7 @@ public class Spielfeld extends AppCompatActivity {
                     .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                             // CONFIRM
-                            Intent intent = new Intent(Spielfeld.this, Highscore.class);
+                            Intent intent = new Intent(Gameplay.this, Highscore.class);
                             GameUtilities.setPoints(highScore);
                             GameUtilities.setHighScoreMain(true);
                             startActivity(intent);
@@ -802,7 +802,7 @@ public class Spielfeld extends AppCompatActivity {
                     .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                             // CONFIRM
-                            Intent intent = new Intent(Spielfeld.this, Highscore.class);
+                            Intent intent = new Intent(Gameplay.this, Highscore.class);
                             GameUtilities.setPoints(highScore);
                             GameUtilities.setHighScoreMain(true);
                             startActivity(intent);
