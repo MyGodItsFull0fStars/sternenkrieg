@@ -90,81 +90,81 @@ public class MapLoad extends BaseAdapter {
 
         // TODO: 20/06/2017 try to make this more readable
         if (
-                mobile.equals(fieldValues.SETFIELDPOSITION_EMPTY) ||
-                        mobile.equals(fieldValues.SETFIELDPOSITION_A) ||
-                        mobile.equals(fieldValues.SETFIELDPOSITION_B) ||
-                        mobile.equals(fieldValues.SETFIELDPOSITION_C)) {
+                mobile.equals(fieldValues.SET_FIELD_POSITION_EMPTY) ||
+                        mobile.equals(fieldValues.SET_FIELD_POSITION_A) ||
+                        mobile.equals(fieldValues.SET_FIELD_POSITION_B) ||
+                        mobile.equals(fieldValues.SET_FIELD_POSITION_C)) {
             imageView.setBackgroundColor(Color.WHITE); //no action
             imageView.getBackground().setAlpha(70);
-        } else if (mobile.equals(fieldValues.SETFIELDPOSITION_MISS)) {
+        } else if (mobile.equals(fieldValues.SET_FIELD_POSITION_MISS)) {
             imageView.setBackgroundColor(Color.MAGENTA); //miss for player
-        } else if (mobile.equals(fieldValues.SETFIELDPOSITION_TWO)) {
+        } else if (mobile.equals(fieldValues.SET_FIELD_POSITION_TWO)) {
             imageView.setBackgroundColor(Color.RED); //your own ships
 
-        } else if (mobile.equals(fieldValues.SETPLAYERPOSITION_SMALL)) {
+        } else if (mobile.equals(fieldValues.SET_PLAYER_POSITION_SMALL)) {
             imageView.setBackgroundResource(R.drawable.ship1_small);
 
-        } else if (mobile.equals(fieldValues.SETPLAYERPOSITION_MIDDLE1)) {
+        } else if (mobile.equals(fieldValues.SET_PLAYER_POSITION_MIDDLE1)) {
             imageView.setBackgroundResource(R.drawable.ship2_small1);
-        } else if (mobile.equals(fieldValues.SETPLAYERPOSITION_MIDDLE2)) {
+        } else if (mobile.equals(fieldValues.SET_PLAYER_POSITION_MIDDLE2)) {
             imageView.setBackgroundResource(R.drawable.ship2_small2);
-        } else if (mobile.equals(fieldValues.SETPLAYERPOSITION_MIDDLE1R)) {
+        } else if (mobile.equals(fieldValues.SET_PLAYER_POSITION_MIDDLE1R)) {
             imageView.setBackgroundResource(R.drawable.ship2_small1r);
-        } else if (mobile.equals(fieldValues.SETPLAYERPOSITION_MIDDLE2R)) {
+        } else if (mobile.equals(fieldValues.SET_PLAYER_POSITION_MIDDLE2R)) {
             imageView.setBackgroundResource(R.drawable.ship2_small2r);
 
-        } else if (mobile.equals(fieldValues.SETFIELDPOSITION_BIG1)) {
+        } else if (mobile.equals(fieldValues.SET_FIELD_POSITION_BIG1)) {
             imageView.setBackgroundResource(R.drawable.ship3_small1);
-        } else if (mobile.equals(fieldValues.SETFIELDPOSITION_BIG2)) {
+        } else if (mobile.equals(fieldValues.SET_FIELD_POSITION_BIG2)) {
             imageView.setBackgroundResource(R.drawable.ship3_small2);
-        } else if (mobile.equals(fieldValues.SETFIELDPOSITION_BIG3)) {
+        } else if (mobile.equals(fieldValues.SET_FIELD_POSITION_BIG3)) {
             imageView.setBackgroundResource(R.drawable.ship3_small3);
-        } else if (mobile.equals(fieldValues.SETFIELDPOSITION_BIG1R)) {
+        } else if (mobile.equals(fieldValues.SET_FIELD_POSITION_BIG1R)) {
             imageView.setBackgroundResource(R.drawable.ship3_small1r);
-        } else if (mobile.equals(fieldValues.SETFIELDPOSITION_BIG2R)) {
+        } else if (mobile.equals(fieldValues.SET_FIELD_POSITION_BIG2R)) {
             imageView.setBackgroundResource(R.drawable.ship3_small2r);
-        } else if (mobile.equals(fieldValues.SETFIELDPOSITION_BIG3R)) {
+        } else if (mobile.equals(fieldValues.SET_FIELD_POSITION_BIG3R)) {
             imageView.setBackgroundResource(R.drawable.ship3_small3r);
 
             /* ships with armour*/
-        } else if (mobile.equals(fieldValues.SETFIELDPOSITION_J)) {
+        } else if (mobile.equals(fieldValues.SET_FIELD_POSITION_J)) {
             imageView.setBackgroundResource(R.drawable.ship1_armour_small);
 
-        } else if (mobile.equals(fieldValues.SETFIELDPOSITION_K1)) {
+        } else if (mobile.equals(fieldValues.SET_FIELD_POSITION_K1)) {
             imageView.setBackgroundResource(R.drawable.ship2_small1_armour);
-        } else if (mobile.equals(fieldValues.SETFIELDPOSITION_K2)) {
+        } else if (mobile.equals(fieldValues.SET_FIELD_POSITION_K2)) {
             imageView.setBackgroundResource(R.drawable.ship2_small2_armour);
-        } else if (mobile.equals(fieldValues.SETFIELDPOSITION_K3)) {
+        } else if (mobile.equals(fieldValues.SET_FIELD_POSITION_K3)) {
             imageView.setBackgroundResource(R.drawable.ship2_small1r_armour);
-        } else if (mobile.equals(fieldValues.SETFIELDPOSITION_K4)) {
+        } else if (mobile.equals(fieldValues.SET_FIELD_POSITION_K4)) {
             imageView.setBackgroundResource(R.drawable.ship2_small2r_armour);
 
-        } else if (mobile.equals(fieldValues.SETFIELDPOSITION_L1)) {
+        } else if (mobile.equals(fieldValues.SET_FIELD_POSITION_L1)) {
             imageView.setBackgroundResource(R.drawable.ship3_small1_armour);
-        } else if (mobile.equals(fieldValues.SETFIELDPOSITION_L2)) {
+        } else if (mobile.equals(fieldValues.SET_FIELD_POSITION_L2)) {
             imageView.setBackgroundResource(R.drawable.ship3_small2_armour);
-        } else if (mobile.equals(fieldValues.SETFIELDPOSITION_L3)) {
+        } else if (mobile.equals(fieldValues.SET_FIELD_POSITION_L3)) {
             imageView.setBackgroundResource(R.drawable.ship3_small3_armour);
-        } else if (mobile.equals(fieldValues.SETFIELDPOSITION_L4)) {
+        } else if (mobile.equals(fieldValues.SET_FIELD_POSITION_L4)) {
             imageView.setBackgroundResource(R.drawable.ship3_small1r_armour);
-        } else if (mobile.equals(fieldValues.SETFIELDPOSITION_L5)) {
+        } else if (mobile.equals(fieldValues.SET_FIELD_POSITION_L5)) {
             imageView.setBackgroundResource(R.drawable.ship3_small2r_armour);
-        } else if (mobile.equals(fieldValues.SETFIELDPOSITION_L6)) {
+        } else if (mobile.equals(fieldValues.SET_FIELD_POSITION_L6)) {
             imageView.setBackgroundResource(R.drawable.ship3_small3r_armour);
 
             /* --- */
 
-        } else if (mobile.equals(fieldValues.SETFIELDPOSITION_ENEMYHIT)) {
+        } else if (mobile.equals(fieldValues.SET_FIELD_POSITION_ENEMY_HIT)) {
             imageView.setBackgroundColor(Color.YELLOW); //hit for enemy
-        } else if (mobile.equals(fieldValues.SETFIELDPOSITION_PLAYERHIT)) {
+        } else if (mobile.equals(fieldValues.SET_FIELD_POSITION_PLAYER_HIT)) {
             imageView.setBackgroundColor(Color.GREEN); //hit for player
-        } else if (mobile.equals(fieldValues.SETFIELDPOSITION_ENEMYMISS)) {
+        } else if (mobile.equals(fieldValues.SET_FIELD_POSITION_ENEMY_MISS)) {
             imageView.setBackgroundColor(Color.BLUE); //miss for enemy
-        } else if (mobile.equals(fieldValues.SETFIELDPOSITION_G) ||
-                mobile.equals(fieldValues.SETFIELDPOSITION_H1) || mobile.equals(fieldValues.SETFIELDPOSITION_H2) ||
-                mobile.equals(fieldValues.SETFIELDPOSITION_H3) || mobile.equals(fieldValues.SETFIELDPOSITION_H4) ||
-                mobile.equals(fieldValues.SETFIELDPOSITION_I1) || mobile.equals(fieldValues.SETFIELDPOSITION_I2) || mobile.equals(fieldValues.SETFIELDPOSITION_I3) ||
-                mobile.equals(fieldValues.SETFIELDPOSITION_I4) || mobile.equals(fieldValues.SETFIELDPOSITION_I5) || mobile.equals(fieldValues.SETFIELDPOSITION_I6))
+        } else if (mobile.equals(fieldValues.SET_FIELD_POSITION_G) ||
+                mobile.equals(fieldValues.SET_FIELD_POSITION_H1) || mobile.equals(fieldValues.SET_FIELD_POSITION_H2) ||
+                mobile.equals(fieldValues.SET_FIELD_POSITION_H3) || mobile.equals(fieldValues.SET_FIELD_POSITION_H4) ||
+                mobile.equals(fieldValues.SET_FIELD_POSITION_I1) || mobile.equals(fieldValues.SET_FIELD_POSITION_I2) || mobile.equals(fieldValues.SET_FIELD_POSITION_I3) ||
+                mobile.equals(fieldValues.SET_FIELD_POSITION_I4) || mobile.equals(fieldValues.SET_FIELD_POSITION_I5) || mobile.equals(fieldValues.SET_FIELD_POSITION_I6))
             imageView.setBackgroundColor(Color.CYAN); //hit for player
     }
 }

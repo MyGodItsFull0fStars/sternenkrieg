@@ -86,7 +86,7 @@ public class ShipLogicTests {
     @Test
     public void checkSetSmallShipPositionInBoundariesThrowsNoException() {
         try {
-            for (int position = 0; position < fieldValues.FIELDSIZE; position++) {
+            for (int position = 0; position < fieldValues.FIELD_SIZE; position++) {
                 shipLogic_no_parameters.setSmallShipPosition(position);
                 shipLogic_with_parameters.setSmallShipPosition(position);
             }
@@ -117,7 +117,7 @@ public class ShipLogicTests {
     @Test
     public void checkMiddleShipPositionInBoundariesThrowsNoException() {
         try {
-            for (int position = 1; position < fieldValues.FIELDSIZE; position++) {
+            for (int position = 1; position < fieldValues.FIELD_SIZE; position++) {
                 shipLogic_no_parameters.setMiddleShipPosition(position, fieldValues.HORIZONTAL);
                 shipLogic_with_parameters.setMiddleShipPosition(position, fieldValues.HORIZONTAL);
             }
@@ -127,7 +127,7 @@ public class ShipLogicTests {
         }
 
         try {
-            for (int position = 8; position < fieldValues.FIELDSIZE; position++) {
+            for (int position = 8; position < fieldValues.FIELD_SIZE; position++) {
                 shipLogic_no_parameters.setMiddleShipPosition(position, fieldValues.VERTICAL);
                 shipLogic_with_parameters.setMiddleShipPosition(position, fieldValues.VERTICAL);
             }
@@ -177,7 +177,7 @@ public class ShipLogicTests {
     public void checkBigShipPositionInBoundariesThrowsNoException() {
         // Check horizontal boundaries
         try {
-            for (int position = 1; position < fieldValues.FIELDSIZE - 1; position++) {
+            for (int position = 1; position < fieldValues.FIELD_SIZE - 1; position++) {
                 shipLogic_no_parameters.setBigShipPosition(1, fieldValues.HORIZONTAL);
             }
         } catch (IllegalArgumentException e) {
@@ -186,7 +186,7 @@ public class ShipLogicTests {
 
         // Check vertical boundaries
         try {
-            for (int position = 8; position < fieldValues.FIELDSIZE - 8; position++) {
+            for (int position = 8; position < fieldValues.FIELD_SIZE - 8; position++) {
                 shipLogic_no_parameters.setBigShipPosition(position, fieldValues.VERTICAL);
             }
         } catch (IllegalArgumentException e) {

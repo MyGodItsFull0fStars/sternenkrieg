@@ -17,10 +17,10 @@ public class ReceiveThreadHost extends Thread {
     private String read = "";
     private boolean running;
     private Handler mHandler;
-    String tag = "Host";
-    Socket sk;
+    private String tag = "Host";
+    private Socket sk;
 
-    public ReceiveThreadHost(Socket sk, boolean running, Handler mHandler) {
+    ReceiveThreadHost(Socket sk, boolean running, Handler mHandler) {
         this.sk = sk;
         this.running = running;
         this.mHandler = mHandler;

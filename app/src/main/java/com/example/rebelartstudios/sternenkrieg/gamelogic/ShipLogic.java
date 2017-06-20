@@ -302,6 +302,6 @@ public class ShipLogic {
      * @return if the position is in boundaries, method will return true, otherwise return false
      */
     private boolean inRange(int position) {
-        return position >= 0 && position < fieldValues.FIELDSIZE;
+        return position >= 0 && position < fieldValues.FIELD_SIZE;
     }
 }

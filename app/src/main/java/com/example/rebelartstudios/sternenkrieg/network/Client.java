@@ -28,7 +28,7 @@ import java.net.Socket;
 
 public class Client extends AppCompatActivity implements View.OnClickListener {
     private EditText IPet;
-    private Handler myhandler;
+    private Handler myHandler;
     private Socket socket;
     private Button btnStart;
     private Button btnStop;
@@ -39,12 +39,12 @@ public class Client extends AppCompatActivity implements View.OnClickListener {
     String ipFromQR;
     Button btnQR;
     Bundle extras;
-    boolean ifstart = true;
+    boolean ifStart = true;
     NetworkStats stats = new NetworkStats();
     GameUtilities game;
     ImageView back;
     animationClass animationClass;
-    TextView textconnection;
+    TextView textConnection;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +60,7 @@ public class Client extends AppCompatActivity implements View.OnClickListener {
         btnStop.setOnClickListener(this);
         btnQR.setOnClickListener(this);
 
-        myhandler = new myhandlerclient();
+        myHandler = new myhandlerclient();
 
         extras = getIntent().getExtras();
 
@@ -86,7 +86,7 @@ public class Client extends AppCompatActivity implements View.OnClickListener {
         switch (v.getId()) {
             case R.id.btnStart:
                 this.ip = IPet.getText().toString();
-                st = new StartThread(socket, ip, rt, myhandler, 54321);
+                st = new StartThread(socket, ip, rt, myHandler, 54321);
                 st.start();
                 animationClass.stop();
                 setButtonOnStartState(false);
@@ -165,17 +165,18 @@ public class Client extends AppCompatActivity implements View.OnClickListener {
                     } else if (("Start!").equals(str)) {
                         Intent intentD = new Intent(Client.this, Dice.class);
 
-                        ifstart = false;
+                        ifStart = false;
                         close();
-                        stats.setIp(ip);
-                        stats.setNet(true);
-                        stats.setPhost(false);
-                        stats.setMode(1);
+                        NetworkStats.setIp(ip);
+                        NetworkStats.setNet(true);
+                        NetworkStats.setPhost(false);
+                        NetworkStats.setMode(1);
                         startActivity(intentD);
 
                     } else if (null != str) {
-                        game.setEnemyUsername(str);
-                        textconnection.setText("Connected with: " + game.getEnemyUsername());
+                        GameUtilities.setEnemyUsername(str);
+                        String text = "Connected with: " + GameUtilities.getEnemyUsername();
+                        textConnection.setText(text);
                     }
                     break;
                 case 0:
@@ -202,7 +203,7 @@ public class Client extends AppCompatActivity implements View.OnClickListener {
         btnStop = (Button) findViewById(R.id.btnStop);
         btnQR = (Button) findViewById(R.id.QRClient);
         back = (ImageView) findViewById(R.id.imageClientBack);
-        textconnection = (TextView) findViewById(R.id.textconnected);
+        textConnection = (TextView) findViewById(R.id.textconnected);
         this.ip = IPet.getText().toString();
     }
 
@@ -226,13 +227,13 @@ public class Client extends AppCompatActivity implements View.OnClickListener {
             socket = st.getSocket();
             socket.close();
             socket = null;
-            st.setTryconnect(false);
+            st.setTryConnect(false);
             btnStart.setEnabled(true);
 
             st.interrupt();
         } catch (NullPointerException e) {
             Log.e(tag, "NullPointerException in Client: " + e.toString());
-            displayToast("nicht Erfolg");
+            displayToast("Fehlgeschlagen");
         } catch (IOException e) {
             Log.e(tag, "IOException in Client: " + e.toString());
         }

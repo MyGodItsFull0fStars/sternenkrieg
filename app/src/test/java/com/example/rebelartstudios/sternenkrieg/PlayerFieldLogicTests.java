@@ -37,29 +37,29 @@ public class PlayerFieldLogicTests {
             fail(ErrorMessages.EXCEPTION_REACHED);
         }
 
-        for (int position = 0; position < fieldValues.FIELDSIZE; position++) {
-            Assert.assertTrue(fieldValues.SETFIELDPOSITION_EMPTY.equals(playerFieldLogic.getPlayerField()[position]));
+        for (int position = 0; position < fieldValues.FIELD_SIZE; position++) {
+            Assert.assertTrue(fieldValues.SET_FIELD_POSITION_EMPTY.equals(playerFieldLogic.getPlayerField()[position]));
         }
     }
 
     @Test
     public void checkGetPlayerFieldMethod() {
-        String[] array = new String[fieldValues.FIELDSIZE];
-        Arrays.fill(array, fieldValues.SETFIELDPOSITION_EMPTY);
+        String[] array = new String[fieldValues.FIELD_SIZE];
+        Arrays.fill(array, fieldValues.SET_FIELD_POSITION_EMPTY);
 
         Assert.assertTrue(Arrays.equals(array, playerFieldLogic.getPlayerField()));
     }
 
     @Test
     public void checkSetPlayerFieldMethodThrowsNOException() {
-        String[] array = new String[fieldValues.FIELDSIZE];
+        String[] array = new String[fieldValues.FIELD_SIZE];
         Arrays.fill(array, "test");
 
         try {
             playerFieldLogic.setPlayerField(array);
             Assert.assertTrue(Arrays.equals(array, playerFieldLogic.getPlayerField()));
 
-            for (int i = 0; i < fieldValues.FIELDSIZE; i++) {
+            for (int i = 0; i < fieldValues.FIELD_SIZE; i++) {
                 Assert.assertEquals("test", playerFieldLogic.getStringInPosition(i));
             }
         } catch (IllegalArgumentException e) {
@@ -118,8 +118,8 @@ public class PlayerFieldLogicTests {
     @Test
     public void checkSetPFSmallShipPositionThrowsNOException() {
         try {
-            for (int i = 0; i < fieldValues.FIELDSIZE; i++) {
-                playerFieldLogic.setSmallShipPosition(i, fieldValues.SETFIELDPOSITION_A);
+            for (int i = 0; i < fieldValues.FIELD_SIZE; i++) {
+                playerFieldLogic.setSmallShipPosition(i, fieldValues.SET_FIELD_POSITION_A);
             }
         } catch (Exception e) {
             fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_REACHED);
@@ -142,7 +142,7 @@ public class PlayerFieldLogicTests {
             Assert.assertEquals(e.getMessage(), ErrorMessages.POSITION_OUT_OF_RANGE);
         }
 
-        for (int position = 0; position < fieldValues.FIELDSIZE; position++) {
+        for (int position = 0; position < fieldValues.FIELD_SIZE; position++) {
             Assert.assertTrue(playerFieldLogic.inRange(position));
         }
     }
@@ -150,16 +150,16 @@ public class PlayerFieldLogicTests {
     @Test
     public void checkSetPFMiddleShipPositionWithSiblingIndexThrowsNOException() {
         try {
-            for (int position = 1; position < fieldValues.FIELDSIZE; position++) {
-                playerFieldLogic.setMiddleShipPositionWithSiblingIndex(position, fieldValues.HORIZONTAL, fieldValues.SETFIELDPOSITION_A);
+            for (int position = 1; position < fieldValues.FIELD_SIZE; position++) {
+                playerFieldLogic.setMiddleShipPositionWithSiblingIndex(position, fieldValues.HORIZONTAL, fieldValues.SET_FIELD_POSITION_A);
             }
         } catch (IllegalArgumentException e) {
             fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_REACHED);
         }
 
         try {
-            for (int position = 8; position < fieldValues.FIELDSIZE; position++) {
-                playerFieldLogic.setMiddleShipPositionWithSiblingIndex(position, fieldValues.VERTICAL, fieldValues.SETFIELDPOSITION_A);
+            for (int position = 8; position < fieldValues.FIELD_SIZE; position++) {
+                playerFieldLogic.setMiddleShipPositionWithSiblingIndex(position, fieldValues.VERTICAL, fieldValues.SET_FIELD_POSITION_A);
             }
         } catch (IllegalArgumentException e) {
             fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_REACHED);
@@ -169,20 +169,20 @@ public class PlayerFieldLogicTests {
     @Test
     public void checkSetPFMiddleShipPositionWithSiblingIndexThrowsException() {
         try {
-            playerFieldLogic.setMiddleShipPositionWithSiblingIndex(-1, fieldValues.HORIZONTAL, fieldValues.SETFIELDPOSITION_A);
+            playerFieldLogic.setMiddleShipPositionWithSiblingIndex(-1, fieldValues.HORIZONTAL, fieldValues.SET_FIELD_POSITION_A);
             fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_EXPECTED);
         } catch (IllegalArgumentException e) {
             Assert.assertEquals(e.getMessage(), ErrorMessages.POSITION_OUT_OF_RANGE);
         }
 
         try {
-            playerFieldLogic.setMiddleShipPositionWithSiblingIndex(4, fieldValues.VERTICAL, fieldValues.SETFIELDPOSITION_A);
+            playerFieldLogic.setMiddleShipPositionWithSiblingIndex(4, fieldValues.VERTICAL, fieldValues.SET_FIELD_POSITION_A);
             fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_EXPECTED);
         } catch (IllegalArgumentException e) {
             Assert.assertEquals(e.getMessage(), ErrorMessages.POSITION_OUT_OF_RANGE);
         }
         try {
-            playerFieldLogic.setMiddleShipPositionWithSiblingIndex(65, fieldValues.VERTICAL, fieldValues.SETFIELDPOSITION_A);
+            playerFieldLogic.setMiddleShipPositionWithSiblingIndex(65, fieldValues.VERTICAL, fieldValues.SET_FIELD_POSITION_A);
             fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_EXPECTED);
         } catch (IllegalArgumentException e) {
             Assert.assertEquals(e.getMessage(), ErrorMessages.POSITION_OUT_OF_RANGE);
@@ -190,7 +190,7 @@ public class PlayerFieldLogicTests {
 
         // Exception comes from getSibling
         try {
-            playerFieldLogic.setMiddleShipPositionWithSiblingIndex(1, 3, fieldValues.SETFIELDPOSITION_A);
+            playerFieldLogic.setMiddleShipPositionWithSiblingIndex(1, 3, fieldValues.SET_FIELD_POSITION_A);
             fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_EXPECTED);
         } catch (IllegalArgumentException e) {
             Assert.assertEquals(e.getMessage(), ErrorMessages.DEGREE_NOT_DEFINED);
@@ -200,16 +200,16 @@ public class PlayerFieldLogicTests {
     @Test
     public void checkSetMiddleShipPositionToString() {
         try {
-            for (int position = 1; position < fieldValues.FIELDSIZE; position++) {
-                playerFieldLogic.setMiddleShipPositionToString(position, fieldValues.HORIZONTAL, fieldValues.SETFIELDPOSITION_A);
+            for (int position = 1; position < fieldValues.FIELD_SIZE; position++) {
+                playerFieldLogic.setMiddleShipPositionToString(position, fieldValues.HORIZONTAL, fieldValues.SET_FIELD_POSITION_A);
             }
         } catch (IllegalArgumentException e) {
             fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_REACHED);
         }
 
         try {
-            for (int position = 8; position < fieldValues.FIELDSIZE; position++) {
-                playerFieldLogic.setMiddleShipPositionToString(position, fieldValues.VERTICAL, fieldValues.SETFIELDPOSITION_A);
+            for (int position = 8; position < fieldValues.FIELD_SIZE; position++) {
+                playerFieldLogic.setMiddleShipPositionToString(position, fieldValues.VERTICAL, fieldValues.SET_FIELD_POSITION_A);
             }
         } catch (IllegalArgumentException e) {
             fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_REACHED);
@@ -219,13 +219,13 @@ public class PlayerFieldLogicTests {
     @Test
     public void checkSetMiddleShipPositionToStringThrowsException() {
         try {
-            playerFieldLogic.setMiddleShipPositionToString(0, fieldValues.HORIZONTAL, fieldValues.SETFIELDPOSITION_A);
+            playerFieldLogic.setMiddleShipPositionToString(0, fieldValues.HORIZONTAL, fieldValues.SET_FIELD_POSITION_A);
         } catch (IllegalArgumentException e) {
             Assert.assertEquals(e.getMessage(), ErrorMessages.POSITION_OUT_OF_RANGE);
         }
 
         try {
-            playerFieldLogic.setMiddleShipPositionToString(65, fieldValues.HORIZONTAL, fieldValues.SETFIELDPOSITION_A);
+            playerFieldLogic.setMiddleShipPositionToString(65, fieldValues.HORIZONTAL, fieldValues.SET_FIELD_POSITION_A);
         } catch (IllegalArgumentException e) {
             Assert.assertEquals(e.getMessage(), ErrorMessages.POSITION_OUT_OF_RANGE);
         }
@@ -236,8 +236,8 @@ public class PlayerFieldLogicTests {
     public void checkBigShipPositionWithSiblingIndexThrowsNoException() {
 
         try {
-            for (int position = 1; position < fieldValues.FIELDSIZE - 1; position++) {
-                playerFieldLogic.setBigShipPositionWithSiblingIndex(position, fieldValues.HORIZONTAL, fieldValues.SETFIELDPOSITION_A);
+            for (int position = 1; position < fieldValues.FIELD_SIZE - 1; position++) {
+                playerFieldLogic.setBigShipPositionWithSiblingIndex(position, fieldValues.HORIZONTAL, fieldValues.SET_FIELD_POSITION_A);
             }
 
         } catch (Exception e) {
@@ -245,8 +245,8 @@ public class PlayerFieldLogicTests {
         }
 
         try {
-            for (int position = 8; position < fieldValues.FIELDSIZE - 8; position++) {
-                playerFieldLogic.setBigShipPositionWithSiblingIndex(position, fieldValues.VERTICAL, fieldValues.SETFIELDPOSITION_A);
+            for (int position = 8; position < fieldValues.FIELD_SIZE - 8; position++) {
+                playerFieldLogic.setBigShipPositionWithSiblingIndex(position, fieldValues.VERTICAL, fieldValues.SET_FIELD_POSITION_A);
             }
         } catch (Exception e) {
             fail(ErrorMessages.EXCEPTION_REACHED);
@@ -261,19 +261,19 @@ public class PlayerFieldLogicTests {
 
     @Test
     public void checkGetStringInPosition() {
-        for (int position = 0; position < fieldValues.FIELDSIZE; position++) {
-            Assert.assertEquals(fieldValues.SETFIELDPOSITION_EMPTY, playerFieldLogic.getStringInPosition(position));
+        for (int position = 0; position < fieldValues.FIELD_SIZE; position++) {
+            Assert.assertEquals(fieldValues.SET_FIELD_POSITION_EMPTY, playerFieldLogic.getStringInPosition(position));
         }
 
-        playerFieldLogic.setSmallShipPosition(5, fieldValues.SETFIELDPOSITION_A);
-        Assert.assertTrue(fieldValues.SETFIELDPOSITION_A.equals(playerFieldLogic.getStringInPosition(5)));
+        playerFieldLogic.setSmallShipPosition(5, fieldValues.SET_FIELD_POSITION_A);
+        Assert.assertTrue(fieldValues.SET_FIELD_POSITION_A.equals(playerFieldLogic.getStringInPosition(5)));
 
-        for (int position = 0; position < fieldValues.FIELDSIZE; position++) {
-            playerFieldLogic.setSmallShipPosition(position, fieldValues.SETFIELDPOSITION_B);
+        for (int position = 0; position < fieldValues.FIELD_SIZE; position++) {
+            playerFieldLogic.setSmallShipPosition(position, fieldValues.SET_FIELD_POSITION_B);
         }
 
-        for (int position = 0; position < fieldValues.FIELDSIZE; position++) {
-            Assert.assertTrue(fieldValues.SETFIELDPOSITION_B.equals(playerFieldLogic.getStringInPosition(position)));
+        for (int position = 0; position < fieldValues.FIELD_SIZE; position++) {
+            Assert.assertTrue(fieldValues.SET_FIELD_POSITION_B.equals(playerFieldLogic.getStringInPosition(position)));
         }
     }
 
@@ -300,48 +300,48 @@ public class PlayerFieldLogicTests {
     public void checkMiddleShipFieldContainsString() {
 
         // Iterate through the array, and check if initialization was correctly executed
-        for (int position = 1; position < fieldValues.FIELDSIZE; position++) {
-            Assert.assertTrue(playerFieldLogic.middleShipFieldContainsString(position, fieldValues.HORIZONTAL, fieldValues.SETFIELDPOSITION_EMPTY));
+        for (int position = 1; position < fieldValues.FIELD_SIZE; position++) {
+            Assert.assertTrue(playerFieldLogic.middleShipFieldContainsString(position, fieldValues.HORIZONTAL, fieldValues.SET_FIELD_POSITION_EMPTY));
         }
 
-        for (int position = 8; position < fieldValues.FIELDSIZE; position++) {
-            Assert.assertTrue(playerFieldLogic.middleShipFieldContainsString(position, fieldValues.VERTICAL, fieldValues.SETFIELDPOSITION_EMPTY));
+        for (int position = 8; position < fieldValues.FIELD_SIZE; position++) {
+            Assert.assertTrue(playerFieldLogic.middleShipFieldContainsString(position, fieldValues.VERTICAL, fieldValues.SET_FIELD_POSITION_EMPTY));
         }
 
-        playerFieldLogic.setMiddleShipPositionToString(2, fieldValues.HORIZONTAL, fieldValues.SETFIELDPOSITION_B);
+        playerFieldLogic.setMiddleShipPositionToString(2, fieldValues.HORIZONTAL, fieldValues.SET_FIELD_POSITION_B);
 
         // The two values, which where set, return the correct string
         for (int position = 1; position < 2; position++) {
-            Assert.assertTrue(fieldValues.SETFIELDPOSITION_B.equals(playerFieldLogic.getStringInPosition(position)));
+            Assert.assertTrue(fieldValues.SET_FIELD_POSITION_B.equals(playerFieldLogic.getStringInPosition(position)));
         }
 
         // All other values in the array are still set to empty
-        Assert.assertTrue(fieldValues.SETFIELDPOSITION_EMPTY.equals(playerFieldLogic.getStringInPosition(0)));
-        for (int position = 3; position < fieldValues.FIELDSIZE; position++) {
-            Assert.assertTrue(fieldValues.SETFIELDPOSITION_EMPTY.equals(playerFieldLogic.getStringInPosition(position)));
+        Assert.assertTrue(fieldValues.SET_FIELD_POSITION_EMPTY.equals(playerFieldLogic.getStringInPosition(0)));
+        for (int position = 3; position < fieldValues.FIELD_SIZE; position++) {
+            Assert.assertTrue(fieldValues.SET_FIELD_POSITION_EMPTY.equals(playerFieldLogic.getStringInPosition(position)));
         }
     }
 
     @Test
     public void checkBigShipFieldContainsString() {
-        for (int position = 1; position < fieldValues.FIELDSIZE - 1; position++) {
-            Assert.assertTrue(playerFieldLogic.bigShipFieldContainsString(position, fieldValues.HORIZONTAL, fieldValues.SETFIELDPOSITION_EMPTY));
+        for (int position = 1; position < fieldValues.FIELD_SIZE - 1; position++) {
+            Assert.assertTrue(playerFieldLogic.bigShipFieldContainsString(position, fieldValues.HORIZONTAL, fieldValues.SET_FIELD_POSITION_EMPTY));
         }
 
-        for (int position = 8; position < fieldValues.FIELDSIZE - 8; position++) {
-            Assert.assertTrue(playerFieldLogic.bigShipFieldContainsString(position, fieldValues.HORIZONTAL, fieldValues.SETFIELDPOSITION_EMPTY));
+        for (int position = 8; position < fieldValues.FIELD_SIZE - 8; position++) {
+            Assert.assertTrue(playerFieldLogic.bigShipFieldContainsString(position, fieldValues.HORIZONTAL, fieldValues.SET_FIELD_POSITION_EMPTY));
         }
 
-        playerFieldLogic.setBigShipPositionToString(1, fieldValues.HORIZONTAL, fieldValues.SETFIELDPOSITION_A);
+        playerFieldLogic.setBigShipPositionToString(1, fieldValues.HORIZONTAL, fieldValues.SET_FIELD_POSITION_A);
 
         for (int position = 0; position < 3; position++) {
-            Assert.assertTrue(fieldValues.SETFIELDPOSITION_A.equals(playerFieldLogic.getStringInPosition(position)));
+            Assert.assertTrue(fieldValues.SET_FIELD_POSITION_A.equals(playerFieldLogic.getStringInPosition(position)));
         }
 
-        playerFieldLogic.setBigShipPositionToString(12, fieldValues.VERTICAL, fieldValues.SETFIELDPOSITION_B);
+        playerFieldLogic.setBigShipPositionToString(12, fieldValues.VERTICAL, fieldValues.SET_FIELD_POSITION_B);
 
         for (int position = 4; position < 20; position += 8) {
-            Assert.assertTrue(fieldValues.SETFIELDPOSITION_B.equals(playerFieldLogic.getStringInPosition(position)));
+            Assert.assertTrue(fieldValues.SET_FIELD_POSITION_B.equals(playerFieldLogic.getStringInPosition(position)));
         }
     }
 }

@@ -3,7 +3,6 @@ package com.example.rebelartstudios.sternenkrieg;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.widget.ImageView;
 
 import java.util.Random;
 
@@ -13,48 +12,43 @@ import java.util.Random;
 
 public class DiceClass {
 
-    private final int WIN = 0;
-    private final int LOOSE = 1;
-    private final int DEUCE = 2;
     private static int one;
     private static int two;
     private static int three;
     private static int four;
     private static int five;
     private static int six;
-    protected static int countdice;
-    ImageView imageDice;
-    Context context;
+    static int countDice;
 
-    static SharedPreferences sharedPreferences;
-    static SharedPreferences.Editor editor;
+    private static SharedPreferences sharedPreferences;
+    private static SharedPreferences.Editor editor;
 
     public DiceClass(Context context) {
         DiceClass.sharedPreferences = context.getSharedPreferences("prefs", Context.MODE_PRIVATE);
         DiceClass.editor = sharedPreferences.edit();
-        one = sharedPreferences.getInt("one",0);
-        two=sharedPreferences.getInt("two",0);
-        three =sharedPreferences.getInt("three",0);
-        four = sharedPreferences.getInt("four",0);
-        five=sharedPreferences.getInt("five",0);
-        six=sharedPreferences.getInt("six",0);
-        countdice=sharedPreferences.getInt("countdice",0);
-        this.context = context;
+        one = sharedPreferences.getInt("one", 0);
+        two = sharedPreferences.getInt("two", 0);
+        three = sharedPreferences.getInt("three", 0);
+        four = sharedPreferences.getInt("four", 0);
+        five = sharedPreferences.getInt("five", 0);
+        six = sharedPreferences.getInt("six", 0);
+        countDice = sharedPreferences.getInt("countDice", 0);
+
     }
 
     public int roll() {
         Random r = new Random();
-        return r.nextInt(6)+1;
+        return r.nextInt(6) + 1;
     }
 
 
     public int whoIsStarting(int playerSelf, int playerEnemy) {
         if (playerSelf > playerEnemy) {      // Player starts
-            return WIN;
+            return 0;
         } else if (playerSelf < playerEnemy) { // Enemy starts
-            return LOOSE;
+            return 1;
         } else {
-            return DEUCE;          // Deuce, both must roll the dice again
+            return 2;          // Deuce, both must roll the dice again
         }
     }
 
@@ -62,24 +56,28 @@ public class DiceClass {
 //in produktion
     }
 
-    public String getOneprobability() {
-        return String.valueOf(one*100/countdice)+"%";
+    String getOneProbability() {
+        return String.valueOf(one * 100 / countDice) + "%";
     }
 
-    public String getTwoprobability() {
-       return String.valueOf(two*100/countdice)+"%";
+    String getTwoProbability() {
+        return String.valueOf(two * 100 / countDice) + "%";
     }
-    public String getThreeprobability() {
-        return String.valueOf(three*100/countdice)+"%";
+
+    String getThreeProbability() {
+        return String.valueOf(three * 100 / countDice) + "%";
     }
-    public String getFourprobability() {
-        return String.valueOf(four*100/countdice)+"%";
+
+    String getFourProbability() {
+        return String.valueOf(four * 100 / countDice) + "%";
     }
-    public String getFiveprobability() {
-        return String.valueOf(five*100/countdice)+"%";
+
+    String getFiveProbability() {
+        return String.valueOf(five * 100 / countDice) + "%";
     }
-    public String getSixprobability() {
-        return String.valueOf(six*100/countdice)+"%";
+
+    String getSixProbability() {
+        return String.valueOf(six * 100 / countDice) + "%";
     }
 
 
@@ -88,7 +86,7 @@ public class DiceClass {
     }
 
     public static void setOne(int one) {
-        editor.putInt("one",one);
+        editor.putInt("one", one);
         editor.commit();
         DiceClass.one = one;
     }
@@ -97,8 +95,8 @@ public class DiceClass {
         return two;
     }
 
-    public static void setTwo(int two) {
-        editor.putInt("two",two);
+    static void setTwo(int two) {
+        editor.putInt("two", two);
         DiceClass.two = two;
     }
 
@@ -106,8 +104,8 @@ public class DiceClass {
         return three;
     }
 
-    public static void setThree(int three) {
-        editor.putInt("three",three);
+    static void setThree(int three) {
+        editor.putInt("three", three);
         editor.commit();
         DiceClass.three = three;
     }
@@ -116,8 +114,8 @@ public class DiceClass {
         return four;
     }
 
-    public static void setFour(int four) {
-        editor.putInt("four",four);
+    static void setFour(int four) {
+        editor.putInt("four", four);
         editor.commit();
         DiceClass.four = four;
     }
@@ -126,8 +124,8 @@ public class DiceClass {
         return five;
     }
 
-    public static void setFive(int five) {
-        editor.putInt("five",five);
+    static void setFive(int five) {
+        editor.putInt("five", five);
         editor.commit();
         DiceClass.five = five;
     }
@@ -136,20 +134,20 @@ public class DiceClass {
         return six;
     }
 
-    public static void setSix(int six) {
-        editor.putInt("six",six);
+    static void setSix(int six) {
+        editor.putInt("six", six);
         editor.commit();
         DiceClass.six = six;
     }
 
     public static int getCountdice() {
-        return countdice;
+        return countDice;
     }
 
-    public static void setCountdice(int countdice) {
-        editor.putInt("countdice",countdice);
+    static void setCountDice(int countDice) {
+        editor.putInt("countDice", countDice);
         editor.commit();
-        DiceClass.countdice = countdice;
+        DiceClass.countDice = countDice;
     }
 }
 

@@ -40,8 +40,8 @@ import java.net.Socket;
 
 import pl.bclogic.pulsator4droid.library.PulsatorLayout;
 
-import static com.example.rebelartstudios.sternenkrieg.DiceClass.countdice;
-import static com.example.rebelartstudios.sternenkrieg.DiceClass.setCountdice;
+import static com.example.rebelartstudios.sternenkrieg.DiceClass.countDice;
+import static com.example.rebelartstudios.sternenkrieg.DiceClass.setCountDice;
 import static com.example.rebelartstudios.sternenkrieg.DiceClass.setFive;
 import static com.example.rebelartstudios.sternenkrieg.DiceClass.setFour;
 import static com.example.rebelartstudios.sternenkrieg.DiceClass.setOne;
@@ -261,7 +261,7 @@ public class Dice extends AppCompatActivity {
             public void onAnimationEnd(Animation animation) {
                 textScore.setText("You got:" + value);
                 prog1.setVisibility(View.VISIBLE);
-                statistikVisibility();
+                statisticVisibility();
                 if (!came)
                     textScoreEnemy.setText("Waiting for " + game.getEnemyUsername());
 
@@ -327,16 +327,42 @@ public class Dice extends AppCompatActivity {
 
     }
 
-    public void statistikVisibility() {
+    private String getONE() {
+        return "1: " + diceClass.getOneProbability();
+    }
+
+    private String getTWO() {
+        return "2: " + diceClass.getTwoProbability();
+    }
+
+    private String getTHREE() {
+        return "3: " + diceClass.getThreeProbability();
+    }
+
+    private String getFOUR() {
+        return "4: " + diceClass.getFourProbability();
+    }
+
+    private String getFIVE() {
+        return "5: " + diceClass.getFiveProbability();
+    }
+
+    private String getSIX() {
+        return "6: " + diceClass.getSixProbability();
+    }
+
+
+    public void statisticVisibility() {
         statistic.setVisibility(View.VISIBLE);
         tableDice.setVisibility(View.VISIBLE);
 
-        statistic_1.setText("1: " + diceClass.getOneprobability());
-        statistic_2.setText("2: " + diceClass.getTwoprobability());
-        statistic_3.setText("3: " + diceClass.getThreeprobability());
-        statistic_4.setText("4: " + diceClass.getFourprobability());
-        statistic_5.setText("5: " + diceClass.getFiveprobability());
-        statistic_6.setText("6: " + diceClass.getSixprobability());
+
+        statistic_1.setText(getONE());
+        statistic_2.setText(getTWO());
+        statistic_3.setText(getTHREE());
+        statistic_4.setText(getFOUR());
+        statistic_5.setText(getFIVE());
+        statistic_6.setText(getSIX());
     }
 
 
@@ -372,32 +398,32 @@ public class Dice extends AppCompatActivity {
             case 1:
                 imageDice.setImageResource(one);
                 setOne(one + 1);
-                setCountdice(countdice + 1);
+                setCountDice(countDice + 1);
                 break;
             case 2:
                 imageDice.setImageResource(two);
                 setTwo(two + 1);
-                setCountdice(countdice + 1);
+                setCountDice(countDice + 1);
                 break;
             case 3:
                 imageDice.setImageResource(three);
                 setThree(three + 1);
-                setCountdice(countdice + 1);
+                setCountDice(countDice + 1);
                 break;
             case 4:
                 imageDice.setImageResource(four);
                 setFour(four + 1);
-                setCountdice(countdice + 1);
+                setCountDice(countDice + 1);
                 break;
             case 5:
                 imageDice.setImageResource(five);
                 setFive(five + 1);
-                setCountdice(countdice + 1);
+                setCountDice(countDice + 1);
                 break;
             case 6:
                 imageDice.setImageResource(six);
                 setSix(six + 1);
-                setCountdice(countdice + 1);
+                setCountDice(countDice + 1);
                 break;
             default:
                 break;

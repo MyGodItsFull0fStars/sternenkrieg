@@ -97,7 +97,7 @@ public class PlayerFieldShipContainer {
             Log.i(tag, "Crash");
             if (shipArray.length >= 0 && shipArray.length <= 3) {
                 for (int position : shipArray) {
-                    playerFieldLogic.setSmallShipPosition(position, fieldValues.SETFIELDPOSITION_EMPTY);
+                    playerFieldLogic.setSmallShipPosition(position, fieldValues.SET_FIELD_POSITION_EMPTY);
                 }
             }
         }
@@ -188,13 +188,13 @@ public class PlayerFieldShipContainer {
 
         if (whichShip == shipLogic.BIG_SHIP_ID) {
             Log.i(tag, "Crash");
-            if (playerFieldBigShipContainsString(position, degree, fieldValues.SETPLAYERPOSITION_SMALL) ||
-                    playerFieldBigShipContainsString(position, degree, fieldValues.SETPLAYERPOSITION_MIDDLE)) {
+            if (playerFieldBigShipContainsString(position, degree, fieldValues.SET_PLAYER_POSITION_SMALL) ||
+                    playerFieldBigShipContainsString(position, degree, fieldValues.SET_PLAYER_POSITION_MIDDLE)) {
                 return false;
             }
         } else if (whichShip == shipLogic.MIDDLE_SHIP_ID) {
-            if (playerFieldMiddleShipContainsString(position, degree, fieldValues.SETPLAYERPOSITION_SMALL) ||
-                    playerFieldMiddleShipContainsString(position, degree, fieldValues.SETFIELDPOSITION_BIG)) {
+            if (playerFieldMiddleShipContainsString(position, degree, fieldValues.SET_PLAYER_POSITION_SMALL) ||
+                    playerFieldMiddleShipContainsString(position, degree, fieldValues.SET_FIELD_POSITION_BIG)) {
                 return false;
             }
         }
@@ -243,7 +243,7 @@ public class PlayerFieldShipContainer {
 
         {
             delete(shipLogic.getSmallShipArray());
-            setSmallShipContainer(position, fieldValues.SETPLAYERPOSITION_SMALL);
+            setSmallShipContainer(position, fieldValues.SET_PLAYER_POSITION_SMALL);
             getShipLogic().setSmallShipIsSetOnField(true);
         }
 
@@ -253,7 +253,7 @@ public class PlayerFieldShipContainer {
                 playerFieldAtPositionEmpty(position, whichShip, degree)) {         // if field is empty
 
             delete(shipLogic.getMiddleShipArray());
-            setMiddleShipContainer(position, degree, fieldValues.SETPLAYERPOSITION_MIDDLE);
+            setMiddleShipContainer(position, degree, fieldValues.SET_PLAYER_POSITION_MIDDLE);
             shipLogic.setMiddleShipIsSetOnField(true);
         }
 
@@ -263,7 +263,7 @@ public class PlayerFieldShipContainer {
 
         {
             delete(shipLogic.getBigShipArray());
-            setBigShipContainer(position, degree, fieldValues.SETFIELDPOSITION_BIG);
+            setBigShipContainer(position, degree, fieldValues.SET_FIELD_POSITION_BIG);
             getShipLogic().setBigShipIsSetOnField(true);
         }
     }
@@ -279,11 +279,11 @@ public class PlayerFieldShipContainer {
     private boolean playerFieldAtPositionEmpty(int position, int whichShip, int degree) {
         Log.i(tag, "Crash");
         if (whichShip == shipLogic.SMALL_SHIP_ID) {
-            return getPlayerFieldLogic().getStringInPosition(position).equals(fieldValues.SETFIELDPOSITION_EMPTY);
+            return getPlayerFieldLogic().getStringInPosition(position).equals(fieldValues.SET_FIELD_POSITION_EMPTY);
         } else if (whichShip == shipLogic.MIDDLE_SHIP_ID) {
-            return getPlayerFieldLogic().middleShipFieldContainsString(position, degree, fieldValues.SETFIELDPOSITION_EMPTY);
+            return getPlayerFieldLogic().middleShipFieldContainsString(position, degree, fieldValues.SET_FIELD_POSITION_EMPTY);
         } else if (whichShip == shipLogic.BIG_SHIP_ID) {
-            return getPlayerFieldLogic().bigShipFieldContainsString(position, degree, fieldValues.SETFIELDPOSITION_EMPTY);
+            return getPlayerFieldLogic().bigShipFieldContainsString(position, degree, fieldValues.SET_FIELD_POSITION_EMPTY);
         } else {
             throw new IllegalArgumentException(ErrorMessages.ILLEGAL_SHIP_ID);
         }
