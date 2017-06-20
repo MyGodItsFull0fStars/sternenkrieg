@@ -250,23 +250,20 @@ public class Spielfeld extends AppCompatActivity {
                     public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                         fieldValues.initialize_H_list();
                         fieldValues.initialize_I_list();
+                        
+                        final String positionString = map1[position];
 
-                        // final int posi=position;
-                        final String posis = map1[position];
+                        if (positionString.equals(fieldValues.SETFIELDPOSITION_G)
+                                || fieldValues.h_list.contains(positionString)
+                                || fieldValues.i_list.contains(positionString))
 
-                        if (posis.equals("g")
-                                //posis.equals("h1") || posis.equals("h2") || posis.equals("h3") || posis.equals("h4")||
-                                || fieldValues.h_list.contains(posis)
-                                || fieldValues.i_list.contains(posis))
-                        //|| posis.equals("i1") || posis.equals("i2") || posis.equals("i3")
-                        // || posis.equals("i4") || posis.equals("i5") || posis.equals("i6"))
 
                         {
 
-                            if (posis.equals(fieldValues.SETFIELDPOSITION_G)) {
+                            if (positionString.equals(fieldValues.SETFIELDPOSITION_G)) {
                                 map1[position] = fieldValues.SETFIELDPOSITION_PLAYERHIT;
                                 draw(map1, gridView1);
-                            } else if (fieldValues.h_list.contains(posis)) {
+                            } else if (fieldValues.h_list.contains(positionString)) {
                                 for (int i = 0; i < map1.length; i++) {
                                     if (
                                         //map1[i].equals("h1") || map1[i].equals("h2") || map1[i].equals("h3") || map1[i].equals("h4")
@@ -277,7 +274,7 @@ public class Spielfeld extends AppCompatActivity {
 
                                     draw(map1, gridView1);
                                 }
-                            } else if (fieldValues.i_list.contains(posis)) {
+                            } else if (fieldValues.i_list.contains(positionString)) {
                                 for (int i = 0; i < map1.length; i++) {
                                     //    if (map1[i].equals("i1") || map1[i].equals("i2") || map1[i].equals("i3")
                                     //            || map1[i].equals("i4") || map1[i].equals("i5") || map1[i].equals("i6"))
@@ -334,7 +331,7 @@ public class Spielfeld extends AppCompatActivity {
                             ship2RotatedFinal = shipR[0];
                             ship3RotatedFinal = shipR[1];
 
-                            relocate(posis, ship2RotatedFinal, ship3RotatedFinal);
+                            relocate(positionString, ship2RotatedFinal, ship3RotatedFinal);
 
                         }
                     }
@@ -740,7 +737,7 @@ public class Spielfeld extends AppCompatActivity {
                 || fieldValues.h_list.contains(map1[position])
                 || fieldValues.i_list.contains(map1[position])
                 || fieldValues.SETFIELDPOSITION_ENEMYHIT.equals(map1[position])
-                || fieldValues.SETFIELDPOSITION_ENEMYMISS.equals(map1[position])){
+                || fieldValues.SETFIELDPOSITION_ENEMYMISS.equals(map1[position])) {
             return false;
         } else {
             return true;
