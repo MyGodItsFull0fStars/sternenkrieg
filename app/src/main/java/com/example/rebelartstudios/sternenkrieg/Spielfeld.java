@@ -497,8 +497,37 @@ public class Spielfeld extends AppCompatActivity {
                 || fieldValues.bigShipStringList.contains(map1[position])) {
             map1[position] = fieldValues.SETFIELDPOSITION_ENEMYHIT;
             vib.vibrate(500);
-            highScore = highScore - 30;
+            highScore = highScore - 30; }
 
+        //hits ship with armour
+        else if (fieldValues.smallShipArmourStringList.contains(map1[position])
+                    || fieldValues.middleShipArmourStringList.contains(map1[position])
+                    || fieldValues.bigShipArmourStringList.contains(map1[position])) {
+            switch(map1[position]) {
+                case "j": map1[position] = fieldValues.SETPLAYERPOSITION_SMALL;
+                    break;
+                case "k1": map1[position] = fieldValues.SETPLAYERPOSITION_MIDDLE1;
+                    break;
+                case "k2": map1[position] = fieldValues.SETPLAYERPOSITION_MIDDLE2;
+                    break;
+                case "k3": map1[position] = fieldValues.SETPLAYERPOSITION_MIDDLE1R;
+                    break;
+                case "k4": map1[position] = fieldValues.SETPLAYERPOSITION_MIDDLE2R;
+                    break;
+                case "l1": map1[position] = fieldValues.SETFIELDPOSITION_BIG1;
+                    break;
+                case "l2": map1[position] = fieldValues.SETFIELDPOSITION_BIG2;
+                    break;
+                case "l3": map1[position] = fieldValues.SETFIELDPOSITION_BIG3;
+                    break;
+                case "l4": map1[position] = fieldValues.SETFIELDPOSITION_BIG1R;
+                    break;
+                case "l5": map1[position] = fieldValues.SETFIELDPOSITION_BIG2R;
+                    break;
+                case "l6": map1[position] = fieldValues.SETFIELDPOSITION_BIG3R;
+                    break;
+            }
+            vib.vibrate(500);
                     /* opponent misses */
         } else if (map1[position].equals(fieldValues.SETFIELDPOSITION_EMPTY)) {
             map1[position] = fieldValues.SETFIELDPOSITION_ENEMYMISS;
@@ -956,7 +985,7 @@ public class Spielfeld extends AppCompatActivity {
 
             if (countE.size() == 2) {
                 if (ship2Rotated) {
-                    map1[countE.get(0)] = fieldValues.SETFIELDPOSITION_H2;
+                    map1[countE.get(0)] = fieldValues.SETFIELDPOSITION_H3;
                     map1[countE.get(1)] = fieldValues.SETFIELDPOSITION_H4;
                 } else {
                     map1[countE.get(0)] = fieldValues.SETFIELDPOSITION_H1;
@@ -1066,13 +1095,7 @@ public class Spielfeld extends AppCompatActivity {
                                         break;
                                 }
                             }
-                        } else if (
-                            //posis.equals("i1") || posis.equals("i2") || posis.equals("i3")
-                            //|| posis.equals("i4") || posis.equals("i5") || posis.equals("i6") ||
-                                fieldValues.i_list.contains(posis))
-
-
-                        {
+                        } else if (fieldValues.i_list.contains(posis)) {
                             for (int i = 0; i < map1.length; i++) {
                                 switch (map1[i]) {
                                     case "i1":
@@ -1086,6 +1109,12 @@ public class Spielfeld extends AppCompatActivity {
                                         break;
                                     case "i4":
                                         map1[i] = "l4";
+                                        break;
+                                    case "i5":
+                                        map1[i] = "l5";
+                                        break;
+                                    case "i6":
+                                        map1[i] = "l6";
                                         break;
                                 }
                             }
