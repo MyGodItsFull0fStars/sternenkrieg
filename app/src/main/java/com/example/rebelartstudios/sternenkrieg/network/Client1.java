@@ -103,6 +103,7 @@ public class Client1 extends AppCompatActivity implements View.OnClickListener {
                             socket = st.getSocket();
                         } catch (NullPointerException e) {
                             Log.e(tag, "NullPointerException in Client: " + e.toString());
+                            Log.i(tag, "Crash");
                         }
 
 

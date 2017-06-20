@@ -1,5 +1,7 @@
 package com.example.rebelartstudios.sternenkrieg.gamelogic;
 
+import android.util.Log;
+
 import com.example.rebelartstudios.sternenkrieg.ErrorMessages;
 
 import java.util.ArrayList;
@@ -13,6 +15,7 @@ import java.util.Arrays;
 public class PlayerFieldShipContainer {
     private PlayerFieldLogic playerFieldLogic;
     private ShipLogic shipLogic;
+    String tag="PlayerfieldShipContaine";
     private PlayerFieldValues fieldValues;
     private ArrayList<Integer> failures_right = new ArrayList<>(Arrays.asList(7, 15, 23, 31, 39, 47, 55, 63));
     private ArrayList<Integer> failures_left = new ArrayList<>(Arrays.asList(8, 16, 24, 32, 40, 48, 56));
@@ -34,6 +37,7 @@ public class PlayerFieldShipContainer {
      * @param shipLogic        used to initialize the ShipLogic class
      */
     public PlayerFieldShipContainer(PlayerFieldLogic playerFieldLogic, ShipLogic shipLogic) {
+        Log.i(tag, "Crash");
         if (playerFieldLogic == null || shipLogic == null) {
             throw new IllegalArgumentException(ErrorMessages.NULL_PARAMETER);
         }
@@ -49,6 +53,7 @@ public class PlayerFieldShipContainer {
      * @param input    string which will be written in the player field position
      */
     public void setSmallShipContainer(int position, String input) {
+        Log.i(tag, "Crash");
         shipLogic.setSmallShipPosition(position);
         playerFieldLogic.setSmallShipPosition(position, input);
     }
@@ -61,6 +66,7 @@ public class PlayerFieldShipContainer {
      * @param input    string which will be written in the player field position
      */
     public void setMiddleShipContainer(int position, int degree, String input) {
+        Log.i(tag, "Crash");
         shipLogic.setMiddleShipPosition(position, degree);
         playerFieldLogic.setMiddleShipPositionWithSiblingIndex(position, degree, input);
     }
@@ -73,6 +79,7 @@ public class PlayerFieldShipContainer {
      * @param input    string which will be written in the player field position
      */
     public void setBigShipContainer(int position, int degree, String input) {
+        Log.i(tag, "Crash");
         shipLogic.setBigShipPosition(position, degree);
         playerFieldLogic.setBigShipPositionWithSiblingIndex(position, degree, input);
     }
@@ -83,6 +90,7 @@ public class PlayerFieldShipContainer {
      * @param shipArray each position will be used to empty the player field
      */
     public void delete(int[] shipArray) {
+        Log.i(tag, "Crash");
         if (shipArray != null && shipArray.length >= 0 && shipArray.length <= 3) {
             for (int position : shipArray) {
                 playerFieldLogic.setSmallShipPosition(position, fieldValues.SETFIELDPOSITION_EMPTY);
@@ -96,6 +104,7 @@ public class PlayerFieldShipContainer {
      * @return if the value at position and the input string are equal, then return true, otherwise false
      */
     public boolean positionContainsString(int position, String input) {
+        Log.i(tag, "Crash");
         return input.equals(playerFieldLogic.getPlayerField()[position]);
     }
 
@@ -134,6 +143,7 @@ public class PlayerFieldShipContainer {
      * @return true if the position is in the boundaries, false if out of boundaries
      */
     public boolean checkPosition(int position, int whichShip, int degree) {
+        Log.i(tag, "Crash");
 
         if (!inRange(position, 0, 63)) {
             throw new IllegalArgumentException(ErrorMessages.POSITION_OUT_OF_RANGE);
@@ -161,6 +171,7 @@ public class PlayerFieldShipContainer {
         }
 
         if (degree == fieldValues.VERTICAL) {
+            Log.i(tag, "Crash");
             if (whichShip == shipLogic.MIDDLE_SHIP_ID && !inRange(position, 8, 63)) {
                 return false;
             } else if (whichShip == shipLogic.BIG_SHIP_ID && !inRange(position, 8, 55)) {
@@ -170,6 +181,7 @@ public class PlayerFieldShipContainer {
 
 
         if (whichShip == shipLogic.BIG_SHIP_ID) {
+            Log.i(tag, "Crash");
             if (playerFieldBigShipContainsString(position, degree, fieldValues.SETFIELDPOSITION_SMALL) ||
                     playerFieldBigShipContainsString(position, degree, fieldValues.SETPLAYERPOSITION_MIDDLE)) {
                 return false;
@@ -191,6 +203,7 @@ public class PlayerFieldShipContainer {
      * @return if input string is equal to string at position or siblings, return true, otherwise return false
      */
     public boolean playerFieldBigShipContainsString(int position, int degree, String input) {
+        Log.i(tag, "Crash");
         return input.equals(playerFieldLogic.playerField[position - shipLogic.getSibling(degree)])
                 || input.equals(playerFieldLogic.playerField[position])
                 || input.equals(playerFieldLogic.playerField[position + shipLogic.getSibling(degree)]);
@@ -203,6 +216,7 @@ public class PlayerFieldShipContainer {
      * @return if input string is equal to string at position or siblings, return true, otherwise return false
      */
     public boolean playerFieldMiddleShipContainsString(int position, int degree, String input) {
+        Log.i(tag, "Crash");
         return input.equals(playerFieldLogic.playerField[position - shipLogic.getSibling(degree)])
                 || input.equals(playerFieldLogic.playerField[position]);
     }
@@ -215,6 +229,7 @@ public class PlayerFieldShipContainer {
      * @param degree    to determine if ship will be placed horizontally/vertically
      */
     public void setShipOnPlayerFieldWithDragAndDrop(int position, int whichShip, int degree) {
+        Log.i(tag, "Crash");
 
         if (whichShip == shipLogic.SMALL_SHIP_ID                // Small ship
                 && checkPosition(position, whichShip, degree)   // if small ship is in boundaries
@@ -256,6 +271,7 @@ public class PlayerFieldShipContainer {
      * @return returns true, if all fields of a ship are empty, false if at least one position is not empty
      */
     private boolean playerFieldAtPositionEmpty(int position, int whichShip, int degree) {
+        Log.i(tag, "Crash");
         if (whichShip == shipLogic.SMALL_SHIP_ID) {
             return getPlayerFieldLogic().getStringInPosition(position).equals(fieldValues.SETFIELDPOSITION_EMPTY);
         } else if (whichShip == shipLogic.MIDDLE_SHIP_ID) {

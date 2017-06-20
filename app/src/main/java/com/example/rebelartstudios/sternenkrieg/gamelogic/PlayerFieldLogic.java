@@ -1,5 +1,7 @@
 package com.example.rebelartstudios.sternenkrieg.gamelogic;
 
+import android.util.Log;
+
 import com.example.rebelartstudios.sternenkrieg.ErrorMessages;
 
 import java.util.Arrays;
@@ -21,6 +23,7 @@ public class PlayerFieldLogic {
     private final String FOUR = "4";
     private final String FIVE = "5";
     private final String SIX = "6";
+    String tag ="PlayerfieldLogic";
 
 
     /**
@@ -70,6 +73,7 @@ public class PlayerFieldLogic {
      * @param playerfield used to set the playerField variable of the PlayerFieldLogic class
      */
     public void setPlayerField(String[] playerfield) {
+        Log.i(tag, "setPlayerField");
         if (playerfield != null && playerfield.length == PLAYERFIELDSIZE) {
             this.playerField = playerfield;
         } else {
@@ -78,6 +82,7 @@ public class PlayerFieldLogic {
     }
 
     public void initializePlayerField() {
+        Log.i(tag, "initPlayerField");
         if (playerField == null) {
             playerField = new String[PLAYERFIELDSIZE];
         }
@@ -91,6 +96,7 @@ public class PlayerFieldLogic {
      * @param input
      */
     public void setSmallShipPosition(int position, String input) {
+        Log.i(tag, "setSmallShipPosition");
         if (input == null) {
             throw new IllegalArgumentException(ErrorMessages.NULL_PARAMETER);
         }
@@ -109,6 +115,7 @@ public class PlayerFieldLogic {
      * @param input    string used to signalize the state
      */
     public void setMiddleShipPositionWithSiblingIndex(int position, int degree, String input) {
+        Log.i(tag, "setMiddleShipPosWithSilbingIndex");
         if (input == null) {
             throw new IllegalArgumentException(ErrorMessages.NULL_PARAMETER);
         }
@@ -125,6 +132,7 @@ public class PlayerFieldLogic {
 
 
     public void setMiddleShipPositionToString(int position, int degree, String input) {
+        Log.i(tag, "setMiddleShipPositionToString(");
         if (input == null) {
             throw new IllegalArgumentException(ErrorMessages.NULL_PARAMETER);
         }
@@ -135,6 +143,7 @@ public class PlayerFieldLogic {
     }
 
     public void setBigShipPositionToString(int position, int degree, String input) {
+        Log.i(tag, "setBigShipPositionToStrin");
         setMiddleShipPositionToString(position, degree, input);
         if (inRange(position + getSibling(degree))){
             playerField[position + getSibling(degree)] = input;
@@ -150,6 +159,7 @@ public class PlayerFieldLogic {
      * @param input    string used to signalize the state
      */
     public void setBigShipPositionWithSiblingIndex(int position, int degree, String input) {
+        Log.i(tag, "setBigShipPositionWithSiblingIndex");
         if (input == null) {
             throw new IllegalArgumentException(ErrorMessages.NULL_PARAMETER);
         }
@@ -175,6 +185,7 @@ public class PlayerFieldLogic {
      * @return TRUE if position is in the field, FALSE if position is out of range
      */
     public boolean inRange(int position) {
+        Log.i(tag, "inRange");
         if (position >= 0 && position < fieldStrings.FIELDSIZE) {
             return true;
         } else {
@@ -191,6 +202,7 @@ public class PlayerFieldLogic {
      * @return if successful, returns the string at array position
      */
     public String getStringInPosition(int position) {
+        Log.i(tag, "getStringInPosition");
         if (inRange(position)) {
             return getPlayerField()[position];
 
@@ -203,6 +215,7 @@ public class PlayerFieldLogic {
      * @return if horizontal return 1, if vertical, return 8, else throw exception
      */
     public int getSibling(int degree) {
+        Log.i(tag, "getSibling");
         if (degree == fieldStrings.HORIZONTAL) {
             return 1;
         } else if (degree == fieldStrings.VERTICAL) {
@@ -213,6 +226,7 @@ public class PlayerFieldLogic {
     }
 
     public boolean middleShipFieldContainsString(int position, int degree, String input) {
+        Log.i(tag, "middleShipFieldContainsString");
         if (input == null) {
             throw new IllegalArgumentException(ErrorMessages.NULL_PARAMETER);
         }
@@ -220,6 +234,7 @@ public class PlayerFieldLogic {
     }
 
     public boolean bigShipFieldContainsString(int position, int degree, String input) {
+        Log.i(tag, "bigShipFieldContainsString");
         if (input == null) {
             throw new IllegalArgumentException(ErrorMessages.NULL_PARAMETER);
         }

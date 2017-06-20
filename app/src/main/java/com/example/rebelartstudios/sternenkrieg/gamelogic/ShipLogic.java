@@ -1,5 +1,7 @@
 package com.example.rebelartstudios.sternenkrieg.gamelogic;
 
+import android.util.Log;
+
 import com.example.rebelartstudios.sternenkrieg.ErrorMessages;
 
 /**
@@ -104,6 +106,7 @@ public class ShipLogic {
      * @param array used to set the array small_ship
      */
     public void setSmallShipArray(int[] array) {
+        Log.i(tag, "Crash");
         if (array != null && array.length == SMALL_SHIP_SIZE && inRange(array[0])) {
             this.small_ship = array;
         } else {
@@ -118,6 +121,7 @@ public class ShipLogic {
      * @param position the position on the player field
      */
     public void setSmallShipPosition(int position) {
+        Log.i(tag, "Crash");
         if (inRange(position)) small_ship[0] = position;
         else throw new IllegalArgumentException(ErrorMessages.POSITION_OUT_OF_RANGE);
     }
@@ -128,6 +132,7 @@ public class ShipLogic {
      * @param array
      */
     public void setMiddleShipArray(int[] array) {
+        Log.i(tag, "Crash");
         if (array != null && array.length == MIDDLE_SHIP_SIZE) {
             this.middle_ship = array;
         } else {
@@ -143,6 +148,7 @@ public class ShipLogic {
      *                 if degree is wrongly set, a Log message will be send
      */
     public void setMiddleShipPosition(int position, int degree) {
+        Log.i(tag, "Crash");
         if (degree == fieldValues.HORIZONTAL || degree == fieldValues.VERTICAL) {
             middleShipPosition(position, getSibling(degree));
         } else {
@@ -157,6 +163,7 @@ public class ShipLogic {
      * @param array used to set the array big_ship
      */
     public void setBigShipArray(int[] array) {
+        Log.i(tag, "Crash");
         if (array == null) {
             throw new IllegalArgumentException(ErrorMessages.NULL_PARAMETER);
         }
@@ -175,6 +182,7 @@ public class ShipLogic {
      *                 if degree is wrong, the method will send an exception
      */
     public void setBigShipPosition(int position, int degree) {
+        Log.i(tag, "Crash");
         if (degree == fieldValues.HORIZONTAL || degree == fieldValues.VERTICAL) {
             bigShipPosition(position, getSibling(degree));
         } else {
@@ -190,6 +198,7 @@ public class ShipLogic {
      * @return the value which will be returned. Horizontal returns 1 and vertical returns 8
      */
     public int getSibling(int degree) {
+        Log.i(tag, "Crash");
         if (degree == fieldValues.HORIZONTAL) {
             return 1;
         } else if (degree == fieldValues.VERTICAL) {
@@ -206,6 +215,7 @@ public class ShipLogic {
      * @param amount   which will be used to set the siblings of the position
      */
     private void middleShipPosition(int position, int amount) {
+        Log.i(tag, "Crash");
         if (inRange(position) && inRange(position - amount)) {
             middle_ship[0] = position - amount;
             middle_ship[1] = position;
@@ -219,6 +229,7 @@ public class ShipLogic {
      * @param amount   used to correctly set the siblings of the origin position
      */
     private void bigShipPosition(int position, int amount) {
+        Log.i(tag, "Crash");
         if (inRange(position - amount) && inRange(position) && inRange(position + amount)) {
             big_ship[0] = position - amount;
             big_ship[1] = position;
