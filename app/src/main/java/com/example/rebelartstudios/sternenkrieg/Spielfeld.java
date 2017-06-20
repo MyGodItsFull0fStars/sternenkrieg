@@ -733,7 +733,7 @@ public class Spielfeld extends AppCompatActivity {
     public boolean checkAvailability(int position) {
         //  if(map1[position].equals(posis)){ return true;} else {
         //  fieldValues.initialiseCheckAvailabilityList();
-
+        //if ()
         switch (map1[position]) {
             case "d":
                 return false;

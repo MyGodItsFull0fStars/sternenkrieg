@@ -117,6 +117,7 @@ public final class FieldValues {
 
 
     public void initialiseCheckAvailabilityList(){
+        checkAvailabilityList = new LinkedList<>();
         checkAvailabilityList.add(SETPLAYERPOSITION_SMALL);
         checkAvailabilityList.add(SETPLAYERPOSITION_MIDDLE);
         checkAvailabilityList.add(SETPLAYERPOSITION_MIDDLE1);
