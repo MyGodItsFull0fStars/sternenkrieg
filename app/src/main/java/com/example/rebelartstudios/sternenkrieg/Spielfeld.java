@@ -83,7 +83,7 @@ public class Spielfeld extends AppCompatActivity {
     // this Views can be also a chat system. That mean player can talk with other player with it.
     // But now we can use it to check if the Socket program right.
     // what we do next: set Start Button and make connect.
-    // You can call methode messageSend to send String message parameter mit (message, phost)
+    // You can call methode messageSend to send String message parameter mit (message, pHost)
     // And in class Myhandler you get message form enemy, msg.what = 1 is what enemy say
     // msg.what = 4 , sendMsg[1] is enemy shoot position.
 
@@ -93,7 +93,7 @@ public class Spielfeld extends AppCompatActivity {
     Socket socket = new Socket();
     ServerSocket mServerSocket = null;
     Handler myHandler;
-    boolean Phost = false; // if this is host then phost is ture; if not is false.
+    boolean Phost = false; // if this is host then pHost is ture; if not is false.
     String message;
     ReceiveThreadHost receiveThreadHost;
     String ip;
@@ -134,7 +134,7 @@ public class Spielfeld extends AppCompatActivity {
         player1_say = (EditText) findViewById(R.id.player1_say);
         System.out.println("Spielfeld");
         Phost = stats.isPhost();
-        System.out.println("phost: " + Phost);
+        System.out.println("pHost: " + Phost);
         who_is_starting = GameUtilities.getWhoIsStarting();
         System.out.println("Who is starting: " + who_is_starting);
         Net = stats.isNet();
@@ -415,7 +415,7 @@ public class Spielfeld extends AppCompatActivity {
                     oneShoot = false;
                     sendGridView2 = true;
 
-                    //   messageSend("map,"+position, phost);
+                    //   messageSend("map,"+position, pHost);
 
                     // Toast.makeText(getApplicationContext(), "Pos: " + position + " Id: ",
                     //       Toast.LENGTH_SHORT).show();

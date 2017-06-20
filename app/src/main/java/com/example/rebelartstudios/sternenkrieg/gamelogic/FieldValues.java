@@ -19,14 +19,17 @@ public final class FieldValues {
     }
 
     public void initialiseShipLists(){
+        smallShipStringList = new LinkedList<>();
         smallShipStringList.add(SETPLAYERPOSITION_SMALL);
 
+        middleShipStringList = new LinkedList<>();
         middleShipStringList.add(SETPLAYERPOSITION_MIDDLE);
         middleShipStringList.add(SETPLAYERPOSITION_MIDDLE1);
         middleShipStringList.add(SETPLAYERPOSITION_MIDDLE2);
         middleShipStringList.add(SETPLAYERPOSITION_MIDDLE1R);
         middleShipStringList.add(SETPLAYERPOSITION_MIDDLE2R);
 
+        bigShipStringList = new LinkedList<>();
         bigShipStringList.add(SETFIELDPOSITION_BIG);
         bigShipStringList.add(SETFIELDPOSITION_BIG1);
         bigShipStringList.add(SETFIELDPOSITION_BIG2);
@@ -37,6 +40,7 @@ public final class FieldValues {
     }
 
     public void initialize_H_list(){
+        h_list = new LinkedList<>();
         h_list.add(SETFIELDPOSITION_H1);
         h_list.add(SETFIELDPOSITION_H2);
         h_list.add(SETFIELDPOSITION_H3);
@@ -44,6 +48,7 @@ public final class FieldValues {
     }
 
     public void initialize_I_list(){
+        i_list = new LinkedList<>();
         i_list.add(SETFIELDPOSITION_I1);
         i_list.add(SETFIELDPOSITION_I2);
         i_list.add(SETFIELDPOSITION_I3);
@@ -123,8 +128,6 @@ public final class FieldValues {
         checkAvailabilityList.add(SETFIELDPOSITION_ENEMYHIT);
         checkAvailabilityList.add(SETFIELDPOSITION_ENEMYMISS);
     }
-
-
 
 
     /**

@@ -62,7 +62,7 @@ public class Map extends AppCompatActivity {
     ServerSocket mServerSocket = null;
     Handler myhandler;
 
-    boolean Phost = false; // if this is host then phost is ture; if not is false.
+    boolean Phost = false; // if this is host then pHost is ture; if not is false.
     String message;
     ReceiveThreadHost receiveThreadHost;
     String ip;
@@ -122,7 +122,7 @@ public class Map extends AppCompatActivity {
         System.out.println("Map");
         Phost = stats.isPhost();
 
-        System.out.println("phost: " + Phost);
+        System.out.println("pHost: " + Phost);
         Net = stats.isNet();
         System.out.println("net: " + Net);
 

@@ -62,14 +62,14 @@ public class Dice extends AppCompatActivity {
     TextView statistik4;
     TextView statistik5;
     TextView statistik6;
-    TableLayout tabledice;
-    private int gegnervalue;
+    TableLayout tableDice;
+    private int gegnerValue;
     boolean finish = false;
     boolean finishEnemy = false;
     Intent intent = new Intent();
     ProgressBar prog1;
-    ImageView dicegoto;
-    static ImageView diceenemy;
+    ImageView diceGoto;
+    static ImageView diceEnemy;
     ImageView goNext;
     PulsatorLayout pulsator;
     ProgressBar progWaiting;
@@ -77,8 +77,8 @@ public class Dice extends AppCompatActivity {
     /********************Netz**************************/
     Socket socket = new Socket();
     ServerSocket mServerSocket = null;
-    Handler myhandler;
-    boolean phost = false; // if this is host then phost is ture; if not is false.
+    Handler myHandler;
+    boolean pHost = false; // if this is host then pHost is ture; if not is false.
     String message;
     ReceiveThreadHost receiveThreadHost;
     String ip;
@@ -103,10 +103,10 @@ public class Dice extends AppCompatActivity {
         mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         diceClass = new DiceClass(getApplicationContext());
         Dice.imageDice = (ImageView) findViewById(R.id.imageDice);
-        dicegoto = (ImageView) findViewById(R.id.dicegoto);
-        dicegoto.setVisibility(View.INVISIBLE);
-        diceenemy = (ImageView) findViewById(R.id.diceenemy);
-        diceenemy.setVisibility(View.INVISIBLE);
+        diceGoto = (ImageView) findViewById(R.id.dicegoto);
+        diceGoto.setVisibility(View.INVISIBLE);
+        diceEnemy = (ImageView) findViewById(R.id.diceenemy);
+        diceEnemy.setVisibility(View.INVISIBLE);
         statistik = (TextView) findViewById(R.id.textWarscheinlichkeit);
         statistik1 = (TextView) findViewById(R.id.textDiceOne);
         statistik2 = (TextView) findViewById(R.id.textDiceTwo);
@@ -114,7 +114,7 @@ public class Dice extends AppCompatActivity {
         statistik4 = (TextView) findViewById(R.id.textDiceFour);
         statistik5 = (TextView) findViewById(R.id.textDiceFive);
         statistik6 = (TextView) findViewById(R.id.textDiceSix);
-        tabledice = (TableLayout) findViewById(R.id.tableDice);
+        tableDice = (TableLayout) findViewById(R.id.tableDice);
         goNext = (ImageView) findViewById(R.id.imageGoNext);
         pulsator = (PulsatorLayout) findViewById(R.id.pulsatorMap);
         waiting = (TextView) findViewById(R.id.textMapWaiting);
@@ -128,14 +128,14 @@ public class Dice extends AppCompatActivity {
         /********************Netz**************************/
 
 
-        phost = stats.isPhost();
+        pHost = stats.isPhost();
         mode = stats.getMode();
         net = stats.isNet();
-        if (!phost) {
+        if (!pHost) {
             ip = stats.getIp();
         }
-        myhandler = new Myhandler();
-        util = new NetworkUtilities(phost, mAcceptThread, mServerSocket, socket, myhandler, receiveThreadHost, startThread, ip, receiveThreadClient);
+        myHandler = new Myhandler();
+        util = new NetworkUtilities(pHost, mAcceptThread, mServerSocket, socket, myHandler, receiveThreadHost, startThread, ip, receiveThreadClient);
         util.networkbuild();
         util.connection();
 
@@ -144,9 +144,9 @@ public class Dice extends AppCompatActivity {
         goNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                util.messageSend("boolean", phost);
+                util.messageSend("boolean", pHost);
                 finish = true;
-                if (!phost) {
+                if (!pHost) {
                     new CountDownTimer(200, 100) {
                         public void onTick(long millisUntilFinished) {
                             System.out.print(millisUntilFinished);
@@ -216,7 +216,7 @@ public class Dice extends AppCompatActivity {
             default:
                 break;
         }
-        util.messageSend(Integer.toString(value), phost);
+        util.messageSend(Integer.toString(value), pHost);
         diceClass.changeDiceImage(value);
         sended = true;
         sollfinish();
@@ -226,7 +226,7 @@ public class Dice extends AppCompatActivity {
     public void animation() {
         Animation scale = new ScaleAnimation(imageDice.getScaleX(), imageDice.getScaleX() / 2, imageDice.getScaleY(), imageDice.getScaleY() / 2, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
         scale.setDuration(1000);
-        TranslateAnimation slideUp = new TranslateAnimation(-dicegoto.getX(), -imageDice.getX(), 0, 0);
+        TranslateAnimation slideUp = new TranslateAnimation(-diceGoto.getX(), -imageDice.getX(), 0, 0);
         slideUp.setDuration(1000);
         AnimationSet animSet = new AnimationSet(true);
         animSet.setFillEnabled(true);
@@ -263,7 +263,7 @@ public class Dice extends AppCompatActivity {
         intent.setClass(Dice.this, Map.class);
         switch (mode) {
             case 1:
-                whoStarts = diceClass.whoIsStarting(value, gegnervalue);
+                whoStarts = diceClass.whoIsStarting(value, gegnerValue);
                 game.setWhoIsStarting(whoStarts);
                 if (whoStarts == 2) {
                     goNext.setImageResource(R.drawable.dice3droll);
@@ -295,9 +295,9 @@ public class Dice extends AppCompatActivity {
 
     private void sollfinish() {
         if (sended && came) {
-            diceClass.changeDiceImageEnemy(gegnervalue);
+            diceClass.changeDiceImageEnemy(gegnerValue);
             prog1.setVisibility(View.INVISIBLE);
-            diceenemy.setVisibility(View.VISIBLE);
+            diceEnemy.setVisibility(View.VISIBLE);
             onFinish();
         }
     }
@@ -313,7 +313,7 @@ public class Dice extends AppCompatActivity {
 
     public void statistikVisibility() {
         statistik.setVisibility(View.VISIBLE);
-        tabledice.setVisibility(View.VISIBLE);
+        tableDice.setVisibility(View.VISIBLE);
 
         statistik1.setText("1: " + diceClass.getOneprobability());
         statistik2.setText("2: " + diceClass.getTwoprobability());
@@ -338,10 +338,10 @@ public class Dice extends AppCompatActivity {
                 Log.i(Dice.class.getName(), "Boolean");
                 syncClose();
             } else if (!("".equals(message))) {
-                gegnervalue = Integer.parseInt(message);
-                textscoreenemy.setText(game.getEnemyusername()+" got:" + gegnervalue);
-                diceClass.changeDiceImageEnemy(gegnervalue);
-                diceenemy.setVisibility(View.VISIBLE);
+                gegnerValue = Integer.parseInt(message);
+                textscoreenemy.setText(game.getEnemyusername()+" got:" + gegnerValue);
+                diceClass.changeDiceImageEnemy(gegnerValue);
+                diceEnemy.setVisibility(View.VISIBLE);
                 came = true;
                 sollfinish();
 
