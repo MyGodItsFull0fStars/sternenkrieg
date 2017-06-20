@@ -15,7 +15,7 @@ import java.util.Arrays;
 public class PlayerFieldShipContainer {
     private PlayerFieldLogic playerFieldLogic;
     private ShipLogic shipLogic;
-    String tag = "PlayerfieldShipContaine";
+    private String tag = "FieldShipContainer";
     private FieldValues fieldValues;
     private ArrayList<Integer> failures_right = new ArrayList<>(Arrays.asList(7, 15, 23, 31, 39, 47, 55, 63));
     private ArrayList<Integer> failures_left = new ArrayList<>(Arrays.asList(8, 16, 24, 32, 40, 48, 56));
@@ -208,7 +208,7 @@ public class PlayerFieldShipContainer {
      * @param input    the input string checked with the string at position
      * @return if input string is equal to string at position or siblings, return true, otherwise return false
      */
-    public boolean playerFieldBigShipContainsString(int position, int degree, String input) {
+    private boolean playerFieldBigShipContainsString(int position, int degree, String input) {
         Log.i(tag, "Crash");
         return input.equals(playerFieldLogic.playerField[position - shipLogic.getSibling(degree)])
                 || input.equals(playerFieldLogic.playerField[position])
@@ -221,7 +221,7 @@ public class PlayerFieldShipContainer {
      * @param input    the input string checked with the string at position
      * @return if input string is equal to string at position or siblings, return true, otherwise return false
      */
-    public boolean playerFieldMiddleShipContainsString(int position, int degree, String input) {
+    private boolean playerFieldMiddleShipContainsString(int position, int degree, String input) {
         Log.i(tag, "Crash");
         return input.equals(playerFieldLogic.playerField[position - shipLogic.getSibling(degree)])
                 || input.equals(playerFieldLogic.playerField[position]);

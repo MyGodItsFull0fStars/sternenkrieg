@@ -13,9 +13,9 @@ import java.util.Arrays;
  */
 
 public class PlayerFieldLogic {
-    public String[] playerField;
-    private final int PLAYERFIELDSIZE = 64;
-    FieldValues fieldStrings = new FieldValues();
+    String[] playerField;
+    private final int PLAYER_FIELD_SIZE = 64;
+    private FieldValues fieldStrings = new FieldValues();
 
     private final String ONE = "1";
     private final String TWO = "2";
@@ -23,13 +23,7 @@ public class PlayerFieldLogic {
     private final String FOUR = "4";
     private final String FIVE = "5";
     private final String SIX = "6";
-    String tag ="PlayerfieldLogic";
-
-
-    /**
-     * Error messages for the Exception output.
-     */
-    String playerFieldWrongSizeErrorMessage = "Parameter has the wrong size";
+    String tag = "PlayerfieldLogic";
 
 
     /**
@@ -38,22 +32,6 @@ public class PlayerFieldLogic {
     public PlayerFieldLogic() {
         initializePlayerField();
     }
-
-    /**
-     * Constructor for using an already defined string array as player field
-     *
-     * @param playerfield used to set the player field to the given string array
-     *                    must be of the same size
-     *
-     *  CURRENTLY NOT USED
-     */
-//    public PlayerFieldLogic(String[] playerfield) {
-//        if (playerfield.length == PLAYERFIELDSIZE) {
-//            setPlayerField(playerfield);
-//        } else {
-//            throw new IllegalStateException(playerFieldWrongSizeErrorMessage);
-//        }
-//    }
 
 
     /**
@@ -74,7 +52,7 @@ public class PlayerFieldLogic {
      */
     public void setPlayerField(String[] playerfield) {
         Log.i(tag, "setPlayerField");
-        if (playerfield != null && playerfield.length == PLAYERFIELDSIZE) {
+        if (playerfield != null && playerfield.length == PLAYER_FIELD_SIZE) {
             this.playerField = playerfield;
         } else {
             throw new IllegalArgumentException(ErrorMessages.PLAYERFIELD_WRONG_SIZE);
@@ -84,7 +62,7 @@ public class PlayerFieldLogic {
     public void initializePlayerField() {
         Log.i(tag, "initPlayerField");
         if (playerField == null) {
-            playerField = new String[PLAYERFIELDSIZE];
+            playerField = new String[PLAYER_FIELD_SIZE];
         }
         Arrays.fill(playerField, fieldStrings.SETFIELDPOSITION_EMPTY);
     }
@@ -93,7 +71,7 @@ public class PlayerFieldLogic {
      * Sets the position of the player field in the Map Activity class
      *
      * @param position the position which will we changed to wanted state
-     * @param input
+     * @param input    string input used to set the value at position
      */
     public void setSmallShipPosition(int position, String input) {
         Log.i(tag, "setSmallShipPosition");
@@ -145,7 +123,7 @@ public class PlayerFieldLogic {
     public void setBigShipPositionToString(int position, int degree, String input) {
         Log.i(tag, "setBigShipPositionToStrin");
         setMiddleShipPositionToString(position, degree, input);
-        if (inRange(position + getSibling(degree))){
+        if (inRange(position + getSibling(degree))) {
             playerField[position + getSibling(degree)] = input;
         }
     }

@@ -177,7 +177,9 @@ public class Spielfeld extends AppCompatActivity {
             public void onSensorChanged(SensorEvent event) {
                 mLightQuantity = event.values[0];
                 TextView tex = ((TextView) findViewById(R.id.amountShips));
-                tex.setText(mLightQuantity + "");
+                String text = mLightQuantity + "";
+                tex.setText(text);
+                text = null;
 
                 ImageView background = (ImageView) findViewById(R.id.background_stars);
 
@@ -425,7 +427,7 @@ public class Spielfeld extends AppCompatActivity {
                     oneShoot = false;
                     sendGridView2 = true;
 
-                    //   messageSend("map,"+position,phost);
+                    //   messageSend("map,"+position, phost);
 
                     // Toast.makeText(getApplicationContext(), "Pos: " + position + " Id: ",
                     //       Toast.LENGTH_SHORT).show();
@@ -689,12 +691,12 @@ public class Spielfeld extends AppCompatActivity {
         });
     }
 
-    public boolean relocateShip(int position, String posis, boolean shipRotated) {
+    public boolean relocateShip(int position, String input, boolean shipRotated) {
 
-        ArrayList<Integer> failures_right = new ArrayList<Integer>(Arrays.asList(-1, 7, 15, 23, 31, 39, 47, 55, 63));
-        ArrayList<Integer> failures_left = new ArrayList<Integer>(Arrays.asList(8, 16, 24, 32, 40, 48, 56, 64));
+        ArrayList<Integer> failures_right = new ArrayList<>(Arrays.asList(-1, 7, 15, 23, 31, 39, 47, 55, 63));
+        ArrayList<Integer> failures_left = new ArrayList<>(Arrays.asList(8, 16, 24, 32, 40, 48, 56, 64));
 
-        switch (posis) {
+        switch (input) {
             case "g":
                 if (checkAvailability(position)) {
                     return true;
@@ -907,7 +909,7 @@ public class Spielfeld extends AppCompatActivity {
     public void animation(float x, float y) {
         //TODO: at work
         //animationClass(v.getX(),v.getY());
-        System.out.println("Animtation");
+        System.out.println("Animation");
         shootPlayer.setVisibility(View.VISIBLE);
         TranslateAnimation slideUp = new TranslateAnimation(-x, -y, 0, 0);
         slideUp.setDuration(1000);
