@@ -8,7 +8,6 @@ import java.net.Socket;
 
 public class WriteClient extends Thread {
 
-
     Socket socket;
     boolean exit;
     String tag = "Client";
@@ -25,12 +24,10 @@ public class WriteClient extends Thread {
         OutputStream os = null;
         Log.w("CLIENT", info);
         try {
-
             os = socket.getOutputStream();
             if (exit) {
                 Log.w("CLIENT", "write Client: " + info);
                 os.write((info + "\n").getBytes("utf-8"));
-
             } else {
                 os.write(("exit" + "\n").getBytes("utf-8"));
             }
@@ -39,15 +36,14 @@ public class WriteClient extends Thread {
             Log.e(tag, "IOException in WriteThread: " + e.toString());
         } catch (NullPointerException e) {
             Log.e(tag, "NullPointerException in WriteThread: " + e.toString());
-
-
         }
     }
 
-    public String getmessage(){
+    public String getmessage() {
         return info;
     }
-    public Socket getSocket(){
+
+    public Socket getSocket() {
         return socket;
     }
 

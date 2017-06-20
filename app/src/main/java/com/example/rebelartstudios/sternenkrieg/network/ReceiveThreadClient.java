@@ -18,8 +18,6 @@ public class ReceiveThreadClient extends Thread {
     Handler myhandler;
     String tag = "Client";
 
-
-
     public ReceiveThreadClient(Socket socket, boolean running, Handler myhandler) throws IOException {
         is = socket.getInputStream();
         this.running = running;
@@ -32,10 +30,7 @@ public class ReceiveThreadClient extends Thread {
             InputStreamReader isr = new InputStreamReader(is);
             BufferedReader br = new BufferedReader(isr);
             try {
-
                 str = br.readLine();
-
-
             } catch (NullPointerException e) {
                 running = false;
                 Message msg2 = myhandler.obtainMessage();
@@ -44,14 +39,12 @@ public class ReceiveThreadClient extends Thread {
                 Log.e(tag, "NullpointerException in ReceiveThreadHost: " + e.toString());
                 Thread.currentThread().interrupt();
                 break;
-
             } catch (IOException e) {
                 Log.e(tag, "IOException in ReceiveThreadHost: " + e.toString());
                 Thread.currentThread().interrupt();
             }
 
             try {
-
                 Message msg = myhandler.obtainMessage();
                 String[] a = str.split(",");
                 if (a.length == 1) {
@@ -63,7 +56,7 @@ public class ReceiveThreadClient extends Thread {
                     msg.obj = str;
                     myhandler.sendMessage(msg);
                 }
-            }catch (NullPointerException e){
+            } catch (NullPointerException e) {
                 Log.e(tag, "NullpointerException in ReceiveThreadHost: " + e.toString());
             }
             try {
@@ -80,11 +73,11 @@ public class ReceiveThreadClient extends Thread {
 
     }
 
-    public void setRunning(boolean running){
+    public void setRunning(boolean running) {
         this.running = running;
     }
 
-    public Handler getMessage(){
+    public Handler getMessage() {
         return myhandler;
     }
 

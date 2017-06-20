@@ -18,23 +18,22 @@ public class StartThread extends Thread {
     boolean tryconnect = true;
     int port;
 
-    public StartThread(Socket socket, String ip, ReceiveThreadClient rt, Handler myhandler,int port){
+    public StartThread(Socket socket, String ip, ReceiveThreadClient rt, Handler myhandler, int port) {
         this.socket = socket;
         this.ip = ip;
         this.rt = rt;
         this.myhandler = myhandler;
         this.port = port;
-
     }
+
     @Override
     public void run() {
 
         while (tryconnect) {
             try {
-
                 socket = new Socket(ip, port);
-                System.out.println("Connected"+socket);
-                Log.i(StartThread.class.getName(),"Connect success");
+                System.out.println("Connected" + socket);
+                Log.i(StartThread.class.getName(), "Connect success");
                 tryconnect = false;
                 rt = new ReceiveThreadClient(socket, running, myhandler);
                 rt.start();
@@ -51,25 +50,28 @@ public class StartThread extends Thread {
 
     }
 
-    public Socket getSocket(){
+    public Socket getSocket() {
         return socket;
     }
-    public void setRunning(boolean running){
+
+    public void setRunning(boolean running) {
         this.running = running;
     }
-    public ReceiveThreadClient getRt(){
+
+    public ReceiveThreadClient getRt() {
         return this.rt;
     }
-    public void closeSocket(){
+
+    public void closeSocket() {
         try {
             this.socket.close();
             this.socket = null;
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
-    public void setTryconnect(boolean tryconnect){
+
+    public void setTryconnect(boolean tryconnect) {
         this.tryconnect = tryconnect;
         rt.setRunning(false);
     }

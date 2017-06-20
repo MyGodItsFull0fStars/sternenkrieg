@@ -206,25 +206,26 @@ In der Klasse "PlayerFieldLogic" wird die Logik des Spielfelds verwaltet. Die Sp
 Alle Netzwerk-bezogenen Klassen befinden sich im Package "network". Im Spiel Sternenkrieg übernimmt ein Spieler die Rolle des Servers, der andere die des Clients. Es wird sozusagen ein Server erstellt, zu welchem sich der Client verbindet. Im weiteren Spielverlauf spielt dies keine Rolle.
 
 \subsection{AcceptThread}
+Die Klasse "AcceptThread" stellt einen Thread für die Socket-Kommunikation zur Verfügung. In dieser Klasse wird der SocketServer erstellt (siehe StartThread für Socket).
 
 \subsection{Client}
-Die Klasse "Client" wird vom Client-Spieler geöffnet. Dieser verbindet sich mithilfe eines Threads per Socket zum Server (Port 54321). Wurde eine Verbindung hergestellt, kann der Server-Spieler das Spiel starten.
+Die Klasse "Client" wird vom Client-Spieler geöffnet. Dieser verbindet sich mithilfe eines Threads per Socket zum Server. Wurde eine Verbindung hergestellt, kann der Server-Spieler das Spiel starten.
 
 \subsection{Host}
-Die Klasse "Host" wird vom Server-Spieler geöffnet. Dieser öffnet einen Socket (per Thread) auf dem Port 54321 und wartet anschließend auf die Verbindung vom Client. Die eigentlichen Spieldaten werden in der Klasse GameUtilities gespeichert.
+Die Klasse "Host" wird vom Server-Spieler geöffnet. Dieser öffnet einen Socket (per Thread) und wartet anschließend auf die Verbindung vom Client. Die eigentlichen Spieldaten werden in der Klasse GameUtilities gespeichert.
 Wurde die Verbindung erfolgreich hergestellt und das Spiel manuell vom Host gestartet, beginnt das Würfeln für den Spielstart.
 
 \subsection{NetworkUtilities}
+Die Klasse "NetworkUtilities" stellt die zentrale Schnittstelle für das Netzwerk dar und verbindet alle anderen Netzwerk-Klassen miteinander 
 
-\subsection{ReceiveThreadClient}
-
-\subsection{ReceiveThreadHost}
+\subsection{ReceiveThreadClient/ReceiveThreadHost}
+Die Klassen "ReceiveThreadClient" bzw. "ReceiveThreadHost" dienen zum Empfangen von Nachrichten über den Socket. Eine Klasse dient dabei für den Server-Spieler, die andere für den Client-Spieler. Write-Klassen: siehe WriteClient/WriteHost. 
 
 \subsection{StartThread}
+Die Klasse "StartThread" stellt einen Thread für die Socket-Kommunikation zur Verfügung. In dieser Klasse wird der eigentliche Socket erstellt (siehe AcceptThread für SocketServer).
 
-\subsection{WriteClient}
-
-\subsection{WriteHost}
+\subsection{WriteClient/WriteHost}
+Die Klassen "WriteClient" bzw. "WriteHost" dienen zum Senden von Text an den Client-Spieler bzw. an den Server-Spieler. Dabei wird die Nachricht über den entsprechenden Socket verschickt. Receive-Klassen: siehe ReceiveThreadClient/ReceiveThreadHost.
 
 \section{Resources-Klassen im Überblick}
 

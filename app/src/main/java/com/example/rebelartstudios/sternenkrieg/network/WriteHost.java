@@ -13,10 +13,10 @@ public class WriteHost extends Thread {
     String info;
     String tag = "host";
 
-    public WriteHost(Socket socket, OutputStream os, String info){
+    public WriteHost(Socket socket, OutputStream os, String info) {
         this.socket = socket;
         this.os = os;
-        this. info = info;
+        this.info = info;
     }
 
     @Override
@@ -24,9 +24,8 @@ public class WriteHost extends Thread {
         try {
             os = socket.getOutputStream();//kriege socket outputstream
             String msg = info + "\n";
-            System.out.println("WriteHost: "+msg);
+            System.out.println("WriteHost: " + msg);
             os.write(msg.getBytes("utf-8"));
-
             os.flush();
 
         } catch (IOException e) {
@@ -36,10 +35,11 @@ public class WriteHost extends Thread {
         }
     }
 
-    public String getmessage(){
+    public String getmessage() {
         return info;
     }
-    public Socket getSocket(){
+
+    public Socket getSocket() {
         return socket;
     }
 

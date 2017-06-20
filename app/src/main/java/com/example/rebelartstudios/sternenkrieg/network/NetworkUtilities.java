@@ -17,12 +17,12 @@ public class NetworkUtilities {
     Socket socket;
     Handler myhandler;
     ReceiveThreadHost receiveThreadHost;
-    OutputStream os= null;
+    OutputStream os = null;
     StartThread startThread;
     String ip;
     ReceiveThreadClient receiveThreadClient;
     String tag = "Dice";
-    String message="";
+    String message = "";
 
     public NetworkUtilities(boolean phost, AcceptThread mAcceptThread, ServerSocket mServerSocket, Socket socket, Handler myhandler, ReceiveThreadHost receiveThreadHost, StartThread startThread, String ip, ReceiveThreadClient receiveThreadClient) {
         this.phost = phost;
@@ -36,15 +36,11 @@ public class NetworkUtilities {
         this.receiveThreadClient = receiveThreadClient;
     }
 
-
-    public void connection(){
-            boolean running = true;
-            mAcceptThread = new AcceptThread(running, mServerSocket, socket, myhandler, receiveThreadHost, 12345);
-            mAcceptThread.start();
-        }
-
-
-
+    public void connection() {
+        boolean running = true;
+        mAcceptThread = new AcceptThread(running, mServerSocket, socket, myhandler, receiveThreadHost, 12345);
+        mAcceptThread.start();
+    }
 
     public void messageSend(String message, boolean Phost) {
         if (Phost) {
@@ -56,10 +52,9 @@ public class NetworkUtilities {
             socket1 = startThread.getSocket();
             WriteClient wirte = new WriteClient(true, socket1, message);
             wirte.start();
-
-
         }
     }
+
     public void networkbuild() {
         if (!phost) {
             this.startThread = new StartThread(socket, ip, receiveThreadClient, myhandler, 12345);
@@ -67,25 +62,15 @@ public class NetworkUtilities {
         }
     }
 
-
-
     public void close() {
-
         if (phost) {
-
             try {
-
                 mAcceptThread.setRunning(false);
-
                 mAcceptThread.setSocket(null);
-
             } catch (NullPointerException e) {
                 Log.e(tag, "NullPointerException in Client: " + e.toString());
-
-
             }
             try {
-
                 mAcceptThread.getmReceiveThreadHost().close();
                 mAcceptThread.getmServerSocket().close();
                 mAcceptThread.getSocket().close();
@@ -104,7 +89,6 @@ public class NetworkUtilities {
                 socket.close();
                 socket = null;
                 startThread.setTryconnect(false);
-
                 startThread.interrupt();
             } catch (NullPointerException e) {
                 Log.e(tag, "NullPointerException in Client: " + e.toString());
@@ -115,7 +99,7 @@ public class NetworkUtilities {
         }
     }
 
-    public String handleMessage(Message msg){
+    public String handleMessage(Message msg) {
         switch (msg.what) {
             case 1:
                 message = (String) msg.obj;

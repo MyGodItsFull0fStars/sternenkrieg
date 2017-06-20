@@ -13,9 +13,8 @@ import java.net.Socket;
 
 public class ReceiveThreadHost extends Thread {
 
-
     private InputStream is = null;
-    private String read="";
+    private String read = "";
     private boolean running;
     private Handler mHandler;
     String tag = "Host";
@@ -50,7 +49,7 @@ public class ReceiveThreadHost extends Thread {
                 read = br.readLine();
             } catch (UnsupportedEncodingException e) {
                 Log.e(tag, "UnsupportedException in AcceptThreadHost: " + e.toString());
-            }catch (IOException e) {
+            } catch (IOException e) {
                 Log.e(tag, "IOException in AcceptThreadHost: " + e.toString());
                 throw new RuntimeException(e);
             } catch (NullPointerException e) {
