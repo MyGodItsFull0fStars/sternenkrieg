@@ -126,6 +126,34 @@ public class MapLoad extends BaseAdapter {
         } else if (mobile.equals(fieldValues.SETFIELDPOSITION_BIG3R)) {
             imageView.setBackgroundResource(R.drawable.ship3_small3r);
 
+            /* ships with armour*/
+        } else if (mobile.equals(fieldValues.SETFIELDPOSITION_J)) {
+            imageView.setBackgroundResource(R.drawable.ship1_armour_small);
+
+        } else if (mobile.equals(fieldValues.SETFIELDPOSITION_K1)) {
+            imageView.setBackgroundResource(R.drawable.ship2_small1_armour);
+        } else if (mobile.equals(fieldValues.SETFIELDPOSITION_K2)) {
+            imageView.setBackgroundResource(R.drawable.ship2_small2_armour);
+        } else if (mobile.equals(fieldValues.SETFIELDPOSITION_K3)) {
+            imageView.setBackgroundResource(R.drawable.ship2_small1r_armour);
+        } else if (mobile.equals(fieldValues.SETFIELDPOSITION_K4)) {
+            imageView.setBackgroundResource(R.drawable.ship2_small2r_armour);
+
+        } else if (mobile.equals(fieldValues.SETFIELDPOSITION_L1)) {
+            imageView.setBackgroundResource(R.drawable.ship3_small1_armour);
+        } else if (mobile.equals(fieldValues.SETFIELDPOSITION_L2)) {
+            imageView.setBackgroundResource(R.drawable.ship3_small2_armour);
+        } else if (mobile.equals(fieldValues.SETFIELDPOSITION_L4)) {
+            imageView.setBackgroundResource(R.drawable.ship3_small3_armour);
+        } else if (mobile.equals(fieldValues.SETFIELDPOSITION_L4)) {
+            imageView.setBackgroundResource(R.drawable.ship3_small1r_armour);
+        } else if (mobile.equals(fieldValues.SETFIELDPOSITION_L5)) {
+            imageView.setBackgroundResource(R.drawable.ship3_small2r_armour);
+        } else if (mobile.equals(fieldValues.SETFIELDPOSITION_L6)) {
+            imageView.setBackgroundResource(R.drawable.ship3_small3r_armour);
+
+            /* --- */
+
         } else if (mobile.equals(fieldValues.SETFIELDPOSITION_ENEMYHIT)) {
             imageView.setBackgroundColor(Color.YELLOW); //hit for enemy
         } else if (mobile.equals(fieldValues.SETFIELDPOSITION_PLAYERHIT)) {

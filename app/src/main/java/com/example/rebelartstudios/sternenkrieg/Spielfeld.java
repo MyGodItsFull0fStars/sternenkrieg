@@ -488,7 +488,11 @@ public class Spielfeld extends AppCompatActivity {
                 if (map1[position].equals("d") || map1[position].equals("e1") || map1[position].equals("e2")
                         || map1[position].equals("e3") || map1[position].equals("e4") || map1[position].equals("f1")
                         || map1[position].equals("f2") || map1[position].equals("f3") || map1[position].equals("f4")
-                        || map1[position].equals("f5") || map1[position].equals("f6")) {
+                        || map1[position].equals("f5") || map1[position].equals("f6") ||
+                        map1[position].equals("j") || map1[position].equals("k1") || map1[position].equals("k2")
+                        || map1[position].equals("k3") || map1[position].equals("k4") || map1[position].equals("l1")
+                        || map1[position].equals("l2") || map1[position].equals("l3") || map1[position].equals("l4")
+                        || map1[position].equals("l5") || map1[position].equals("l6")) {
                     map1[position] = 3 + "";
                     vib.vibrate(500);
                     highScore = highScore - 30;
@@ -585,47 +589,8 @@ public class Spielfeld extends AppCompatActivity {
                 }
 
                 if (shipPlaced) {
+                     restoreShips();
 
-                    for (int i = 0; i < map1.length; i++) {
-                        switch (map1[i]) {
-                            case "g":
-                                map1[i] = "d";
-                                break;
-                            case "h1":
-                                map1[i] = "e1";
-                                break;
-                            case "h2":
-                                map1[i] = "e2";
-                                break;
-                            case "h3":
-                                map1[i] = "e3";
-                                break;
-                            case "h4":
-                                map1[i] = "e4";
-                                break;
-                            case "i1":
-                                map1[i] = "f1";
-                                break;
-                            case "i2":
-                                map1[i] = "f2";
-                                break;
-                            case "i3":
-                                map1[i] = "f3";
-                                break;
-                            case "i4":
-                                map1[i] = "f4";
-                                break;
-                            case "i5":
-                                map1[i] = "f5";
-                                break;
-                            case "i6":
-                                map1[i] = "f6";
-                                break;
-                            default:
-                                break;
-                        }
-
-                    }
                     draw(map1, gridView1);
 
 
@@ -905,7 +870,7 @@ public class Spielfeld extends AppCompatActivity {
 
             if (countE.size() == 2) {
                 if(ship2Rotated){
-                    map1[countE.get(0)] = "h2";
+                    map1[countE.get(0)] = "h3";
                     map1[countE.get(1)] = "h4";
                 } else {
                     map1[countE.get(0)] = "h1";
@@ -940,6 +905,48 @@ public class Spielfeld extends AppCompatActivity {
 
     }
 
+    public void restoreShips() {
+        for (int i = 0; i < map1.length; i++) {
+            switch (map1[i]) {
+                case "g":
+                    map1[i] = "d";
+                    break;
+                case "h1":
+                    map1[i] = "e1";
+                    break;
+                case "h2":
+                    map1[i] = "e2";
+                    break;
+                case "h3":
+                    map1[i] = "e3";
+                    break;
+                case "h4":
+                    map1[i] = "e4";
+                    break;
+                case "i1":
+                    map1[i] = "f1";
+                    break;
+                case "i2":
+                    map1[i] = "f2";
+                    break;
+                case "i3":
+                    map1[i] = "f3";
+                    break;
+                case "i4":
+                    map1[i] = "f4";
+                    break;
+                case "i5":
+                    map1[i] = "f5";
+                    break;
+                case "i6":
+                    map1[i] = "f6";
+                    break;
+                default:
+                    break;
+            }
+
+        }
+    }
 
 
     public void powerups(){
@@ -979,9 +986,15 @@ public class Spielfeld extends AppCompatActivity {
                                     case "i2": map1[i]="l2"; break;
                                     case "i3": map1[i]="l3"; break;
                                     case "i4": map1[i]="l4"; break;
+                                    case "i5": map1[i]="l5"; break;
+                                    case "i6": map1[i]="l6"; break;
                                 }
                             }
                         }
+
+                        restoreShips();
+
+                        draw(map1, gridView1);
 
                         clickMap();
 

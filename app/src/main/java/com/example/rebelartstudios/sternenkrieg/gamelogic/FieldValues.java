@@ -12,14 +12,32 @@ public final class FieldValues {
     public void initialiseShipLists(){
         smallShipStringList.add(SETFIELDPOSITION_SMALL);
 
-        middleShipStringList.add(SETPLAYERPOSITION_MIDDLE);
+        middleShipStringList.add(SETPLAYERPOSITION_MIDDLE1R);
+        middleShipStringList.add(SETPLAYERPOSITION_MIDDLE2R);
         middleShipStringList.add(SETPLAYERPOSITION_MIDDLE1);
         middleShipStringList.add(SETPLAYERPOSITION_MIDDLE2);
 
-        bigShipStringList.add(SETFIELDPOSITION_BIG);
         bigShipStringList.add(SETFIELDPOSITION_BIG1);
         bigShipStringList.add(SETFIELDPOSITION_BIG2);
         bigShipStringList.add(SETFIELDPOSITION_BIG3);
+        bigShipStringList.add(SETFIELDPOSITION_BIG1R);
+        bigShipStringList.add(SETFIELDPOSITION_BIG2R);
+        bigShipStringList.add(SETFIELDPOSITION_BIG3R);
+
+        /* ships with armour */
+        smallShipStringList.add(SETFIELDPOSITION_J);
+
+        middleShipStringList.add(SETFIELDPOSITION_K1);
+        middleShipStringList.add(SETFIELDPOSITION_K2);
+        middleShipStringList.add(SETFIELDPOSITION_K3);
+        middleShipStringList.add(SETFIELDPOSITION_K4);
+
+        bigShipStringList.add(SETFIELDPOSITION_L1);
+        bigShipStringList.add(SETFIELDPOSITION_L2);
+        bigShipStringList.add(SETFIELDPOSITION_L3);
+        bigShipStringList.add(SETFIELDPOSITION_L4);
+        bigShipStringList.add(SETFIELDPOSITION_L5);
+        bigShipStringList.add(SETFIELDPOSITION_L6);
     }
 
     public final String SETFIELDPOSITION_A = "a";
@@ -72,6 +90,20 @@ public final class FieldValues {
     public final String SETFIELDPOSITION_I4 = "i4";
     public final String SETFIELDPOSITION_I5 = "i5";
     public final String SETFIELDPOSITION_I6 = "i6";
+
+    public final String SETFIELDPOSITION_J = "j";
+
+    public final String SETFIELDPOSITION_K1 = "k1";
+    public final String SETFIELDPOSITION_K2 = "k2";
+    public final String SETFIELDPOSITION_K3 = "k3";
+    public final String SETFIELDPOSITION_K4 = "k4";
+
+    public final String SETFIELDPOSITION_L1 = "l1";
+    public final String SETFIELDPOSITION_L2 = "l2";
+    public final String SETFIELDPOSITION_L3 = "l3";
+    public final String SETFIELDPOSITION_L4 = "l4";
+    public final String SETFIELDPOSITION_L5 = "l5";
+    public final String SETFIELDPOSITION_L6 = "l6";
 
     public final String SETFIELDPOSITION_MISS = "1";
     public final String SETFIELDPOSITION_TWO = "2";
