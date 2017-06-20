@@ -91,9 +91,8 @@ public class Client extends AppCompatActivity implements View.OnClickListener {
                 animationClass.stop();
                 setButtonOnStartState(false);
                 btnStart.clearAnimation();
-                new CountDownTimer(800, 100) {
+                new CountDownTimer(400, 100) {
                     public void onTick(long millisUntilFinished) {
-                        System.out.print(millisUntilFinished);
                     }
 
                     @Override
@@ -112,12 +111,20 @@ public class Client extends AppCompatActivity implements View.OnClickListener {
                             Log.e(tag, "NullPointerException in Client: " + e.toString());
                         }
 
-                        try {
-                            Thread write = new WriteClient(true, socket, "Bereit!");
-                            write.start();
-                        } catch (NullPointerException e) {
-                            Log.e(tag, "NullPointerException in Client: " + e.toString());
-                        }
+                        new CountDownTimer(300, 100) {
+                            public void onTick(long millisUntilFinished) {
+                            }
+
+                            @Override
+                            public void onFinish() {
+                                try {
+                                    Thread write = new WriteClient(true, socket, "Bereit!");
+                                    write.start();
+                                } catch (NullPointerException e) {
+                                    Log.e(tag, "NullPointerException in Client: " + e.toString());
+                                }
+                            }
+                        }.start();
                     }
                 }.start();
                 break;

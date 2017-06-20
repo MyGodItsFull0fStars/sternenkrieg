@@ -41,6 +41,12 @@ import java.net.Socket;
 import pl.bclogic.pulsator4droid.library.PulsatorLayout;
 
 import static com.example.rebelartstudios.sternenkrieg.DiceClass.countDice;
+import static com.example.rebelartstudios.sternenkrieg.DiceClass.getFive;
+import static com.example.rebelartstudios.sternenkrieg.DiceClass.getFour;
+import static com.example.rebelartstudios.sternenkrieg.DiceClass.getOne;
+import static com.example.rebelartstudios.sternenkrieg.DiceClass.getSix;
+import static com.example.rebelartstudios.sternenkrieg.DiceClass.getThree;
+import static com.example.rebelartstudios.sternenkrieg.DiceClass.getTwo;
 import static com.example.rebelartstudios.sternenkrieg.DiceClass.setCountDice;
 import static com.example.rebelartstudios.sternenkrieg.DiceClass.setFive;
 import static com.example.rebelartstudios.sternenkrieg.DiceClass.setFour;
@@ -397,32 +403,32 @@ public class Dice extends AppCompatActivity {
         switch (value) {
             case 1:
                 imageDice.setImageResource(one);
-                setOne(one + 1);
+                setOne(getOne() + 1);
                 setCountDice(countDice + 1);
                 break;
             case 2:
                 imageDice.setImageResource(two);
-                setTwo(two + 1);
+                setTwo(getTwo() + 1);
                 setCountDice(countDice + 1);
                 break;
             case 3:
                 imageDice.setImageResource(three);
-                setThree(three + 1);
+                setThree(getThree() + 1);
                 setCountDice(countDice + 1);
                 break;
             case 4:
                 imageDice.setImageResource(four);
-                setFour(four + 1);
+                setFour(getFour() + 1);
                 setCountDice(countDice + 1);
                 break;
             case 5:
                 imageDice.setImageResource(five);
-                setFive(five + 1);
+                setFive(getFive() + 1);
                 setCountDice(countDice + 1);
                 break;
             case 6:
                 imageDice.setImageResource(six);
-                setSix(six + 1);
+                setSix(getSix() + 1);
                 setCountDice(countDice + 1);
                 break;
             default:

@@ -27,10 +27,10 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.rebelartstudios.sternenkrieg.gamelogic.FieldValues;
 import com.example.rebelartstudios.sternenkrieg.gamelogic.GameUtilities;
 import com.example.rebelartstudios.sternenkrieg.gamelogic.NetworkStats;
 import com.example.rebelartstudios.sternenkrieg.gamelogic.PlayerFieldShipContainer;
-import com.example.rebelartstudios.sternenkrieg.gamelogic.FieldValues;
 import com.example.rebelartstudios.sternenkrieg.network.AcceptThread;
 import com.example.rebelartstudios.sternenkrieg.network.NetworkUtilities;
 import com.example.rebelartstudios.sternenkrieg.network.ReceiveThreadClient;
@@ -113,8 +113,8 @@ public class Gameplay extends AppCompatActivity {
     NetworkStats stats = new NetworkStats();
     GameUtilities game;
     int who_is_starting;
-    ImageView shootPlayer;
     ImageView shootEnemy;
+    ImageView shootPlayer;
 
     String mapString = "Map";
 
@@ -403,10 +403,11 @@ public class Gameplay extends AppCompatActivity {
         clickMap();
         start();
 
-
         gridView2.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                 if (shoot) {
+                    util.messageSend("enemy,"+v.getX()+" "+v.getY(),Phost);
+                    animationPlayer(v.getX()+gridView2.getX(),v.getY()+gridView2.getY());
 
                     util.messageSend("shoot," + position, Phost);
                     oneShoot = false;
@@ -497,34 +498,46 @@ public class Gameplay extends AppCompatActivity {
                 || fieldValues.bigShipStringList.contains(map1[position])) {
             map1[position] = fieldValues.SET_FIELD_POSITION_ENEMY_HIT;
             vib.vibrate(500);
-            highScore = highScore - 30; }
+            highScore = highScore - 30;
+        }
 
         //hits ship with armour
         else if (fieldValues.smallShipArmourStringList.contains(map1[position])
-                    || fieldValues.middleShipArmourStringList.contains(map1[position])
-                    || fieldValues.bigShipArmourStringList.contains(map1[position])) {
-            switch(map1[position]) {
-                case "j": map1[position] = fieldValues.SET_PLAYER_POSITION_SMALL;
+                || fieldValues.middleShipArmourStringList.contains(map1[position])
+                || fieldValues.bigShipArmourStringList.contains(map1[position])) {
+            switch (map1[position]) {
+                case "j":
+                    map1[position] = fieldValues.SET_PLAYER_POSITION_SMALL;
                     break;
-                case "k1": map1[position] = fieldValues.SET_PLAYER_POSITION_MIDDLE1;
+                case "k1":
+                    map1[position] = fieldValues.SET_PLAYER_POSITION_MIDDLE1;
                     break;
-                case "k2": map1[position] = fieldValues.SET_PLAYER_POSITION_MIDDLE2;
+                case "k2":
+                    map1[position] = fieldValues.SET_PLAYER_POSITION_MIDDLE2;
                     break;
-                case "k3": map1[position] = fieldValues.SET_PLAYER_POSITION_MIDDLE1R;
+                case "k3":
+                    map1[position] = fieldValues.SET_PLAYER_POSITION_MIDDLE1R;
                     break;
-                case "k4": map1[position] = fieldValues.SET_PLAYER_POSITION_MIDDLE2R;
+                case "k4":
+                    map1[position] = fieldValues.SET_PLAYER_POSITION_MIDDLE2R;
                     break;
-                case "l1": map1[position] = fieldValues.SET_FIELD_POSITION_BIG1;
+                case "l1":
+                    map1[position] = fieldValues.SET_FIELD_POSITION_BIG1;
                     break;
-                case "l2": map1[position] = fieldValues.SET_FIELD_POSITION_BIG2;
+                case "l2":
+                    map1[position] = fieldValues.SET_FIELD_POSITION_BIG2;
                     break;
-                case "l3": map1[position] = fieldValues.SET_FIELD_POSITION_BIG3;
+                case "l3":
+                    map1[position] = fieldValues.SET_FIELD_POSITION_BIG3;
                     break;
-                case "l4": map1[position] = fieldValues.SET_FIELD_POSITION_BIG1R;
+                case "l4":
+                    map1[position] = fieldValues.SET_FIELD_POSITION_BIG1R;
                     break;
-                case "l5": map1[position] = fieldValues.SET_FIELD_POSITION_BIG2R;
+                case "l5":
+                    map1[position] = fieldValues.SET_FIELD_POSITION_BIG2R;
                     break;
-                case "l6": map1[position] = fieldValues.SET_FIELD_POSITION_BIG3R;
+                case "l6":
+                    map1[position] = fieldValues.SET_FIELD_POSITION_BIG3R;
                     break;
             }
             vib.vibrate(500);
@@ -665,7 +678,7 @@ public class Gameplay extends AppCompatActivity {
                 }
 
                 if (shipPlaced) {
-                     restoreShips();
+                    restoreShips();
 
                     draw(map1, gridView1);
 
@@ -899,6 +912,10 @@ public class Gameplay extends AppCompatActivity {
                         shoot = true;
 
                     }
+                    if("enemy".equals(mapMsg[0])){
+                        String[] cord = mapMsg[1].split(" ");
+                        animationEnemy(Float.valueOf(cord[0]),Float.valueOf(cord[1]));
+                    }
 
                     if (dice && dice2)
                         dice();
@@ -925,14 +942,22 @@ public class Gameplay extends AppCompatActivity {
 
     }
 
-    public void animation(float x, float y) {
-        //TODO: at work
-        //animationClass(v.getX(),v.getY());
-        System.out.println("Animation");
+    public void animationPlayer(float x, float y) {
         shootPlayer.setVisibility(View.VISIBLE);
-        TranslateAnimation slideUp = new TranslateAnimation(-x, -y, 0, 0);
+        TranslateAnimation slideUp = new TranslateAnimation(0, x- shootPlayer.getX() , 0, y- shootPlayer.getY() );
         slideUp.setDuration(1000);
         shootPlayer.setAnimation(slideUp);
+        shootPlayer.setVisibility(View.INVISIBLE);
+
+
+    }
+    public void animationEnemy(float x, float y) {
+
+        shootEnemy.setVisibility(View.VISIBLE);
+        TranslateAnimation slideUp = new TranslateAnimation(0, x- shootEnemy.getX() , 0, y- shootEnemy.getY() );
+        slideUp.setDuration(1000);
+        shootEnemy.setAnimation(slideUp);
+        shootEnemy.setVisibility(View.INVISIBLE);
 
 
     }
