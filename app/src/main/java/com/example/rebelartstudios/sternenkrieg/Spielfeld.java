@@ -72,7 +72,7 @@ public class Spielfeld extends AppCompatActivity {
 
 
     int pointsPlayer = 0;
-    boolean check; //checks whether powerups are currently displayed;
+    boolean check; //checks whether powerUps are currently displayed;
     Vibrator vib;
 
     private SensorManager mSensorManager;
@@ -215,7 +215,7 @@ public class Spielfeld extends AppCompatActivity {
         options.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-            /* determine whether options or powerups should be displayed */
+            /* determine whether options or powerUps should be displayed */
                 if (check) {
                     setOptionButtonsInvisible();
                     check = false;
@@ -243,56 +243,96 @@ public class Spielfeld extends AppCompatActivity {
 
                 //highlight all intact ships
 
-                final boolean [] shipR = findIntactShips();
-
+                final boolean[] shipR = findIntactShips();
 
 
                 gridView1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+                        fieldValues.initialize_H_list();
+                        fieldValues.initialize_I_list();
 
                         // final int posi=position;
                         final String posis = map1[position];
 
-                        if (posis.equals("g") || posis.equals("h1") || posis.equals("h2") || posis.equals("h3") || posis.equals("h4")
-                                ||  posis.equals("i1")  ||  posis.equals("i2")  ||  posis.equals("i3")
-                                ||  posis.equals("i4")  ||  posis.equals("i5")  ||  posis.equals("i6")) {
+                        if (posis.equals("g")
+                                //posis.equals("h1") || posis.equals("h2") || posis.equals("h3") || posis.equals("h4")||
+                                || fieldValues.h_list.contains(posis)
+                                || fieldValues.i_list.contains(posis))
+                        //|| posis.equals("i1") || posis.equals("i2") || posis.equals("i3")
+                        // || posis.equals("i4") || posis.equals("i5") || posis.equals("i6"))
 
+                        {
 
+                            if (posis.equals(fieldValues.SETFIELDPOSITION_G)) {
+                                map1[position] = fieldValues.SETFIELDPOSITION_PLAYERHIT;
+                                draw(map1, gridView1);
+                            } else if (fieldValues.h_list.contains(posis)) {
+                                for (int i = 0; i < map1.length; i++) {
+                                    if (
+                                            //map1[i].equals("h1") || map1[i].equals("h2") || map1[i].equals("h3") || map1[i].equals("h4")
+                                             fieldValues.h_list.contains(map1[i])) {
 
-                            switch (posis) {
-                                case "g":
-                                    map1[position]= 4+"";
+                                        map1[i] = fieldValues.SETFIELDPOSITION_PLAYERHIT;
+                                    }
+
                                     draw(map1, gridView1);
-                                    break;
-                                case"h1":case "h2":case "h3": case "h4":
-                                    for (int i = 0; i < map1.length; i++) {
-                                        if (map1[i].equals("h1") || map1[i].equals("h2") || map1[i].equals("h3") || map1[i].equals("h4")) {
+                                }
+                            } else if (fieldValues.i_list.contains(posis)) {
+                                for (int i = 0; i < map1.length; i++) {
+                                    //    if (map1[i].equals("i1") || map1[i].equals("i2") || map1[i].equals("i3")
+                                    //            || map1[i].equals("i4") || map1[i].equals("i5") || map1[i].equals("i6"))
+                                    if (fieldValues.i_list.contains(map1[i])) {
 
-                                            map1[i] = 4 + "";
-                                        }
-
-                                        draw(map1, gridView1);
+                                        map1[i] = fieldValues.SETFIELDPOSITION_PLAYERHIT;
                                     }
-                                    break;
-                                case"i1":case "i2":case "i3":  case"i4":case "i5":case "i6":
-                                    for (int i = 0; i < map1.length; i++) {
-                                        if (map1[i].equals("i1") || map1[i].equals("i2") || map1[i].equals("i3")
-                                                || map1[i].equals("i4") || map1[i].equals("i5") || map1[i].equals("i6")) {
 
-                                            map1[i] = 4 + "";
-                                        }
-
-                                        draw(map1, gridView1);
-                                    }
-                                    break;
+                                    draw(map1, gridView1);
+                                }
                             }
+
+
+//                            switch (posis) {
+//                                case "g":
+//                                    map1[position] = 4 + "";
+//                                    draw(map1, gridView1);
+//                                    break;
+//                                case "h1":
+//                                case "h2":
+//                                case "h3":
+//                                case "h4":
+//                                    for (int i = 0; i < map1.length; i++) {
+//                                        if (map1[i].equals("h1") || map1[i].equals("h2") || map1[i].equals("h3") || map1[i].equals("h4")) {
+//
+//                                            map1[i] = fieldValues.SETFIELDPOSITION_PLAYERHIT;
+//                                        }
+//
+//                                        draw(map1, gridView1);
+//                                    }
+//                                    break;
+//                                case "i1":
+//                                case "i2":
+//                                case "i3":
+//                                case "i4":
+//                                case "i5":
+//                                case "i6":
+//                                    for (int i = 0; i < map1.length; i++) {
+//                                        if (map1[i].equals("i1") || map1[i].equals("i2") || map1[i].equals("i3")
+//                                                || map1[i].equals("i4") || map1[i].equals("i5") || map1[i].equals("i6")) {
+//
+//                                            map1[i] = 4 + "";
+//                                        }
+//
+//                                        draw(map1, gridView1);
+//                                    }
+//                                    break;
+//                            }
 
                             final boolean ship2RotatedFinal;
                             final boolean ship3RotatedFinal;
 
 
-                            ship2RotatedFinal=shipR[0];
-                            ship3RotatedFinal=shipR[1];
+                            ship2RotatedFinal = shipR[0];
+                            ship3RotatedFinal = shipR[1];
 
                             relocate(posis, ship2RotatedFinal, ship3RotatedFinal);
 
@@ -305,7 +345,7 @@ public class Spielfeld extends AppCompatActivity {
         options2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-            /* show power-ups - options2==powerups */
+            /* show power-ups - options2==powerUps */
                 options1.setImageDrawable(getResources().getDrawable(R.drawable.powerup1));
                 options2.setImageDrawable(getResources().getDrawable(R.drawable.powerup2));
                 options3.setImageDrawable(getResources().getDrawable(R.drawable.powerup3));
@@ -313,7 +353,7 @@ public class Spielfeld extends AppCompatActivity {
 
                 check = false;
 
-                powerups();
+                powerUps();
             }
         });
 
@@ -474,8 +514,6 @@ public class Spielfeld extends AppCompatActivity {
         if (gameOver("d", map1) && gameOver("e", map1) && gameOver("f", map1)) { //determine whether all ships are already destroyed
             alert("2");
         }
-
-
     }
 
 
@@ -557,7 +595,10 @@ public class Spielfeld extends AppCompatActivity {
 
                         }
                         break;
-                    case "h1": case "h2": case "h3": case "h4":
+                    case "h1":
+                    case "h2":
+                    case "h3":
+                    case "h4":
                         if (relocateShip(position, posis, ship2Rotated) && !ship2Rotated) { //check if ship is placeable for not rotated ship
                             map1[position] = "e1";
                             map1[position + 1] = "e2"; //relocate ship unrotated
@@ -569,7 +610,12 @@ public class Spielfeld extends AppCompatActivity {
 
                         }
                         break;
-                    case "i1": case "i2": case "i3": case "i4": case "i5": case "i6":
+                    case "i1":
+                    case "i2":
+                    case "i3":
+                    case "i4":
+                    case "i5":
+                    case "i6":
                         if (relocateShip(position, posis, ship3Rotated) && !ship3Rotated) { //check if ship is placeable for not rotated ship
                             map1[position] = "f2";
                             map1[position + 1] = "f3";
@@ -649,13 +695,21 @@ public class Spielfeld extends AppCompatActivity {
                 if (checkAvailability(position)) {
                     return true;
                 }
-            case "h1":  case "h2":  case "h3":  case "h4":
+            case "h1":
+            case "h2":
+            case "h3":
+            case "h4":
                 if (shipRotated == false) {
                     return !(failures_left.contains(position + 1) || !checkAvailability(position) || !checkAvailability(position + 1));
                 } else {
                     return !(position + 1 > 63 || !checkAvailability(position) || !checkAvailability(position + 8));
                 }
-            case "i1": case "i2": case "i3": case "i4": case "i5": case "i6":
+            case "i1":
+            case "i2":
+            case "i3":
+            case "i4":
+            case "i5":
+            case "i6":
                 if (shipRotated == false) {
                     return !(failures_left.contains(position + 1) || failures_right.contains(position - 1)
                             || !checkAvailability(position) || !checkAvailability(position - 1) || !checkAvailability(position + 1));
@@ -672,20 +726,36 @@ public class Spielfeld extends AppCompatActivity {
 
     public boolean checkAvailability(int position) {
         //  if(map1[position].equals(posis)){ return true;} else {
-      //  fieldValues.initialiseCheckAvailabilityList();
+        //  fieldValues.initialiseCheckAvailabilityList();
 
         switch (map1[position]) {
             case "d":
                 return false;
-            case "e1":  case "e2":  case "e3":  case "e4":
+            case "e1":
+            case "e2":
+            case "e3":
+            case "e4":
                 return false;
-            case "f1": case "f2": case "f3": case "41": case "f5": case "f6":
+            case "f1":
+            case "f2":
+            case "f3":
+            case "41":
+            case "f5":
+            case "f6":
                 return false;
             case "g":
                 return false;
-            case "h1": case "h2": case "h3": case "h4":
+            case "h1":
+            case "h2":
+            case "h3":
+            case "h4":
                 return false;
-            case "i1": case "i2": case "i3": case "i4": case "i5": case "i6":
+            case "i1":
+            case "i2":
+            case "i3":
+            case "i4":
+            case "i5":
+            case "i6":
                 return false;
             case "3":
                 return false;
@@ -849,6 +919,7 @@ public class Spielfeld extends AppCompatActivity {
         }
 
     }
+
     public void animation(float x, float y) {
         //TODO: at work
         //animationClass(v.getX(),v.getY());
@@ -857,7 +928,6 @@ public class Spielfeld extends AppCompatActivity {
         TranslateAnimation slideUp = new TranslateAnimation(-x, -y, 0, 0);
         slideUp.setDuration(1000);
         shootPlayer.setAnimation(slideUp);
-
 
 
     }
@@ -875,13 +945,21 @@ public class Spielfeld extends AppCompatActivity {
                 case "d":
                     countD.add(i);
                     break;
-                case "e1":case "e2":case "e3": case "e4":
+                case "e1":
+                case "e2":
+                case "e3":
+                case "e4":
                     countE.add(i);
                     if (map1[i + 1].equals("e2")) {
                         ship2Rotated = false;
                     }
                     break;
-                case "f1":case "f2":case "f3":case "f4": case "f5":case "f6":
+                case "f1":
+                case "f2":
+                case "f3":
+                case "f4":
+                case "f5":
+                case "f6":
                     countF.add(i);
                     if (map1[i + 1].equals("f2")) {
                         ship3Rotated = false;
@@ -894,33 +972,33 @@ public class Spielfeld extends AppCompatActivity {
 
             if (countD.size() == 1) {
                 for (int j = 0; j < countD.size(); j++) {
-                    map1[countD.get(j)] = "g";
+                    map1[countD.get(j)] = fieldValues.SETFIELDPOSITION_G;
                 }
                 countD.clear();
 
             }
 
             if (countE.size() == 2) {
-                if(ship2Rotated){
-                    map1[countE.get(0)] = "h2";
-                    map1[countE.get(1)] = "h4";
+                if (ship2Rotated) {
+                    map1[countE.get(0)] = fieldValues.SETFIELDPOSITION_H2;
+                    map1[countE.get(1)] = fieldValues.SETFIELDPOSITION_H4;
                 } else {
-                    map1[countE.get(0)] = "h1";
-                    map1[countE.get(1)] = "h2";
+                    map1[countE.get(0)] = fieldValues.SETFIELDPOSITION_H1;
+                    map1[countE.get(1)] = fieldValues.SETFIELDPOSITION_H2;
                 }
 
                 countE.clear();
             }
 
             if (countF.size() == 3) {
-                if(ship3Rotated) {
-                    map1[countF.get(0)] = "i4";
-                    map1[countF.get(1)] = "i5";
-                    map1[countF.get(2)] = "i6";
-                }else {
-                    map1[countF.get(0)] = "i1";
-                    map1[countF.get(1)] = "i2";
-                    map1[countF.get(2)] = "i3";
+                if (ship3Rotated) {
+                    map1[countF.get(0)] = fieldValues.SETFIELDPOSITION_I4;
+                    map1[countF.get(1)] = fieldValues.SETFIELDPOSITION_I5;
+                    map1[countF.get(2)] = fieldValues.SETFIELDPOSITION_I6;
+                } else {
+                    map1[countF.get(0)] = fieldValues.SETFIELDPOSITION_I1;
+                    map1[countF.get(1)] = fieldValues.SETFIELDPOSITION_I2;
+                    map1[countF.get(2)] = fieldValues.SETFIELDPOSITION_I3;
                 }
 
                 countF.clear();
@@ -930,16 +1008,15 @@ public class Spielfeld extends AppCompatActivity {
         draw(map1, gridView1);
 
         boolean[] shipRotated = new boolean[2];
-        shipRotated[0]=ship2Rotated;
-        shipRotated[1]=ship3Rotated;
+        shipRotated[0] = ship2Rotated;
+        shipRotated[1] = ship3Rotated;
 
         return shipRotated;
 
     }
 
 
-
-    public void powerups(){
+    public void powerUps() {
         options4.setOnClickListener(new View.OnClickListener() {  //in this case: options4 = powerup4: ship armour
             @Override
             public void onClick(View v) {
@@ -954,28 +1031,44 @@ public class Spielfeld extends AppCompatActivity {
 
                         if (posis.equals("g")) {
                             map1[position] = "j";
-                        }
-
-
-                       else if(posis.equals("h1") || posis.equals("h2") || posis.equals("h3") || posis.equals("h4")) {
-                            for(int i = 0; i < map1.length; i++){
-                                switch(map1[i]) {
-                                    case "h1": map1[i]="k1"; break;
-                                    case "h2": map1[i]="k2"; break;
-                                    case "h3": map1[i]="k3"; break;
-                                    case "h4": map1[i]="k4"; break;
+                        } else if (posis.equals("h1") || posis.equals("h2") || posis.equals("h3") || posis.equals("h4")) {
+                            for (int i = 0; i < map1.length; i++) {
+                                switch (map1[i]) {
+                                    case "h1":
+                                        map1[i] = "k1";
+                                        break;
+                                    case "h2":
+                                        map1[i] = "k2";
+                                        break;
+                                    case "h3":
+                                        map1[i] = "k3";
+                                        break;
+                                    case "h4":
+                                        map1[i] = "k4";
+                                        break;
                                 }
                             }
-                        }
+                        } else if (
+                            //posis.equals("i1") || posis.equals("i2") || posis.equals("i3")
+                            //|| posis.equals("i4") || posis.equals("i5") || posis.equals("i6") ||
+                                fieldValues.i_list.contains(posis))
 
-                        else if(posis.equals("i1") || posis.equals("i2") || posis.equals("i3")
-                                || posis.equals("i4") || posis.equals("i5") || posis.equals("i6")) {
-                            for(int i = 0; i < map1.length; i++){
-                                switch(map1[i]) {
-                                    case "i1": map1[i]="l1"; break;
-                                    case "i2": map1[i]="l2"; break;
-                                    case "i3": map1[i]="l3"; break;
-                                    case "i4": map1[i]="l4"; break;
+
+                        {
+                            for (int i = 0; i < map1.length; i++) {
+                                switch (map1[i]) {
+                                    case "i1":
+                                        map1[i] = "l1";
+                                        break;
+                                    case "i2":
+                                        map1[i] = "l2";
+                                        break;
+                                    case "i3":
+                                        map1[i] = "l3";
+                                        break;
+                                    case "i4":
+                                        map1[i] = "l4";
+                                        break;
                                 }
                             }
                         }
