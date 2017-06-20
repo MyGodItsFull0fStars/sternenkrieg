@@ -1,6 +1,6 @@
 package com.example.rebelartstudios.sternenkrieg.gamelogic;
 
-import android.util.Log;
+import com.example.rebelartstudios.sternenkrieg.ErrorMessages;
 
 /**
  * ShipLogic class used in the Map Activity class.
@@ -48,7 +48,7 @@ public class ShipLogic {
      */
     public ShipLogic(int[] small_ship, int[] middle_ship, int[] big_ship) {
         if (small_ship == null || middle_ship == null || big_ship == null) {
-            throw new IllegalArgumentException("IllegalArgumentException at ShipLogic constructor");
+            throw new IllegalArgumentException(ErrorMessages.NULL_PARAMETER);
         }
         setSmallShipArray(small_ship);
         setMiddleShipArray(middle_ship);
@@ -69,10 +69,6 @@ public class ShipLogic {
      */
     private final String tag = "ShipLogic";
 
-    /**
-     * Error messages used in exceptions
-     */
-    private String wrongArraySizeExceptionMessage = "Wrong array size in parameter";
 
     /**
      * Returns the array of the small sized ship
@@ -111,7 +107,7 @@ public class ShipLogic {
         if (array != null && array.length == SMALL_SHIP_SIZE && inRange(array[0])) {
             this.small_ship = array;
         } else {
-            throw new IllegalArgumentException(wrongArraySizeExceptionMessage);
+            throw new IllegalArgumentException(ErrorMessages.ARRAY_WRONG_SIZE);
         }
     }
 
@@ -123,7 +119,7 @@ public class ShipLogic {
      */
     public void setSmallShipPosition(int position) {
         if (inRange(position)) small_ship[0] = position;
-        else throw new IllegalArgumentException("Parameter position in setSmallShipPosition out of range");
+        else throw new IllegalArgumentException(ErrorMessages.POSITION_OUT_OF_RANGE);
     }
 
     /**
@@ -135,7 +131,7 @@ public class ShipLogic {
         if (array != null && array.length == MIDDLE_SHIP_SIZE) {
             this.middle_ship = array;
         } else {
-            throw new ArrayIndexOutOfBoundsException(wrongArraySizeExceptionMessage);
+            throw new ArrayIndexOutOfBoundsException(ErrorMessages.ARRAY_WRONG_SIZE);
         }
     }
 
@@ -150,7 +146,7 @@ public class ShipLogic {
         if (degree == fieldValues.HORIZONTAL || degree == fieldValues.VERTICAL) {
             middleShipPosition(position, getSibling(degree));
         } else {
-            Log.e(tag, "Degree is not correctly set");
+            throw new IllegalArgumentException(ErrorMessages.DEGREE_NOT_ALLOWED);
         }
     }
 
@@ -162,12 +158,12 @@ public class ShipLogic {
      */
     public void setBigShipArray(int[] array) {
         if (array == null) {
-            throw new IllegalArgumentException("Cannot set array as null");
+            throw new IllegalArgumentException(ErrorMessages.NULL_PARAMETER);
         }
         if (array.length == BIG_SHIP_SIZE) {
             this.big_ship = array;
         } else {
-            throw new ArrayIndexOutOfBoundsException(wrongArraySizeExceptionMessage);
+            throw new ArrayIndexOutOfBoundsException(ErrorMessages.ARRAY_WRONG_SIZE);
         }
     }
 
@@ -182,8 +178,7 @@ public class ShipLogic {
         if (degree == fieldValues.HORIZONTAL || degree == fieldValues.VERTICAL) {
             bigShipPosition(position, getSibling(degree));
         } else {
-            String degreeException = "Wrong degree value";
-            throw new IllegalArgumentException(degreeException);
+            throw new IllegalArgumentException(ErrorMessages.DEGREE_NOT_ALLOWED);
         }
     }
 
@@ -200,7 +195,7 @@ public class ShipLogic {
         } else if (degree == fieldValues.VERTICAL) {
             return 8;
         } else {
-            throw new IllegalArgumentException("Degree not correctly set");
+            throw new IllegalArgumentException(ErrorMessages.DEGREE_NOT_ALLOWED);
         }
     }
 
@@ -214,7 +209,7 @@ public class ShipLogic {
         if (inRange(position) && inRange(position - amount)) {
             middle_ship[0] = position - amount;
             middle_ship[1] = position;
-        } else throw new IllegalArgumentException(positionOutOfFieldException);
+        } else throw new IllegalArgumentException(ErrorMessages.POSITION_OUT_OF_RANGE);
     }
 
     /**
@@ -228,7 +223,7 @@ public class ShipLogic {
             big_ship[0] = position - amount;
             big_ship[1] = position;
             big_ship[2] = position + amount;
-        } else throw new IllegalArgumentException(positionOutOfFieldException);
+        } else throw new IllegalArgumentException(ErrorMessages.POSITION_OUT_OF_RANGE);
     }
 
 
