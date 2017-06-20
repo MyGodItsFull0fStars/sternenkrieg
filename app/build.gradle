@@ -15,6 +15,11 @@ android {
         }
     }
 
+    // needed for unit tests, otherwise, will fail because of Log method
+    testOptions {
+        unitTests.returnDefaultValues = true;
+    }
+
     lintOptions {
         abortOnError false
     }
