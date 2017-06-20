@@ -11,8 +11,15 @@ public final class FieldValues {
     public LinkedList<String> h_list;
     public LinkedList<String> i_list;
 
+    public FieldValues(){
+        initialize_H_list();
+        initialize_I_list();
+        initialiseShipLists();
+        initialiseCheckAvailabilityList();
+    }
+
     public void initialiseShipLists(){
-        smallShipStringList.add(SETFIELDPOSITION_SMALL);
+        smallShipStringList.add(SETPLAYERPOSITION_SMALL);
 
         middleShipStringList.add(SETPLAYERPOSITION_MIDDLE);
         middleShipStringList.add(SETPLAYERPOSITION_MIDDLE1);
@@ -53,7 +60,7 @@ public final class FieldValues {
      * Used to set the position color in the playerfield array to d
      * The character d is used for the position of the small ship
      */
-    public final String SETFIELDPOSITION_SMALL = "d";
+    public final String SETPLAYERPOSITION_SMALL = "d";
 
     /**
      * Used to set the position color in the playerfield array to e
@@ -105,7 +112,7 @@ public final class FieldValues {
 
 
     public void initialiseCheckAvailabilityList(){
-        checkAvailabilityList.add(SETFIELDPOSITION_SMALL);
+        checkAvailabilityList.add(SETPLAYERPOSITION_SMALL);
         checkAvailabilityList.add(SETPLAYERPOSITION_MIDDLE);
         checkAvailabilityList.add(SETPLAYERPOSITION_MIDDLE1);
         checkAvailabilityList.add(SETPLAYERPOSITION_MIDDLE2);

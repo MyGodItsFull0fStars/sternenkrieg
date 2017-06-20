@@ -188,12 +188,12 @@ public class PlayerFieldShipContainer {
 
         if (whichShip == shipLogic.BIG_SHIP_ID) {
             Log.i(tag, "Crash");
-            if (playerFieldBigShipContainsString(position, degree, fieldValues.SETFIELDPOSITION_SMALL) ||
+            if (playerFieldBigShipContainsString(position, degree, fieldValues.SETPLAYERPOSITION_SMALL) ||
                     playerFieldBigShipContainsString(position, degree, fieldValues.SETPLAYERPOSITION_MIDDLE)) {
                 return false;
             }
         } else if (whichShip == shipLogic.MIDDLE_SHIP_ID) {
-            if (playerFieldMiddleShipContainsString(position, degree, fieldValues.SETFIELDPOSITION_SMALL) ||
+            if (playerFieldMiddleShipContainsString(position, degree, fieldValues.SETPLAYERPOSITION_SMALL) ||
                     playerFieldMiddleShipContainsString(position, degree, fieldValues.SETFIELDPOSITION_BIG)) {
                 return false;
             }
@@ -243,7 +243,7 @@ public class PlayerFieldShipContainer {
 
         {
             delete(shipLogic.getSmallShipArray());
-            setSmallShipContainer(position, fieldValues.SETFIELDPOSITION_SMALL);
+            setSmallShipContainer(position, fieldValues.SETPLAYERPOSITION_SMALL);
             getShipLogic().setSmallShipIsSetOnField(true);
         }
 

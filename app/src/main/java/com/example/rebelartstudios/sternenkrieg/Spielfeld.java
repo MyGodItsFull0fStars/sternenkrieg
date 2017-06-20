@@ -269,8 +269,8 @@ public class Spielfeld extends AppCompatActivity {
                             } else if (fieldValues.h_list.contains(posis)) {
                                 for (int i = 0; i < map1.length; i++) {
                                     if (
-                                            //map1[i].equals("h1") || map1[i].equals("h2") || map1[i].equals("h3") || map1[i].equals("h4")
-                                             fieldValues.h_list.contains(map1[i])) {
+                                        //map1[i].equals("h1") || map1[i].equals("h2") || map1[i].equals("h3") || map1[i].equals("h4")
+                                            fieldValues.h_list.contains(map1[i])) {
 
                                         map1[i] = fieldValues.SETFIELDPOSITION_PLAYERHIT;
                                     }
@@ -525,23 +525,29 @@ public class Spielfeld extends AppCompatActivity {
                 //      Toast.LENGTH_SHORT).show();
 
                 /* enemy hits one of player's ships */
-                if (map1[position].equals("d") || map1[position].equals("e1") || map1[position].equals("e2")
-                        || map1[position].equals("e3") || map1[position].equals("e4") || map1[position].equals("f1")
-                        || map1[position].equals("f2") || map1[position].equals("f3") || map1[position].equals("f4")
-                        || map1[position].equals("f5") || map1[position].equals("f6")) {
-                    map1[position] = 3 + "";
+                if (
+                    //map1[position].equals("d") || map1[position].equals("e1") || map1[position].equals("e2")
+                    //|| map1[position].equals("e3") || map1[position].equals("e4") || map1[position].equals("f1")
+                    //|| map1[position].equals("f2") || map1[position].equals("f3") || map1[position].equals("f4")
+                    //|| map1[position].equals("f5") || map1[position].equals("f6")
+                        fieldValues.smallShipStringList.contains(map1[position])
+                                || fieldValues.middleShipStringList.contains(map1[position])
+                                || fieldValues.bigShipStringList.contains(map1[position])) {
+                    map1[position] = fieldValues.SETFIELDPOSITION_ENEMYHIT;
                     vib.vibrate(500);
                     highScore = highScore - 30;
 
                     /* opponent misses */
-                } else if (map1[position].equals("0")) {
+                } else if (map1[position].equals(fieldValues.SETFIELDPOSITION_EMPTY)) {
                     map1[position] = 5 + "";
                     highScore = highScore + 10;
                 }
                 draw(map1, gridView1); // update map
 
 
-                if (gameOver("d", map1) && gameOver("e", map1) && gameOver("f", map1)) { //determine whether all ships are already destroyed
+                if (gameOver(fieldValues.SETPLAYERPOSITION_SMALL, map1)
+                        && gameOver(fieldValues.SETPLAYERPOSITION_MIDDLE, map1)
+                        && gameOver(fieldValues.SETFIELDPOSITION_BIG, map1)) { //determine whether all ships are already destroyed
                     alert("2");
                 }
 
@@ -817,6 +823,7 @@ public class Spielfeld extends AppCompatActivity {
 
     }
 
+    // TODO: 20/06/2017  
     public boolean gameOver(String ship, String[] map) {
             /* checks if String "ship" (either checks whether player has any ships left or if an
             entire ship of the opponent has been destroyed) is still present in array "map";
@@ -904,7 +911,7 @@ public class Spielfeld extends AppCompatActivity {
                     if (sendMap) {
                         String sendMap = "";
                         for (String data : map1)
-                            sendMap += data+"x";
+                            sendMap += data + "x";
 
                         map2 = new String[fieldValues.FIELDSIZE];
                         Arrays.fill(map2, fieldValues.SETFIELDPOSITION_EMPTY);
