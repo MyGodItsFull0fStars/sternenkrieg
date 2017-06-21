@@ -281,7 +281,7 @@ public class Map extends AppCompatActivity {
         ship3 = (ImageView) findViewById(R.id.image_ship3);
         turn = (ImageView) findViewById(R.id.image_turn);
         textMapWaiting = (TextView) findViewById(R.id.textMapWaiting);
-        pulsatorLayout = (PulsatorLayout) findViewById(R.id.pulsatorMap);
+        pulsatorLayout = (PulsatorLayout) findViewById(R.id.pulsatorPlay);
         imageMapGoNext = (ImageView) findViewById(R.id.imageMapGoNext);
         progressWaiting = (ProgressBar) findViewById(R.id.progressBarMapWaiting);
     }
@@ -328,7 +328,7 @@ public class Map extends AppCompatActivity {
                     textMapWaiting.setVisibility(View.VISIBLE);
 
                     if (!playerHost) {
-                        new CountDownTimer(200, 100) {
+                        new CountDownTimer(350, 100) {
                             public void onTick(long millisUntilFinished) {
                                 System.out.print(millisUntilFinished);
                             }

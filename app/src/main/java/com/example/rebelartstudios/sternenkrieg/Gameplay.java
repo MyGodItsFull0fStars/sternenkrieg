@@ -22,10 +22,9 @@ import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.TranslateAnimation;
 import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.rebelartstudios.sternenkrieg.gamelogic.FieldValues;
@@ -44,6 +43,8 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
+
+import pl.bclogic.pulsator4droid.library.PulsatorLayout;
 
 public class Gameplay extends AppCompatActivity {
     String tag = "Gameplay";
@@ -90,9 +91,6 @@ public class Gameplay extends AppCompatActivity {
     // And in class Myhandler you get message form enemy, msg.what = 1 is what enemy say
     // msg.what = 4 , sendMsg[1] is enemy shoot position.
 
-    Button send;
-
-    EditText player1_say;
     Socket socket = new Socket();
     ServerSocket mServerSocket = null;
     Handler myHandler;
@@ -111,6 +109,8 @@ public class Gameplay extends AppCompatActivity {
     boolean oneShoot = true;
     boolean dice = false;
     boolean dice2 = false;
+    boolean sended = false;
+    boolean came = false;
     Intent intent = new Intent();
     NetworkUtilities util;
     NetworkStats stats = new NetworkStats();
@@ -118,6 +118,10 @@ public class Gameplay extends AppCompatActivity {
     int who_is_starting;
     ImageView shootEnemy;
     ImageView shootPlayer;
+    ImageView imageDice;
+    ProgressBar progWaiting;
+    PulsatorLayout pulsatorLayout;
+    int count=0;
 
     String mapString = "Map";
 
@@ -133,8 +137,6 @@ public class Gameplay extends AppCompatActivity {
 
         /****** Networking ****/
 
-        send = (Button) findViewById(R.id.player1_send);
-        player1_say = (EditText) findViewById(R.id.player1_say);
         System.out.println("Gameplay");
         Phost = stats.isPhost();
         System.out.println("pHost: " + Phost);
@@ -154,17 +156,6 @@ public class Gameplay extends AppCompatActivity {
 
         util.connection();
 
-        send.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String info = player1_say.getText().toString();
-                if (Phost) { //If this is host, so use WriteHost to sand message.
-                    util.messageSend(info, Phost);
-                } else {// Client.
-                    util.messageSend(info, Phost);
-                }
-            }
-        });
         /****Networking***/
 
 
@@ -368,6 +359,31 @@ public class Gameplay extends AppCompatActivity {
             }
         });
 
+        imageDice.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                util.messageSend("boolean,"+"boolean", Phost);
+                dice = true;
+                if (!Phost) {
+                    new CountDownTimer(350, 100) {
+                        public void onTick(long millisUntilFinished) {
+                            System.out.print(millisUntilFinished);
+                        }
+
+                        @Override
+                        public void onFinish() {
+                            dice();
+
+                        }
+
+                    }.start();
+                } else {
+                    dice();
+                }
+            }
+        });
+
+
         amountShips = 3;
 
         map1 = GameUtilities.getPlayerMap();
@@ -408,13 +424,15 @@ public class Gameplay extends AppCompatActivity {
 
         gridView2.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-                if (shoot) {
-                    util.messageSend("enemy,"+v.getX()+" "+v.getY(),Phost);
-                    animationPlayer(v.getX()+gridView2.getX(),v.getY()+gridView2.getY());
+                if (shoot&&count<1) {
+                    util.messageSend("enemy," + v.getX() + " " + v.getY(), Phost);
+                    animationPlayer(v.getX() + gridView2.getX(), v.getY() + gridView2.getY());
 
                     util.messageSend("shoot," + position, Phost);
                     oneShoot = false;
+                    sended=true;
                     sendGridView2 = true;
+                    count++;
 
                     //   messageSend("map,"+position, pHost);
 
@@ -436,37 +454,27 @@ public class Gameplay extends AppCompatActivity {
 
                     draw(map2, gridView2); // update map
                     shoot = false;
-                    dice = true;
-                    System.out.println("Dice True");
-                    if (dice2) {
-                        if (!Phost) {
-                            new CountDownTimer(200, 100) {
-                                public void onTick(long millisUntilFinished) {
-                                    System.out.print(millisUntilFinished);
-                                }
-
-                                @Override
-                                public void onFinish() {
-                                    dice();
-                                }
-
-                            }.start();
-                        } else
-                            dice();
-
-                    }
-
 
                     if (gameOver(shipType, map2)) { //check whether a complete ship of the enemy has been destroyed
                         decrementAmount();
                     }
 
                 }
+                sollfinish();
             }
 
         });
 
 
+    }
+
+    private void sollfinish() {
+        Log.i("sollfinish", "");
+        if (sended && came) {
+            Log.i("sollfinish if", "");
+            imageDice.setVisibility(View.VISIBLE);
+            pulsatorLayout.setVisibility(View.VISIBLE);
+        }
     }
 
 
@@ -484,13 +492,18 @@ public class Gameplay extends AppCompatActivity {
     }
 
     public void dice() {
-        intent.setClass(Gameplay.this, Dice.class);
-        GameUtilities.setPlayerMap(map1);
-        GameUtilities.setEnemyMap(map2);
-        NetworkStats.setMode(2);
-        System.out.println("Gameplay Ende Value" + value);
-        util.close();
-        startActivity(intent);
+        System.out.println("dice"+dice);
+        System.out.println("dice2"+dice2);
+        System.out.println("Sollfinish");
+        if(dice&&dice2) {
+            intent.setClass(Gameplay.this, Dice.class);
+            GameUtilities.setPlayerMap(map1);
+            GameUtilities.setEnemyMap(map2);
+            NetworkStats.setMode(2);
+            System.out.println("Gameplay Ende Value" + value);
+            util.close();
+            startActivity(intent);
+        }
     }
 
 
@@ -550,8 +563,7 @@ public class Gameplay extends AppCompatActivity {
             highScore = highScore + 10;
         }
         draw(map1, gridView1); // update map
-        dice2 = true;
-        System.out.println("Dice2 True");
+
 
         if (gameOver("d", map1) && gameOver("e", map1) && gameOver("f", map1)) { //determine whether all ships are already destroyed
             alert("2");
@@ -602,6 +614,9 @@ public class Gameplay extends AppCompatActivity {
         options = (ImageView) findViewById(R.id.options);
         shootEnemy = (ImageView) findViewById(R.id.imageShootEnemy);
         shootPlayer = (ImageView) findViewById(R.id.imageShootPlayer);
+        imageDice = (ImageView) findViewById(R.id.imagePlayNext);
+        progWaiting = (ProgressBar) findViewById(R.id.progressBarPlayWaiting);
+        pulsatorLayout = (PulsatorLayout) findViewById(R.id.pulsatorPlay);
 
         /* set option-buttons */
         options1 = (ImageView) findViewById(R.id.options1);
@@ -808,7 +823,10 @@ public class Gameplay extends AppCompatActivity {
                     })
                     .setNegativeButton("Whatever.", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
-                            // CANCEL
+                            Intent intent = new Intent(Gameplay.this, Highscore.class);
+                            GameUtilities.setPoints(highScore);
+                            GameUtilities.setHighScoreMain(true);
+                            startActivity(intent);
                         }
                     })
                     .show();
@@ -826,7 +844,10 @@ public class Gameplay extends AppCompatActivity {
                     })
                     .setNegativeButton("I know, I am awesome.", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
-                            // CANCEL
+                            Intent intent = new Intent(Gameplay.this, Highscore.class);
+                            GameUtilities.setPoints(highScore);
+                            GameUtilities.setHighScoreMain(true);
+                            startActivity(intent);
                         }
                     })
                     .show();
@@ -910,18 +931,23 @@ public class Gameplay extends AppCompatActivity {
                     }
                     if (mapMsg[0].equals("shoot")) {
                         String position = mapMsg[1];
+                        came=true;
                         checkShoot(Integer.parseInt(position), 2);
 
                         shoot = true;
 
                     }
-                    if("enemy".equals(mapMsg[0])){
-                        String[] cord = mapMsg[1].split(" ");
-                        animationEnemy(Float.valueOf(cord[0]),Float.valueOf(cord[1]));
-                    }
-
-                    if (dice && dice2)
+                    if (mapMsg[0].equals("boolean")) {
+                        Log.i("MessageBoolean", message);
+                        Log.i(Dice.class.getName(), "Boolean");
+                        dice2=true;
                         dice();
+                    }
+                    if ("enemy".equals(mapMsg[0])) {
+                        String[] cord = mapMsg[1].split(" ");
+                        animationEnemy(Float.valueOf(cord[0]), Float.valueOf(cord[1]));
+                    }
+                    sollfinish();
 
                     break;
 
@@ -947,21 +973,22 @@ public class Gameplay extends AppCompatActivity {
 
     public void animationPlayer(float x, float y) {
         shootPlayer.setVisibility(View.VISIBLE);
-        TranslateAnimation slideUp = new TranslateAnimation(0, x- shootPlayer.getX() , 0, y- shootPlayer.getY() );
+        TranslateAnimation slideUp = new TranslateAnimation(0, x - shootPlayer.getX(), 0, y - shootPlayer.getY());
         slideUp.setDuration(1000);
         shootPlayer.setAnimation(slideUp);
         shootPlayer.setVisibility(View.INVISIBLE);
 
 
-    }
-    public void animationEnemy(float x, float y) {
 
+
+    }
+
+    public void animationEnemy(float x, float y) {
         shootEnemy.setVisibility(View.VISIBLE);
-        TranslateAnimation slideUp = new TranslateAnimation(0, x- shootEnemy.getX() , 0, y- shootEnemy.getY() );
+        TranslateAnimation slideUp = new TranslateAnimation(0, x - shootEnemy.getX(), 0, y - shootEnemy.getY());
         slideUp.setDuration(1000);
         shootEnemy.setAnimation(slideUp);
         shootEnemy.setVisibility(View.INVISIBLE);
-
 
     }
 

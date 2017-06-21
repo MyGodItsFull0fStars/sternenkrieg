@@ -81,14 +81,14 @@
         android:textColor="@android:color/white"
         android:textSize="18sp"
         android:layout_marginRight="8dp"
-        app:layout_constraintRight_toRightOf="@+id/pulsatorMap"
-        app:layout_constraintBottom_toBottomOf="@+id/pulsatorMap"
+        app:layout_constraintRight_toRightOf="@+id/pulsatorPlay"
+        app:layout_constraintBottom_toBottomOf="@+id/pulsatorPlay"
         android:layout_marginBottom="8dp"
-        app:layout_constraintTop_toTopOf="@+id/pulsatorMap"
+        app:layout_constraintTop_toTopOf="@+id/pulsatorPlay"
         android:layout_marginTop="8dp" />
 
     <pl.bclogic.pulsator4droid.library.PulsatorLayout
-        android:id="@+id/pulsatorMap"
+        android:id="@+id/pulsatorPlay"
         android:layout_width="71dp"
         android:layout_height="70dp"
         android:layout_alignParentTop="true"
@@ -115,7 +115,7 @@
             android:src="@drawable/forward"
             android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="@+id/pulsatorMap"
+            app:layout_constraintLeft_toLeftOf="@+id/pulsatorPlay"
             app:layout_constraintRight_toRightOf="parent" />
     </pl.bclogic.pulsator4droid.library.PulsatorLayout>
 
