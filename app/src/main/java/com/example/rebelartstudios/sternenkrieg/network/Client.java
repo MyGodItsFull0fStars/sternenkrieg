@@ -170,15 +170,24 @@ public class Client extends AppCompatActivity implements View.OnClickListener {
                     if (("exit").equals(str)) {
                         exit();
                     } else if (("Start!").equals(str)) {
-                        Intent intentD = new Intent(Client.this, Dice.class);
+
 
                         ifStart = false;
-                        close();
-                        NetworkStats.setIp(ip);
-                        NetworkStats.setNet(true);
-                        NetworkStats.setPhost(false);
-                        NetworkStats.setMode(1);
-                        startActivity(intentD);
+                        new CountDownTimer(300, 100) {
+                            public void onTick(long millisUntilFinished) {
+                            }
+
+                            @Override
+                            public void onFinish() {
+                                Intent intentD = new Intent(Client.this, Dice.class);
+                                close();
+                                NetworkStats.setIp(ip);
+                                NetworkStats.setNet(true);
+                                NetworkStats.setPhost(false);
+                                NetworkStats.setMode(1);
+                                startActivity(intentD);
+                            }
+                        }.start();
 
                     } else if (null != str) {
                         GameUtilities.setEnemyUsername(str);

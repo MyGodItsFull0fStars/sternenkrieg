@@ -3,7 +3,6 @@ package com.example.rebelartstudios.sternenkrieg;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.graphics.Color;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -138,7 +137,7 @@ public class Dice extends AppCompatActivity {
         statistic6 = (TextView) findViewById(R.id.textDiceSix);
         tableDice = (TableLayout) findViewById(R.id.tableDice);
         goNext = (ImageView) findViewById(R.id.imageGoNext);
-        pulsator = (PulsatorLayout) findViewById(R.id.pulsatorMap);
+        pulsator = (PulsatorLayout) findViewById(R.id.pulsatorPlay);
         waiting = (TextView) findViewById(R.id.textMapWaiting);
         progWaiting = (ProgressBar) findViewById(R.id.progressBarWaiting);
         prog1 = (ProgressBar) findViewById(R.id.progressBar);
@@ -168,7 +167,7 @@ public class Dice extends AppCompatActivity {
                 util.messageSend("boolean", pHost);
                 finish = true;
                 if (!pHost) {
-                    new CountDownTimer(200, 100) {
+                    new CountDownTimer(350, 100) {
                         public void onTick(long millisUntilFinished) {
                             Log.d(tag, "Millis until finished: " + millisUntilFinished);
                         }
@@ -204,6 +203,7 @@ public class Dice extends AppCompatActivity {
             if ("shake".equals(sensors.accelUpdate(sensorEvent)) && shakeBoolean) {
                 value = diceClass.roll();
                 shakeBoolean = false;
+                Log.i("Shake", "");
                 shake();
             }
         }
@@ -216,6 +216,7 @@ public class Dice extends AppCompatActivity {
 
 
     public void shake() {
+        Log.i("shake mode", mode+"");
         switch (mode) {
             case 1:
                 new CountDownTimer(2000, 100) {
@@ -232,15 +233,27 @@ public class Dice extends AppCompatActivity {
                 break;
 
             case 2:
-                value += GameUtilities.getDiceScore();
-                String text = "You got:" + value;
-                textScore.setText(text);
-                GameUtilities.setDiceScore(value);
+
+                new CountDownTimer(2000, 100) {
+                    public void onTick(long millisUntilFinished) {
+                    }
+
+                    @Override
+                    public void onFinish() {
+                        Log.i("animation+value", value+"");
+                        animation();
+                        value += GameUtilities.getDiceScore();
+                        GameUtilities.setDiceScore(value);
+                    }
+
+                }.start();
+
                 break;
 
             default:
                 break;
         }
+        Log.i("shake mode danach", mode+"");
         util.messageSend(Integer.toString(value), pHost);
         changeDiceImage(value);
         sendBoolean = true;
@@ -268,6 +281,7 @@ public class Dice extends AppCompatActivity {
 
             @Override
             public void onAnimationEnd(Animation animation) {
+                Log.i("animation ende+came", came+"");
                 textScore.setText("You got:" + value);
                 prog1.setVisibility(View.VISIBLE);
                 statisticVisibility();
@@ -285,6 +299,7 @@ public class Dice extends AppCompatActivity {
     }
 
     public void onFinish() {
+        Log.i("onFinish", "");
         intent.setClass(Dice.this, Map.class);
         switch (mode) {
             case 1:
@@ -292,7 +307,6 @@ public class Dice extends AppCompatActivity {
                 game.setWhoIsStarting(whoStarts);
                 if (whoStarts == 2) {
                     goNext.setImageResource(R.drawable.dice3droll);
-                    pulsator.setColor(Color.RED);
                     intent.setClass(Dice.this, Dice.class);
                 }
                 break;
@@ -311,6 +325,7 @@ public class Dice extends AppCompatActivity {
 
             @Override
             public void onFinish() {
+                Log.i("onFinish CD", "");
                 goNext.setVisibility(View.VISIBLE);
                 pulsator.start();
 
@@ -320,7 +335,9 @@ public class Dice extends AppCompatActivity {
     }
 
     private void sollfinish() {
+        Log.i("sollfinish", "");
         if (sendBoolean && came) {
+            Log.i("sollfinish if", "");
             changeDiceImageEnemy(enemyValue);
             prog1.setVisibility(View.INVISIBLE);
             diceEnemy.setVisibility(View.VISIBLE);
@@ -385,11 +402,14 @@ public class Dice extends AppCompatActivity {
 
         public void handleMessage(Message msg) {
             message = util.handleMessage(msg);
+            Log.i("Message", message);
             if ("boolean".equals(message)) {
+                Log.i("MessageBoolean", message);
                 finishEnemy = true;
                 Log.i(Dice.class.getName(), "Boolean");
                 syncClose();
             } else if (!("".equals(message))) {
+                Log.i("MessageValue", message);
                 enemyValue = Integer.parseInt(message);
                 textScoreEnemy.setText(game.getEnemyUsername() + " got:" + enemyValue);
                 changeDiceImageEnemy(enemyValue);
