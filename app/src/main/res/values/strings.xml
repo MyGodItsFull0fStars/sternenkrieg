@@ -5,11 +5,6 @@ https://developer.android.com/guide/topics/resources/localization.html
 <resources>
     <string name="app_name">Sternenkrieg</string>
     <string name="service_id">Sternenkrieg</string>
-    <string name="sk_label">Sternenkrieg</string>
-
-    <string name="connection_type">Host/Client</string>
-    <string name="connection_type_host">Host</string>
-    <string name="connection_type_client">Client</string>
 
     <string name="about">About us</string>
     <string name="aboutGame">Rebel Art Studios, University Project Group. \nChristiann Bauer, Lukas Pagitz, Anja Ressmann, Christoph Roither, Boda Wen.</string>
@@ -42,6 +37,4 @@ https://developer.android.com/guide/topics/resources/localization.html
     <string name="de">Deutsch</string>
     <string name="en">English</string>
 
-    <string name="dummy_button">Dummy Button</string>
-    <string name="dummy_content">DUMMY\nCONTENT</string>
 </resources>
