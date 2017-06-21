@@ -342,20 +342,7 @@ public class Gameplay extends AppCompatActivity {
             }
         });
 
-        options2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-            /* show power-ups - options2==powerUps */
-                options1.setImageDrawable(getResources().getDrawable(R.drawable.powerup1));
-                options2.setImageDrawable(getResources().getDrawable(R.drawable.powerup2));
-                options3.setImageDrawable(getResources().getDrawable(R.drawable.powerup3));
-                options4.setImageDrawable(getResources().getDrawable(R.drawable.powerup4));
-
-                check = false;
-
-                powerUps();
-            }
-        });
+       powerUpOptions2();
 
         options3.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -1110,7 +1097,33 @@ public class Gameplay extends AppCompatActivity {
     int pu3points = 0;
     int pu4points = 0;
 
+    public void powerUpOptions2() {
+        options2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+            /* show power-ups - options2==powerUps */
+                options1.setImageDrawable(getResources().getDrawable(R.drawable.powerup1));
+                options2.setImageDrawable(getResources().getDrawable(R.drawable.powerup2));
+                options3.setImageDrawable(getResources().getDrawable(R.drawable.powerup3));
+                options4.setImageDrawable(getResources().getDrawable(R.drawable.powerup4));
+
+                check = false;
+
+                powerUps();
+            }
+        });
+    }
+
     public void powerUps() {
+        options2.setOnClickListener(new View.OnClickListener() {  //in this case: options4 = powerup4: ship armour
+            @Override
+            public void onClick(View v) {
+                setOptionButtonsInvisible();
+                shoot=true;
+
+                powerUpOptions2();
+            }
+            });
         options4.setOnClickListener(new View.OnClickListener() {  //in this case: options4 = powerup4: ship armour
             @Override
             public void onClick(View v) {
@@ -1179,6 +1192,12 @@ public class Gameplay extends AppCompatActivity {
 
                                 draw(map1, gridView1);
 
+                                options4.setOnClickListener(new View.OnClickListener() { //options4 is "help" button again. but it doesn't do anything.
+                                    @Override
+                                    public void onClick(View v) {
+
+                                    }
+                                });
                                 clickMap();
 
                             }
