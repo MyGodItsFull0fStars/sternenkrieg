@@ -17,8 +17,8 @@ import static junit.framework.Assert.fail;
  */
 
 public class PlayerFieldShipContainerTests {
-    PlayerFieldShipContainer container;
-    FieldValues fieldValues;
+    private PlayerFieldShipContainer container;
+    private FieldValues fieldValues;
 
     @Before
     public void setUp() {
@@ -73,8 +73,8 @@ public class PlayerFieldShipContainerTests {
     public void checkSmallShipContainerThrowsNoExceptionWithCorrectInput() {
 
         try {
-            for (int position = 0; position < fieldValues.FIELDSIZE; position++) {
-                container.setSmallShipContainer(position, fieldValues.SETFIELDPOSITION_B);
+            for (int position = 0; position < fieldValues.FIELD_SIZE; position++) {
+                container.setSmallShipContainer(position, fieldValues.SET_FIELD_POSITION_B);
             }
         } catch (IllegalArgumentException e) {
             fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_REACHED);
@@ -85,14 +85,14 @@ public class PlayerFieldShipContainerTests {
     public void smallShipContainerMethodOutOfBounds() throws IllegalArgumentException {
 
         try {
-            container.setSmallShipContainer(-1, fieldValues.SETFIELDPOSITION_B);
+            container.setSmallShipContainer(-1, fieldValues.SET_FIELD_POSITION_B);
             fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_EXPECTED);
         } catch (IllegalArgumentException e) {
             Assert.assertEquals(e.getMessage(), ErrorMessages.POSITION_OUT_OF_RANGE);
         }
 
         try {
-            container.setSmallShipContainer(fieldValues.FIELDSIZE, fieldValues.SETFIELDPOSITION_B);
+            container.setSmallShipContainer(fieldValues.FIELD_SIZE, fieldValues.SET_FIELD_POSITION_B);
             fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_EXPECTED);
         } catch (IllegalArgumentException e) {
             Assert.assertEquals(e.getMessage(), ErrorMessages.POSITION_OUT_OF_RANGE);
@@ -111,13 +111,13 @@ public class PlayerFieldShipContainerTests {
 
     @Test
     public void setSmallShipContainerWorksProperly() {
-        for (int position = 0; position < fieldValues.FIELDSIZE; position++) {
-            Assert.assertTrue(container.positionContainsString(position, fieldValues.SETFIELDPOSITION_EMPTY));
-            container.setSmallShipContainer(position, fieldValues.SETFIELDPOSITION_A);
+        for (int position = 0; position < fieldValues.FIELD_SIZE; position++) {
+            Assert.assertTrue(container.positionContainsString(position, fieldValues.SET_FIELD_POSITION_EMPTY));
+            container.setSmallShipContainer(position, fieldValues.SET_FIELD_POSITION_A);
         }
 
-        for (int position = 0; position < fieldValues.FIELDSIZE; position++) {
-            Assert.assertTrue(container.positionContainsString(position, fieldValues.SETFIELDPOSITION_A));
+        for (int position = 0; position < fieldValues.FIELD_SIZE; position++) {
+            Assert.assertTrue(container.positionContainsString(position, fieldValues.SET_FIELD_POSITION_A));
         }
     }
 
@@ -125,16 +125,16 @@ public class PlayerFieldShipContainerTests {
     @Test
     public void checkMiddleShipThrowsNoExceptionWithCorrectInput() {
         try {
-            for (int position = 1; position < fieldValues.FIELDSIZE; position++) {
-                container.setMiddleShipContainer(position, fieldValues.HORIZONTAL, fieldValues.SETFIELDPOSITION_A);
+            for (int position = 1; position < fieldValues.FIELD_SIZE; position++) {
+                container.setMiddleShipContainer(position, fieldValues.HORIZONTAL, fieldValues.SET_FIELD_POSITION_A);
             }
         } catch (Exception e) {
             fail(ErrorMessages.EXCEPTION_REACHED);
         }
 
         try {
-            for (int position = 8; position < fieldValues.FIELDSIZE; position++) {
-                container.setMiddleShipContainer(position, fieldValues.VERTICAL, fieldValues.SETFIELDPOSITION_B);
+            for (int position = 8; position < fieldValues.FIELD_SIZE; position++) {
+                container.setMiddleShipContainer(position, fieldValues.VERTICAL, fieldValues.SET_FIELD_POSITION_B);
             }
         } catch (Exception e) {
             fail(ErrorMessages.EXCEPTION_REACHED);
@@ -146,7 +146,7 @@ public class PlayerFieldShipContainerTests {
 
         // Clearly out of left field boundaries
         try {
-            container.setMiddleShipContainer(-1, fieldValues.HORIZONTAL, fieldValues.SETFIELDPOSITION_A);
+            container.setMiddleShipContainer(-1, fieldValues.HORIZONTAL, fieldValues.SET_FIELD_POSITION_A);
             fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_EXPECTED);
         } catch (IllegalArgumentException e) {
             Assert.assertEquals(e.getMessage(), ErrorMessages.POSITION_OUT_OF_RANGE);
@@ -154,7 +154,7 @@ public class PlayerFieldShipContainerTests {
 
         // Out of right field boundaries
         try {
-            container.setMiddleShipContainer(fieldValues.FIELDSIZE, fieldValues.HORIZONTAL, fieldValues.SETFIELDPOSITION_A);
+            container.setMiddleShipContainer(fieldValues.FIELD_SIZE, fieldValues.HORIZONTAL, fieldValues.SET_FIELD_POSITION_A);
             fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_EXPECTED);
         } catch (IllegalArgumentException e) {
             Assert.assertEquals(e.getMessage(), ErrorMessages.POSITION_OUT_OF_RANGE);
@@ -162,7 +162,7 @@ public class PlayerFieldShipContainerTests {
 
         // Left sibling is out of boundaries
         try {
-            container.setMiddleShipContainer(0, fieldValues.HORIZONTAL, fieldValues.SETFIELDPOSITION_A);
+            container.setMiddleShipContainer(0, fieldValues.HORIZONTAL, fieldValues.SET_FIELD_POSITION_A);
             fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_EXPECTED);
         } catch (IllegalArgumentException e) {
             Assert.assertEquals(e.getMessage(), ErrorMessages.POSITION_OUT_OF_RANGE);
@@ -189,7 +189,7 @@ public class PlayerFieldShipContainerTests {
 
         // At the end of array
         try {
-            container.setMiddleShipContainer(fieldValues.FIELDSIZE - 1, fieldValues.HORIZONTAL, null);
+            container.setMiddleShipContainer(fieldValues.FIELD_SIZE - 1, fieldValues.HORIZONTAL, null);
             fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_EXPECTED);
         } catch (IllegalArgumentException e) {
             Assert.assertEquals(e.getMessage(), ErrorMessages.NULL_PARAMETER);
@@ -207,14 +207,14 @@ public class PlayerFieldShipContainerTests {
     @Test
     public void setMiddleShipContainerWithWrongDegree() throws IllegalArgumentException {
         try {
-            container.setMiddleShipContainer(1, 2, fieldValues.SETFIELDPOSITION_A);
+            container.setMiddleShipContainer(1, 2, fieldValues.SET_FIELD_POSITION_A);
             fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_EXPECTED);
         } catch (IllegalArgumentException e) {
             Assert.assertEquals(e.getMessage(), ErrorMessages.DEGREE_NOT_DEFINED);
         }
 
         try {
-            container.setMiddleShipContainer(1, -1, fieldValues.SETFIELDPOSITION_A);
+            container.setMiddleShipContainer(1, -1, fieldValues.SET_FIELD_POSITION_A);
             fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_EXPECTED);
         } catch (IllegalArgumentException e) {
             Assert.assertEquals(e.getMessage(), ErrorMessages.DEGREE_NOT_DEFINED);
@@ -226,16 +226,16 @@ public class PlayerFieldShipContainerTests {
         // Setting the values in field with bigShipMethod
         // Horizontal
         try {
-            for (int position = 1; position < fieldValues.FIELDSIZE - 1; position++) {
-                container.setBigShipContainer(position, fieldValues.HORIZONTAL, fieldValues.SETFIELDPOSITION_A);
+            for (int position = 1; position < fieldValues.FIELD_SIZE - 1; position++) {
+                container.setBigShipContainer(position, fieldValues.HORIZONTAL, fieldValues.SET_FIELD_POSITION_A);
             }
         } catch (Exception e) {
             fail(ErrorMessages.EXCEPTION_REACHED);
         }
 
         try {
-            for (int position = 8; position < fieldValues.FIELDSIZE - 8; position++) {
-                container.setBigShipContainer(position, fieldValues.HORIZONTAL, fieldValues.SETFIELDPOSITION_B);
+            for (int position = 8; position < fieldValues.FIELD_SIZE - 8; position++) {
+                container.setBigShipContainer(position, fieldValues.HORIZONTAL, fieldValues.SET_FIELD_POSITION_B);
             }
         } catch (Exception e) {
             fail(ErrorMessages.EXCEPTION_REACHED);
@@ -247,14 +247,14 @@ public class PlayerFieldShipContainerTests {
 
         // Center position out of range
         try {
-            container.setBigShipContainer(-1, fieldValues.HORIZONTAL, fieldValues.SETFIELDPOSITION_A);
+            container.setBigShipContainer(-1, fieldValues.HORIZONTAL, fieldValues.SET_FIELD_POSITION_A);
             fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_EXPECTED);
         } catch (IllegalArgumentException e) {
             Assert.assertEquals(e.getMessage(), ErrorMessages.POSITION_OUT_OF_RANGE);
         }
         // Sibling is out of boundaries
         try {
-            container.setBigShipContainer(0, fieldValues.HORIZONTAL, fieldValues.SETFIELDPOSITION_A);
+            container.setBigShipContainer(0, fieldValues.HORIZONTAL, fieldValues.SET_FIELD_POSITION_A);
             fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_EXPECTED);
         } catch (IllegalArgumentException e) {
             Assert.assertEquals(e.getMessage(), ErrorMessages.POSITION_OUT_OF_RANGE);
@@ -262,14 +262,14 @@ public class PlayerFieldShipContainerTests {
 
         // Center position out of boundaries
         try {
-            container.setBigShipContainer(64, fieldValues.HORIZONTAL, fieldValues.SETFIELDPOSITION_A);
+            container.setBigShipContainer(64, fieldValues.HORIZONTAL, fieldValues.SET_FIELD_POSITION_A);
             fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_EXPECTED);
         } catch (IllegalArgumentException e) {
             Assert.assertEquals(e.getMessage(), ErrorMessages.POSITION_OUT_OF_RANGE);
         }
         // Sibling out of boundaries
         try {
-            container.setBigShipContainer(63, fieldValues.HORIZONTAL, fieldValues.SETFIELDPOSITION_A);
+            container.setBigShipContainer(63, fieldValues.HORIZONTAL, fieldValues.SET_FIELD_POSITION_A);
             fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_EXPECTED);
         } catch (IllegalArgumentException e) {
             Assert.assertEquals(e.getMessage(), ErrorMessages.POSITION_OUT_OF_RANGE);
@@ -277,14 +277,14 @@ public class PlayerFieldShipContainerTests {
 
         // Vertical sibling is out of boundaries
         try {
-            container.setBigShipContainer(5, fieldValues.VERTICAL, fieldValues.SETFIELDPOSITION_A);
+            container.setBigShipContainer(5, fieldValues.VERTICAL, fieldValues.SET_FIELD_POSITION_A);
             fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_EXPECTED);
         } catch (IllegalArgumentException e) {
             Assert.assertEquals(e.getMessage(), ErrorMessages.POSITION_OUT_OF_RANGE);
         }
 
         try {
-            container.setBigShipContainer(60, fieldValues.VERTICAL, fieldValues.SETFIELDPOSITION_A);
+            container.setBigShipContainer(60, fieldValues.VERTICAL, fieldValues.SET_FIELD_POSITION_A);
             fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_EXPECTED);
         } catch (IllegalArgumentException e) {
             Assert.assertEquals(e.getMessage(), ErrorMessages.POSITION_OUT_OF_RANGE);
@@ -295,14 +295,14 @@ public class PlayerFieldShipContainerTests {
     @Test
     public void setBigShipContainerWithWrongDegree() throws IllegalArgumentException {
         try {
-            container.setBigShipContainer(1, 2, fieldValues.SETFIELDPOSITION_A);
+            container.setBigShipContainer(1, 2, fieldValues.SET_FIELD_POSITION_A);
             fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_EXPECTED);
         } catch (IllegalArgumentException e) {
             Assert.assertEquals(e.getMessage(), ErrorMessages.DEGREE_NOT_DEFINED);
         }
 
         try {
-            container.setBigShipContainer(1, -1, fieldValues.SETFIELDPOSITION_A);
+            container.setBigShipContainer(1, -1, fieldValues.SET_FIELD_POSITION_A);
             fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_EXPECTED);
         } catch (IllegalArgumentException e) {
             Assert.assertEquals(e.getMessage(), ErrorMessages.DEGREE_NOT_DEFINED);
@@ -327,8 +327,8 @@ public class PlayerFieldShipContainerTests {
 
     @Test
     public void checkDeleteMethod() {
-        for (int position = 0; position < fieldValues.FIELDSIZE; position++) {
-            container.setSmallShipContainer(position, fieldValues.SETFIELDPOSITION_A);
+        for (int position = 0; position < fieldValues.FIELD_SIZE; position++) {
+            container.setSmallShipContainer(position, fieldValues.SET_FIELD_POSITION_A);
         }
 
         int[] array = {1, 2, 3};
@@ -336,12 +336,12 @@ public class PlayerFieldShipContainerTests {
 
         // check if the deleted positions are indeed, deleted
         for (int position = 1; position < 4; position++) {
-            Assert.assertTrue(container.positionContainsString(position, fieldValues.SETFIELDPOSITION_EMPTY));
+            Assert.assertTrue(container.positionContainsString(position, fieldValues.SET_FIELD_POSITION_EMPTY));
         }
         // check if other values are still the same
-        Assert.assertTrue(container.positionContainsString(0, fieldValues.SETFIELDPOSITION_A));
-        for (int position = 4; position < fieldValues.FIELDSIZE; position++) {
-            Assert.assertTrue(container.positionContainsString(position, fieldValues.SETFIELDPOSITION_A));
+        Assert.assertTrue(container.positionContainsString(0, fieldValues.SET_FIELD_POSITION_A));
+        for (int position = 4; position < fieldValues.FIELD_SIZE; position++) {
+            Assert.assertTrue(container.positionContainsString(position, fieldValues.SET_FIELD_POSITION_A));
         }
     }
 
@@ -359,17 +359,17 @@ public class PlayerFieldShipContainerTests {
     @Test
     public void inRangeMethod() {
         // In range should always return true
-        for (int position = 0; position < fieldValues.FIELDSIZE; position++) {
-            Assert.assertTrue(container.inRange(position, 0, fieldValues.FIELDSIZE - 1));
+        for (int position = 0; position < fieldValues.FIELD_SIZE; position++) {
+            Assert.assertTrue(container.inRange(position, 0, fieldValues.FIELD_SIZE - 1));
         }
 
         // Out of range on left side should always return false
-        for (int position = -1; position > -fieldValues.FIELDSIZE; position--) {
-            Assert.assertFalse(container.inRange(position, 0, fieldValues.FIELDSIZE - 1));
+        for (int position = -1; position > -fieldValues.FIELD_SIZE; position--) {
+            Assert.assertFalse(container.inRange(position, 0, fieldValues.FIELD_SIZE - 1));
         }
 
-        for (int position = fieldValues.FIELDSIZE; position < fieldValues.FIELDSIZE * 2; position++) {
-            Assert.assertFalse(container.inRange(position, 0, fieldValues.FIELDSIZE - 1));
+        for (int position = fieldValues.FIELD_SIZE; position < fieldValues.FIELD_SIZE * 2; position++) {
+            Assert.assertFalse(container.inRange(position, 0, fieldValues.FIELD_SIZE - 1));
         }
     }
 

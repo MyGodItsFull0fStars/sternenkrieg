@@ -19,19 +19,32 @@ public class PlayAudio extends Service {
     }
 
     public void onCreate() {
+        super.onCreate();
         sharedPreferences = getSharedPreferences("prefs", Context.MODE_PRIVATE);
         soundEnabled = sharedPreferences.getBoolean("sound", false);
         if (soundEnabled) {
-            mp = MediaPlayer.create(this, R.raw.mystic);
+            mp = MediaPlayer.create(this, R.raw.backgroundmusic);
             mp.setLooping(true);
         } else {
 
         }
     }
 
+    public void onStop(){
+        mp.stop();
+        mp.release();
+    }
+
+    public void onPause(){
+        mp.stop();
+        mp.release();
+    }
+
     public void onDestroy() {
         mp.stop();
+        mp.release();
     }
+
 
     // https://developer.android.com/reference/android/app/Service.html#onStartCommand(android.content.Intent,%20int,%20int)
     public int onStartCommand(Intent intent, int flags, int startId) {

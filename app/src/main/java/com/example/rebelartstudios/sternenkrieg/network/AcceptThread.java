@@ -9,18 +9,21 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 public class AcceptThread extends Thread {
-    boolean running;
-    ServerSocket mServerSocket;
-    Socket socket;
-    Handler mHandler;
-    ReceiveThreadHost mReceiveThreadHost;
-    String tag = "Host";
-    boolean testB = false;
-    int port;
-    Socket resocket;
+    private boolean running;
+    private ServerSocket mServerSocket;
+    private Socket socket;
+    private Handler mHandler;
+    private ReceiveThreadHost mReceiveThreadHost;
+    private int port;
+    private Socket resocket;
 
 
-    public AcceptThread(boolean running, ServerSocket mServerSocket, Socket socket, Handler mHandler, ReceiveThreadHost mReceiveThreadHost, int port) {
+    public AcceptThread(boolean running,
+                        ServerSocket mServerSocket,
+                        Socket socket,
+                        Handler mHandler,
+                        ReceiveThreadHost mReceiveThreadHost,
+                        int port) {
         this.running = running;
         this.mServerSocket = mServerSocket;
         this.socket = socket;
@@ -64,16 +67,16 @@ public class AcceptThread extends Thread {
         this.socket = socket;
     }
 
-    public ServerSocket getmServerSocket() {
+    ServerSocket getMServerSocket() {
         return this.mServerSocket;
     }
 
-    public void setRunning(boolean running) {
+    void setRunning(boolean running) {
         this.running = running;
     }
 
-    //TODO: vlt löschen
     public void closeServers() {
+        String tag = "Host";
         try {
             socket.close();
             mServerSocket.close();
@@ -87,12 +90,12 @@ public class AcceptThread extends Thread {
         }
     }
 
-    public ReceiveThreadHost getmReceiveThreadHost() {
+    ReceiveThreadHost getMReceiveThreadHost() {
         Log.i(AcceptThread.class.getName(), "Rce running = " + running);
         return mReceiveThreadHost;
     }
 
     public boolean test() {
-        return testB;
+        return false;
     }
 }

@@ -64,7 +64,7 @@ public class PlayerFieldLogic {
         if (playerField == null) {
             playerField = new String[PLAYER_FIELD_SIZE];
         }
-        Arrays.fill(playerField, fieldStrings.SETFIELDPOSITION_EMPTY);
+        Arrays.fill(playerField, fieldStrings.SET_FIELD_POSITION_EMPTY);
     }
 
     /**
@@ -163,7 +163,7 @@ public class PlayerFieldLogic {
      */
     public boolean inRange(int position) {
         Log.i(tag, "inRange");
-        if (position >= 0 && position < fieldStrings.FIELDSIZE) {
+        if (position >= 0 && position < fieldStrings.FIELD_SIZE) {
             return true;
         } else {
             throw new IllegalArgumentException(ErrorMessages.POSITION_OUT_OF_RANGE);

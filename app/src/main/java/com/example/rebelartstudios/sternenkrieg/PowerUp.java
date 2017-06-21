@@ -20,15 +20,17 @@ public class PowerUp extends AppCompatActivity {
 
     int dicePoints;
 
-    int pu1max = 3; // PowerUp 1 may be used up to 3 times
-    int pu2max = 2;
-    int pu3max = 10;
-    int pu4max = 1;
-
-    int pu1cur = 0;
+    // used-counter of PowerUps
+    int pu1cur = 0; // PowerUp 1 was used 0 times yet
     int pu2cur = 0;
     int pu3cur = 0;
     int pu4cur = 0;
+
+    // max use of PowerUps
+    int pu1max = 2; // PowerUp 1 may be used up to 3 times
+    int pu2max = 2;
+    int pu3max = 2;
+    int pu4max = 2;
 
     Button pu1Btn;
     Button pu2Btn;

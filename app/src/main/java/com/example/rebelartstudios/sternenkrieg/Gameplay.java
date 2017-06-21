@@ -16,6 +16,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.os.Vibrator;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.view.WindowManager;
@@ -27,10 +28,10 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.rebelartstudios.sternenkrieg.gamelogic.FieldValues;
 import com.example.rebelartstudios.sternenkrieg.gamelogic.GameUtilities;
 import com.example.rebelartstudios.sternenkrieg.gamelogic.NetworkStats;
 import com.example.rebelartstudios.sternenkrieg.gamelogic.PlayerFieldShipContainer;
-import com.example.rebelartstudios.sternenkrieg.gamelogic.FieldValues;
 import com.example.rebelartstudios.sternenkrieg.network.AcceptThread;
 import com.example.rebelartstudios.sternenkrieg.network.NetworkUtilities;
 import com.example.rebelartstudios.sternenkrieg.network.ReceiveThreadClient;
@@ -44,7 +45,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 
-public class Spielfeld extends AppCompatActivity {
+public class Gameplay extends AppCompatActivity {
+    String tag = "Gameplay";
+
     GridView gridView1;
     GridView gridView2;
     ImageView imageView, options, options1, options2, options3, options4;
@@ -113,8 +116,8 @@ public class Spielfeld extends AppCompatActivity {
     NetworkStats stats = new NetworkStats();
     GameUtilities game;
     int who_is_starting;
-    ImageView shootPlayer;
     ImageView shootEnemy;
+    ImageView shootPlayer;
 
     String mapString = "Map";
 
@@ -132,7 +135,7 @@ public class Spielfeld extends AppCompatActivity {
 
         send = (Button) findViewById(R.id.player1_send);
         player1_say = (EditText) findViewById(R.id.player1_say);
-        System.out.println("Spielfeld");
+        System.out.println("Gameplay");
         Phost = stats.isPhost();
         System.out.println("pHost: " + Phost);
         who_is_starting = GameUtilities.getWhoIsStarting();
@@ -253,15 +256,15 @@ public class Spielfeld extends AppCompatActivity {
 
                         final String positionString = map1[position];
 
-                        if (positionString.equals(fieldValues.SETFIELDPOSITION_G)
+                        if (positionString.equals(fieldValues.SET_FIELD_POSITION_G)
                                 || fieldValues.h_list.contains(positionString)
                                 || fieldValues.i_list.contains(positionString))
 
 
                         {
 
-                            if (positionString.equals(fieldValues.SETFIELDPOSITION_G)) {
-                                map1[position] = fieldValues.SETFIELDPOSITION_PLAYERHIT;
+                            if (positionString.equals(fieldValues.SET_FIELD_POSITION_G)) {
+                                map1[position] = fieldValues.SET_FIELD_POSITION_PLAYER_HIT;
                                 draw(map1, gridView1);
                             } else if (fieldValues.h_list.contains(positionString)) {
                                 for (int i = 0; i < map1.length; i++) {
@@ -269,7 +272,7 @@ public class Spielfeld extends AppCompatActivity {
                                         //map1[i].equals("h1") || map1[i].equals("h2") || map1[i].equals("h3") || map1[i].equals("h4")
                                             fieldValues.h_list.contains(map1[i])) {
 
-                                        map1[i] = fieldValues.SETFIELDPOSITION_PLAYERHIT;
+                                        map1[i] = fieldValues.SET_FIELD_POSITION_PLAYER_HIT;
                                     }
 
                                     draw(map1, gridView1);
@@ -280,7 +283,7 @@ public class Spielfeld extends AppCompatActivity {
                                     //            || map1[i].equals("i4") || map1[i].equals("i5") || map1[i].equals("i6"))
                                     if (fieldValues.i_list.contains(map1[i])) {
 
-                                        map1[i] = fieldValues.SETFIELDPOSITION_PLAYERHIT;
+                                        map1[i] = fieldValues.SET_FIELD_POSITION_PLAYER_HIT;
                                     }
 
                                     draw(map1, gridView1);
@@ -300,7 +303,7 @@ public class Spielfeld extends AppCompatActivity {
 //                                    for (int i = 0; i < map1.length; i++) {
 //                                        if (map1[i].equals("h1") || map1[i].equals("h2") || map1[i].equals("h3") || map1[i].equals("h4")) {
 //
-//                                            map1[i] = fieldValues.SETFIELDPOSITION_PLAYERHIT;
+//                                            map1[i] = fieldValues.SET_FIELD_POSITION_PLAYER_HIT;
 //                                        }
 //
 //                                        draw(map1, gridView1);
@@ -358,7 +361,7 @@ public class Spielfeld extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 /* go to options-menu */
-                intent.setClass(Spielfeld.this, Options.class);
+                intent.setClass(Gameplay.this, Options.class);
                 // intent.putExtra("gameOn", 1);
                 startActivity(intent);
 
@@ -376,8 +379,8 @@ public class Spielfeld extends AppCompatActivity {
                 System.out.println(sendField);
             }
 
-            map2 = new String[fieldValues.FIELDSIZE];
-            Arrays.fill(map2, fieldValues.SETFIELDPOSITION_EMPTY);
+            map2 = new String[fieldValues.FIELD_SIZE];
+            Arrays.fill(map2, fieldValues.SET_FIELD_POSITION_EMPTY);
             util.messageSend("Map," + sendField, Phost);
             System.out.println("Send" + sendField);
         }
@@ -403,10 +406,11 @@ public class Spielfeld extends AppCompatActivity {
         clickMap();
         start();
 
-
         gridView2.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                 if (shoot) {
+                    util.messageSend("enemy,"+v.getX()+" "+v.getY(),Phost);
+                    animationPlayer(v.getX()+gridView2.getX(),v.getY()+gridView2.getY());
 
                     util.messageSend("shoot," + position, Phost);
                     oneShoot = false;
@@ -419,14 +423,14 @@ public class Spielfeld extends AppCompatActivity {
                     String shipType = map2[position];
            /* hit ship of enemy */
                     if (map2[position].equals("a") || map2[position].equals("b") || map2[position].equals("c")) {
-                        map2[position] = fieldValues.SETFIELDPOSITION_PLAYERHIT;
+                        map2[position] = fieldValues.SET_FIELD_POSITION_PLAYER_HIT;
 
                         vib.vibrate(500);
                         highScore += 80;
 
                 /* miss enemy's ships */
-                    } else if (map2[position].equals(fieldValues.SETFIELDPOSITION_EMPTY)) {
-                        map2[position] = fieldValues.SETFIELDPOSITION_MISS;
+                    } else if (map2[position].equals(fieldValues.SET_FIELD_POSITION_EMPTY)) {
+                        map2[position] = fieldValues.SET_FIELD_POSITION_MISS;
                         highScore -= 20;
                     }
 
@@ -467,7 +471,7 @@ public class Spielfeld extends AppCompatActivity {
 
 
     public void start() {
-        System.out.println("Spielfeld Value" + who_is_starting);
+        System.out.println("Gameplay Value" + who_is_starting);
         //Player beginns
         System.out.println("Shoot: " + shoot);
         pointsPlayer += GameUtilities.getDiceScore();
@@ -480,11 +484,11 @@ public class Spielfeld extends AppCompatActivity {
     }
 
     public void dice() {
-        intent.setClass(Spielfeld.this, Dice.class);
+        intent.setClass(Gameplay.this, Dice.class);
         GameUtilities.setPlayerMap(map1);
         GameUtilities.setEnemyMap(map2);
         NetworkStats.setMode(2);
-        System.out.println("Spielfeld Ende Value" + value);
+        System.out.println("Gameplay Ende Value" + value);
         util.close();
         startActivity(intent);
     }
@@ -495,43 +499,55 @@ public class Spielfeld extends AppCompatActivity {
         if (fieldValues.smallShipStringList.contains(map1[position])
                 || fieldValues.middleShipStringList.contains(map1[position])
                 || fieldValues.bigShipStringList.contains(map1[position])) {
-            map1[position] = fieldValues.SETFIELDPOSITION_ENEMYHIT;
+            map1[position] = fieldValues.SET_FIELD_POSITION_ENEMY_HIT;
             vib.vibrate(500);
-            highScore = highScore - 30; }
+            highScore = highScore - 30;
+        }
 
         //hits ship with armour
         else if (fieldValues.smallShipArmourStringList.contains(map1[position])
-                    || fieldValues.middleShipArmourStringList.contains(map1[position])
-                    || fieldValues.bigShipArmourStringList.contains(map1[position])) {
-            switch(map1[position]) {
-                case "j": map1[position] = fieldValues.SETPLAYERPOSITION_SMALL;
+                || fieldValues.middleShipArmourStringList.contains(map1[position])
+                || fieldValues.bigShipArmourStringList.contains(map1[position])) {
+            switch (map1[position]) {
+                case "j":
+                    map1[position] = fieldValues.SET_PLAYER_POSITION_SMALL;
                     break;
-                case "k1": map1[position] = fieldValues.SETPLAYERPOSITION_MIDDLE1;
+                case "k1":
+                    map1[position] = fieldValues.SET_PLAYER_POSITION_MIDDLE1;
                     break;
-                case "k2": map1[position] = fieldValues.SETPLAYERPOSITION_MIDDLE2;
+                case "k2":
+                    map1[position] = fieldValues.SET_PLAYER_POSITION_MIDDLE2;
                     break;
-                case "k3": map1[position] = fieldValues.SETPLAYERPOSITION_MIDDLE1R;
+                case "k3":
+                    map1[position] = fieldValues.SET_PLAYER_POSITION_MIDDLE1R;
                     break;
-                case "k4": map1[position] = fieldValues.SETPLAYERPOSITION_MIDDLE2R;
+                case "k4":
+                    map1[position] = fieldValues.SET_PLAYER_POSITION_MIDDLE2R;
                     break;
-                case "l1": map1[position] = fieldValues.SETFIELDPOSITION_BIG1;
+                case "l1":
+                    map1[position] = fieldValues.SET_FIELD_POSITION_BIG1;
                     break;
-                case "l2": map1[position] = fieldValues.SETFIELDPOSITION_BIG2;
+                case "l2":
+                    map1[position] = fieldValues.SET_FIELD_POSITION_BIG2;
                     break;
-                case "l3": map1[position] = fieldValues.SETFIELDPOSITION_BIG3;
+                case "l3":
+                    map1[position] = fieldValues.SET_FIELD_POSITION_BIG3;
                     break;
-                case "l4": map1[position] = fieldValues.SETFIELDPOSITION_BIG1R;
+                case "l4":
+                    map1[position] = fieldValues.SET_FIELD_POSITION_BIG1R;
                     break;
-                case "l5": map1[position] = fieldValues.SETFIELDPOSITION_BIG2R;
+                case "l5":
+                    map1[position] = fieldValues.SET_FIELD_POSITION_BIG2R;
                     break;
-                case "l6": map1[position] = fieldValues.SETFIELDPOSITION_BIG3R;
+                case "l6":
+                    map1[position] = fieldValues.SET_FIELD_POSITION_BIG3R;
                     break;
             }
             vib.vibrate(500);
             draw(map1, gridView1);
                     /* opponent misses */
-        } else if (map1[position].equals(fieldValues.SETFIELDPOSITION_EMPTY)) {
-            map1[position] = fieldValues.SETFIELDPOSITION_ENEMYMISS;
+        } else if (map1[position].equals(fieldValues.SET_FIELD_POSITION_EMPTY)) {
+            map1[position] = fieldValues.SET_FIELD_POSITION_ENEMY_MISS;
             highScore = highScore + 10;
         }
         draw(map1, gridView1); // update map
@@ -560,21 +576,21 @@ public class Spielfeld extends AppCompatActivity {
                         fieldValues.smallShipStringList.contains(map1[position])
                                 || fieldValues.middleShipStringList.contains(map1[position])
                                 || fieldValues.bigShipStringList.contains(map1[position])) {
-                    map1[position] = fieldValues.SETFIELDPOSITION_ENEMYHIT;
+                    map1[position] = fieldValues.SET_FIELD_POSITION_ENEMY_HIT;
                     vib.vibrate(500);
                     highScore = highScore - 30;
 
                     /* opponent misses */
-                } else if (map1[position].equals(fieldValues.SETFIELDPOSITION_EMPTY)) {
+                } else if (map1[position].equals(fieldValues.SET_FIELD_POSITION_EMPTY)) {
                     map1[position] = 5 + "";
                     highScore = highScore + 10;
                 }
                 draw(map1, gridView1); // update map
 
 
-                if (gameOver(fieldValues.SETPLAYERPOSITION_SMALL, map1)
-                        && gameOver(fieldValues.SETPLAYERPOSITION_MIDDLE, map1)
-                        && gameOver(fieldValues.SETFIELDPOSITION_BIG, map1)) { //determine whether all ships are already destroyed
+                if (gameOver(fieldValues.SET_PLAYER_POSITION_SMALL, map1)
+                        && gameOver(fieldValues.SET_PLAYER_POSITION_MIDDLE, map1)
+                        && gameOver(fieldValues.SET_FIELD_POSITION_BIG, map1)) { //determine whether all ships are already destroyed
                     alert("2");
                 }
 
@@ -615,7 +631,7 @@ public class Spielfeld extends AppCompatActivity {
 
                 for (int i = 0; i < map1.length; i++) { //ship is no longer located here; set to 0
                     if (map1[i].equals("4")) {
-                        map1[i] = fieldValues.SETFIELDPOSITION_EMPTY;
+                        map1[i] = fieldValues.SET_FIELD_POSITION_EMPTY;
                     }
                 }
                 boolean shipPlaced = false;
@@ -666,7 +682,7 @@ public class Spielfeld extends AppCompatActivity {
                 }
 
                 if (shipPlaced) {
-                     restoreShips();
+                    restoreShips();
 
                     draw(map1, gridView1);
 
@@ -724,11 +740,11 @@ public class Spielfeld extends AppCompatActivity {
         if (fieldValues.smallShipStringList.contains(map1[position])
                 || fieldValues.middleShipStringList.contains(map1[position])
                 || fieldValues.bigShipStringList.contains(map1[position])
-                || fieldValues.SETFIELDPOSITION_G.equals(map1[position])
+                || fieldValues.SET_FIELD_POSITION_G.equals(map1[position])
                 || fieldValues.h_list.contains(map1[position])
                 || fieldValues.i_list.contains(map1[position])
-                || fieldValues.SETFIELDPOSITION_ENEMYHIT.equals(map1[position])
-                || fieldValues.SETFIELDPOSITION_ENEMYMISS.equals(map1[position])) {
+                || fieldValues.SET_FIELD_POSITION_ENEMY_HIT.equals(map1[position])
+                || fieldValues.SET_FIELD_POSITION_ENEMY_MISS.equals(map1[position])) {
             return false;
         } else {
             return true;
@@ -785,7 +801,7 @@ public class Spielfeld extends AppCompatActivity {
                     .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                             // CONFIRM
-                            Intent intent = new Intent(Spielfeld.this, Highscore.class);
+                            Intent intent = new Intent(Gameplay.this, Highscore.class);
                             GameUtilities.setPoints(highScore);
                             GameUtilities.setHighScoreMain(true);
                             startActivity(intent);
@@ -803,7 +819,7 @@ public class Spielfeld extends AppCompatActivity {
                     .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                             // CONFIRM
-                            Intent intent = new Intent(Spielfeld.this, Highscore.class);
+                            Intent intent = new Intent(Gameplay.this, Highscore.class);
                             GameUtilities.setPoints(highScore);
                             GameUtilities.setHighScoreMain(true);
                             startActivity(intent);
@@ -828,7 +844,7 @@ public class Spielfeld extends AppCompatActivity {
             entire ship of the opponent has been destroyed) is still present in array "map";
             if not, method returns true */
         int isTheGameOverYet = 0;
-        for (int i = 0; i < fieldValues.FIELDSIZE; i++) {
+        for (int i = 0; i < fieldValues.FIELD_SIZE; i++) {
             if ((map[i].equals(ship))) {
                 isTheGameOverYet++;
             }
@@ -900,6 +916,10 @@ public class Spielfeld extends AppCompatActivity {
                         shoot = true;
 
                     }
+                    if("enemy".equals(mapMsg[0])){
+                        String[] cord = mapMsg[1].split(" ");
+                        animationEnemy(Float.valueOf(cord[0]),Float.valueOf(cord[1]));
+                    }
 
                     if (dice && dice2)
                         dice();
@@ -912,8 +932,8 @@ public class Spielfeld extends AppCompatActivity {
                         for (String data : map1)
                             sendMap += data + "x";
 
-                        map2 = new String[fieldValues.FIELDSIZE];
-                        Arrays.fill(map2, fieldValues.SETFIELDPOSITION_EMPTY);
+                        map2 = new String[fieldValues.FIELD_SIZE];
+                        Arrays.fill(map2, fieldValues.SET_FIELD_POSITION_EMPTY);
                         util.messageSend("Map," + sendMap, Phost);
                         System.out.println("Send" + sendMap);
                     }
@@ -926,14 +946,22 @@ public class Spielfeld extends AppCompatActivity {
 
     }
 
-    public void animation(float x, float y) {
-        //TODO: at work
-        //animationClass(v.getX(),v.getY());
-        System.out.println("Animation");
+    public void animationPlayer(float x, float y) {
         shootPlayer.setVisibility(View.VISIBLE);
-        TranslateAnimation slideUp = new TranslateAnimation(-x, -y, 0, 0);
+        TranslateAnimation slideUp = new TranslateAnimation(0, x- shootPlayer.getX() , 0, y- shootPlayer.getY() );
         slideUp.setDuration(1000);
         shootPlayer.setAnimation(slideUp);
+        shootPlayer.setVisibility(View.INVISIBLE);
+
+
+    }
+    public void animationEnemy(float x, float y) {
+
+        shootEnemy.setVisibility(View.VISIBLE);
+        TranslateAnimation slideUp = new TranslateAnimation(0, x- shootEnemy.getX() , 0, y- shootEnemy.getY() );
+        slideUp.setDuration(1000);
+        shootEnemy.setAnimation(slideUp);
+        shootEnemy.setVisibility(View.INVISIBLE);
 
 
     }
@@ -978,7 +1006,7 @@ public class Spielfeld extends AppCompatActivity {
 
             if (countD.size() == 1) {
                 for (int j = 0; j < countD.size(); j++) {
-                    map1[countD.get(j)] = fieldValues.SETFIELDPOSITION_G;
+                    map1[countD.get(j)] = fieldValues.SET_FIELD_POSITION_G;
                 }
                 countD.clear();
 
@@ -986,11 +1014,11 @@ public class Spielfeld extends AppCompatActivity {
 
             if (countE.size() == 2) {
                 if (ship2Rotated) {
-                    map1[countE.get(0)] = fieldValues.SETFIELDPOSITION_H3;
-                    map1[countE.get(1)] = fieldValues.SETFIELDPOSITION_H4;
+                    map1[countE.get(0)] = fieldValues.SET_FIELD_POSITION_H3;
+                    map1[countE.get(1)] = fieldValues.SET_FIELD_POSITION_H4;
                 } else {
-                    map1[countE.get(0)] = fieldValues.SETFIELDPOSITION_H1;
-                    map1[countE.get(1)] = fieldValues.SETFIELDPOSITION_H2;
+                    map1[countE.get(0)] = fieldValues.SET_FIELD_POSITION_H1;
+                    map1[countE.get(1)] = fieldValues.SET_FIELD_POSITION_H2;
                 }
 
                 countE.clear();
@@ -998,13 +1026,13 @@ public class Spielfeld extends AppCompatActivity {
 
             if (countF.size() == 3) {
                 if (ship3Rotated) {
-                    map1[countF.get(0)] = fieldValues.SETFIELDPOSITION_I4;
-                    map1[countF.get(1)] = fieldValues.SETFIELDPOSITION_I5;
-                    map1[countF.get(2)] = fieldValues.SETFIELDPOSITION_I6;
+                    map1[countF.get(0)] = fieldValues.SET_FIELD_POSITION_I4;
+                    map1[countF.get(1)] = fieldValues.SET_FIELD_POSITION_I5;
+                    map1[countF.get(2)] = fieldValues.SET_FIELD_POSITION_I6;
                 } else {
-                    map1[countF.get(0)] = fieldValues.SETFIELDPOSITION_I1;
-                    map1[countF.get(1)] = fieldValues.SETFIELDPOSITION_I2;
-                    map1[countF.get(2)] = fieldValues.SETFIELDPOSITION_I3;
+                    map1[countF.get(0)] = fieldValues.SET_FIELD_POSITION_I1;
+                    map1[countF.get(1)] = fieldValues.SET_FIELD_POSITION_I2;
+                    map1[countF.get(2)] = fieldValues.SET_FIELD_POSITION_I3;
                 }
 
                 countF.clear();
@@ -1064,79 +1092,134 @@ public class Spielfeld extends AppCompatActivity {
         }
     }
 
+    // used-counter of PowerUps
+    int pu1used = 0; // PowerUp 1 was used 0 times yet
+    int pu2used = 0;
+    int pu3used = 0;
+    int pu4used = 0;
+
+    // max use of PowerUps
+    int pu1max = 2; // PowerUp 1 may be used up to 3 times
+    int pu2max = 2;
+    int pu3max = 2;
+    int pu4max = 2;
+
+    // points of PowerUps
+    int pu1points = 0;
+    int pu2points = 0;
+    int pu3points = 0;
+    int pu4points = 0;
+
     public void powerUps() {
         options4.setOnClickListener(new View.OnClickListener() {  //in this case: options4 = powerup4: ship armour
             @Override
             public void onClick(View v) {
+                Log.d(tag, "PowerUp4 chosen, Current points: " + GameUtilities.getDiceScore());
 
-                findIntactShips();
+                // checking if PowerUp still may be used
+                if (pu4used < pu4max) {
+                    if (removePowerUpPoints(pu4points)) {
+                        GameUtilities.setDiceScore(GameUtilities.getDiceScore() - pu4points);
+                        Log.d(tag, "Using PowerUp4, new points: " + GameUtilities.getDiceScore());
+                        pu4used++;
 
-                gridView1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+                        findIntactShips();
 
-                        // final int posi=position;
-                        final String posis = map1[position];
+                        gridView1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                            public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
 
-                        if (posis.equals("g")) {
-                            map1[position] = "j";
-                        } else if (posis.equals("h1") || posis.equals("h2") || posis.equals("h3") || posis.equals("h4")) {
-                            for (int i = 0; i < map1.length; i++) {
-                                switch (map1[i]) {
-                                    case "h1":
-                                        map1[i] = "k1";
-                                        break;
-                                    case "h2":
-                                        map1[i] = "k2";
-                                        break;
-                                    case "h3":
-                                        map1[i] = "k3";
-                                        break;
-                                    case "h4":
-                                        map1[i] = "k4";
-                                        break;
+                                // final int posi=position;
+                                final String posis = map1[position];
+
+                                if (posis.equals("g")) {
+                                    map1[position] = "j";
+                                } else if (posis.equals("h1") || posis.equals("h2") || posis.equals("h3") || posis.equals("h4")) {
+                                    for (int i = 0; i < map1.length; i++) {
+                                        switch (map1[i]) {
+                                            case "h1":
+                                                map1[i] = "k1";
+                                                break;
+                                            case "h2":
+                                                map1[i] = "k2";
+                                                break;
+                                            case "h3":
+                                                map1[i] = "k3";
+                                                break;
+                                            case "h4":
+                                                map1[i] = "k4";
+                                                break;
+                                        }
+                                    }
+                                } else if (fieldValues.i_list.contains(posis)) {
+                                    for (int i = 0; i < map1.length; i++) {
+                                        switch (map1[i]) {
+                                            case "i1":
+                                                map1[i] = "l1";
+                                                break;
+                                            case "i2":
+                                                map1[i] = "l2";
+                                                break;
+                                            case "i3":
+                                                map1[i] = "l3";
+                                                break;
+                                            case "i4":
+                                                map1[i] = "l4";
+                                                break;
+                                            case "i5":
+                                                map1[i] = "l5";
+                                                break;
+                                            case "i6":
+                                                map1[i] = "l6";
+                                                break;
+                                        }
+                                    }
                                 }
+
+                                restoreShips();
+
+                                draw(map1, gridView1);
+
+                                clickMap();
+
                             }
-                        } else if (fieldValues.i_list.contains(posis)) {
-                            for (int i = 0; i < map1.length; i++) {
-                                switch (map1[i]) {
-                                    case "i1":
-                                        map1[i] = "l1";
-                                        break;
-                                    case "i2":
-                                        map1[i] = "l2";
-                                        break;
-                                    case "i3":
-                                        map1[i] = "l3";
-                                        break;
-                                    case "i4":
-                                        map1[i] = "l4";
-                                        break;
-                                    case "i5":
-                                        map1[i] = "l5";
-                                        break;
-                                    case "i6":
-                                        map1[i] = "l6";
-                                        break;
-                                }
-                            }
-                        }
 
-                        restoreShips();
+                        });
 
-                        draw(map1, gridView1);
+                        setOptionButtonsInvisible();
 
-                        clickMap();
 
+                    } else {
+                        powerUpDialog("Zu wenig Punkte!");
+                        Log.d(tag, "PowerUp4: Zu wenig Punkte");
                     }
-
-                });
-
-                setOptionButtonsInvisible();
-
-
+                } else {
+                    powerUpDialog("PowerUp already used!");
+                    Log.d(tag, "PowerUp4: Bereits verwendet");
+                }
             }
         });
     }
 
+    public boolean removePowerUpPoints(int points) {
+        if (GameUtilities.getDiceScore() - points >= 0) {
+            GameUtilities.setDiceScore(GameUtilities.getDiceScore() - points);
+            return true;
+        }
+        return false;
+    }
+
+    public AlertDialog powerUpDialog(String text) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Error").setMessage(text);
+        builder.setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+        builder.show();
+
+        return builder.create();
+    }
 
 }

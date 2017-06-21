@@ -264,24 +264,28 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="invisible"
-        android:layout_marginBottom="8dp"
+        app:srcCompat="@drawable/shoot"
+        android:rotation="180"
+        app:layout_constraintTop_toTopOf="@+id/player1_grid"
+        android:layout_marginTop="8dp"
+        app:layout_constraintLeft_toRightOf="@+id/pointsPlayer"
         android:layout_marginLeft="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/options2"
-        app:layout_constraintLeft_toRightOf="@+id/options1"
-        app:srcCompat="@drawable/shoot" />
+        app:layout_constraintRight_toLeftOf="@+id/options"
+        android:layout_marginRight="8dp" />
 
     <ImageView
         android:id="@+id/imageShootEnemy"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="invisible"
-        android:rotation="180"
+
         app:srcCompat="@drawable/shoot"
-        app:layout_constraintRight_toLeftOf="@+id/options4"
-        android:layout_marginRight="8dp"
         android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toTopOf="@+id/Start_play"
         app:layout_constraintTop_toTopOf="@+id/options4"
-        android:layout_marginTop="8dp" />
+        android:layout_marginTop="8dp"
+        app:layout_constraintVertical_bias="1.0"
+        app:layout_constraintLeft_toRightOf="@+id/options4"
+        android:layout_marginLeft="8dp" />
 
 </android.support.constraint.ConstraintLayout>

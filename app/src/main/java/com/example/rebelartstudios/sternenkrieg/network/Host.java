@@ -43,8 +43,8 @@ public class Host extends AppCompatActivity {
     String ipS;
     OutputStream os = null;
     String tag = "Host";
-    Button btnStarten;
-    boolean ifstart = true;
+    Button btnStart;
+    boolean ifStart = true;
     NetworkStats stats = new NetworkStats();
     GameUtilities game;
     ImageView back;
@@ -71,7 +71,7 @@ public class Host extends AppCompatActivity {
 
         initializeButtons();
         initializeOnClickListeners();
-        btnStarten.setBackgroundColor(getResources().getColor(R.color.black_overlay));
+        btnStart.setBackgroundColor(getResources().getColor(R.color.black_overlay));
 
         running = true;
         mAcceptThread = new AcceptThread(running, mServerSocket, socket, mHandler, mReceiveThreadHost, 54321);
@@ -106,12 +106,13 @@ public class Host extends AppCompatActivity {
                         if ("exit".equals(str)) {
                             ExitHost();
                         } else if (("Bereit!").equals(str)) {
-                            btnStarten.setEnabled(true);
-                            animationClass.glowAnimation(btnStarten);
+                            btnStart.setEnabled(true);
+                            animationClass.glowAnimation(btnStart);
                         } else if (null != str) {
-                            Log.i(tag, "Enemyusername");
-                            game.setEnemyUsername(str);
-                            iPtv.setText("Connected with " + game.getEnemyUsername());
+                            Log.i(tag, "Enemy username");
+                            GameUtilities.setEnemyUsername(str);
+                            String text = "Connected with " + GameUtilities.getEnemyUsername();
+                            iPtv.setText(text);
                             socket = mAcceptThread.getSocket();
                             WriteHost writeHost = new WriteHost(socket, os, game.getUsername());
                             writeHost.start();
@@ -148,7 +149,7 @@ public class Host extends AppCompatActivity {
         iPtv = (TextView) findViewById(R.id.tvIP);
         ip = (TextView) findViewById(R.id.ip);
         btnQR = (Button) findViewById(R.id.qr_button);
-        btnStarten = (Button) findViewById(R.id.btn_starten);
+        btnStart = (Button) findViewById(R.id.btn_starten);
         back = (ImageView) findViewById(R.id.imageServerBack);
 
         if (("0.0.0.0").equals(ipS)) {
@@ -178,7 +179,7 @@ public class Host extends AppCompatActivity {
             }
         });
 
-        btnStarten.setOnClickListener(new View.OnClickListener() {
+        btnStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String info = "Start!";
@@ -187,11 +188,11 @@ public class Host extends AppCompatActivity {
                 writeHost.start();
 
                 Intent intentD = new Intent(Host.this, Dice.class);
-                ifstart = false;
+                ifStart = false;
                 close();
-                stats.setNet(true);
-                stats.setPhost(true);
-                stats.setMode(1);
+                NetworkStats.setNet(true);
+                NetworkStats.setPhost(true);
+                NetworkStats.setMode(1);
                 animationClass.stop();
                 startActivity(intentD);
 
@@ -223,12 +224,12 @@ public class Host extends AppCompatActivity {
             Log.e(tag, "NullPointerException in Client: " + e.toString());
             displayToast("nicht Erfolg");
 
-            btnStarten.setEnabled(false);
+            btnStart.setEnabled(false);
         }
 
         try {
-            mAcceptThread.getmReceiveThreadHost().close();
-            mAcceptThread.getmServerSocket().close();
+            mAcceptThread.getMReceiveThreadHost().close();
+            mAcceptThread.getMServerSocket().close();
             mAcceptThread.getSocket().close();
             mAcceptThread.interrupt();
         } catch (NullPointerException e) {
