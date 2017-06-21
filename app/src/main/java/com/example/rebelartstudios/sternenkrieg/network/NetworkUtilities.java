@@ -45,9 +45,11 @@ public class NetworkUtilities {
     }
 
     public void connection() {
-        boolean running = true;
-        mAcceptThread = new AcceptThread(running, mServerSocket, socket, myHandler, receiveThreadHost, 12345);
-        mAcceptThread.start();
+        if (pHost){
+            boolean running = true;
+            mAcceptThread = new AcceptThread(running, mServerSocket, socket, myHandler, receiveThreadHost, 12345);
+            mAcceptThread.start();
+        }
     }
 
     public void messageSend(String message, boolean pHost) {
