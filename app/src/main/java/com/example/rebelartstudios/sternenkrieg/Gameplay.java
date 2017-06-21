@@ -100,7 +100,7 @@ public class Gameplay extends AppCompatActivity {
     Socket socket = new Socket();
     ServerSocket mServerSocket = null;
     Handler myHandler;
-    boolean playerIsHost = false; // if this is host then pHost is ture; if not is false.
+    boolean playerIsHost = false; // if this is host then pHost is true; if not is false.
     String message;
     ReceiveThreadHost receiveThreadHost;
     String ip;
@@ -141,7 +141,7 @@ public class Gameplay extends AppCompatActivity {
         setContentView(R.layout.activity_gameplay);
         game = new GameUtilities(getApplicationContext());
         /* ***** Networking ****/
-        playerIsHost = stats.isPhost();
+        playerIsHost = stats.isPlayerHost();
         who_is_starting = GameUtilities.getWhoIsStarting();
         Net = stats.isNet();
         if (playerIsHost == false)

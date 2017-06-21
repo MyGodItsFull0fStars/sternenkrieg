@@ -119,7 +119,7 @@ public class Map extends AppCompatActivity {
 
         /* *******************Networking**************************/
         System.out.println("Map");
-        playerHost = stats.isPhost();
+        playerHost = stats.isPlayerHost();
 
         System.out.println("pHost: " + playerHost);
         Net = stats.isNet();

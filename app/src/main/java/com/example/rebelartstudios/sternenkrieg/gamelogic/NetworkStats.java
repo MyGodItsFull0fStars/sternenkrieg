@@ -15,7 +15,7 @@ public class NetworkStats {
         NetworkStats.net = net;
     }
 
-    public boolean isPhost() {
+    public boolean isPlayerHost() {
         return phost;
     }
 

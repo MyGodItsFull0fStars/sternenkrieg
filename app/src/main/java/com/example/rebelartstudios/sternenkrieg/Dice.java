@@ -148,7 +148,7 @@ public class Dice extends AppCompatActivity {
         game = new GameUtilities(getApplicationContext());
 
         /* ********************Networking************************* */
-        pHost = stats.isPhost();
+        pHost = stats.isPlayerHost();
         mode = stats.getMode();
         net = stats.isNet();
         if (!pHost) {

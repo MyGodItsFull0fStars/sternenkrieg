@@ -37,13 +37,13 @@ public void testIsNet()  {
 
 /** 
 * 
-* Method: isPhost() 
+* Method: isPlayerHost()
 * 
 */ 
 @Test
 public void testIsPhost()  {
     stats.setPhost(true);
-    assertTrue(stats.isPhost());
+    assertTrue(stats.isPlayerHost());
 }
 
 /** 
