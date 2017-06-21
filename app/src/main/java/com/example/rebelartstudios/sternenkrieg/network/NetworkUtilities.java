@@ -46,6 +46,7 @@ public class NetworkUtilities {
 
     public void connection() {
         if (pHost){
+
             boolean running = true;
             mAcceptThread = new AcceptThread(running, mServerSocket, socket, myHandler, receiveThreadHost, 12345);
             mAcceptThread.start();
