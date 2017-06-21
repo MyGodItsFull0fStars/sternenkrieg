@@ -31,7 +31,7 @@ public class ReceiveThreadHost extends Thread {
             is = sk.getInputStream();
         } catch (IOException e) {
             Log.e(tag, "IOException in AcceptThreadHost: " + e.toString());
-            throw new RuntimeException(e);
+            throw new MyRuntimeException(e);
         }
     }
 
