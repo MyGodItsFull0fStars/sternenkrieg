@@ -4,6 +4,8 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 
+import com.example.rebelartstudios.sternenkrieg.exception.MyRuntimeException;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -49,16 +51,17 @@ public class ReceiveThreadHost extends Thread {
                 read = br.readLine();
             } catch (UnsupportedEncodingException e) {
                 Log.e(tag, "UnsupportedException in AcceptThreadHost: " + e.toString());
+                throw new MyRuntimeException(e);
             } catch (IOException e) {
                 Log.e(tag, "IOException in AcceptThreadHost: " + e.toString());
-                throw new RuntimeException(e);
+                throw new MyRuntimeException(e);
             } catch (NullPointerException e) {
                 running = false;
                 Message msg2 = mHandler.obtainMessage();
                 msg2.what = 2;
                 mHandler.sendMessage(msg2);
                 Log.e(tag, "NullpointerException in AcceptThreadHost: " + e.toString());
-                throw new RuntimeException(e);
+                throw new MyRuntimeException(e);
 
             }
 

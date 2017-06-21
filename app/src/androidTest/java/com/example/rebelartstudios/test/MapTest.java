@@ -14,11 +14,6 @@ import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 
-/**
- * Created by christianbauer on 30/05/2017.
- */
-
-
 @RunWith(AndroidJUnit4.class)
 public class MapTest {
 

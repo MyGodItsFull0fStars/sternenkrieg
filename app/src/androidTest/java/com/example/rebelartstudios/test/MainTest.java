@@ -16,10 +16,6 @@ import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 
 /**
- * Created by christianbauer on 29/05/2017.
- */
-
-/**
  *
  * Main test class
  * Starting with testing the buttons, and later will add the test for
