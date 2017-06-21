@@ -40,7 +40,7 @@ public class NetworkingUnitTests {
     public void setUp(){
         socketH = new Socket();
         socketC = new Socket();
-        String ip = System.getProperty("myapplication.ip");
+        ip = "10.0.2.2";
         acceptThread  = new AcceptThread(running,serverSocket,socketH,handlerH,receiveThreadHost,12345);
         startThread = new StartThread(socketC,ip,receiveThreadClient,handlerC,12345);
         acceptThread.start();
