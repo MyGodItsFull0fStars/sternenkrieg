@@ -104,7 +104,7 @@ public final class FieldValues {
      * Used to set the position color in the playerfield array to e
      * The character 'e' is used for the position of the middle ship
      */
-    public final String SET_PLAYER_POSITION_MIDDLE = "e";
+    final String SET_PLAYER_POSITION_MIDDLE = "e";
     public final String SET_PLAYER_POSITION_MIDDLE1 = "e1";
     public final String SET_PLAYER_POSITION_MIDDLE2 = "e2";
 
@@ -113,10 +113,10 @@ public final class FieldValues {
 
 
     /**
-     * Used to set the position color in the playerfield array to 'f'
+     * Used to set the position color in the player field array to 'f'
      * The character 'f' is used for the position of the big ship
      */
-    public final String SET_FIELD_POSITION_BIG = "f";
+    final String SET_FIELD_POSITION_BIG = "f";
     public final String SET_FIELD_POSITION_BIG1 = "f1";
     public final String SET_FIELD_POSITION_BIG2 = "f2";
     public final String SET_FIELD_POSITION_BIG3 = "f3";

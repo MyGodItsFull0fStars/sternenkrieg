@@ -227,7 +227,7 @@ public class Map extends AppCompatActivity {
 
                 which_ship = playerFieldShipContainer.getShipLogic().SMALL_SHIP_ID;
 
-                ship1.setVisibility(View.INVISIBLE);
+                //ship1.setVisibility(View.INVISIBLE);
                 return false;
             }
         });
@@ -243,7 +243,7 @@ public class Map extends AppCompatActivity {
                 //middle ship
                 which_ship = playerFieldShipContainer.getShipLogic().MIDDLE_SHIP_ID;
 
-                ship2.setVisibility(View.INVISIBLE);
+                //ship2.setVisibility(View.INVISIBLE);
                 return false;
             }
         });
@@ -258,7 +258,7 @@ public class Map extends AppCompatActivity {
                 v.startDrag(data, shadow, null, 0);
                 //big ship
                 which_ship = playerFieldShipContainer.getShipLogic().BIG_SHIP_ID;
-                ship3.setVisibility(View.INVISIBLE);
+                //ship3.setVisibility(View.INVISIBLE);
                 return false;
             }
         });
@@ -325,7 +325,8 @@ public class Map extends AppCompatActivity {
                     imageMapGoNext.setVisibility(View.INVISIBLE);
                     pulsatorLayout.stop();
                     progressWaiting.setVisibility(View.VISIBLE);
-                    textMapWaiting.setText("Waiting for " + game.getEnemyUsername());
+                    String text = "Waiting for " + GameUtilities.getEnemyUsername();
+                    textMapWaiting.setText(text);
                     textMapWaiting.setVisibility(View.VISIBLE);
 
                     syncClose();

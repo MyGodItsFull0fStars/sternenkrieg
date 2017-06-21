@@ -2,7 +2,7 @@ package com.example.rebelartstudios.sternenkrieg.gamelogic;
 
 import android.util.Log;
 
-import com.example.rebelartstudios.sternenkrieg.res.ErrorMessages;
+import com.example.rebelartstudios.sternenkrieg.exception.ErrorMessages;
 
 import java.util.Arrays;
 
@@ -55,7 +55,7 @@ public class PlayerFieldLogic {
         if (playerfield != null && playerfield.length == PLAYER_FIELD_SIZE) {
             this.playerField = playerfield;
         } else {
-            throw new IllegalArgumentException(ErrorMessages.PLAYERFIELD_WRONG_SIZE);
+            throw new IllegalArgumentException(ErrorMessages.PLAYER_FIELD_WRONG_SIZE);
         }
     }
 

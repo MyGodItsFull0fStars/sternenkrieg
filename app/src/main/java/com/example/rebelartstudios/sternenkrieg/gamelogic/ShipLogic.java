@@ -2,7 +2,7 @@ package com.example.rebelartstudios.sternenkrieg.gamelogic;
 
 import android.util.Log;
 
-import com.example.rebelartstudios.sternenkrieg.res.ErrorMessages;
+import com.example.rebelartstudios.sternenkrieg.exception.ErrorMessages;
 
 /**
  * ShipLogic class used in the Map Activity class.

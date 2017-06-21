@@ -29,8 +29,6 @@ public class MainTest {
     @Rule
     public final ActivityTestRule<Main> main  = new ActivityTestRule<>(Main.class);
 
-
-
     /**
      * Test to check if the button to start the game map activity is clickable
      */
@@ -39,13 +37,6 @@ public class MainTest {
         onView(withId(R.id.start)).perform(click());
     }
 
-    /**
-     * Test to check if the button to start the server/client activity is clickable
-     */
-//    @Test
-//    public void testSocketButton(){
-//        onView(withId(R.id.Socket)).perform(click());
-//    }
 
     /**
      * Test to check if the button to start options activity class is clickable

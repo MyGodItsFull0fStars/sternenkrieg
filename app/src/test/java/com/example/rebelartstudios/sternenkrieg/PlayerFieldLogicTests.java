@@ -2,7 +2,7 @@ package com.example.rebelartstudios.sternenkrieg;
 
 import com.example.rebelartstudios.sternenkrieg.gamelogic.PlayerFieldLogic;
 import com.example.rebelartstudios.sternenkrieg.gamelogic.FieldValues;
-import com.example.rebelartstudios.sternenkrieg.res.ErrorMessages;
+import com.example.rebelartstudios.sternenkrieg.exception.ErrorMessages;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -73,19 +73,19 @@ public class PlayerFieldLogicTests {
             playerFieldLogic.setPlayerField(null);
             fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_EXPECTED);
         } catch (IllegalArgumentException e) {
-            Assert.assertEquals(e.getMessage(), ErrorMessages.PLAYERFIELD_WRONG_SIZE);
+            Assert.assertEquals(e.getMessage(), ErrorMessages.PLAYER_FIELD_WRONG_SIZE);
         }
 
         try {
             playerFieldLogic.setPlayerField(new String[1]);
         } catch (IllegalArgumentException e) {
-            Assert.assertEquals(e.getMessage(), ErrorMessages.PLAYERFIELD_WRONG_SIZE);
+            Assert.assertEquals(e.getMessage(), ErrorMessages.PLAYER_FIELD_WRONG_SIZE);
         }
 
         try {
             playerFieldLogic.setPlayerField(new String[100]);
         } catch (IllegalArgumentException e) {
-            Assert.assertEquals(e.getMessage(), ErrorMessages.PLAYERFIELD_WRONG_SIZE);
+            Assert.assertEquals(e.getMessage(), ErrorMessages.PLAYER_FIELD_WRONG_SIZE);
         }
 
     }
