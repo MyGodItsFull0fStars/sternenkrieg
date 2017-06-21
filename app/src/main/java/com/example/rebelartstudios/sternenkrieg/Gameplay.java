@@ -10,6 +10,7 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
@@ -20,6 +21,7 @@ import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 import android.widget.AdapterView;
 import android.widget.GridView;
@@ -27,6 +29,8 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.rebelartstudios.sternenkrieg.gamelogic.FieldValues;
 import com.example.rebelartstudios.sternenkrieg.gamelogic.GameUtilities;
 import com.example.rebelartstudios.sternenkrieg.gamelogic.NetworkStats;
@@ -121,8 +125,8 @@ public class Gameplay extends AppCompatActivity {
     ImageView imageDice;
     ProgressBar progWaiting;
     PulsatorLayout pulsatorLayout;
-    int count=0;
-
+    int count = 0;
+    TextView textpoints;
     String mapString = "Map";
 
     /*******Networking*****/
@@ -132,32 +136,19 @@ public class Gameplay extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_gameplay);
-
         game = new GameUtilities(getApplicationContext());
-
         /****** Networking ****/
-
-        System.out.println("Gameplay");
         Phost = stats.isPhost();
-        System.out.println("pHost: " + Phost);
         who_is_starting = GameUtilities.getWhoIsStarting();
-        System.out.println("Who is starting: " + who_is_starting);
         Net = stats.isNet();
-        System.out.println("net: " + Net);
-        if (Phost == false) {
+        if (Phost == false)
             ip = stats.getIp();
-            System.out.println("Ip: " + ip);
-        }
-
-
         myHandler = new Myhandler();
         util = new NetworkUtilities(Phost, mAcceptThread, mServerSocket, socket, myHandler, receiveThreadHost, startThread, ip, receiveThreadClient);
         util.networkbuild();
-
         util.connection();
 
         /****Networking***/
-
 
         /* --- START LIGHT SENSOR -- */
 
@@ -333,7 +324,7 @@ public class Gameplay extends AppCompatActivity {
             }
         });
 
-       powerUpOptions2();
+        powerUpOptions2();
 
         options3.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -349,24 +340,14 @@ public class Gameplay extends AppCompatActivity {
         imageDice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                util.messageSend("boolean,"+"boolean", Phost);
+                util.messageSend("boolean," + "boolean", Phost);
                 dice = true;
-                if (!Phost) {
-                    new CountDownTimer(350, 100) {
-                        public void onTick(long millisUntilFinished) {
-                            System.out.print(millisUntilFinished);
-                        }
+                pulsatorLayout.stop();
+                pulsatorLayout.setVisibility(View.INVISIBLE);
+                imageDice.setVisibility(View.INVISIBLE);
+                progWaiting.setVisibility(View.VISIBLE);
 
-                        @Override
-                        public void onFinish() {
-                            dice();
-
-                        }
-
-                    }.start();
-                } else {
-                    dice();
-                }
+                dice();
             }
         });
 
@@ -411,13 +392,13 @@ public class Gameplay extends AppCompatActivity {
 
         gridView2.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-                if (shoot&&count<1) {
+                if (shoot && count < 1) {
                     util.messageSend("enemy," + v.getX() + " " + v.getY(), Phost);
                     animationPlayer(v.getX() + gridView2.getX(), v.getY() + gridView2.getY());
 
                     util.messageSend("shoot," + position, Phost);
                     oneShoot = false;
-                    sended=true;
+                    sended = true;
                     sendGridView2 = true;
                     count++;
 
@@ -460,17 +441,17 @@ public class Gameplay extends AppCompatActivity {
         if (sended && came) {
             Log.i("sollfinish if", "");
             imageDice.setVisibility(View.VISIBLE);
+            pulsatorLayout.start();
             pulsatorLayout.setVisibility(View.VISIBLE);
+
         }
     }
 
 
     public void start() {
-        System.out.println("Gameplay Value" + who_is_starting);
         //Player beginns
-        System.out.println("Shoot: " + shoot);
         pointsPlayer += GameUtilities.getDiceScore();
-        System.out.println("Points:" + pointsPlayer);
+        textpoints.setText(pointsPlayer + "");
         if (who_is_starting == 0 && oneShoot) {
             shoot = true;
         }
@@ -479,18 +460,34 @@ public class Gameplay extends AppCompatActivity {
     }
 
     public void dice() {
-        System.out.println("dice"+dice);
-        System.out.println("dice2"+dice2);
-        System.out.println("Sollfinish");
-        if(dice&&dice2) {
+        if (dice && dice2) {
             intent.setClass(Gameplay.this, Dice.class);
             GameUtilities.setPlayerMap(map1);
             GameUtilities.setEnemyMap(map2);
             NetworkStats.setMode(2);
-            System.out.println("Gameplay Ende Value" + value);
-            util.close();
-            startActivity(intent);
+
+            if (!Phost) {
+                new CountDownTimer(400, 100) {
+                    public void onTick(long millisUntilFinished) {
+                    }
+
+                    @Override
+                    public void onFinish() {
+                        util.close();
+                        pulsatorLayout.stop();
+                        startActivity(intent);
+
+                    }
+
+                }.start();
+            } else {
+                util.close();
+                pulsatorLayout.stop();
+                startActivity(intent);
+            }
+
         }
+
     }
 
 
@@ -605,6 +602,7 @@ public class Gameplay extends AppCompatActivity {
         imageDice = (ImageView) findViewById(R.id.imagePlayNext);
         progWaiting = (ProgressBar) findViewById(R.id.progressBarPlayWaiting);
         pulsatorLayout = (PulsatorLayout) findViewById(R.id.pulsatorPlay);
+        textpoints = (TextView) findViewById(R.id.pointsPlayer);
 
         /* set option-buttons */
         options1 = (ImageView) findViewById(R.id.options1);
@@ -919,7 +917,7 @@ public class Gameplay extends AppCompatActivity {
                     }
                     if (mapMsg[0].equals("shoot")) {
                         String position = mapMsg[1];
-                        came=true;
+                        came = true;
                         checkShoot(Integer.parseInt(position), 2);
 
                         shoot = true;
@@ -928,7 +926,7 @@ public class Gameplay extends AppCompatActivity {
                     if (mapMsg[0].equals("boolean")) {
                         Log.i("MessageBoolean", message);
                         Log.i(Dice.class.getName(), "Boolean");
-                        dice2=true;
+                        dice2 = true;
                         dice();
                     }
                     if ("enemy".equals(mapMsg[0])) {
@@ -963,20 +961,83 @@ public class Gameplay extends AppCompatActivity {
         shootPlayer.setVisibility(View.VISIBLE);
         TranslateAnimation slideUp = new TranslateAnimation(0, x - shootPlayer.getX(), 0, y - shootPlayer.getY());
         slideUp.setDuration(1000);
+        slideUp.setFillAfter(true);
         shootPlayer.setAnimation(slideUp);
-        shootPlayer.setVisibility(View.INVISIBLE);
 
 
+        slideUp.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+                final MediaPlayer mp = MediaPlayer.create(getApplicationContext(), R.raw.shootsound);
+                mp.start();
+            }
+
+            @Override
+            public void onAnimationEnd(final Animation animation) {
+                Glide.with(getApplicationContext()).load(R.raw.explosion).asGif().centerCrop().diskCacheStrategy(DiskCacheStrategy.SOURCE).into(shootPlayer);
+                new CountDownTimer(1000, 100) {
+
+                    public void onTick(long millisUntilFinished) {
+                        //wird nicht benötigt
+                    }
+
+                    @Override
+                    public void onFinish() {
+                        shootPlayer.setVisibility(View.INVISIBLE);
+                        animation.setFillAfter(false);
+
+                    }
+
+                }.start();
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
 
 
     }
 
     public void animationEnemy(float x, float y) {
         shootEnemy.setVisibility(View.VISIBLE);
-        TranslateAnimation slideUp = new TranslateAnimation(0, x - shootEnemy.getX(), 0, y - shootEnemy.getY());
+        TranslateAnimation slideUp = new TranslateAnimation(0, x - shootEnemy.getX() + gridView1.getX() / 2, 0, y - shootEnemy.getY() + gridView1.getY() / 2);
         slideUp.setDuration(1000);
+        slideUp.setFillAfter(true);
         shootEnemy.setAnimation(slideUp);
-        shootEnemy.setVisibility(View.INVISIBLE);
+
+        slideUp.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+                final MediaPlayer mp = MediaPlayer.create(getApplicationContext(), R.raw.shootsound);
+                mp.start();
+            }
+
+            @Override
+            public void onAnimationEnd(final Animation animation) {
+                Glide.with(getApplicationContext()).load(R.raw.explosion).asGif().centerCrop().diskCacheStrategy(DiskCacheStrategy.SOURCE).into(shootEnemy);
+                new CountDownTimer(1000, 100) {
+
+                    public void onTick(long millisUntilFinished) {
+                        //wird nicht benötigt
+                    }
+
+                    @Override
+                    public void onFinish() {
+                        shootEnemy.setVisibility(View.INVISIBLE);
+                        animation.setFillAfter(false);
+
+                    }
+
+                }.start();
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
 
     }
 
@@ -1146,11 +1207,11 @@ public class Gameplay extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 setOptionButtonsInvisible();
-                shoot=true;
+                shoot = true;
 
                 powerUpOptions2();
             }
-            });
+        });
         options4.setOnClickListener(new View.OnClickListener() {  //in this case: options4 = powerup4: ship armour
             @Override
             public void onClick(View v) {

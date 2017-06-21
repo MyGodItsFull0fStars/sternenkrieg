@@ -21,9 +21,9 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.rebelartstudios.sternenkrieg.gamelogic.FieldValues;
 import com.example.rebelartstudios.sternenkrieg.gamelogic.GameUtilities;
 import com.example.rebelartstudios.sternenkrieg.gamelogic.NetworkStats;
-import com.example.rebelartstudios.sternenkrieg.gamelogic.FieldValues;
 import com.example.rebelartstudios.sternenkrieg.gamelogic.PlayerFieldShipContainer;
 import com.example.rebelartstudios.sternenkrieg.network.AcceptThread;
 import com.example.rebelartstudios.sternenkrieg.network.NetworkUtilities;
@@ -327,21 +327,7 @@ public class Map extends AppCompatActivity {
                     textMapWaiting.setText("Waiting for " + game.getEnemyUsername());
                     textMapWaiting.setVisibility(View.VISIBLE);
 
-                    if (!playerHost) {
-                        new CountDownTimer(350, 100) {
-                            public void onTick(long millisUntilFinished) {
-                                System.out.print(millisUntilFinished);
-                            }
-
-                            @Override
-                            public void onFinish() {
-                                syncClose();
-                            }
-
-                        }.start();
-                    } else
-                        syncClose();
-
+                   syncClose();
                 }
 
             }
@@ -385,10 +371,28 @@ public class Map extends AppCompatActivity {
 
     public void syncClose() {
         if (finish && finishEnemy) {
-            util.close();
-            startActivity(intent);
+            if (!playerHost) {
+                new CountDownTimer(200, 100) {
+                    public void onTick(long millisUntilFinished) {
+                    }
+
+                    @Override
+                    public void onFinish() {
+                        util.close();
+                        pulsatorLayout.stop();
+                        startActivity(intent);
+
+                    }
+
+                }.start();
+            } else {
+                util.close();
+                pulsatorLayout.stop();
+                startActivity(intent);
+            }
 
         }
+
     }
 
 
