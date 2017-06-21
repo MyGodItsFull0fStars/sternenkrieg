@@ -44,7 +44,6 @@ public class Host extends AppCompatActivity {
     String ipS;
     OutputStream os = null;
     String tag = "Host";
-    String emuip = "0.0.0.0";
     Button btnStart;
     boolean ifStart = true;
     NetworkStats stats = new NetworkStats();
