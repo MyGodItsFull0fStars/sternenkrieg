@@ -62,6 +62,8 @@ import static com.example.rebelartstudios.sternenkrieg.R.drawable.two;
 
 public class Dice extends AppCompatActivity {
 
+    String tag = "Dice";
+
     private Sensor mSensor;
     protected ImageView imageDice;
     private boolean shakeBoolean = true;
@@ -75,12 +77,12 @@ public class Dice extends AppCompatActivity {
     NetworkStats stats = new NetworkStats();
     GameUtilities game;
     TextView statistic;
-    TextView statistic_1;
-    TextView statistic_2;
-    TextView statistic_3;
-    TextView statistic_4;
-    TextView statistic_5;
-    TextView statistic_6;
+    TextView statistic1;
+    TextView statistic2;
+    TextView statistic3;
+    TextView statistic4;
+    TextView statistic5;
+    TextView statistic6;
     TableLayout tableDice;
     private int enemyValue;
     boolean finish = false;
@@ -127,12 +129,12 @@ public class Dice extends AppCompatActivity {
         diceEnemy = (ImageView) findViewById(R.id.diceenemy);
         diceEnemy.setVisibility(View.INVISIBLE);
         statistic = (TextView) findViewById(R.id.textWarscheinlichkeit);
-        statistic_1 = (TextView) findViewById(R.id.textDiceOne);
-        statistic_2 = (TextView) findViewById(R.id.textDiceTwo);
-        statistic_3 = (TextView) findViewById(R.id.textDiceThree);
-        statistic_4 = (TextView) findViewById(R.id.textDiceFour);
-        statistic_5 = (TextView) findViewById(R.id.textDiceFive);
-        statistic_6 = (TextView) findViewById(R.id.textDiceSix);
+        statistic1 = (TextView) findViewById(R.id.textDiceOne);
+        statistic2 = (TextView) findViewById(R.id.textDiceTwo);
+        statistic3 = (TextView) findViewById(R.id.textDiceThree);
+        statistic4 = (TextView) findViewById(R.id.textDiceFour);
+        statistic5 = (TextView) findViewById(R.id.textDiceFive);
+        statistic6 = (TextView) findViewById(R.id.textDiceSix);
         tableDice = (TableLayout) findViewById(R.id.tableDice);
         goNext = (ImageView) findViewById(R.id.imageGoNext);
         pulsator = (PulsatorLayout) findViewById(R.id.pulsatorPlay);
@@ -167,7 +169,7 @@ public class Dice extends AppCompatActivity {
                 if (!pHost) {
                     new CountDownTimer(350, 100) {
                         public void onTick(long millisUntilFinished) {
-                            System.out.print(millisUntilFinished);
+                            Log.d(tag, "Millis until finished: " + millisUntilFinished);
                         }
 
                         @Override
@@ -219,6 +221,7 @@ public class Dice extends AppCompatActivity {
             case 1:
                 new CountDownTimer(2000, 100) {
                     public void onTick(long millisUntilFinished) {
+                        // nothing to do here
                     }
 
                     @Override
@@ -273,7 +276,7 @@ public class Dice extends AppCompatActivity {
         animSet.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
-
+                // nothing to do here
             }
 
             @Override
@@ -289,7 +292,7 @@ public class Dice extends AppCompatActivity {
 
             @Override
             public void onAnimationRepeat(Animation animation) {
-
+                // nothing to do here
             }
         });
 
@@ -317,6 +320,7 @@ public class Dice extends AppCompatActivity {
         }
         new CountDownTimer(3000, 100) {
             public void onTick(long millisUntilFinished) {
+                // nothing to do here
             }
 
             @Override
@@ -380,12 +384,12 @@ public class Dice extends AppCompatActivity {
         tableDice.setVisibility(View.VISIBLE);
 
 
-        statistic_1.setText(getONE());
-        statistic_2.setText(getTWO());
-        statistic_3.setText(getTHREE());
-        statistic_4.setText(getFOUR());
-        statistic_5.setText(getFIVE());
-        statistic_6.setText(getSIX());
+        statistic1.setText(getONE());
+        statistic2.setText(getTWO());
+        statistic3.setText(getTHREE());
+        statistic4.setText(getFOUR());
+        statistic5.setText(getFIVE());
+        statistic6.setText(getSIX());
     }
 
 

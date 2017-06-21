@@ -27,6 +27,8 @@ import com.example.rebelartstudios.sternenkrieg.gamelogic.GameUtilities;
 
 public class Main extends AppCompatActivity {
 
+    String tag = "Main";
+
     Button socketBtn;
     Button highscoreBtn;
     Button optionsBtn;
@@ -65,11 +67,11 @@ public class Main extends AppCompatActivity {
         levelProgress.getProgressDrawable().setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN);
         levelProgress.setMax(100);
         levelProgress.setProgress(game.getPercent());
-        System.out.println("per" + game.getPercent());
+        Log.d(tag, "per" + game.getPercent());
 
         // Background music
         // disabled for now, feel free to enable if you want to check
-        //musicStuff();
+        // playBackgroundMusic();
 
     }
 
@@ -86,7 +88,7 @@ public class Main extends AppCompatActivity {
         levelProgress.setProgress(game.getPercent());
         String text = "Level:" + game.getLevel();
         txtLevel.setText(text);
-        //musicStuff();
+        // playBackgroundMusic();
     }
 
     /**
@@ -222,7 +224,7 @@ public class Main extends AppCompatActivity {
                 .show();
     }
 
-    private void musicStuff() {
+    private void playBackgroundMusic() {
         // TODO not working yet
         ServiceConnection soundConnection = new ServiceConnection() {
             @Override

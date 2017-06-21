@@ -76,6 +76,10 @@ public class Options extends AppCompatActivity {
         // sound is disabled by default
         soundEnabled = sharedPreferences.getBoolean("sound", false);
 
+        if(soundEnabled) {
+            textViewStatus.setText(getString(R.string.enabled));
+        }
+
         // if state of toggle button is different from soundEnabled, change it
         toggleSoundBtn = (ToggleButton) findViewById(R.id.soundButton);
         if (toggleSoundBtn.isChecked() != soundEnabled) {
@@ -88,7 +92,6 @@ public class Options extends AppCompatActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 soundEnabled = isChecked;
                 // Put the setting into the sharedPreferences by using the editor
-                SharedPreferences sharedPreferences = getSharedPreferences("prefs", Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 Log.w(tag, sharedPreferences.getAll().toString());
                 if (soundEnabled) {
@@ -166,7 +169,7 @@ public class Options extends AppCompatActivity {
 
                 .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        game.setUsername(one.getText().toString()); // TODO name check
+                        game.setUsername(one.getText().toString());
                         textViewName.setText(sharedPreferences.getString("username", "kein Name2"));
                         // CONFIRM
                     }
