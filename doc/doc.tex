@@ -137,6 +137,36 @@ Die Auswahl des korrekten Würfels (Spielstart oder PowerUps) erfolgt durch die 
 \subsection{DiceClass}
 Die Klasse \enquote{DiceClass} unterstützt den Würfel mit einigen ausgelagerten Methoden (Wechseln der Bilder und Abrufen der Variablen).
 
+\subsection{Gameplay}
+In Klasse \enquote{Gameplay} passiert das eigentliche Spiel. Durch die Netzwerkfunktionen im Hintergrund wird mit dem Gegenspieler kommuniziert. In dieser Klasse wird vor allem mit onClickListener() gearbeitet. Wird auf das gegnerische Feld geklickt, so wird dies an den Gegenspieler übermittelt. Ebenso werden hier die Punkte für den Highscore ermittelt.
+Der SensorEventListener holt sich den aktuellen Helligkeitswert der Umgebung und je nach Wert wird ein bestimmtes Hintergrundbild festgelegt. Ist es dunkel, so leuchten weniger Sterne, bei heller Umgebung leuchten mehr.
+Auch die Cheat-Funktion und die PowerUps befinden sich in der Gameplay-Klasse. Diese werden ebenfalls durch onClickListener realisiert: Positionen und Werte der einzelnen Schiffe werden korrekt berechnet und and den Gegenspieler übetragen.
+Zusätzlich steht eine Chat-Funktion zur Kommunikation mit dem Gegenspieler zur Verfügung.
+
+\subsubsection{Auswahlmöglichkeiten}
+Das Spielfeld bietet folgende Buttons zur Auswahl:
+\begin{itemize}
+\item Cheat-Funktion
+\item PowerUps
+\item Optionen
+\item Hilfe
+\end{itemize}
+Wird die PowerUp-Funktion ausgewählt, so verändern sich die Icons in PowerUp-Icons, damit eine Funktion ausgewählt werden kann.
+
+\subsubsection{Cheat-Funktion}
+
+\subsubsection{PowerUps}
+PowerUps sind Funktionen, die einem Spieler einen bestimmten Vorteil verschaffen sollen. Am Anfang jedes Zuges wird gewürfelt, diese Punkte werden zu den PowerUp-Punkten dazugezählt und können anschließend für ein PowerUp verwendet werden.
+Die PowerUps bieten folgende Funktionen:
+\begin{itemize}
+\item PowerUp 1: noch nicht implementiert
+\item PowerUp 2: noch nicht implementiert
+\item PowerUp 3: noch nicht implementiert
+\item PowerUp 4: noch nicht implementiert
+\end{itemize}
+
+Besitzt ein Spieler zu wenig Punkte oder wurde ein PowerUp bereits zu oft verwendet, wird eine entsprechende Meldung ausgegeben.
+
 \subsection{Highscore}
 Die Klasse \enquote{Highscore} zeigt den Highscore des Spiels an. Die Daten werden dabei aus der Klasse GameUtilities geholt.
 
@@ -148,8 +178,13 @@ Die Klasse \enquote{MainSocket} wird nach Klick auf \enquote{Play} im Hauptmenü
 Der Server-Spieler bekommt eine IP-Adresse angezeigt, welche er dem Client-Spieler übermittelt. Dieser gibt diese IP-Adresse ein und verbindet sich damit zum Server.
 
 \subsection{Map}
+Die Klasse \enquote{Map} stellt das eigene Spielfeld dar, welches nach erfolgreichem Würfeln erscheint. Hier werden per Drag\&Drop die drei Raumschiffe platziert. Mithilfe der Klasse MapLoad wird ein Grid initalisiert und somit werden die einzelnen Felder richtig angezeigt. 
+Die Drag\&Drop-Funktion wird durch einen setOnDragListener realisiert. Außerdem können Schiffe mit einem Button gedreht werden. Die Map-Klasse berechnet nun welche Felder von einem gedrehten Schiff eingenommen werden.
+Erst wenn alle drei Schiffe platziert wurden, kann per Button zum nächsten Screen und somit zum eigentlichen Spiel gewechselt werden.
 
 \subsection{MapLoad}
+Die Klasse \enquote{MapLoad} wird aufgerufen, wenn ein neues Spielfeld-Grid (Gameplay) initialisiert wird. In dieser Klasse wird hauptsächlich festgelegt, wie die Felder von beiden Spielern dargestellt werden. Die Größe des Grids wird in der getView-Methode durch die Bildschirmgröße des Geräts ermittelt und angepasst.
+Die wichtigste Methode ist setFieldColor. Darin wird aufgrund des Strings im String-Array (jeder Eintrag wird einem Feld im Grid zugeordnet), welcher einen gewissen Status des jeweiligen Feldes angibt, die richtige Farbe bzw. das richtige Schiffbild zugewiesen.
 
 \subsection{Options}
 Die Klasse \enquote{Options} behandelt alle Einstellungsmöglichkeiten von Sternenkrieg. Dazu zählen:
@@ -161,10 +196,6 @@ Die Klasse \enquote{Options} behandelt alle Einstellungsmöglichkeiten von Stern
 Die Speicherung der Einstellungen erfolgt mithilfe von SharedPreferences (\enquote{prefs}). Diese bieten eine einfache Speicherung von Variablen, welche ebenfalls sehr einfach aktualisiert werden können. Nach einer Änderung wird die entsprechende Variable neu abgespeichert und steht somit auch den anderen Klassen zur Verfügung.
 
 \subsection{PlayAudio}
-
-\subsection{PowerUp}
-
-\subsection{Spielfeld}
 
 \section{GameLogic-Klassen im Überblick}
 In diesem Kapitel werden die GameLogic-Klassen näher erläutert. Wie der Name schon sagt, beinhalten diese Klassen die eigentliche Spiellogik.
