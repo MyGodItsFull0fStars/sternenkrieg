@@ -91,8 +91,8 @@ public class Gameplay extends AppCompatActivity {
     // this Views can be also a chat system. That mean player can talk with other player with it.
     // But now we can use it to check if the Socket program right.
     // what we do next: set Start Button and make connect.
-    // You can call methode messageSend to send String message parameter mit (message, pHost)
-    // And in class Myhandler you get message form enemy, msg.what = 1 is what enemy say
+    // You can call method messageSend to send String message parameter mit (message, pHost)
+    // And in class MyHandler you get message form enemy, msg.what = 1 is what enemy say
     // msg.what = 4 , sendMsg[1] is enemy shoot position.
 
     Socket socket = new Socket();
@@ -408,13 +408,13 @@ public class Gameplay extends AppCompatActivity {
                     //       Toast.LENGTH_SHORT).show();
                     String shipType = map2[position];
            /* hit ship of enemy */
-                    if (map2[position].equals("a") || map2[position].equals("b") || map2[position].equals("c")) {
+                    if (map2[position].equals("a") || map2[position].equals("b") || map2[position].equals("clientBtn")) {
                         map2[position] = fieldValues.SET_FIELD_POSITION_PLAYER_HIT;
 
                         vib.vibrate(500);
                         highScore += 80;
 
-                /* miss enemy's ships */
+                /* miss enemy'hostBtn ships */
                     } else if (map2[position].equals(fieldValues.SET_FIELD_POSITION_EMPTY)) {
                         map2[position] = fieldValues.SET_FIELD_POSITION_MISS;
                         highScore -= 20;
@@ -548,7 +548,7 @@ public class Gameplay extends AppCompatActivity {
                 //Toast.makeText(getApplicationContext(), "Pos: " + position + " Id: ",
                 //      Toast.LENGTH_SHORT).show();
 
-                /* enemy hits one of player's ships */
+                /* enemy hits one of player'hostBtn ships */
                 if (
                     //map1[position].equals("d") || map1[position].equals("e1") || map1[position].equals("e2")
                     //|| map1[position].equals("e3") || map1[position].equals("e4") || map1[position].equals("f1")

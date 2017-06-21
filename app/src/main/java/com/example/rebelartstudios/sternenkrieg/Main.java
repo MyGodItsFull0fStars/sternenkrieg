@@ -106,13 +106,13 @@ public class Main extends AppCompatActivity {
      */
     @Override
     protected void onDestroy() {
-        destroyBackgroundImageView();
         super.onDestroy();
+        destroyBackgroundImageView();
     }
 
     /**
      * Method to destroy the background image in the memory space
-     * Since GIF's are kept in memory for a long time in android, this method will delete the pics in memory
+     * Since GIF'hostBtn are kept in memory for a long time in android, this method will delete the pics in memory
      */
     private void destroyBackgroundImageView() {
         background.destroyDrawingCache();
@@ -162,7 +162,7 @@ public class Main extends AppCompatActivity {
             }
         });
 
-        // Highscore
+        // HighScore
         highscoreBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -94,7 +94,7 @@ public class Map extends AppCompatActivity {
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
@@ -170,9 +170,11 @@ public class Map extends AppCompatActivity {
                 final int action = event.getAction();
                 switch (action) {
                     case DragEvent.ACTION_DRAG_STARTED:
+                        setShipsVisible();
                         break;
 
                     case DragEvent.ACTION_DRAG_EXITED:
+                        setShipsVisible();
                         break;
 
                     case DragEvent.ACTION_DRAG_ENTERED:

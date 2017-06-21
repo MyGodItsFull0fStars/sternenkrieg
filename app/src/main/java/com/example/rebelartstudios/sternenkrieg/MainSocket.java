@@ -13,8 +13,8 @@ import com.example.rebelartstudios.sternenkrieg.network.Host;
 
 public class MainSocket extends AppCompatActivity {
 
-    Button s;
-    Button c;
+    Button hostBtn;
+    Button clientBtn;
     ImageView back;
 
 
@@ -27,15 +27,15 @@ public class MainSocket extends AppCompatActivity {
     }
 
     private void initializeFindByView() {
-        s = (Button) findViewById(R.id.server);
-        c = (Button) findViewById(R.id.client);
+        hostBtn = (Button) findViewById(R.id.server);
+        clientBtn = (Button) findViewById(R.id.client);
         back=(ImageView) findViewById(R.id.imageSocketReturn);
 
     }
 
     private void initializeButton() {
 
-        s.setOnClickListener(new View.OnClickListener() {
+        hostBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
@@ -44,7 +44,7 @@ public class MainSocket extends AppCompatActivity {
             }
         });
 
-        c.setOnClickListener(new View.OnClickListener() {
+        clientBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
