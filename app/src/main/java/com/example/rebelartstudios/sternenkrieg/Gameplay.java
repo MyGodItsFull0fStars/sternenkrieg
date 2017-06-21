@@ -392,6 +392,7 @@ public class Gameplay extends AppCompatActivity {
                     if(powerUp2){
                         shoot=true;
                         powerUp2=false;
+                        count=0;
                     }
 
                    /* if (gameOver(, map2)) { //check whether a complete ship of the enemy has been destroyed
@@ -876,9 +877,6 @@ public class Gameplay extends AppCompatActivity {
                         checkShoot(Integer.parseInt(position), 2);
 
                         shoot = true;
-                        if(powerUp2){
-                            shoot=false;
-                        }
 
                         draw(mapPlayer, gridViewPlayer);
                         draw(mapEnemy, gridViewEnemy);
