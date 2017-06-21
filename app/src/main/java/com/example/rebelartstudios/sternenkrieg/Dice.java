@@ -166,31 +166,12 @@ public class Dice extends AppCompatActivity {
             public void onClick(View v) {
                 util.messageSend("boolean", pHost);
                 finish = true;
-                if (!pHost) {
-                    new CountDownTimer(350, 100) {
-                        public void onTick(long millisUntilFinished) {
-                            Log.d(tag, "Millis until finished: " + millisUntilFinished);
-                        }
-
-                        @Override
-                        public void onFinish() {
-                            syncClose();
-                            pulsator.setVisibility(View.INVISIBLE);
-                            String text = "Waiting for " + GameUtilities.getEnemyUsername();
-
-                            waiting.setText(text);
-                            waiting.setVisibility(View.VISIBLE);
-                            progWaiting.setVisibility(View.VISIBLE);
-
-                        }
-
-                    }.start();
-                } else {
-                    pulsator.setVisibility(View.INVISIBLE);
-                    waiting.setVisibility(View.VISIBLE);
-                    progWaiting.setVisibility(View.VISIBLE);
-                    syncClose();
-                }
+                pulsator.setVisibility(View.INVISIBLE);
+                String text = "Waiting for " + GameUtilities.getEnemyUsername();
+                waiting.setText(text);
+                waiting.setVisibility(View.VISIBLE);
+                progWaiting.setVisibility(View.VISIBLE);
+                syncClose();
             }
         });
     }
@@ -216,7 +197,7 @@ public class Dice extends AppCompatActivity {
 
 
     public void shake() {
-        Log.i("shake mode", mode+"");
+        Log.i("shake mode", mode + "");
         switch (mode) {
             case 1:
                 new CountDownTimer(2000, 100) {
@@ -240,7 +221,7 @@ public class Dice extends AppCompatActivity {
 
                     @Override
                     public void onFinish() {
-                        Log.i("animation+value", value+"");
+                        Log.i("animation+value", value + "");
                         animation();
                         value += GameUtilities.getDiceScore();
                         GameUtilities.setDiceScore(value);
@@ -253,7 +234,7 @@ public class Dice extends AppCompatActivity {
             default:
                 break;
         }
-        Log.i("shake mode danach", mode+"");
+        Log.i("shake mode danach", mode + "");
         util.messageSend(Integer.toString(value), pHost);
         changeDiceImage(value);
         sendBoolean = true;
@@ -281,7 +262,7 @@ public class Dice extends AppCompatActivity {
 
             @Override
             public void onAnimationEnd(Animation animation) {
-                Log.i("animation ende+came", came+"");
+                Log.i("animation ende+came", came + "");
                 textScore.setText("You got:" + value);
                 prog1.setVisibility(View.VISIBLE);
                 statisticVisibility();
@@ -347,9 +328,26 @@ public class Dice extends AppCompatActivity {
 
     public void syncClose() {
         if (finish && finishEnemy) {
-            util.close();
-            pulsator.stop();
-            startActivity(intent);
+            if (!pHost) {
+                new CountDownTimer(400, 100) {
+                    public void onTick(long millisUntilFinished) {
+                    }
+
+                    @Override
+                    public void onFinish() {
+                        util.close();
+                        pulsator.stop();
+                        startActivity(intent);
+
+                    }
+
+                }.start();
+            } else {
+                util.close();
+                pulsator.stop();
+                startActivity(intent);
+            }
+
         }
 
     }
@@ -396,7 +394,7 @@ public class Dice extends AppCompatActivity {
     /********************Netz**************************/
 
 
-    // There are the Message from other player. We can work with "message" to change our map, uppower and ship.
+// There are the Message from other player. We can work with "message" to change our map, uppower and ship.
     class Myhandler extends Handler {
 
 

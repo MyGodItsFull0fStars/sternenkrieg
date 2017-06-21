@@ -43,6 +43,7 @@ public class Host extends AppCompatActivity {
     String ipS;
     OutputStream os = null;
     String tag = "Host";
+    String emuip="0.0.0.0";
     Button btnStart;
     boolean ifStart = true;
     NetworkStats stats = new NetworkStats();
@@ -152,7 +153,7 @@ public class Host extends AppCompatActivity {
         btnStart = (Button) findViewById(R.id.btn_starten);
         back = (ImageView) findViewById(R.id.imageServerBack);
 
-        if (("0.0.0.0").equals(ipS)) {
+        if ((emuip).equals(ipS)) {
             ip.setText("Funktion im Emulator nicht verfügbar!");// diese Funktion geht nur Handy mit Wifi. Emulator geht nicht
         } else {
             ip.setText(ipS);

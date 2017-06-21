@@ -111,7 +111,7 @@ public class Client extends AppCompatActivity implements View.OnClickListener {
                             Log.e(tag, "NullPointerException in Client: " + e.toString());
                         }
 
-                        new CountDownTimer(300, 100) {
+                        new CountDownTimer(400, 100) {
                             public void onTick(long millisUntilFinished) {
                             }
 

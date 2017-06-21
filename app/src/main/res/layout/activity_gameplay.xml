@@ -61,17 +61,17 @@
         android:id="@+id/pointsPlayer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
         android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:text="Points:"
         android:textColor="#FFFFFF"
-        android:textSize="20sp"
-        app:layout_constraintTop_toTopOf="@+id/player1"
-        android:layout_marginTop="8dp"
-        app:layout_constraintLeft_toRightOf="@+id/player1"
-        android:layout_marginLeft="8dp"
+        android:textSize="35sp"
         app:layout_constraintBottom_toBottomOf="@+id/player1"
-        android:layout_marginBottom="8dp" />
+        app:layout_constraintLeft_toRightOf="@+id/player1"
+        app:layout_constraintTop_toTopOf="@+id/player1" />
 
     <ImageView
         android:id="@+id/options1"
@@ -263,7 +263,7 @@
             android:layout_height="40dp"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
-            android:src="@drawable/forward"
+            android:src="@drawable/dice3droll"
             android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="@+id/pulsatorPlay"
