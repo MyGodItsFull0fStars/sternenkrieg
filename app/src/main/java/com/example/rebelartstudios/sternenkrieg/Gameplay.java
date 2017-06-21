@@ -110,6 +110,7 @@ public class Gameplay extends AppCompatActivity {
     boolean sendGridView2;
     boolean sendMap = true;
     boolean shoot = false;
+    boolean powerUp2 = false;
     boolean oneShoot = true;
     boolean dice = false;
     boolean dice2 = false;
@@ -261,8 +262,7 @@ public class Gameplay extends AppCompatActivity {
                                 }
                             } else if (fieldValues.i_list.contains(positionString)) {
                                 for (int i = 0; i < map1.length; i++) {
-                                    //    if (map1[i].equals("i1") || map1[i].equals("i2") || map1[i].equals("i3")
-                                    //            || map1[i].equals("i4") || map1[i].equals("i5") || map1[i].equals("i6"))
+
                                     if (fieldValues.i_list.contains(map1[i])) {
 
                                         map1[i] = fieldValues.SET_FIELD_POSITION_PLAYER_HIT;
@@ -272,42 +272,6 @@ public class Gameplay extends AppCompatActivity {
                                 }
                             }
 
-
-//                            switch (posis) {
-//                                case "g":
-//                                    map1[position] = 4 + "";
-//                                    draw(map1, gridView1);
-//                                    break;
-//                                case "h1":
-//                                case "h2":
-//                                case "h3":
-//                                case "h4":
-//                                    for (int i = 0; i < map1.length; i++) {
-//                                        if (map1[i].equals("h1") || map1[i].equals("h2") || map1[i].equals("h3") || map1[i].equals("h4")) {
-//
-//                                            map1[i] = fieldValues.SET_FIELD_POSITION_PLAYER_HIT;
-//                                        }
-//
-//                                        draw(map1, gridView1);
-//                                    }
-//                                    break;
-//                                case "i1":
-//                                case "i2":
-//                                case "i3":
-//                                case "i4":
-//                                case "i5":
-//                                case "i6":
-//                                    for (int i = 0; i < map1.length; i++) {
-//                                        if (map1[i].equals("i1") || map1[i].equals("i2") || map1[i].equals("i3")
-//                                                || map1[i].equals("i4") || map1[i].equals("i5") || map1[i].equals("i6")) {
-//
-//                                            map1[i] = 4 + "";
-//                                        }
-//
-//                                        draw(map1, gridView1);
-//                                    }
-//                                    break;
-//                            }
 
                             final boolean ship2RotatedFinal;
                             final boolean ship3RotatedFinal;
@@ -423,9 +387,14 @@ public class Gameplay extends AppCompatActivity {
                     draw(map2, gridView2); // update map
                     shoot = false;
 
-                    if (gameOver(shipType, map2)) { //check whether a complete ship of the enemy has been destroyed
-                        decrementAmount();
+                    if(powerUp2){
+                        shoot=true;
+                        powerUp2=false;
                     }
+
+                   /* if (gameOver(, map2)) { //check whether a complete ship of the enemy has been destroyed
+                        decrementAmount();
+                    }*/
 
                 }
                 sollfinish();
@@ -527,6 +496,7 @@ public class Gameplay extends AppCompatActivity {
             }
             vib.vibrate(500);
             draw(map1, gridView1);
+            draw(map2, gridView2);
                     /* opponent misses */
         } else if (map1[position].equals(fieldValues.SET_FIELD_POSITION_EMPTY)) {
             map1[position] = fieldValues.SET_FIELD_POSITION_ENEMY_MISS;
@@ -535,7 +505,9 @@ public class Gameplay extends AppCompatActivity {
         draw(map1, gridView1); // update map
 
 
-        if (gameOver("d", map1) && gameOver("e", map1) && gameOver("f", map1)) { //determine whether all ships are already destroyed
+        if (gameOver(fieldValues.smallShipStringList, map1) && gameOver(fieldValues.middleShipStringList, map1)
+                && gameOver(fieldValues.bigShipStringList, map1)  && gameOver(fieldValues.smallShipArmourStringList, map1)
+                && gameOver(fieldValues.middleShipArmourStringList, map1)  && gameOver(fieldValues.bigShipArmourStringList, map1)) { //determine whether all ships are already destroyed
             alert("2");
         }
     }
@@ -569,9 +541,9 @@ public class Gameplay extends AppCompatActivity {
                 draw(map1, gridView1); // update map
 
 
-                if (gameOver(fieldValues.SET_PLAYER_POSITION_SMALL, map1)
-                        && gameOver(fieldValues.SET_PLAYER_POSITION_MIDDLE, map1)
-                        && gameOver(fieldValues.SET_FIELD_POSITION_BIG, map1)) { //determine whether all ships are already destroyed
+                if (gameOver(fieldValues.smallShipStringList, map1)  && gameOver(fieldValues.smallShipArmourStringList, map1)
+                        && gameOver(fieldValues.middleShipStringList, map1)  && gameOver(fieldValues.middleShipArmourStringList, map1)
+                        && gameOver(fieldValues.bigShipStringList, map1)  && gameOver(fieldValues.bigShipArmourStringList, map1)) { //determine whether all ships are already destroyed
                     alert("2");
                 }
 
@@ -830,13 +802,13 @@ public class Gameplay extends AppCompatActivity {
     }
 
     // TODO: 20/06/2017
-    public boolean gameOver(String ship, String[] map) {
+    public boolean gameOver(LinkedList<String> hi, String[] map) {
             /* checks if String "ship" (either checks whether player has any ships left or if an
             entire ship of the opponent has been destroyed) is still present in array "map";
             if not, method returns true */
         int isTheGameOverYet = 0;
         for (int i = 0; i < fieldValues.FIELD_SIZE; i++) {
-            if ((map[i].equals(ship))) {
+            if ((hi.contains(map[i]))) {
                 isTheGameOverYet++;
             }
         }
@@ -906,6 +878,12 @@ public class Gameplay extends AppCompatActivity {
                         checkShoot(Integer.parseInt(position), 2);
 
                         shoot = true;
+                        if(powerUp2){
+                            shoot=false;
+                        }
+
+                        draw(map1, gridView1);
+                        draw(map2, gridView2);
 
                     }
                     if (mapMsg[0].equals("boolean")) {
@@ -1166,9 +1144,9 @@ public class Gameplay extends AppCompatActivity {
 
     // points of PowerUps
     int pu1points = 0;
-    int pu2points = 0;
+    int pu2points = 2;
     int pu3points = 0;
-    int pu4points = 0;
+    int pu4points = 1;
 
     public void powerUpOptions2() {
         options2.setOnClickListener(new View.OnClickListener() {
@@ -1192,7 +1170,21 @@ public class Gameplay extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 setOptionButtonsInvisible();
-                shoot = true;
+
+                if (pu2used < pu2max) {
+                    if (removePowerUpPoints(pu2points)) {
+                        GameUtilities.setDiceScore(GameUtilities.getDiceScore() - pu2points);
+                        Log.d(tag, "Using PowerUp2, new points: " + GameUtilities.getDiceScore());
+                        pu2used++;
+                powerUp2 = true;
+                    } else {
+                        powerUpDialog("Zu wenig Punkte!");
+                        Log.d(tag, "PowerUp2: Zu wenig Punkte");
+                    }
+                } else {
+                    powerUpDialog("PowerUp already used!");
+                    Log.d(tag, "PowerUp2: Bereits verwendet");
+                }
 
                 powerUpOptions2();
             }
