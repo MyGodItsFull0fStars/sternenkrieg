@@ -67,7 +67,7 @@ public class NetworkUtilities {
     }
 
     public void networkbuild() {
-        if (!pHost) {
+        if (!pHost&&!socket.isConnected()) {
             this.startThread = new StartThread(socket, ip, receiveThreadClient, myHandler, 12345);
             startThread.start();
         }

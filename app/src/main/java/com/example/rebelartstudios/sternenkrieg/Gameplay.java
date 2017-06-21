@@ -471,6 +471,8 @@ public class Gameplay extends AppCompatActivity {
             startActivity(intent);
 
 
+
+
         }
 
     }
@@ -987,7 +989,7 @@ public class Gameplay extends AppCompatActivity {
 
     public void animationEnemy(float x, float y) {
         shootEnemy.setVisibility(View.VISIBLE);
-        TranslateAnimation slideUp = new TranslateAnimation(0, x - shootEnemy.getX() + gridView1.getX() / 2, 0, y - shootEnemy.getY() + gridView1.getY() / 2);
+        TranslateAnimation slideUp = new TranslateAnimation(0,-shootEnemy.getX()+(x+gridView1.getX()) , 0, -shootEnemy.getY()+(y+gridView1.getY()));
         slideUp.setDuration(1000);
         slideUp.setFillAfter(true);
         shootEnemy.setAnimation(slideUp);
