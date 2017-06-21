@@ -90,7 +90,7 @@ public class Dice extends AppCompatActivity {
     Intent intent = new Intent();
     ProgressBar prog1;
     ImageView diceGoto;
-    static ImageView diceEnemy;
+    ImageView diceEnemy;
     ImageView goNext;
     PulsatorLayout pulsator;
     ProgressBar progWaiting;
@@ -460,26 +460,26 @@ public class Dice extends AppCompatActivity {
         }
     }
 
-    public static void changeDiceImageEnemy(int value) {
+    public void changeDiceImageEnemy(int value) {
 
         switch (value) {
             case 1:
-                Dice.diceEnemy.setImageResource(one);
+                diceEnemy.setImageResource(one);
                 break;
             case 2:
-                Dice.diceEnemy.setImageResource(two);
+                diceEnemy.setImageResource(two);
                 break;
             case 3:
-                Dice.diceEnemy.setImageResource(three);
+                diceEnemy.setImageResource(three);
                 break;
             case 4:
-                Dice.diceEnemy.setImageResource(four);
+                diceEnemy.setImageResource(four);
                 break;
             case 5:
-                Dice.diceEnemy.setImageResource(five);
+                diceEnemy.setImageResource(five);
                 break;
             case 6:
-                Dice.diceEnemy.setImageResource(six);
+                diceEnemy.setImageResource(six);
                 break;
             default:
                 break;
