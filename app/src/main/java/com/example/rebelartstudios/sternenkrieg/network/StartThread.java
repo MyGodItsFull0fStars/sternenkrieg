@@ -4,6 +4,8 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 
+import com.example.rebelartstudios.sternenkrieg.exception.MyRuntimeException;
+
 import java.io.IOException;
 import java.net.Socket;
 
@@ -67,7 +69,8 @@ public class StartThread extends Thread {
             this.socket.close();
             this.socket = null;
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.e(tag, "IOException in StartThread (closeSocket): " + e.toString());
+            throw new MyRuntimeException(e);
         }
     }
 

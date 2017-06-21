@@ -1,80 +1,67 @@
 package com.example.rebelartstudios.sternenkrieg;
 
+import com.example.rebelartstudios.sternenkrieg.exception.MyException;
 import com.example.rebelartstudios.sternenkrieg.network.NetworkUtilities;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-/** 
-* NetworkUtilities Tester. 
-* 
-* @author <Authors name> 
-* @since <pre>Jun 15, 2017</pre> 
-* @version 1.0 
-*/ 
+/**
+ * NetworkUtilities Tester.
+ */
 public class NetworkUtilitiesTests {
 
     NetworkUtilities util;
 
-@Before
-public void before() throws Exception {
+    @Before
+    public void before() throws MyException {
 
-} 
+    }
 
-@After
-public void after() throws Exception { 
-} 
+    @After
+    public void after() throws MyException {
+    }
 
-/** 
-* 
-* Method: connection() 
-* 
-*/ 
-@Test
-public void testConnection() throws Exception { 
+    /**
+     * Method: connection()
+     */
+    @Test
+    public void testConnection() throws MyException {
 //TODO: Test goes here... 
-} 
+    }
 
-/** 
-* 
-* Method: messageSend(String message, boolean playerHost, boolean t)
-* 
-*/ 
-@Test
-public void testMessageSend() throws Exception { 
+    /**
+     * Method: messageSend(String message, boolean playerHost, boolean t)
+     */
+    @Test
+    public void testMessageSend() throws MyException {
 //TODO: Test goes here... 
-} 
+    }
 
-/** 
-* 
-* Method: networkbuild() 
-* 
-*/ 
-@Test
-public void testNetworkbuild() throws Exception { 
+    /**
+     * Method: networkbuild()
+     */
+    @Test
+    public void testNetworkbuild() throws MyException {
 //TODO: Test goes here... 
-} 
+    }
 
-/** 
-* 
-* Method: close() 
-* 
-*/ 
-@Test
-public void testClose() throws Exception { 
+    /**
+     * Method: close()
+     */
+    @Test
+    public void testClose() throws MyException {
 //TODO: Test goes here... 
-} 
+    }
 
-/** 
-* 
-* Method: getinfofD() 
-* 
-*/ 
-@Test
-public void testGetinfofD() throws Exception { 
+    /**
+     * Method: getinfofD()
+     */
+    @Test
+    public void testGetinfofD() throws MyException {
 //TODO: Test goes here... 
-} 
+    }
 
 
 } 
