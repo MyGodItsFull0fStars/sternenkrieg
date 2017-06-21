@@ -201,6 +201,7 @@ Die Speicherung der Einstellungen erfolgt mithilfe von SharedPreferences (\enquo
 In diesem Kapitel werden die GameLogic-Klassen näher erläutert. Wie der Name schon sagt, beinhalten diese Klassen die eigentliche Spiellogik.
 
 \subsection{FieldValues}
+Die Klasse \enquote{FieldValues} ist eine unterstütztende Hilfeklasse der Klassen Gameplay, Map und MapLoad. In dieser Klasse werden Informationen über die Schiffe sowie die Schiffe in Listen gespeichert.
 
 \subsection{GameUtilities}
 Die Klasse \enquote{GameUtilities} verwaltet das Speichern der Informationen zum Spiel, darunter:
@@ -225,6 +226,7 @@ Die Klasse bietet unter anderem folgende Methoden:
 \end{itemize}
 
 \subsection{NetworkStats}
+In der Klasse \enquote{NetworkStats} werden Variablen für das Netzwerk sowie der Würfelmodus gespeichert. Diese Variablen werden zur Verbindung genutzt, zusätzlich wird die Würfeleinstellung für den Würfel zur Unterscheidung zwischen Spielstart und PowerUp verwendet.
 
 \subsection{PlayerFieldLogic}
 In der Klasse \enquote{PlayerFieldLogic} wird die Logik des Spielfelds verwaltet. Die Spielfelddaten werden in einem String-Array playerField gespeichert.
@@ -298,6 +300,15 @@ Die Klasse \enquote{ErrorMessages} verwaltet zentrale Fehlermeldungen. In dieser
 \subsection{QRReader}
 
 \subsection{Sensors}
+
+\section{Exception-Klassen im Überblick}
+Es wurden eigene Exceptions eingefügt, um Meldungen  im SonarQube zu beheben.
+
+\subsection{MyException}
+Die Klasse \enquote{MyException} ist eine Erweiterung der Klasse Exception, stellt aber keine weiteren Funktionen zur Verfügung.
+
+\subsection{MyRuntimeException}
+Die Klasse \enquote{MyRuntimeException} ist eine Erweiterung der Klasse RuntimeException, stellt aber keine weiteren Funktionen zur Verfügung.
 
 \section{Erklärung besonderer Funktionen}
 
