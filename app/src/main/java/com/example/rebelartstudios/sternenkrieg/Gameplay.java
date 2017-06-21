@@ -434,8 +434,8 @@ public class Gameplay extends AppCompatActivity {
             GameUtilities.setPlayerMap(map1);
             GameUtilities.setEnemyMap(map2);
             NetworkStats.setMode(2);
-
-            util.close();
+            if (Phost)
+                util.close();
             pulsatorLayout.stop();
             startActivity(intent);
 

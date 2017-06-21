@@ -372,8 +372,8 @@ public class Map extends AppCompatActivity {
 
     public void syncClose() {
         if (finish && finishEnemy) {
-
-            util.close();
+            if (playerHost)
+                util.close();
             pulsatorLayout.stop();
             startActivity(intent);
 
