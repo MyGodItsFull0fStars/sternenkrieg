@@ -104,19 +104,19 @@ public class Client extends AppCompatActivity implements View.OnClickListener {
                             Log.i(tag, "Crash");
                         }
 
-                        try {
-                            Thread write = new WriteClient(true, socket, game.getUsername());
-                            write.start();
-                        } catch (NullPointerException e) {
-                            Log.e(tag, "NullPointerException in Client: " + e.toString());
-                        }
-
-                        new CountDownTimer(400, 100) {
+                        new CountDownTimer(400, 300) {
                             public void onTick(long millisUntilFinished) {
+                                try {
+                                    Thread write = new WriteClient(true, socket, game.getUsername());
+                                    write.start();
+                                } catch (NullPointerException e) {
+                                    Log.e(tag, "NullPointerException in Client: " + e.toString());
+                                }
                             }
 
                             @Override
                             public void onFinish() {
+
                                 try {
                                     Thread write = new WriteClient(true, socket, "Bereit!");
                                     write.start();
@@ -179,13 +179,23 @@ public class Client extends AppCompatActivity implements View.OnClickListener {
 
                             @Override
                             public void onFinish() {
-                                Intent intentD = new Intent(Client.this, Dice.class);
                                 close();
                                 NetworkStats.setIp(ip);
                                 NetworkStats.setNet(true);
                                 NetworkStats.setPhost(false);
                                 NetworkStats.setMode(1);
-                                startActivity(intentD);
+                                new CountDownTimer(300, 100) {
+                                    public void onTick(long millisUntilFinished) {
+                                    }
+
+                                    @Override
+                                    public void onFinish() {
+                                        Intent intentD = new Intent(Client.this, Dice.class);
+                                        startActivity(intentD);
+
+                                    }
+
+                                }.start();
                             }
                         }.start();
 

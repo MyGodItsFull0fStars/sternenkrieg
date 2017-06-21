@@ -51,7 +51,7 @@ public class QRReader extends AppCompatActivity implements ZXingScannerView.Resu
         extras = getIntent().getExtras();
 
         if (extras == null) {
-            ip = "127.0.0.0"; // localhost
+            ip = "localhost"; // localhost
         } else {
             ip = extras.getString("IP");
         }

@@ -466,25 +466,10 @@ public class Gameplay extends AppCompatActivity {
             GameUtilities.setEnemyMap(map2);
             NetworkStats.setMode(2);
 
-            if (!Phost) {
-                new CountDownTimer(400, 100) {
-                    public void onTick(long millisUntilFinished) {
-                    }
+            util.close();
+            pulsatorLayout.stop();
+            startActivity(intent);
 
-                    @Override
-                    public void onFinish() {
-                        util.close();
-                        pulsatorLayout.stop();
-                        startActivity(intent);
-
-                    }
-
-                }.start();
-            } else {
-                util.close();
-                pulsatorLayout.stop();
-                startActivity(intent);
-            }
 
         }
 

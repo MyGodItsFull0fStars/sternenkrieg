@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Point;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
@@ -327,7 +326,7 @@ public class Map extends AppCompatActivity {
                     textMapWaiting.setText("Waiting for " + game.getEnemyUsername());
                     textMapWaiting.setVisibility(View.VISIBLE);
 
-                   syncClose();
+                    syncClose();
                 }
 
             }
@@ -371,25 +370,10 @@ public class Map extends AppCompatActivity {
 
     public void syncClose() {
         if (finish && finishEnemy) {
-            if (!playerHost) {
-                new CountDownTimer(200, 100) {
-                    public void onTick(long millisUntilFinished) {
-                    }
 
-                    @Override
-                    public void onFinish() {
-                        util.close();
-                        pulsatorLayout.stop();
-                        startActivity(intent);
-
-                    }
-
-                }.start();
-            } else {
-                util.close();
-                pulsatorLayout.stop();
-                startActivity(intent);
-            }
+            util.close();
+            pulsatorLayout.stop();
+            startActivity(intent);
 
         }
 

@@ -43,6 +43,8 @@ public class Highscore extends AppCompatActivity {
             game.setHighScore();
         }
         list = game.getHighScore();
+
+
         listAdapter.addAll(list);
 
         //Highscore wird erzeugt

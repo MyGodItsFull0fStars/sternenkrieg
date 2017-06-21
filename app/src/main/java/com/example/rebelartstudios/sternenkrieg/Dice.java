@@ -328,25 +328,10 @@ public class Dice extends AppCompatActivity {
 
     public void syncClose() {
         if (finish && finishEnemy) {
-            if (!pHost) {
-                new CountDownTimer(400, 100) {
-                    public void onTick(long millisUntilFinished) {
-                    }
-
-                    @Override
-                    public void onFinish() {
-                        util.close();
-                        pulsator.stop();
-                        startActivity(intent);
-
-                    }
-
-                }.start();
-            } else {
                 util.close();
                 pulsator.stop();
                 startActivity(intent);
-            }
+
 
         }
 

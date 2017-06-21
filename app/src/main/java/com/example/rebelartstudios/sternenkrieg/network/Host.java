@@ -6,6 +6,7 @@ import android.content.pm.ActivityInfo;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
@@ -43,7 +44,7 @@ public class Host extends AppCompatActivity {
     String ipS;
     OutputStream os = null;
     String tag = "Host";
-    String emuip="0.0.0.0";
+    String emuip = "0.0.0.0";
     Button btnStart;
     boolean ifStart = true;
     NetworkStats stats = new NetworkStats();
@@ -153,11 +154,9 @@ public class Host extends AppCompatActivity {
         btnStart = (Button) findViewById(R.id.btn_starten);
         back = (ImageView) findViewById(R.id.imageServerBack);
 
-        if ((emuip).equals(ipS)) {
-            ip.setText("Funktion im Emulator nicht verfügbar!");// diese Funktion geht nur Handy mit Wifi. Emulator geht nicht
-        } else {
-            ip.setText(ipS);
-        }
+
+        ip.setText(ipS);
+
     }
 
     private void initializeOnClickListeners() {
@@ -188,14 +187,26 @@ public class Host extends AppCompatActivity {
                 WriteHost writeHost = new WriteHost(socket, os, info);
                 writeHost.start();
 
-                Intent intentD = new Intent(Host.this, Dice.class);
+
                 ifStart = false;
                 close();
                 NetworkStats.setNet(true);
                 NetworkStats.setPhost(true);
                 NetworkStats.setMode(1);
                 animationClass.stop();
-                startActivity(intentD);
+                new CountDownTimer(200, 100) {
+                    public void onTick(long millisUntilFinished) {
+                    }
+
+                    @Override
+                    public void onFinish() {
+                        Intent intentD = new Intent(Host.this, Dice.class);
+                        startActivity(intentD);
+
+                    }
+
+                }.start();
+
 
             }
         });
