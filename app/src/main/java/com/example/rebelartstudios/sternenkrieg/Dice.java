@@ -328,9 +328,10 @@ public class Dice extends AppCompatActivity {
 
     public void syncClose() {
         if (finish && finishEnemy) {
+            if (pHost)
                 util.close();
-                pulsator.stop();
-                startActivity(intent);
+            pulsator.stop();
+            startActivity(intent);
 
 
         }

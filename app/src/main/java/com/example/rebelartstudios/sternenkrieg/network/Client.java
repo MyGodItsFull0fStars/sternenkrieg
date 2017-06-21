@@ -179,7 +179,6 @@ public class Client extends AppCompatActivity implements View.OnClickListener {
 
                             @Override
                             public void onFinish() {
-                                close();
                                 NetworkStats.setIp(ip);
                                 NetworkStats.setNet(true);
                                 NetworkStats.setPhost(false);
