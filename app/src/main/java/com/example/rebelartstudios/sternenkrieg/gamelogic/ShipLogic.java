@@ -67,7 +67,7 @@ public class ShipLogic {
     /**
      * Tag used in Log messages
      */
-    private static final String tag = "ShipLogic";
+    private String tag = "ShipLogic";
 
     /**
      * Returns the array of the small sized ship

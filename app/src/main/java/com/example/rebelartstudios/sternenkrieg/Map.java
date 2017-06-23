@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Display;
 import android.view.DragEvent;
 import android.view.MotionEvent;
@@ -43,7 +44,10 @@ import pl.bclogic.pulsator4droid.library.PulsatorLayout;
 public class Map extends AppCompatActivity {
     GridView gridView;
     ImageView imageView;
-    ImageView ship1, ship2, ship3, turn;
+    ImageView ship1;
+    ImageView ship2;
+    ImageView ship3;
+    ImageView turn;
     TextView textMapWaiting;
     PulsatorLayout pulsatorLayout;
     ImageView imageMapGoNext;
@@ -51,11 +55,10 @@ public class Map extends AppCompatActivity {
 
     int width;
     int height;
-    int which_ship;
+    int whichShip;
 
     MapLoad mapLoad;
     GameUtilities game;
-
 
     Socket socket = new Socket();
     ServerSocket mServerSocket = null;
@@ -70,7 +73,7 @@ public class Map extends AppCompatActivity {
     AcceptThread mAcceptThread;
     StartThread startThread;
     OutputStream os = null;
-    boolean Net = false;
+    boolean net = false;
 
     Intent intent = new Intent();
     boolean finish = false;
@@ -118,16 +121,16 @@ public class Map extends AppCompatActivity {
         initializeShipView();
 
         /* *******************Networking**************************/
-        System.out.println("Map");
+        Log.d(tag, "Map");
         playerHost = stats.isPlayerHost();
 
-        System.out.println("pHost: " + playerHost);
-        Net = stats.isNet();
-        System.out.println("net: " + Net);
+        Log.d(tag, "pHost: " + playerHost);
+        net = stats.isNet();
+        Log.d(tag, "net: " + net);
 
         if (!playerHost) {
             ip = stats.getIp();
-            System.out.println("Ip: " + ip);
+            Log.d(tag, "Ip: " + ip);
         }
 
 
@@ -178,7 +181,6 @@ public class Map extends AppCompatActivity {
                         break;
 
                     case DragEvent.ACTION_DRAG_ENTERED:
-
                         break;
 
                     case DragEvent.ACTION_DROP: {
@@ -186,7 +188,7 @@ public class Map extends AppCompatActivity {
                         int y = (int) event.getY();
                         int position = position(x, y);
 
-                        playerFieldShipContainer.setShipOnPlayerFieldWithDragAndDrop(position, which_ship, degree);
+                        playerFieldShipContainer.setShipOnPlayerFieldWithDragAndDrop(position, whichShip, degree);
 
                         draw(playerFieldShipContainer.getPlayerFieldLogic().getPlayerField());
 
@@ -202,7 +204,7 @@ public class Map extends AppCompatActivity {
 
                     case DragEvent.ACTION_DRAG_ENDED: {
                         // setShipsVisible();
-                        return (true);
+                        return true;
 
                     }
                     default:
@@ -225,7 +227,7 @@ public class Map extends AppCompatActivity {
                 View.DragShadowBuilder shadow = new View.DragShadowBuilder(ship1);
                 v.startDrag(data, shadow, null, 0);
 
-                which_ship = playerFieldShipContainer.getShipLogic().SMALL_SHIP_ID;
+                whichShip = playerFieldShipContainer.getShipLogic().SMALL_SHIP_ID;
 
                 //ship1.setVisibility(View.INVISIBLE);
                 return false;
@@ -241,7 +243,7 @@ public class Map extends AppCompatActivity {
                 View.DragShadowBuilder shadow = new View.DragShadowBuilder(ship2);
                 v.startDrag(data, shadow, null, 0);
                 //middle ship
-                which_ship = playerFieldShipContainer.getShipLogic().MIDDLE_SHIP_ID;
+                whichShip = playerFieldShipContainer.getShipLogic().MIDDLE_SHIP_ID;
 
                 //ship2.setVisibility(View.INVISIBLE);
                 return false;
@@ -257,7 +259,7 @@ public class Map extends AppCompatActivity {
                 View.DragShadowBuilder shadow = new View.DragShadowBuilder(ship3);
                 v.startDrag(data, shadow, null, 0);
                 //big ship
-                which_ship = playerFieldShipContainer.getShipLogic().BIG_SHIP_ID;
+                whichShip = playerFieldShipContainer.getShipLogic().BIG_SHIP_ID;
                 //ship3.setVisibility(View.INVISIBLE);
                 return false;
             }
@@ -294,8 +296,8 @@ public class Map extends AppCompatActivity {
     private void initializeShipView() {
         gridView = (GridView) findViewById(R.id.gridView);
         gridView = (GridView) findViewById(R.id.gridView);
-        gridView.getLayoutParams().height = (height - 350);
-        gridView.getLayoutParams().width = (height - 350);
+        gridView.getLayoutParams().height = height - 350;
+        gridView.getLayoutParams().width = height - 350;
         gridView.setTranslationY(-60f);
         gridView.setTranslationX(-10f);
         ship1.getLayoutParams().height = (height - 350) / 8;

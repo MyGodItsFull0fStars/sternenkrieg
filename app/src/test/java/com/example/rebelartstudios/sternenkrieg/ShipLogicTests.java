@@ -1,5 +1,7 @@
 package com.example.rebelartstudios.sternenkrieg;
 
+import android.util.Log;
+
 import com.example.rebelartstudios.sternenkrieg.gamelogic.FieldValues;
 import com.example.rebelartstudios.sternenkrieg.gamelogic.ShipLogic;
 import com.example.rebelartstudios.sternenkrieg.exception.ErrorMessages;
@@ -15,68 +17,71 @@ import static junit.framework.Assert.fail;
  */
 
 public class ShipLogicTests {
-    private ShipLogic shipLogic_no_parameters;
-    private ShipLogic shipLogic_with_parameters;
+    private ShipLogic shipLogicNoParameters;
+    private ShipLogic shipLogicWithParameters;
     private FieldValues fieldValues;
 
     private int[] smallArray;
     private int[] middleArray;
     private int[] bigArray;
 
+    String tag = "ShipLogicTests";
+
     @Before
     public void setUp() {
-        shipLogic_no_parameters = new ShipLogic();
+        shipLogicNoParameters = new ShipLogic();
         smallArray = new int[1];
         middleArray = new int[2];
         bigArray = new int[3];
-        shipLogic_with_parameters = new ShipLogic(smallArray, middleArray, bigArray);
+        shipLogicWithParameters = new ShipLogic(smallArray, middleArray, bigArray);
         fieldValues = new FieldValues();
     }
 
     @Test
     public void checkInitialisation() {
         try {
-            Assert.assertEquals(smallArray.length, shipLogic_no_parameters.getSmallShipArray().length, shipLogic_with_parameters.getSmallShipArray().length);
-            Assert.assertEquals(middleArray.length, shipLogic_no_parameters.getMiddleShipArray().length, shipLogic_with_parameters.getMiddleShipArray().length);
-            Assert.assertEquals(bigArray.length, shipLogic_no_parameters.getBigShipArray().length, shipLogic_with_parameters.getBigShipArray().length);
+            Assert.assertEquals(smallArray.length, shipLogicNoParameters.getSmallShipArray().length, shipLogicWithParameters.getSmallShipArray().length);
+            Assert.assertEquals(middleArray.length, shipLogicNoParameters.getMiddleShipArray().length, shipLogicWithParameters.getMiddleShipArray().length);
+            Assert.assertEquals(bigArray.length, shipLogicNoParameters.getBigShipArray().length, shipLogicWithParameters.getBigShipArray().length);
         } catch (Exception e) {
+            Log.e(tag, e.getMessage());
             fail(ErrorMessages.EXCEPTION_REACHED);
         }
     }
 
     @Test
     public void checkGetterSetterMethods() {
-        shipLogic_no_parameters.setSmallShipArray(smallArray);
-        shipLogic_no_parameters.setMiddleShipArray(middleArray);
-        shipLogic_no_parameters.setBigShipArray(bigArray);
+        shipLogicNoParameters.setSmallShipArray(smallArray);
+        shipLogicNoParameters.setMiddleShipArray(middleArray);
+        shipLogicNoParameters.setBigShipArray(bigArray);
 
         int[] arraySmall = {5};
         int[] arrayMiddle = {5, 6};
         int[] arrayBig = {5, 6, 7};
 
-        shipLogic_with_parameters.setSmallShipArray(arraySmall);
-        shipLogic_with_parameters.setMiddleShipArray(arrayMiddle);
-        shipLogic_with_parameters.setBigShipArray(arrayBig);
+        shipLogicWithParameters.setSmallShipArray(arraySmall);
+        shipLogicWithParameters.setMiddleShipArray(arrayMiddle);
+        shipLogicWithParameters.setBigShipArray(arrayBig);
 
-        Assert.assertEquals(smallArray, shipLogic_no_parameters.getSmallShipArray());
-        Assert.assertEquals(middleArray, shipLogic_no_parameters.getMiddleShipArray());
-        Assert.assertEquals(bigArray, shipLogic_no_parameters.getBigShipArray());
+        Assert.assertEquals(smallArray, shipLogicNoParameters.getSmallShipArray());
+        Assert.assertEquals(middleArray, shipLogicNoParameters.getMiddleShipArray());
+        Assert.assertEquals(bigArray, shipLogicNoParameters.getBigShipArray());
 
-        Assert.assertEquals(arraySmall, shipLogic_with_parameters.getSmallShipArray());
-        Assert.assertEquals(arrayMiddle, shipLogic_with_parameters.getMiddleShipArray());
-        Assert.assertEquals(arrayBig, shipLogic_with_parameters.getBigShipArray());
+        Assert.assertEquals(arraySmall, shipLogicWithParameters.getSmallShipArray());
+        Assert.assertEquals(arrayMiddle, shipLogicWithParameters.getMiddleShipArray());
+        Assert.assertEquals(arrayBig, shipLogicWithParameters.getBigShipArray());
     }
 
     @Test
     public void insertIntoSmallShipCorrectSize() {
         int[] array = {1};
-        shipLogic_no_parameters.setSmallShipArray(array);
-        shipLogic_with_parameters.setSmallShipArray(array);
+        shipLogicNoParameters.setSmallShipArray(array);
+        shipLogicWithParameters.setSmallShipArray(array);
 
         // test if arrays are the same
-        Assert.assertEquals(shipLogic_no_parameters.getSmallShipArray(), shipLogic_with_parameters.getSmallShipArray());
-        Assert.assertEquals(shipLogic_no_parameters.getSmallShipArray()[0], 1);
-        Assert.assertEquals(shipLogic_with_parameters.getSmallShipArray()[0], 1);
+        Assert.assertEquals(shipLogicNoParameters.getSmallShipArray(), shipLogicWithParameters.getSmallShipArray());
+        Assert.assertEquals(shipLogicNoParameters.getSmallShipArray()[0], 1);
+        Assert.assertEquals(shipLogicWithParameters.getSmallShipArray()[0], 1);
 
     }
 
@@ -87,10 +92,11 @@ public class ShipLogicTests {
     public void checkSetSmallShipPositionInBoundariesThrowsNoException() {
         try {
             for (int position = 0; position < fieldValues.FIELD_SIZE; position++) {
-                shipLogic_no_parameters.setSmallShipPosition(position);
-                shipLogic_with_parameters.setSmallShipPosition(position);
+                shipLogicNoParameters.setSmallShipPosition(position);
+                shipLogicWithParameters.setSmallShipPosition(position);
             }
         } catch (IllegalArgumentException e) {
+            Log.d(tag, e.getMessage());
             fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_REACHED);
         }
     }
@@ -98,18 +104,20 @@ public class ShipLogicTests {
     @Test
     public void checkSetSmallShipPositionOutOfBoundariesThrowsException() {
         try {
-            shipLogic_no_parameters.setSmallShipPosition(-1);
+            shipLogicNoParameters.setSmallShipPosition(-1);
             fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_EXPECTED);
-            shipLogic_with_parameters.setSmallShipPosition(-1);
+            shipLogicWithParameters.setSmallShipPosition(-1);
         } catch (IllegalArgumentException e) {
+            Log.e(tag, e.getMessage());
             Assert.assertEquals(e.getMessage(), ErrorMessages.POSITION_OUT_OF_RANGE);
         }
 
         try {
-            shipLogic_no_parameters.setSmallShipPosition(64);
+            shipLogicNoParameters.setSmallShipPosition(64);
             fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_EXPECTED);
 
         } catch (IllegalArgumentException e) {
+            Log.e(tag, e.getMessage());
             Assert.assertEquals(e.getMessage(), ErrorMessages.POSITION_OUT_OF_RANGE);
         }
     }
@@ -118,20 +126,22 @@ public class ShipLogicTests {
     public void checkMiddleShipPositionInBoundariesThrowsNoException() {
         try {
             for (int position = 1; position < fieldValues.FIELD_SIZE; position++) {
-                shipLogic_no_parameters.setMiddleShipPosition(position, fieldValues.HORIZONTAL);
-                shipLogic_with_parameters.setMiddleShipPosition(position, fieldValues.HORIZONTAL);
+                shipLogicNoParameters.setMiddleShipPosition(position, fieldValues.HORIZONTAL);
+                shipLogicWithParameters.setMiddleShipPosition(position, fieldValues.HORIZONTAL);
             }
 
         } catch (IllegalArgumentException e) {
+            Log.e(tag, e.getMessage());
             fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_REACHED);
         }
 
         try {
             for (int position = 8; position < fieldValues.FIELD_SIZE; position++) {
-                shipLogic_no_parameters.setMiddleShipPosition(position, fieldValues.VERTICAL);
-                shipLogic_with_parameters.setMiddleShipPosition(position, fieldValues.VERTICAL);
+                shipLogicNoParameters.setMiddleShipPosition(position, fieldValues.VERTICAL);
+                shipLogicWithParameters.setMiddleShipPosition(position, fieldValues.VERTICAL);
             }
         } catch (IllegalArgumentException e) {
+            Log.e(tag, e.getMessage());
             fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_REACHED);
         }
     }
@@ -141,33 +151,37 @@ public class ShipLogicTests {
 
         // Out of boundaries on the left field side
         try {
-            shipLogic_no_parameters.setMiddleShipPosition(0, fieldValues.HORIZONTAL);
+            shipLogicNoParameters.setMiddleShipPosition(0, fieldValues.HORIZONTAL);
             fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_EXPECTED);
         } catch (IllegalArgumentException e) {
+            Log.e(tag, e.getMessage());
             Assert.assertEquals(e.getMessage(), ErrorMessages.POSITION_OUT_OF_RANGE);
         }
 
         // Out of boundaries on the right field side
         try {
-            shipLogic_no_parameters.setMiddleShipPosition(64, fieldValues.HORIZONTAL);
+            shipLogicNoParameters.setMiddleShipPosition(64, fieldValues.HORIZONTAL);
             fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_EXPECTED);
         } catch (IllegalArgumentException e) {
+            Log.e(tag, e.getMessage());
             Assert.assertEquals(e.getMessage(), ErrorMessages.POSITION_OUT_OF_RANGE);
         }
 
         // Out of boundaries on the top field side
         try {
-            shipLogic_no_parameters.setMiddleShipPosition(7, fieldValues.VERTICAL);
+            shipLogicNoParameters.setMiddleShipPosition(7, fieldValues.VERTICAL);
             fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_EXPECTED);
         } catch (IllegalArgumentException e) {
+            Log.e(tag, e.getMessage());
             Assert.assertEquals(e.getMessage(), ErrorMessages.POSITION_OUT_OF_RANGE);
         }
 
         // Out of boundaries on the bottom field side
         try {
-            shipLogic_no_parameters.setMiddleShipPosition(64, fieldValues.VERTICAL);
+            shipLogicNoParameters.setMiddleShipPosition(64, fieldValues.VERTICAL);
             fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_EXPECTED);
         } catch (IllegalArgumentException e) {
+            Log.e(tag, e.getMessage());
             Assert.assertEquals(e.getMessage(), ErrorMessages.POSITION_OUT_OF_RANGE);
         }
     }
@@ -178,18 +192,20 @@ public class ShipLogicTests {
         // Check horizontal boundaries
         try {
             for (int position = 1; position < fieldValues.FIELD_SIZE - 1; position++) {
-                shipLogic_no_parameters.setBigShipPosition(1, fieldValues.HORIZONTAL);
+                shipLogicNoParameters.setBigShipPosition(1, fieldValues.HORIZONTAL);
             }
         } catch (IllegalArgumentException e) {
+            Log.e(tag, e.getMessage());
             fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_REACHED);
         }
 
         // Check vertical boundaries
         try {
             for (int position = 8; position < fieldValues.FIELD_SIZE - 8; position++) {
-                shipLogic_no_parameters.setBigShipPosition(position, fieldValues.VERTICAL);
+                shipLogicNoParameters.setBigShipPosition(position, fieldValues.VERTICAL);
             }
         } catch (IllegalArgumentException e) {
+            Log.e(tag, e.getMessage());
             fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_REACHED);
         }
     }
@@ -198,33 +214,37 @@ public class ShipLogicTests {
     public void checkBigShipPositionOutOfBoundariesThrowsIllegalArgumentException() {
         // Horizontal boundaries left upper field side
         try {
-            shipLogic_no_parameters.setBigShipPosition(0, fieldValues.HORIZONTAL);
+            shipLogicNoParameters.setBigShipPosition(0, fieldValues.HORIZONTAL);
             fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_EXPECTED);
         } catch (IllegalArgumentException e) {
+            Log.e(tag, e.getMessage());
             Assert.assertEquals(e.getMessage(), ErrorMessages.POSITION_OUT_OF_RANGE);
         }
 
         // Horizontal boundaries right bottom field side
         try {
-            shipLogic_no_parameters.setBigShipPosition(63, fieldValues.HORIZONTAL);
+            shipLogicNoParameters.setBigShipPosition(63, fieldValues.HORIZONTAL);
             fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_EXPECTED);
         } catch (IllegalArgumentException e) {
+            Log.e(tag, e.getMessage());
             Assert.assertEquals(e.getMessage(), ErrorMessages.POSITION_OUT_OF_RANGE);
         }
 
         // Vertical boundaries upper field side
         try {
-            shipLogic_no_parameters.setBigShipPosition(5, fieldValues.VERTICAL);
+            shipLogicNoParameters.setBigShipPosition(5, fieldValues.VERTICAL);
             fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_EXPECTED);
         } catch (IllegalArgumentException e) {
+            Log.e(tag, e.getMessage());
             Assert.assertEquals(e.getMessage(), ErrorMessages.POSITION_OUT_OF_RANGE);
         }
 
         // Vertical boundaries bottom field side
         try {
-            shipLogic_no_parameters.setBigShipPosition(61, fieldValues.VERTICAL);
+            shipLogicNoParameters.setBigShipPosition(61, fieldValues.VERTICAL);
             fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_EXPECTED);
         } catch (IllegalArgumentException e) {
+            Log.e(tag, e.getMessage());
             Assert.assertEquals(e.getMessage(), ErrorMessages.POSITION_OUT_OF_RANGE);
         }
     }
@@ -235,36 +255,36 @@ public class ShipLogicTests {
     @Test
     public void insertIntoMiddleShipWithCorrectSize() {
         int[] array = {1, 2};
-        shipLogic_no_parameters.setMiddleShipArray(array);
-        shipLogic_with_parameters.setMiddleShipArray(array);
+        shipLogicNoParameters.setMiddleShipArray(array);
+        shipLogicWithParameters.setMiddleShipArray(array);
 
         // test if arrays are the same
-        Assert.assertEquals(shipLogic_no_parameters.getMiddleShipArray(), shipLogic_with_parameters.getMiddleShipArray());
-        Assert.assertEquals(shipLogic_no_parameters.getMiddleShipArray(), array);
-        Assert.assertEquals(shipLogic_with_parameters.getMiddleShipArray(), array);
+        Assert.assertEquals(shipLogicNoParameters.getMiddleShipArray(), shipLogicWithParameters.getMiddleShipArray());
+        Assert.assertEquals(shipLogicNoParameters.getMiddleShipArray(), array);
+        Assert.assertEquals(shipLogicWithParameters.getMiddleShipArray(), array);
 
         // test for each position as well
         for (int i = 0; i < array.length; i++) {
-            Assert.assertEquals(shipLogic_no_parameters.getMiddleShipArray()[i], array[i]);
-            Assert.assertEquals(shipLogic_with_parameters.getMiddleShipArray()[i], array[i]);
+            Assert.assertEquals(shipLogicNoParameters.getMiddleShipArray()[i], array[i]);
+            Assert.assertEquals(shipLogicWithParameters.getMiddleShipArray()[i], array[i]);
         }
     }
 
     @Test
     public void insertIntoBigShipWithCorrectSize() {
         int[] array = {1, 2, 3};
-        shipLogic_with_parameters.setBigShipArray(array);
-        shipLogic_no_parameters.setBigShipArray(array);
+        shipLogicWithParameters.setBigShipArray(array);
+        shipLogicNoParameters.setBigShipArray(array);
 
         // test if arrays are the same
-        Assert.assertEquals(shipLogic_no_parameters.getBigShipArray(), shipLogic_with_parameters.getBigShipArray());
-        Assert.assertEquals(shipLogic_no_parameters.getBigShipArray(), array);
-        Assert.assertEquals(shipLogic_with_parameters.getBigShipArray(), array);
+        Assert.assertEquals(shipLogicNoParameters.getBigShipArray(), shipLogicWithParameters.getBigShipArray());
+        Assert.assertEquals(shipLogicNoParameters.getBigShipArray(), array);
+        Assert.assertEquals(shipLogicWithParameters.getBigShipArray(), array);
 
         // test for each position as well
         for (int i = 0; i < array.length; i++) {
-            Assert.assertEquals(shipLogic_no_parameters.getBigShipArray()[i], array[i]);
-            Assert.assertEquals(shipLogic_with_parameters.getBigShipArray()[i], array[i]);
+            Assert.assertEquals(shipLogicNoParameters.getBigShipArray()[i], array[i]);
+            Assert.assertEquals(shipLogicWithParameters.getBigShipArray()[i], array[i]);
         }
     }
 
@@ -273,33 +293,37 @@ public class ShipLogicTests {
 
         // input parameters all null
         try {
-            shipLogic_with_parameters = new ShipLogic(null, null, null);
+            shipLogicWithParameters = new ShipLogic(null, null, null);
             fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_EXPECTED);
         } catch (IllegalArgumentException e) {
+            Log.e(tag, e.getMessage());
             Assert.assertEquals(e.getMessage(), ErrorMessages.NULL_PARAMETER);
         }
 
         // first input parameter is null
         try {
-            shipLogic_with_parameters = new ShipLogic(null, middleArray, bigArray);
+            shipLogicWithParameters = new ShipLogic(null, middleArray, bigArray);
             fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_EXPECTED);
         } catch (IllegalArgumentException e) {
+            Log.e(tag, e.getMessage());
             Assert.assertEquals(e.getMessage(), ErrorMessages.NULL_PARAMETER);
         }
 
         // second input parameter is null
         try {
-            shipLogic_with_parameters = new ShipLogic(smallArray, null, bigArray);
+            shipLogicWithParameters = new ShipLogic(smallArray, null, bigArray);
             fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_EXPECTED);
         } catch (IllegalArgumentException e) {
+            Log.e(tag, e.getMessage());
             Assert.assertEquals(e.getMessage(), ErrorMessages.NULL_PARAMETER);
         }
 
         // third input parameter is null
         try {
-            shipLogic_with_parameters = new ShipLogic(smallArray, middleArray, null);
+            shipLogicWithParameters = new ShipLogic(smallArray, middleArray, null);
             fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_EXPECTED);
         } catch (IllegalArgumentException e) {
+            Log.e(tag, e.getMessage());
             Assert.assertEquals(e.getMessage(), ErrorMessages.NULL_PARAMETER);
         }
     }
@@ -308,19 +332,19 @@ public class ShipLogicTests {
     public void checkGetterSetterSmallShipIsSetOnField() {
 
         // If setter never used, false is expected
-        Assert.assertEquals(false, shipLogic_no_parameters.isSmallShipIsSetOnField());
-        Assert.assertEquals(false, shipLogic_with_parameters.isSmallShipIsSetOnField());
+        Assert.assertEquals(false, shipLogicNoParameters.isSmallShipIsSetOnField());
+        Assert.assertEquals(false, shipLogicWithParameters.isSmallShipIsSetOnField());
 
         // Basic setter test
-        shipLogic_no_parameters.setSmallShipIsSetOnField(true);
-        shipLogic_with_parameters.setSmallShipIsSetOnField(true);
-        Assert.assertEquals(true, shipLogic_no_parameters.isSmallShipIsSetOnField());
-        Assert.assertEquals(true, shipLogic_with_parameters.isSmallShipIsSetOnField());
+        shipLogicNoParameters.setSmallShipIsSetOnField(true);
+        shipLogicWithParameters.setSmallShipIsSetOnField(true);
+        Assert.assertEquals(true, shipLogicNoParameters.isSmallShipIsSetOnField());
+        Assert.assertEquals(true, shipLogicWithParameters.isSmallShipIsSetOnField());
 
-        shipLogic_no_parameters.setSmallShipIsSetOnField(false);
-        shipLogic_with_parameters.setSmallShipIsSetOnField(false);
-        Assert.assertEquals(false, shipLogic_no_parameters.isSmallShipIsSetOnField());
-        Assert.assertEquals(false, shipLogic_with_parameters.isSmallShipIsSetOnField());
+        shipLogicNoParameters.setSmallShipIsSetOnField(false);
+        shipLogicWithParameters.setSmallShipIsSetOnField(false);
+        Assert.assertEquals(false, shipLogicNoParameters.isSmallShipIsSetOnField());
+        Assert.assertEquals(false, shipLogicWithParameters.isSmallShipIsSetOnField());
 
     }
 
@@ -328,19 +352,19 @@ public class ShipLogicTests {
     public void checkGetterSetterMiddleShipIsSetOnField() {
 
         // If setter never used, false is expected
-        Assert.assertEquals(false, shipLogic_no_parameters.isMiddleShipIsSetOnField());
-        Assert.assertEquals(false, shipLogic_with_parameters.isMiddleShipIsSetOnField());
+        Assert.assertEquals(false, shipLogicNoParameters.isMiddleShipIsSetOnField());
+        Assert.assertEquals(false, shipLogicWithParameters.isMiddleShipIsSetOnField());
 
         // Basic getter setter tests
-        shipLogic_no_parameters.setMiddleShipIsSetOnField(true);
-        shipLogic_with_parameters.setMiddleShipIsSetOnField(true);
-        Assert.assertEquals(true, shipLogic_no_parameters.isMiddleShipIsSetOnField());
-        Assert.assertEquals(true, shipLogic_with_parameters.isMiddleShipIsSetOnField());
+        shipLogicNoParameters.setMiddleShipIsSetOnField(true);
+        shipLogicWithParameters.setMiddleShipIsSetOnField(true);
+        Assert.assertEquals(true, shipLogicNoParameters.isMiddleShipIsSetOnField());
+        Assert.assertEquals(true, shipLogicWithParameters.isMiddleShipIsSetOnField());
 
-        shipLogic_no_parameters.setMiddleShipIsSetOnField(false);
-        shipLogic_with_parameters.setMiddleShipIsSetOnField(false);
-        Assert.assertEquals(false, shipLogic_no_parameters.isMiddleShipIsSetOnField());
-        Assert.assertEquals(false, shipLogic_with_parameters.isMiddleShipIsSetOnField());
+        shipLogicNoParameters.setMiddleShipIsSetOnField(false);
+        shipLogicWithParameters.setMiddleShipIsSetOnField(false);
+        Assert.assertEquals(false, shipLogicNoParameters.isMiddleShipIsSetOnField());
+        Assert.assertEquals(false, shipLogicWithParameters.isMiddleShipIsSetOnField());
 
     }
 
@@ -348,69 +372,69 @@ public class ShipLogicTests {
     public void checkAllShipsSetOnFieldMethod() {
         // allShipsSetOnPlayerField returns true if all ships are set on field.
         // Expected to return false at start
-        Assert.assertEquals(false, shipLogic_no_parameters.allShipsSetOnPlayerField());
-        Assert.assertEquals(false, shipLogic_with_parameters.allShipsSetOnPlayerField());
+        Assert.assertEquals(false, shipLogicNoParameters.allShipsSetOnPlayerField());
+        Assert.assertEquals(false, shipLogicWithParameters.allShipsSetOnPlayerField());
 
         // small ship on field, still expected to return false
-        shipLogic_no_parameters.setSmallShipIsSetOnField(true);
-        shipLogic_with_parameters.setSmallShipIsSetOnField(true);
+        shipLogicNoParameters.setSmallShipIsSetOnField(true);
+        shipLogicWithParameters.setSmallShipIsSetOnField(true);
 
-        Assert.assertEquals(false, shipLogic_no_parameters.allShipsSetOnPlayerField());
-        Assert.assertEquals(false, shipLogic_with_parameters.allShipsSetOnPlayerField());
+        Assert.assertEquals(false, shipLogicNoParameters.allShipsSetOnPlayerField());
+        Assert.assertEquals(false, shipLogicWithParameters.allShipsSetOnPlayerField());
 
         // middle ship set as well, still expected to return false
-        shipLogic_no_parameters.setMiddleShipIsSetOnField(true);
-        shipLogic_with_parameters.setMiddleShipIsSetOnField(true);
+        shipLogicNoParameters.setMiddleShipIsSetOnField(true);
+        shipLogicWithParameters.setMiddleShipIsSetOnField(true);
 
-        Assert.assertEquals(false, shipLogic_no_parameters.allShipsSetOnPlayerField());
-        Assert.assertEquals(false, shipLogic_with_parameters.allShipsSetOnPlayerField());
+        Assert.assertEquals(false, shipLogicNoParameters.allShipsSetOnPlayerField());
+        Assert.assertEquals(false, shipLogicWithParameters.allShipsSetOnPlayerField());
 
         // big ship set as well, expected to return true
-        shipLogic_no_parameters.setBigShipIsSetOnField(true);
-        shipLogic_with_parameters.setBigShipIsSetOnField(true);
+        shipLogicNoParameters.setBigShipIsSetOnField(true);
+        shipLogicWithParameters.setBigShipIsSetOnField(true);
 
-        Assert.assertEquals(true, shipLogic_no_parameters.allShipsSetOnPlayerField());
-        Assert.assertEquals(true, shipLogic_with_parameters.allShipsSetOnPlayerField());
+        Assert.assertEquals(true, shipLogicNoParameters.allShipsSetOnPlayerField());
+        Assert.assertEquals(true, shipLogicWithParameters.allShipsSetOnPlayerField());
 
         // If one value will be set to false again, method should return false
-        shipLogic_no_parameters.setMiddleShipIsSetOnField(false);
-        shipLogic_with_parameters.setMiddleShipIsSetOnField(false);
-        Assert.assertEquals(false, shipLogic_no_parameters.allShipsSetOnPlayerField());
-        Assert.assertEquals(false, shipLogic_with_parameters.allShipsSetOnPlayerField());
+        shipLogicNoParameters.setMiddleShipIsSetOnField(false);
+        shipLogicWithParameters.setMiddleShipIsSetOnField(false);
+        Assert.assertEquals(false, shipLogicNoParameters.allShipsSetOnPlayerField());
+        Assert.assertEquals(false, shipLogicWithParameters.allShipsSetOnPlayerField());
 
         // test as well with small ship
-        shipLogic_no_parameters.setMiddleShipIsSetOnField(true);
-        shipLogic_with_parameters.setMiddleShipIsSetOnField(true);
-        shipLogic_no_parameters.setSmallShipIsSetOnField(false);
-        shipLogic_with_parameters.setSmallShipIsSetOnField(false);
+        shipLogicNoParameters.setMiddleShipIsSetOnField(true);
+        shipLogicWithParameters.setMiddleShipIsSetOnField(true);
+        shipLogicNoParameters.setSmallShipIsSetOnField(false);
+        shipLogicWithParameters.setSmallShipIsSetOnField(false);
 
-        Assert.assertEquals(false, shipLogic_no_parameters.allShipsSetOnPlayerField());
-        Assert.assertEquals(false, shipLogic_with_parameters.allShipsSetOnPlayerField());
+        Assert.assertEquals(false, shipLogicNoParameters.allShipsSetOnPlayerField());
+        Assert.assertEquals(false, shipLogicWithParameters.allShipsSetOnPlayerField());
     }
 
     @Test
     public void checkShipsOnFieldInitializeMethod() {
 
         // set all onField booleans to true to check the method
-        shipLogic_no_parameters.setSmallShipIsSetOnField(true);
-        shipLogic_no_parameters.setMiddleShipIsSetOnField(true);
-        shipLogic_no_parameters.setBigShipIsSetOnField(true);
+        shipLogicNoParameters.setSmallShipIsSetOnField(true);
+        shipLogicNoParameters.setMiddleShipIsSetOnField(true);
+        shipLogicNoParameters.setBigShipIsSetOnField(true);
 
-        shipLogic_with_parameters.setSmallShipIsSetOnField(true);
-        shipLogic_with_parameters.setMiddleShipIsSetOnField(true);
-        shipLogic_with_parameters.setBigShipIsSetOnField(true);
+        shipLogicWithParameters.setSmallShipIsSetOnField(true);
+        shipLogicWithParameters.setMiddleShipIsSetOnField(true);
+        shipLogicWithParameters.setBigShipIsSetOnField(true);
 
         // shipsOnFieldInitialize() should set all boolean values for isSetOnField to false
-        shipLogic_no_parameters.shipsOnFieldInitialize();
-        shipLogic_with_parameters.shipsOnFieldInitialize();
+        shipLogicNoParameters.shipsOnFieldInitialize();
+        shipLogicWithParameters.shipsOnFieldInitialize();
 
-        Assert.assertEquals(false, shipLogic_no_parameters.isSmallShipIsSetOnField());
-        Assert.assertEquals(false, shipLogic_no_parameters.isMiddleShipIsSetOnField());
-        Assert.assertEquals(false, shipLogic_no_parameters.isBigShipIsSetOnField());
+        Assert.assertEquals(false, shipLogicNoParameters.isSmallShipIsSetOnField());
+        Assert.assertEquals(false, shipLogicNoParameters.isMiddleShipIsSetOnField());
+        Assert.assertEquals(false, shipLogicNoParameters.isBigShipIsSetOnField());
 
-        Assert.assertEquals(false, shipLogic_with_parameters.isSmallShipIsSetOnField());
-        Assert.assertEquals(false, shipLogic_with_parameters.isMiddleShipIsSetOnField());
-        Assert.assertEquals(false, shipLogic_with_parameters.isBigShipIsSetOnField());
+        Assert.assertEquals(false, shipLogicWithParameters.isSmallShipIsSetOnField());
+        Assert.assertEquals(false, shipLogicWithParameters.isMiddleShipIsSetOnField());
+        Assert.assertEquals(false, shipLogicWithParameters.isBigShipIsSetOnField());
 
     }
 
