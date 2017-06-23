@@ -14,23 +14,23 @@ public class ShipLogic {
     /**
      * Ship arrays used in the player field to save the positions of the ships
      */
-    private int[] small_ship;
-    private int[] middle_ship;
-    private int[] big_ship;
+    private int[] smallShip;
+    private int[] middleShip;
+    private int[] bigShip;
 
     /**
      * Ship indexes of the small ships
      */
-    public final int SMALL_SHIP_ID = 0;
-    public final int MIDDLE_SHIP_ID = 1;
-    public final int BIG_SHIP_ID = 2;
+    public static final int SMALL_SHIP_ID = 0;
+    public static final int MIDDLE_SHIP_ID = 1;
+    public static final int BIG_SHIP_ID = 2;
 
     /**
      * Size of the ships
      */
-    private final int SMALL_SHIP_SIZE = 1;
-    private final int MIDDLE_SHIP_SIZE = 2;
-    private final int BIG_SHIP_SIZE = 3;
+    private static final int SMALL_SHIP_SIZE = 1;
+    private static final int MIDDLE_SHIP_SIZE = 2;
+    private static final int BIG_SHIP_SIZE = 3;
 
     /**
      * Booleans for checking if ship is already set on the field
@@ -42,17 +42,17 @@ public class ShipLogic {
     /**
      * Ship constructor with the int arrays for the ships
      *
-     * @param small_ship  int array for small ship
-     * @param middle_ship int array for middle ship
-     * @param big_ship    int array for big ship
+     * @param smallShip  int array for small ship
+     * @param middleShip int array for middle ship
+     * @param bigShip    int array for big ship
      */
-    public ShipLogic(int[] small_ship, int[] middle_ship, int[] big_ship) {
-        if (small_ship == null || middle_ship == null || big_ship == null) {
+    public ShipLogic(int[] smallShip, int[] middleShip, int[] bigShip) {
+        if (smallShip == null || middleShip == null || bigShip == null) {
             throw new IllegalArgumentException(ErrorMessages.NULL_PARAMETER);
         }
-        setSmallShipArray(small_ship);
-        setMiddleShipArray(middle_ship);
-        setBigShipArray(big_ship);
+        setSmallShipArray(smallShip);
+        setMiddleShipArray(middleShip);
+        setBigShipArray(bigShip);
     }
 
     /**
@@ -67,8 +67,7 @@ public class ShipLogic {
     /**
      * Tag used in Log messages
      */
-    private final String tag = "ShipLogic";
-
+    private static final String tag = "ShipLogic";
 
     /**
      * Returns the array of the small sized ship
@@ -76,7 +75,7 @@ public class ShipLogic {
      * @return int array with size 1
      */
     public int[] getSmallShipArray() {
-        return small_ship;
+        return smallShip;
     }
 
     /**
@@ -85,7 +84,7 @@ public class ShipLogic {
      * @return int array with size 2
      */
     public int[] getMiddleShipArray() {
-        return middle_ship;
+        return middleShip;
     }
 
     /**
@@ -94,19 +93,19 @@ public class ShipLogic {
      * @return int array with size 3
      */
     public int[] getBigShipArray() {
-        return big_ship;
+        return bigShip;
     }
 
     /**
      * Gets an int array as parameter
      * Copies the array into the small ship array
      *
-     * @param array used to set the array small_ship
+     * @param array used to set the array smallShip
      */
     public void setSmallShipArray(int[] array) {
         Log.i(tag, "Crash");
         if (array != null && array.length == SMALL_SHIP_SIZE && inRange(array[0])) {
-            this.small_ship = array;
+            this.smallShip = array;
         } else {
             throw new IllegalArgumentException(ErrorMessages.ARRAY_WRONG_SIZE);
         }
@@ -120,8 +119,11 @@ public class ShipLogic {
      */
     public void setSmallShipPosition(int position) {
         Log.i(tag, "Crash");
-        if (inRange(position)) small_ship[0] = position;
-        else throw new IllegalArgumentException(ErrorMessages.POSITION_OUT_OF_RANGE);
+        if (inRange(position)) {
+            smallShip[0] = position;
+        } else {
+            throw new IllegalArgumentException(ErrorMessages.POSITION_OUT_OF_RANGE);
+        }
     }
 
     /**
@@ -132,7 +134,7 @@ public class ShipLogic {
     public void setMiddleShipArray(int[] array) {
         Log.i(tag, "Crash");
         if (array != null && array.length == MIDDLE_SHIP_SIZE) {
-            this.middle_ship = array;
+            this.middleShip = array;
         } else {
             throw new ArrayIndexOutOfBoundsException(ErrorMessages.ARRAY_WRONG_SIZE);
         }
@@ -155,10 +157,10 @@ public class ShipLogic {
     }
 
     /**
-     * Gets a int array as parameter, and if it is the correct size, the array will be copied into the big_ship array
+     * Gets a int array as parameter, and if it is the correct size, the array will be copied into the bigShip array
      * If size is false, an exception will be thrown
      *
-     * @param array used to set the array big_ship
+     * @param array used to set the array bigShip
      */
     public void setBigShipArray(int[] array) {
         Log.i(tag, "Crash");
@@ -166,7 +168,7 @@ public class ShipLogic {
             throw new IllegalArgumentException(ErrorMessages.NULL_PARAMETER);
         }
         if (array.length == BIG_SHIP_SIZE) {
-            this.big_ship = array;
+            this.bigShip = array;
         } else {
             throw new ArrayIndexOutOfBoundsException(ErrorMessages.ARRAY_WRONG_SIZE);
         }
@@ -215,8 +217,8 @@ public class ShipLogic {
     private void middleShipPosition(int position, int amount) {
         Log.i(tag, "Crash");
         if (inRange(position) && inRange(position - amount)) {
-            middle_ship[0] = position - amount;
-            middle_ship[1] = position;
+            middleShip[0] = position - amount;
+            middleShip[1] = position;
         } else throw new IllegalArgumentException(ErrorMessages.POSITION_OUT_OF_RANGE);
     }
 
@@ -229,9 +231,9 @@ public class ShipLogic {
     private void bigShipPosition(int position, int amount) {
         Log.i(tag, "Crash");
         if (inRange(position - amount) && inRange(position) && inRange(position + amount)) {
-            big_ship[0] = position - amount;
-            big_ship[1] = position;
-            big_ship[2] = position + amount;
+            bigShip[0] = position - amount;
+            bigShip[1] = position;
+            bigShip[2] = position + amount;
         } else throw new IllegalArgumentException(ErrorMessages.POSITION_OUT_OF_RANGE);
     }
 

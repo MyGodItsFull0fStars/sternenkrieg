@@ -17,8 +17,8 @@ public class PlayerFieldShipContainer {
     private ShipLogic shipLogic;
     private String tag = "FieldShipContainer";
     private FieldValues fieldValues;
-    private ArrayList<Integer> failures_right = new ArrayList<>(Arrays.asList(7, 15, 23, 31, 39, 47, 55, 63));
-    private ArrayList<Integer> failures_left = new ArrayList<>(Arrays.asList(8, 16, 24, 32, 40, 48, 56));
+    private ArrayList<Integer> failuresRight = new ArrayList<>(Arrays.asList(7, 15, 23, 31, 39, 47, 55, 63));
+    private ArrayList<Integer> failuresLeft = new ArrayList<>(Arrays.asList(8, 16, 24, 32, 40, 48, 56));
 
     /**
      * Standard constructor
@@ -159,16 +159,16 @@ public class PlayerFieldShipContainer {
         if (degree == fieldValues.HORIZONTAL) {
             if (whichShip == shipLogic.MIDDLE_SHIP_ID) {
                 if (
-                        failures_right.contains(position - 1) ||
-                                failures_left.contains(position) ||
+                        failuresRight.contains(position - 1) ||
+                                failuresLeft.contains(position) ||
                                 !inRange(position, 1, 62)) {
                     return false;
                 }
             } else if (whichShip == shipLogic.BIG_SHIP_ID) {
                 if (
-                        failures_right.contains(position - 1) ||
-                                failures_right.contains(position) ||
-                                failures_left.contains(position) ||
+                        failuresRight.contains(position - 1) ||
+                                failuresRight.contains(position) ||
+                                failuresLeft.contains(position) ||
                                 !inRange(position, 1, 62)
                         ) {
                     return false;

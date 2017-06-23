@@ -14,17 +14,17 @@ import java.util.Arrays;
 
 public class PlayerFieldLogic {
     String[] playerField;
-    private final int PLAYER_FIELD_SIZE = 64;
+    private static final int PLAYER_FIELD_SIZE = 64;
     private FieldValues fieldStrings = new FieldValues();
 
-    private final String ONE = "1";
-    private final String TWO = "2";
-    private final String THREE = "3";
-    private final String FOUR = "4";
-    private final String FIVE = "5";
-    private final String SIX = "6";
-    String tag = "PlayerfieldLogic";
+    private static final String ONE = "1";
+    private static final String TWO = "2";
+    private static final String THREE = "3";
+    private static final String FOUR = "4";
+    private static final String FIVE = "5";
+    private static final String SIX = "6";
 
+    String tag = "PlayerFieldLogic";
 
     /**
      * Standard constructor which initializes an 'empty' player field
