@@ -34,37 +34,43 @@ public class NetworkingUnitTests {
     WriteHost wh;
     OutputStream os;
 
+    String correct = "richtig";
+
     @Before
-    public void setUp(){
+    public void setUp() {
         socketH = new Socket();
         socketC = new Socket();
-        acceptThread  = new AcceptThread(running,serverSocket,socketH,handlerH,receiveThreadHost,12345);
-        startThread = new StartThread(socketC,"10.0.2.2",receiveThreadClient,handlerC,12345);
+
+        String ip = "10.0.2.2"; // NOSONAR
+        acceptThread = new AcceptThread(running, serverSocket, socketH, handlerH, receiveThreadHost, 12345);
+        startThread = new StartThread(socketC, ip, receiveThreadClient, handlerC, 12345);
+
         acceptThread.start();
         startThread.start();
-        wc = new WriteClient(true,socketC,"richtig");
-        wh = new WriteHost(socketH,os,"richtig");
-    }
-    @Test
-    public void testClientServers(){
-        assertEquals(acceptThread.getSocket(),socketH);
-        assertEquals(startThread.getSocket(),socketC);
+        wc = new WriteClient(true, socketC, correct);
+        wh = new WriteHost(socketH, os, correct);
     }
 
     @Test
-    public void testReceive(){
-        assertEquals(startThread.getRt(),receiveThreadClient);
+    public void testClientServers() {
+        assertEquals(acceptThread.getSocket(), socketH);
+        assertEquals(startThread.getSocket(), socketC);
     }
 
     @Test
-    public void testWriteMessage(){
-        assertEquals(wc.getMessage(),"richtig");
-        assertEquals(wh.getMessage(),"richtig");
+    public void testReceive() {
+        assertEquals(startThread.getRt(), receiveThreadClient);
     }
 
     @Test
-    public void testWriteSocket(){
-        assertEquals(wc.getSocket(),socketC);
-        assertEquals(wh.getSocket(),socketH);
+    public void testWriteMessage() {
+        assertEquals(wc.getMessage(), correct);
+        assertEquals(wh.getMessage(), correct);
+    }
+
+    @Test
+    public void testWriteSocket() {
+        assertEquals(wc.getSocket(), socketC);
+        assertEquals(wh.getSocket(), socketH);
     }
 }
