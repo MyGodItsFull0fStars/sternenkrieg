@@ -1,6 +1,5 @@
 package com.example.rebelartstudios.sternenkrieg;
 
-
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -55,39 +54,29 @@ public class Gameplay extends AppCompatActivity {
 
     GridView gridViewPlayer;
     GridView gridViewEnemy;
-    ImageView imageView, options, options1, options2, options3, options4;
+    ImageView imageView;
+    ImageView options;
+    ImageView options1;
+    ImageView options2;
+    ImageView options3;
+    ImageView options4;
 
-
-    /****************Refactoring objects start ****************************************************************************/
     PlayerFieldShipContainer playerFieldShipContainer;
     PlayerFieldShipContainer enemyFieldShipContainer;
     FieldValues fieldValues = new FieldValues();
 
-    private void initializeContainerObjects() {
-        playerFieldShipContainer = new PlayerFieldShipContainer();
-        enemyFieldShipContainer = new PlayerFieldShipContainer();
-    }
-
-    /****************Refactoring objects end *****************************************************************************/
-
-    String mapPlayer[];
-    String mapEnemy[];
-    String mapEnemyFog[];
+    String[] mapPlayer;
+    String[] mapEnemy;
+    String[] mapEnemyFog;
 
     int width;
     int height;
     int amountShips;
     int highScore = 0;
     int value;
-
-
     int pointsPlayer = 0;
-    boolean check; //checks whether powerUps are currently displayed;
+    boolean check; // checks whether powerUps are currently displayed
     Vibrator vib;
-
-    private SensorManager mSensorManager;
-    private Sensor mLightSensor;
-    private float mLightQuantity;
 
     /******Networking******/
     // this Views can be also a chat system. That mean player can talk with other player with it.
@@ -132,6 +121,31 @@ public class Gameplay extends AppCompatActivity {
     TextView textPoints;
     String mapString = "Map";
 
+    // used-counter of PowerUps
+    int pu1used = 0; // PowerUp 1 was used 0 times yet
+    int pu2used = 0;
+    int pu3used = 0;
+    int pu4used = 0;
+    // max use of PowerUps
+    int pu1max = 2; // PowerUp 1 may be used up to 3 times
+    int pu2max = 2;
+    int pu3max = 2;
+    int pu4max = 2;
+    // points of PowerUps
+    int pu1points = 0;
+    int pu2points = 2;
+    int pu3points = 0;
+    int pu4points = 1;
+
+    private SensorManager mSensorManager;
+    private Sensor mLightSensor;
+    private float mLightQuantity;
+
+    private void initializeContainerObjects() {
+        playerFieldShipContainer = new PlayerFieldShipContainer();
+        enemyFieldShipContainer = new PlayerFieldShipContainer();
+    }
+
     /*******Networking*****/
 
     @Override
@@ -144,7 +158,7 @@ public class Gameplay extends AppCompatActivity {
         playerIsHost = stats.isPlayerHost();
         who_is_starting = GameUtilities.getWhoIsStarting();
         Net = stats.isNet();
-        if (playerIsHost == false)
+        if (!playerIsHost)
             ip = stats.getIp();
         myHandler = new Myhandler();
         util = new NetworkUtilities(playerIsHost, mAcceptThread, mServerSocket, socket, myHandler, receiveThreadHost, startThread, ip, receiveThreadClient);
@@ -165,12 +179,10 @@ public class Gameplay extends AppCompatActivity {
             public void onSensorChanged(SensorEvent event) {
                 mLightQuantity = event.values[0];
                 TextView tex = ((TextView) findViewById(R.id.amountShips));
-                String text = mLightQuantity + "";
+                String text = Float.toString(mLightQuantity);
                 tex.setText(text);
-                text = null;
 
                 ImageView background = (ImageView) findViewById(R.id.background_stars);
-
 
                 if (mLightQuantity >= 600)
                     background.setBackgroundResource(R.drawable.dunkel);
@@ -184,7 +196,7 @@ public class Gameplay extends AppCompatActivity {
 
             @Override
             public void onAccuracyChanged(Sensor sensor, int accuracy) {
-
+                // nothing to do here
             }
 
         };
@@ -223,16 +235,11 @@ public class Gameplay extends AppCompatActivity {
         options1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
                 setOptionButtonsInvisible();
 
                 check = false;
-
                 //highlight all intact ships
-
                 final boolean[] shipR = findIntactShips();
-
 
                 gridViewPlayer.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
@@ -244,8 +251,6 @@ public class Gameplay extends AppCompatActivity {
                         if (positionString.equals(fieldValues.SET_FIELD_POSITION_G)
                                 || fieldValues.h_list.contains(positionString)
                                 || fieldValues.i_list.contains(positionString))
-
-
                         {
 
                             if (positionString.equals(fieldValues.SET_FIELD_POSITION_G)) {
@@ -274,10 +279,8 @@ public class Gameplay extends AppCompatActivity {
                                 }
                             }
 
-
                             final boolean ship2RotatedFinal;
                             final boolean ship3RotatedFinal;
-
 
                             ship2RotatedFinal = shipR[0];
                             ship3RotatedFinal = shipR[1];
@@ -326,13 +329,13 @@ public class Gameplay extends AppCompatActivity {
             String sendField = "";
             for (String data : mapPlayer) {
                 sendField += data + "x";
-                System.out.println(sendField);
+                Log.d(tag, sendField);
             }
 
             mapEnemy = new String[fieldValues.FIELD_SIZE];
             Arrays.fill(mapEnemy, fieldValues.SET_FIELD_POSITION_EMPTY);
             util.messageSend("Map," + sendField, playerIsHost);
-            System.out.println("Send" + sendField);
+            Log.d(tag, "Send " + sendField);
         }
 
 
@@ -389,10 +392,10 @@ public class Gameplay extends AppCompatActivity {
                     draw(mapEnemy, gridViewEnemy); // update map
                     shoot = false;
 
-                    if(powerUp2){
-                        shoot=true;
-                        powerUp2=false;
-                        count=0;
+                    if (powerUp2) {
+                        shoot = true;
+                        powerUp2 = false;
+                        count = 0;
                     }
 
                    /* if (gameOver(, map2)) { //check whether a complete ship of the enemy has been destroyed
@@ -419,7 +422,6 @@ public class Gameplay extends AppCompatActivity {
         }
     }
 
-
     public void start() {
         //Player begins
         pointsPlayer += GameUtilities.getDiceScore();
@@ -444,12 +446,9 @@ public class Gameplay extends AppCompatActivity {
             startActivity(intent);
 
 
-
-
         }
 
     }
-
 
     public void checkShoot(int position, int player) {
         fieldValues.initialiseShipLists();
@@ -499,6 +498,8 @@ public class Gameplay extends AppCompatActivity {
                 case "l6":
                     mapPlayer[position] = fieldValues.SET_FIELD_POSITION_BIG3R;
                     break;
+                default:
+                    break;
             }
             vib.vibrate(500);
             draw(mapPlayer, gridViewPlayer);
@@ -512,12 +513,11 @@ public class Gameplay extends AppCompatActivity {
 
 
         if (gameOver(fieldValues.smallShipStringList, mapPlayer) && gameOver(fieldValues.middleShipStringList, mapPlayer)
-                && gameOver(fieldValues.bigShipStringList, mapPlayer)  && gameOver(fieldValues.smallShipArmourStringList, mapPlayer)
-                && gameOver(fieldValues.middleShipArmourStringList, mapPlayer)  && gameOver(fieldValues.bigShipArmourStringList, mapPlayer)) { //determine whether all ships are already destroyed
+                && gameOver(fieldValues.bigShipStringList, mapPlayer) && gameOver(fieldValues.smallShipArmourStringList, mapPlayer)
+                && gameOver(fieldValues.middleShipArmourStringList, mapPlayer) && gameOver(fieldValues.bigShipArmourStringList, mapPlayer)) { //determine whether all ships are already destroyed
             alert("2");
         }
     }
-
 
     public void clickMap() {
         gridViewPlayer.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -540,9 +540,9 @@ public class Gameplay extends AppCompatActivity {
                 draw(mapPlayer, gridViewPlayer); // update map
 
 
-                if (gameOver(fieldValues.smallShipStringList, mapPlayer)  && gameOver(fieldValues.smallShipArmourStringList, mapPlayer)
-                        && gameOver(fieldValues.middleShipStringList, mapPlayer)  && gameOver(fieldValues.middleShipArmourStringList, mapPlayer)
-                        && gameOver(fieldValues.bigShipStringList, mapPlayer)  && gameOver(fieldValues.bigShipArmourStringList, mapPlayer)) { //determine whether all ships are already destroyed
+                if (gameOver(fieldValues.smallShipStringList, mapPlayer) && gameOver(fieldValues.smallShipArmourStringList, mapPlayer)
+                        && gameOver(fieldValues.middleShipStringList, mapPlayer) && gameOver(fieldValues.middleShipArmourStringList, mapPlayer)
+                        && gameOver(fieldValues.bigShipStringList, mapPlayer) && gameOver(fieldValues.bigShipArmourStringList, mapPlayer)) { //determine whether all ships are already destroyed
                     alert("2");
                 }
 
@@ -592,7 +592,7 @@ public class Gameplay extends AppCompatActivity {
                 }
                 boolean shipPlaced = false;
 
-                switch (posis) { //check whether ship can be placed here;
+                switch (posis) { //check whether ship can be placed here
                     case "g":
                         if (relocateShip(position, posis, true)) {
                             mapPlayer[position] = "d";
@@ -642,7 +642,6 @@ public class Gameplay extends AppCompatActivity {
 
                     draw(mapPlayer, gridViewPlayer);
 
-
                     //if ship is placed successfully, cheat function ends and normal "onClickListener" is restored
 
                     clickMap();
@@ -653,8 +652,8 @@ public class Gameplay extends AppCompatActivity {
 
     public boolean relocateShip(int position, String input, boolean shipRotated) {
 
-        ArrayList<Integer> failures_right = new ArrayList<>(Arrays.asList(-1, 7, 15, 23, 31, 39, 47, 55, 63));
-        ArrayList<Integer> failures_left = new ArrayList<>(Arrays.asList(8, 16, 24, 32, 40, 48, 56, 64));
+        ArrayList<Integer> failuresRight = new ArrayList<>(Arrays.asList(-1, 7, 15, 23, 31, 39, 47, 55, 63));
+        ArrayList<Integer> failuresLeft = new ArrayList<>(Arrays.asList(8, 16, 24, 32, 40, 48, 56, 64));
 
         switch (input) {
             case "g":
@@ -665,8 +664,8 @@ public class Gameplay extends AppCompatActivity {
             case "h2":
             case "h3":
             case "h4":
-                if (shipRotated == false) {
-                    return !(failures_left.contains(position + 1) || !checkAvailability(position) || !checkAvailability(position + 1));
+                if (!shipRotated) {
+                    return !(failuresLeft.contains(position + 1) || !checkAvailability(position) || !checkAvailability(position + 1));
                 } else {
                     return !(position + 1 > 63 || !checkAvailability(position) || !checkAvailability(position + 8));
                 }
@@ -676,8 +675,8 @@ public class Gameplay extends AppCompatActivity {
             case "i4":
             case "i5":
             case "i6":
-                if (shipRotated == false) {
-                    return !(failures_left.contains(position + 1) || failures_right.contains(position - 1)
+                if (!shipRotated) {
+                    return !(failuresLeft.contains(position + 1) || failuresRight.contains(position - 1)
                             || !checkAvailability(position) || !checkAvailability(position - 1) || !checkAvailability(position + 1));
                 } else {
                     return !(position - 8 < 0 || position + 8 > 63
@@ -688,7 +687,6 @@ public class Gameplay extends AppCompatActivity {
         }
 
     }
-
 
     public boolean checkAvailability(int position) {
         //  if(mapPlayer[position].equals(posis)){ return true;} else {
@@ -818,7 +816,7 @@ public class Gameplay extends AppCompatActivity {
 
     public void decrementAmount() { //if one entire ship of enemy has been destroyed, update Score
         amountShips--;
-        TextView tex = ((TextView) findViewById(R.id.amountShips));
+        TextView tex = (TextView) findViewById(R.id.amountShips);
         String text = amountShips + "/3";
         tex.setText(text);
 
@@ -831,89 +829,6 @@ public class Gameplay extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         util.close();
-    }
-
-    /***************Network******************************/
-
-    // There are the Message from other player. We can work with "message" to change our map, uppower and ship.
-    class Myhandler extends Handler {
-
-
-        public void handleMessage(Message msg) {
-
-            switch (msg.what) {
-                case 1:
-                    message = (String) msg.obj;
-                    int count = 0;
-                    if (message == null) {
-                        count++;
-                    } else {
-                        count = 0;
-                    }
-                    if (count == 5) {
-                        util.close();
-                    }
-//                    player2_say.setVisibility(View.VISIBLE);
-//                    player2_say.setText(message);
-                    break;
-                case 4: //map schiessen
-                    message = (String) msg.obj;
-                    System.out.println(message);
-                    String[] mapMsg = message.split(",");
-                    if (mapMsg[0].equals(mapString)) {
-                        mapEnemy = mapMsg[1].split("x");
-                        draw(mapEnemy, gridViewEnemy);
-                        util.messageSend("Gotit,1", playerIsHost);
-                        System.out.println(mapString + mapMsg[1]);
-
-                    }
-                    if (mapMsg[0].equals("Gotit")) {
-                        System.out.println("Gotit");
-                        sendMap = false;
-                    }
-                    if (mapMsg[0].equals("shoot")) {
-                        String position = mapMsg[1];
-                        came = true;
-                        checkShoot(Integer.parseInt(position), 2);
-
-                        shoot = true;
-
-                        draw(mapPlayer, gridViewPlayer);
-                        draw(mapEnemy, gridViewEnemy);
-
-                    }
-                    if (mapMsg[0].equals("boolean")) {
-                        Log.i("MessageBoolean", message);
-                        Log.i(Dice.class.getName(), "Boolean");
-                        dice2 = true;
-                        dice();
-                    }
-                    if ("enemy".equals(mapMsg[0])) {
-                        String[] cord = mapMsg[1].split(" ");
-                        animationEnemy(Float.valueOf(cord[0]), Float.valueOf(cord[1]));
-                    }
-                    sollFinish();
-
-                    break;
-
-                case 0:
-                    if (sendMap) {
-                        String sendMap = "";
-                        for (String data : mapPlayer)
-                            sendMap += data + "x";
-
-                        mapEnemy = new String[fieldValues.FIELD_SIZE];
-                        Arrays.fill(mapEnemy, fieldValues.SET_FIELD_POSITION_EMPTY);
-                        util.messageSend("Map," + sendMap, playerIsHost);
-                        System.out.println("Send" + sendMap);
-                    }
-
-                    break;
-                case 2:
-                    break;
-            }
-        }
-
     }
 
     public void animationPlayer(float x, float y) {
@@ -952,7 +867,7 @@ public class Gameplay extends AppCompatActivity {
 
             @Override
             public void onAnimationRepeat(Animation animation) {
-
+                // nothing to do here
             }
         });
 
@@ -961,7 +876,7 @@ public class Gameplay extends AppCompatActivity {
 
     public void animationEnemy(float x, float y) {
         shootEnemy.setVisibility(View.VISIBLE);
-        TranslateAnimation slideUp = new TranslateAnimation(0,-shootEnemy.getX()+(x+gridViewPlayer.getX()) , 0, -shootEnemy.getY()+(y+gridViewPlayer.getY()));
+        TranslateAnimation slideUp = new TranslateAnimation(0, -shootEnemy.getX() + (x + gridViewPlayer.getX()), 0, -shootEnemy.getY() + (y + gridViewPlayer.getY()));
         slideUp.setDuration(1000);
         slideUp.setFillAfter(true);
         shootEnemy.setAnimation(slideUp);
@@ -994,7 +909,7 @@ public class Gameplay extends AppCompatActivity {
 
             @Override
             public void onAnimationRepeat(Animation animation) {
-
+                // nothing to do here
             }
         });
 
@@ -1126,24 +1041,6 @@ public class Gameplay extends AppCompatActivity {
         }
     }
 
-    // used-counter of PowerUps
-    int pu1used = 0; // PowerUp 1 was used 0 times yet
-    int pu2used = 0;
-    int pu3used = 0;
-    int pu4used = 0;
-
-    // max use of PowerUps
-    int pu1max = 2; // PowerUp 1 may be used up to 3 times
-    int pu2max = 2;
-    int pu3max = 2;
-    int pu4max = 2;
-
-    // points of PowerUps
-    int pu1points = 0;
-    int pu2points = 2;
-    int pu3points = 0;
-    int pu4points = 1;
-
     public void powerUpOptions2() {
         options2.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -1172,7 +1069,7 @@ public class Gameplay extends AppCompatActivity {
                         GameUtilities.setDiceScore(GameUtilities.getDiceScore() - pu2points);
                         Log.d(tag, "Using PowerUp2, new points: " + GameUtilities.getDiceScore());
                         pu2used++;
-                powerUp2 = true;
+                        powerUp2 = true;
                     } else {
                         powerUpDialog("Zu wenig Punkte!");
                         Log.d(tag, "PowerUp2: Zu wenig Punkte");
@@ -1294,12 +1191,95 @@ public class Gameplay extends AppCompatActivity {
         builder.setPositiveButton("Okay", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-
+                // nothing to do here
             }
         });
         builder.show();
 
         return builder.create();
+    }
+
+    /***************Network******************************/
+
+    // There are the Message from other player. We can work with "message" to change our map, uppower and ship.
+    class Myhandler extends Handler {
+
+
+        public void handleMessage(Message msg) {
+
+            switch (msg.what) {
+                case 1:
+                    message = (String) msg.obj;
+                    int count = 0;
+                    if (message == null) {
+                        count++;
+                    } else {
+                        count = 0;
+                    }
+                    if (count == 5) {
+                        util.close();
+                    }
+//                    player2_say.setVisibility(View.VISIBLE);
+//                    player2_say.setText(message);
+                    break;
+                case 4: //map schiessen
+                    message = (String) msg.obj;
+                    System.out.println(message);
+                    String[] mapMsg = message.split(",");
+                    if (mapMsg[0].equals(mapString)) {
+                        mapEnemy = mapMsg[1].split("x");
+                        draw(mapEnemy, gridViewEnemy);
+                        util.messageSend("Gotit,1", playerIsHost);
+                        System.out.println(mapString + mapMsg[1]);
+
+                    }
+                    if (mapMsg[0].equals("Gotit")) {
+                        System.out.println("Gotit");
+                        sendMap = false;
+                    }
+                    if (mapMsg[0].equals("shoot")) {
+                        String position = mapMsg[1];
+                        came = true;
+                        checkShoot(Integer.parseInt(position), 2);
+
+                        shoot = true;
+
+                        draw(mapPlayer, gridViewPlayer);
+                        draw(mapEnemy, gridViewEnemy);
+
+                    }
+                    if (mapMsg[0].equals("boolean")) {
+                        Log.i("MessageBoolean", message);
+                        Log.i(Dice.class.getName(), "Boolean");
+                        dice2 = true;
+                        dice();
+                    }
+                    if ("enemy".equals(mapMsg[0])) {
+                        String[] cord = mapMsg[1].split(" ");
+                        animationEnemy(Float.valueOf(cord[0]), Float.valueOf(cord[1]));
+                    }
+                    sollFinish();
+
+                    break;
+
+                case 0:
+                    if (sendMap) {
+                        String sendMap = "";
+                        for (String data : mapPlayer)
+                            sendMap += data + "x";
+
+                        mapEnemy = new String[fieldValues.FIELD_SIZE];
+                        Arrays.fill(mapEnemy, fieldValues.SET_FIELD_POSITION_EMPTY);
+                        util.messageSend("Map," + sendMap, playerIsHost);
+                        System.out.println("Send" + sendMap);
+                    }
+
+                    break;
+                case 2:
+                    break;
+            }
+        }
+
     }
 
 }

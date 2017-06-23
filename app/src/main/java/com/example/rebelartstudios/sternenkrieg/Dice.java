@@ -62,15 +62,8 @@ import static com.example.rebelartstudios.sternenkrieg.R.drawable.two;
 
 public class Dice extends AppCompatActivity {
 
-    String tag = "Dice";
-
-    private Sensor mSensor;
     protected ImageView imageDice;
-    private boolean shakeBoolean = true;
-    private int whoStarts;
-    private TextView textScore;
-    private TextView textScoreEnemy;
-    private int value;
+    String tag = "Dice";
     Sensors sensors = new Sensors();
     DiceClass diceClass;
     NetworkUtilities util;
@@ -84,7 +77,6 @@ public class Dice extends AppCompatActivity {
     TextView statistic5;
     TextView statistic6;
     TableLayout tableDice;
-    private int enemyValue;
     boolean finish = false;
     boolean finishEnemy = false;
     Intent intent = new Intent();
@@ -94,7 +86,6 @@ public class Dice extends AppCompatActivity {
     ImageView goNext;
     PulsatorLayout pulsator;
     ProgressBar progWaiting;
-    private int mode = 0; // 1 = game start, 2 = powerup
     /********************Netz**************************/
     Socket socket = new Socket();
     ServerSocket mServerSocket = null;
@@ -111,7 +102,32 @@ public class Dice extends AppCompatActivity {
     boolean sendBoolean = false;
     boolean came = false;
     TextView waiting;
+    private Sensor mSensor;
+    private boolean shakeBoolean = true;
+    private int whoStarts;
+    private TextView textScore;
+    private TextView textScoreEnemy;
+    private int value;
+    private int enemyValue;
+    private int mode = 0; // 1 = game start, 2 = powerup
 
+    private SensorEventListener acceleratorSensorListener = new SensorEventListener() {
+        @Override
+        public void onSensorChanged(SensorEvent sensorEvent) {
+
+            if ("shake".equals(sensors.accelUpdate(sensorEvent)) && shakeBoolean) {
+                value = diceClass.roll();
+                shakeBoolean = false;
+                Log.i("Shake", "");
+                shake();
+            }
+        }
+
+        @Override
+        public void onAccuracyChanged(Sensor sensor, int accuracy) {
+            //not important
+        }
+    };
 
     /********************Netz**************************/
     @Override
@@ -176,28 +192,8 @@ public class Dice extends AppCompatActivity {
         });
     }
 
-
-    private SensorEventListener acceleratorSensorListener = new SensorEventListener() {
-        @Override
-        public void onSensorChanged(SensorEvent sensorEvent) {
-
-            if ("shake".equals(sensors.accelUpdate(sensorEvent)) && shakeBoolean) {
-                value = diceClass.roll();
-                shakeBoolean = false;
-                Log.i("Shake", "");
-                shake();
-            }
-        }
-
-        @Override
-        public void onAccuracyChanged(Sensor sensor, int accuracy) {
-            //not important
-        }
-    };
-
-
     public void shake() {
-        Log.i("shake mode", mode + "");
+        Log.i("shake mode", Integer.toString(mode));
         switch (mode) {
             case 1:
                 new CountDownTimer(2000, 100) {
@@ -217,16 +213,16 @@ public class Dice extends AppCompatActivity {
 
                 new CountDownTimer(2000, 100) {
                     public void onTick(long millisUntilFinished) {
+                        // nothing to do here
                     }
 
                     @Override
                     public void onFinish() {
-                        Log.i("animation+value", value + "");
+                        Log.i("animation+value", Integer.toString(value));
                         animation();
                         value += GameUtilities.getDiceScore();
                         GameUtilities.setDiceScore(value);
                     }
-
                 }.start();
 
                 break;
@@ -234,7 +230,7 @@ public class Dice extends AppCompatActivity {
             default:
                 break;
         }
-        Log.i("shake mode danach", mode + "");
+        Log.i("shake mode danach", Integer.toString(mode));
         util.messageSend(Integer.toString(value), pHost);
         changeDiceImage(value);
         sendBoolean = true;
@@ -262,7 +258,7 @@ public class Dice extends AppCompatActivity {
 
             @Override
             public void onAnimationEnd(Animation animation) {
-                Log.i("animation ende+came", came + "");
+                Log.i("animation ende+came", Boolean.toString(came));
                 textScore.setText("You got:" + value);
                 prog1.setVisibility(View.VISIBLE);
                 statisticVisibility();
@@ -376,36 +372,6 @@ public class Dice extends AppCompatActivity {
         statistic6.setText(getSIX());
     }
 
-
-    /********************Netz**************************/
-
-
-// There are the Message from other player. We can work with "message" to change our map, uppower and ship.
-    class Myhandler extends Handler {
-
-
-        public void handleMessage(Message msg) {
-            message = util.handleMessage(msg);
-            Log.i("Message", message);
-            if ("boolean".equals(message)) {
-                Log.i("MessageBoolean", message);
-                finishEnemy = true;
-                Log.i(Dice.class.getName(), "Boolean");
-                syncClose();
-            } else if (!("".equals(message))) {
-                Log.i("MessageValue", message);
-                enemyValue = Integer.parseInt(message);
-                textScoreEnemy.setText(game.getEnemyUsername() + " got:" + enemyValue);
-                changeDiceImageEnemy(enemyValue);
-                diceEnemy.setVisibility(View.VISIBLE);
-                came = true;
-                sollfinish();
-
-            }
-        }
-
-    }
-
     public void changeDiceImage(int value) {
 
         switch (value) {
@@ -468,6 +434,35 @@ public class Dice extends AppCompatActivity {
             default:
                 break;
         }
+    }
+
+    /********************Netz**************************/
+
+
+// There are the Message from other player. We can work with "message" to change our map, uppower and ship.
+    class Myhandler extends Handler {
+
+
+        public void handleMessage(Message msg) {
+            message = util.handleMessage(msg);
+            Log.i("Message", message);
+            if ("boolean".equals(message)) {
+                Log.i("MessageBoolean", message);
+                finishEnemy = true;
+                Log.i(Dice.class.getName(), "Boolean");
+                syncClose();
+            } else if (!("".equals(message))) {
+                Log.i("MessageValue", message);
+                enemyValue = Integer.parseInt(message);
+                textScoreEnemy.setText(game.getEnemyUsername() + " got:" + enemyValue);
+                changeDiceImageEnemy(enemyValue);
+                diceEnemy.setVisibility(View.VISIBLE);
+                came = true;
+                sollfinish();
+
+            }
+        }
+
     }
 
 }
