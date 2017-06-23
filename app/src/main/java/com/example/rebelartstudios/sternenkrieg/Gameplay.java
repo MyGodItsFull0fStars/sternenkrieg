@@ -98,7 +98,7 @@ public class Gameplay extends AppCompatActivity {
     AcceptThread mAcceptThread;
     StartThread startThread;
     OutputStream os = null;
-    boolean Net = false;
+    boolean net = false;
     boolean sendGridView2;
     boolean sendMap = true;
     boolean shoot = false;
@@ -112,7 +112,7 @@ public class Gameplay extends AppCompatActivity {
     NetworkUtilities util;
     NetworkStats stats = new NetworkStats();
     GameUtilities game;
-    int who_is_starting;
+    int whoIsStarting;
     ImageView shootEnemy;
     ImageView shootPlayer;
     ImageView imageDice;
@@ -157,8 +157,8 @@ public class Gameplay extends AppCompatActivity {
         game = new GameUtilities(getApplicationContext());
         /* ***** Networking ****/
         playerIsHost = stats.isPlayerHost();
-        who_is_starting = GameUtilities.getWhoIsStarting();
-        Net = stats.isNet();
+        whoIsStarting = GameUtilities.getWhoIsStarting();
+        net = stats.isNet();
         if (!playerIsHost)
             ip = stats.getIp();
         myHandler = new Myhandler();
@@ -179,7 +179,7 @@ public class Gameplay extends AppCompatActivity {
             @Override
             public void onSensorChanged(SensorEvent event) {
                 mLightQuantity = event.values[0];
-                TextView tex = ((TextView) findViewById(R.id.amountShips));
+                TextView tex = (TextView) findViewById(R.id.amountShips);
                 String text = Float.toString(mLightQuantity);
                 tex.setText(text);
 
@@ -427,7 +427,7 @@ public class Gameplay extends AppCompatActivity {
         pointsPlayer += GameUtilities.getDiceScore();
         String text = Integer.toString(pointsPlayer);
         textPoints.setText(text);
-        if (who_is_starting == 0 && oneShoot) {
+        if (whoIsStarting == 0 && oneShoot) {
             shoot = true;
         }
     }
