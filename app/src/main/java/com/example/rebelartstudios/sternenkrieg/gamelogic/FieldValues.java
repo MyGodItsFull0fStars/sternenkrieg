@@ -5,21 +5,6 @@ import java.util.List;
 
 public final class FieldValues {
 
-    private List<String> smallShipStringList;
-    private List<String> middleShipStringList;
-    private List<String> bigShipStringList;
-    private List<String> smallShipArmourStringList;
-    private List<String> middleShipArmourStringList;
-    private List<String> bigShipArmourStringList;
-    private List<String> hList;
-    private List<String> iList;
-
-    public FieldValues() {
-        initializeHList();
-        initializeIList();
-        initialiseShipLists();
-    }
-
     public static final String SET_FIELD_POSITION_A = "a";
     public static final String SET_FIELD_POSITION_B = "b";
     public static final String SET_FIELD_POSITION_C = "c";
@@ -69,6 +54,7 @@ public final class FieldValues {
     public static final String SET_FIELD_POSITION_I6 = "i6";
 
     public static final String SET_FIELD_POSITION_EMPTY = "0";
+
     public static final String SET_FIELD_POSITION_J = "j";
 
     public static final String SET_FIELD_POSITION_K1 = "k1";
@@ -89,6 +75,24 @@ public final class FieldValues {
     public static final String SET_FIELD_POSITION_PLAYER_HIT = "4";
     public static final String SET_FIELD_POSITION_ENEMY_MISS = "5";
 
+    /**
+     * Used for the degree value in ship positioning
+     */
+    public static final int HORIZONTAL = 0;
+    public static final int VERTICAL = 1;
+
+    /**
+     * The field size of a players field
+     */
+    public static final int FIELD_SIZE = 64;
+    private List<String> smallShipStringList;
+    private List<String> middleShipStringList;
+    private List<String> bigShipStringList;
+    private List<String> smallShipArmourStringList;
+    private List<String> middleShipArmourStringList;
+    private List<String> bigShipArmourStringList;
+    private List<String> hList;
+    private List<String> iList;
 
 //    private void initialiseCheckAvailabilityList() {
 //        LinkedList<String> checkAvailabilityList = new LinkedList<>();
@@ -104,16 +108,12 @@ public final class FieldValues {
 //        checkAvailabilityList.add(SET_FIELD_POSITION_ENEMY_MISS);
 //    }
 
-    /**
-     * Used for the degree value in ship positioning
-     */
-    public static final int HORIZONTAL = 0;
-    public static final int VERTICAL = 1;
 
-    /**
-     * The field size of a players field
-     */
-    public static final int FIELD_SIZE = 64;
+    public FieldValues() {
+        initializeHList();
+        initializeIList();
+        initialiseShipLists();
+    }
 
     public void initialiseShipLists() {
         smallShipStringList = new LinkedList<>();
@@ -165,7 +165,6 @@ public final class FieldValues {
         bigShipArmourStringList.add(SET_FIELD_POSITION_L5);
         bigShipArmourStringList.add(SET_FIELD_POSITION_L6);
     }
-
 
     public void initializeHList() {
         hList = new LinkedList<>();
