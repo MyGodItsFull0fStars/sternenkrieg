@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.example.rebelartstudios.sternenkrieg.R;
+import com.example.rebelartstudios.sternenkrieg.exception.MyRuntimeException;
 import com.example.rebelartstudios.sternenkrieg.network.Client;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.Result;
@@ -33,7 +34,7 @@ import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
 public class QRReader extends AppCompatActivity implements ZXingScannerView.ResultHandler {
     private ZXingScannerView mScannerView;
-    String TAG = "QRReader";
+    String tag = "QRReader";
 
     String ip;
     Bundle extras;
@@ -137,7 +138,8 @@ public class QRReader extends AppCompatActivity implements ZXingScannerView.Resu
             ((ImageView) findViewById(R.id.img_result_qr)).setImageBitmap(bmp);
 
         } catch (WriterException e) {
-            Log.e(TAG, "QR Code code creation failed.");
+            Log.e(tag, "QR Code code creation failed.");
+            throw new MyRuntimeException(e);
         }
     }
 }

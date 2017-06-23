@@ -7,11 +7,7 @@ import android.view.View;
 
 import com.example.rebelartstudios.sternenkrieg.R;
 
-/**
- * Created by Chris on 20.06.2017.
- */
-
-public class animationClass {
+public class Animation {
     ObjectAnimator objAnim;
     private static final int GLOW_ANIM_DURATION = 800;
 
@@ -24,7 +20,7 @@ public class animationClass {
                         targetTab.getContext().getResources().getColor(R.color.tab_glow) // end color defined in resources as #ff3355dd
                 );
         objAnim.setDuration(GLOW_ANIM_DURATION);
-        objAnim.setRepeatMode(ValueAnimator.REVERSE); // start reverse animationClass after the "growing" phase
+        objAnim.setRepeatMode(ValueAnimator.REVERSE); // start reverse Animation after the "growing" phase
         objAnim.setRepeatCount(ObjectAnimator.INFINITE);
         objAnim.start();
     }

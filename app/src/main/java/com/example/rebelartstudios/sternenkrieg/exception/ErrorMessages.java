@@ -11,4 +11,7 @@ public class ErrorMessages {
     public static final String NULL_PARAMETER = "Parameter is null";
     public static final String ILLEGAL_SHIP_ID = "Ship ID in parameter is incorrect";
 
+    private ErrorMessages() {
+        super();
+    }
 }

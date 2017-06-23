@@ -22,8 +22,8 @@ import com.example.rebelartstudios.sternenkrieg.MainSocket;
 import com.example.rebelartstudios.sternenkrieg.R;
 import com.example.rebelartstudios.sternenkrieg.gamelogic.GameUtilities;
 import com.example.rebelartstudios.sternenkrieg.gamelogic.NetworkStats;
+import com.example.rebelartstudios.sternenkrieg.res.Animation;
 import com.example.rebelartstudios.sternenkrieg.res.QRReader;
-import com.example.rebelartstudios.sternenkrieg.res.animationClass;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -49,7 +49,7 @@ public class Host extends AppCompatActivity {
     NetworkStats stats = new NetworkStats();
     GameUtilities game;
     ImageView back;
-    animationClass animationClass;
+    Animation animation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +59,7 @@ public class Host extends AppCompatActivity {
 
         mHandler = new MyHandler();
         game = new GameUtilities(getApplicationContext());
-        animationClass = new animationClass();
+        animation = new Animation();
 
         WifiManager wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         if (!wifiManager.isWifiEnabled()) {
@@ -108,7 +108,7 @@ public class Host extends AppCompatActivity {
                             ExitHost();
                         } else if (("Bereit!").equals(str)) {
                             btnStart.setEnabled(true);
-                            animationClass.glowAnimation(btnStart);
+                            animation.glowAnimation(btnStart);
                         } else if (null != str) {
                             Log.i(tag, "Enemy username");
                             GameUtilities.setEnemyUsername(str);
@@ -192,7 +192,7 @@ public class Host extends AppCompatActivity {
                 NetworkStats.setNet(true);
                 NetworkStats.setPhost(true);
                 NetworkStats.setMode(1);
-                animationClass.stop();
+                animation.stop();
                 new CountDownTimer(200, 100) {
                     public void onTick(long millisUntilFinished) {
                     }

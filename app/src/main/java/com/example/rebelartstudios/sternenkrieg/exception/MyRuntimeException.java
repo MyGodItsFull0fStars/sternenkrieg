@@ -3,6 +3,7 @@ package com.example.rebelartstudios.sternenkrieg.exception;
 public class MyRuntimeException extends RuntimeException {
 
     public MyRuntimeException() {
+        super();
     }
 
     public MyRuntimeException(String message) {

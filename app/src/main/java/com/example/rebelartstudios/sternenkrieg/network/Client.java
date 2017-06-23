@@ -20,8 +20,8 @@ import com.example.rebelartstudios.sternenkrieg.MainSocket;
 import com.example.rebelartstudios.sternenkrieg.R;
 import com.example.rebelartstudios.sternenkrieg.gamelogic.GameUtilities;
 import com.example.rebelartstudios.sternenkrieg.gamelogic.NetworkStats;
+import com.example.rebelartstudios.sternenkrieg.res.Animation;
 import com.example.rebelartstudios.sternenkrieg.res.QRReader;
-import com.example.rebelartstudios.sternenkrieg.res.animationClass;
 
 import java.io.IOException;
 import java.net.Socket;
@@ -43,7 +43,7 @@ public class Client extends AppCompatActivity implements View.OnClickListener {
     NetworkStats stats = new NetworkStats();
     GameUtilities game;
     ImageView back;
-    animationClass animationClass;
+    Animation animation;
     TextView textConnection;
 
     @Override
@@ -53,8 +53,8 @@ public class Client extends AppCompatActivity implements View.OnClickListener {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         initializeButtonsViews();
         game = new GameUtilities(getApplicationContext());
-        animationClass = new animationClass();
-        animationClass.glowAnimation(btnStart);
+        animation = new Animation();
+        animation.glowAnimation(btnStart);
         setButtonOnStartState(true);
         btnStart.setOnClickListener(this);
         btnStop.setOnClickListener(this);
@@ -88,7 +88,7 @@ public class Client extends AppCompatActivity implements View.OnClickListener {
                 this.ip = IPet.getText().toString();
                 st = new StartThread(socket, ip, rt, myHandler, 54321);
                 st.start();
-                animationClass.stop();
+                animation.stop();
                 setButtonOnStartState(false);
                 btnStart.clearAnimation();
                 new CountDownTimer(400, 100) {

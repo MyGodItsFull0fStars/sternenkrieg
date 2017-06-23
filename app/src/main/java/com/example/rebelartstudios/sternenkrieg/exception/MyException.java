@@ -2,11 +2,8 @@ package com.example.rebelartstudios.sternenkrieg.exception;
 
 public class MyException extends Exception {
 
-    /*
-     This is an Exception used for the tests.
-     */
-
     public MyException() {
+        super();
     }
 
     public MyException(String message) {
