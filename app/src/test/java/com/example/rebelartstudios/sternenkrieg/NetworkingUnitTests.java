@@ -27,9 +27,7 @@ public class NetworkingUnitTests {
     boolean running = true;
     Handler handlerH = new Handler();
     ReceiveThreadHost receiveThreadHost;
-    String tag = "test";
     StartThread startThread;
-    String ip;
     ReceiveThreadClient receiveThreadClient;
     Handler handlerC = new Handler();
     WriteClient wc;
@@ -40,35 +38,32 @@ public class NetworkingUnitTests {
     public void setUp(){
         socketH = new Socket();
         socketC = new Socket();
-        ip = "10.0.2.2";
         acceptThread  = new AcceptThread(running,serverSocket,socketH,handlerH,receiveThreadHost,12345);
-        startThread = new StartThread(socketC,ip,receiveThreadClient,handlerC,12345);
+        startThread = new StartThread(socketC,"10.0.2.2",receiveThreadClient,handlerC,12345);
         acceptThread.start();
         startThread.start();
         wc = new WriteClient(true,socketC,"richtig");
         wh = new WriteHost(socketH,os,"richtig");
     }
     @Test
-    public void test_ClientServers(){
-
-//        assertEquals(acceptThread.test(), true);
+    public void testClientServers(){
         assertEquals(acceptThread.getSocket(),socketH);
         assertEquals(startThread.getSocket(),socketC);
     }
 
     @Test
-    public void test_Receive(){
-//        assertEquals(acceptThread.get,socketH);
+    public void testReceive(){
         assertEquals(startThread.getRt(),receiveThreadClient);
     }
 
     @Test
-    public void test_write_message(){
-        assertEquals(wc.getmessage(),"richtig");
-        assertEquals(wh.getmessage(),"richtig");
+    public void testWriteMessage(){
+        assertEquals(wc.getMessage(),"richtig");
+        assertEquals(wh.getMessage(),"richtig");
     }
+
     @Test
-    public void test_write_socket(){
+    public void testWriteSocket(){
         assertEquals(wc.getSocket(),socketC);
         assertEquals(wh.getSocket(),socketH);
     }

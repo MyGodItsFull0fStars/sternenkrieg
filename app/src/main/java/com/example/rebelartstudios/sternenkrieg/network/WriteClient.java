@@ -39,7 +39,7 @@ public class WriteClient extends Thread {
         }
     }
 
-    public String getmessage() {
+    public String getMessage() {
         return info;
     }
 

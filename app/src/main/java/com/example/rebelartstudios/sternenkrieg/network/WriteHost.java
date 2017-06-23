@@ -35,7 +35,7 @@ public class WriteHost extends Thread {
         }
     }
 
-    public String getmessage() {
+    public String getMessage() {
         return info;
     }
 
