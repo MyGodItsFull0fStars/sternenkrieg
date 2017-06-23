@@ -1,23 +1,119 @@
 package com.example.rebelartstudios.sternenkrieg.gamelogic;
 
 import java.util.LinkedList;
+import java.util.List;
 
 public final class FieldValues {
 
-    public LinkedList<String> smallShipStringList;
-    public LinkedList<String> middleShipStringList;
-    public LinkedList<String> bigShipStringList;
-    public LinkedList<String> smallShipArmourStringList;
-    public LinkedList<String> middleShipArmourStringList;
-    public LinkedList<String> bigShipArmourStringList;
-    public LinkedList<String> h_list;
-    public LinkedList<String> i_list;
+    private List<String> smallShipStringList;
+    private List<String> middleShipStringList;
+    private List<String> bigShipStringList;
+    private List<String> smallShipArmourStringList;
+    private List<String> middleShipArmourStringList;
+    private List<String> bigShipArmourStringList;
+    private List<String> hList;
+    private List<String> iList;
 
     public FieldValues() {
-        initialize_H_list();
-        initialize_I_list();
+        initializeHList();
+        initializeIList();
         initialiseShipLists();
     }
+
+    public static final String SET_FIELD_POSITION_A = "a";
+    public static final String SET_FIELD_POSITION_B = "b";
+    public static final String SET_FIELD_POSITION_C = "c";
+
+    /**
+     * Used to set the position color in the playerfield array to d
+     * The character d is used for the position of the small ship
+     */
+    public static final String SET_PLAYER_POSITION_SMALL = "d";
+
+    /**
+     * Used to set the position color in the playerfield array to e
+     * The character 'e' is used for the position of the middle ship
+     */
+    public static final String SET_PLAYER_POSITION_MIDDLE = "e";
+    public static final String SET_PLAYER_POSITION_MIDDLE1 = "e1";
+    public static final String SET_PLAYER_POSITION_MIDDLE2 = "e2";
+
+    public static final String SET_PLAYER_POSITION_MIDDLE1R = "e3";
+    public static final String SET_PLAYER_POSITION_MIDDLE2R = "e4";
+
+    /**
+     * Used to set the position color in the player field array to 'f'
+     * The character 'f' is used for the position of the big ship
+     */
+    public static final String SET_FIELD_POSITION_BIG = "f";
+    public static final String SET_FIELD_POSITION_BIG1 = "f1";
+    public static final String SET_FIELD_POSITION_BIG2 = "f2";
+    public static final String SET_FIELD_POSITION_BIG3 = "f3";
+
+    public static final String SET_FIELD_POSITION_BIG1R = "f4";
+    public static final String SET_FIELD_POSITION_BIG2R = "f5";
+    public static final String SET_FIELD_POSITION_BIG3R = "f6";
+
+    public static final String SET_FIELD_POSITION_G = "g";
+
+    public static final String SET_FIELD_POSITION_H1 = "h1";
+    public static final String SET_FIELD_POSITION_H2 = "h2";
+    public static final String SET_FIELD_POSITION_H3 = "h3";
+    public static final String SET_FIELD_POSITION_H4 = "h4";
+
+    public static final String SET_FIELD_POSITION_I1 = "i1";
+    public static final String SET_FIELD_POSITION_I2 = "i2";
+    public static final String SET_FIELD_POSITION_I3 = "i3";
+    public static final String SET_FIELD_POSITION_I4 = "i4";
+    public static final String SET_FIELD_POSITION_I5 = "i5";
+    public static final String SET_FIELD_POSITION_I6 = "i6";
+
+    public static final String SET_FIELD_POSITION_EMPTY = "0";
+    public static final String SET_FIELD_POSITION_J = "j";
+
+    public static final String SET_FIELD_POSITION_K1 = "k1";
+    public static final String SET_FIELD_POSITION_K2 = "k2";
+    public static final String SET_FIELD_POSITION_K3 = "k3";
+    public static final String SET_FIELD_POSITION_K4 = "k4";
+
+    public static final String SET_FIELD_POSITION_L1 = "l1";
+    public static final String SET_FIELD_POSITION_L2 = "l2";
+    public static final String SET_FIELD_POSITION_L3 = "l3";
+    public static final String SET_FIELD_POSITION_L4 = "l4";
+    public static final String SET_FIELD_POSITION_L5 = "l5";
+    public static final String SET_FIELD_POSITION_L6 = "l6";
+
+    public static final String SET_FIELD_POSITION_MISS = "1";
+    public static final String SET_FIELD_POSITION_TWO = "2";
+    public static final String SET_FIELD_POSITION_ENEMY_HIT = "3";
+    public static final String SET_FIELD_POSITION_PLAYER_HIT = "4";
+    public static final String SET_FIELD_POSITION_ENEMY_MISS = "5";
+
+
+//    private void initialiseCheckAvailabilityList() {
+//        LinkedList<String> checkAvailabilityList = new LinkedList<>();
+//        checkAvailabilityList.add(SET_PLAYER_POSITION_SMALL);
+//        checkAvailabilityList.add(SET_PLAYER_POSITION_MIDDLE);
+//        checkAvailabilityList.add(SET_PLAYER_POSITION_MIDDLE1);
+//        checkAvailabilityList.add(SET_PLAYER_POSITION_MIDDLE2);
+//        checkAvailabilityList.add(SET_FIELD_POSITION_BIG);
+//        checkAvailabilityList.add(SET_FIELD_POSITION_BIG1);
+//        checkAvailabilityList.add(SET_FIELD_POSITION_BIG2);
+//        checkAvailabilityList.add(SET_FIELD_POSITION_BIG3);
+//        checkAvailabilityList.add(SET_FIELD_POSITION_ENEMY_HIT);
+//        checkAvailabilityList.add(SET_FIELD_POSITION_ENEMY_MISS);
+//    }
+
+    /**
+     * Used for the degree value in ship positioning
+     */
+    public static final int HORIZONTAL = 0;
+    public static final int VERTICAL = 1;
+
+    /**
+     * The field size of a players field
+     */
+    public static final int FIELD_SIZE = 64;
 
     public void initialiseShipLists() {
         smallShipStringList = new LinkedList<>();
@@ -41,7 +137,6 @@ public final class FieldValues {
         middleShipStringList.add(SET_FIELD_POSITION_K2);
         middleShipStringList.add(SET_FIELD_POSITION_K3);
         middleShipStringList.add(SET_FIELD_POSITION_K4);
-
 
         bigShipStringList.add(SET_FIELD_POSITION_BIG);
         bigShipStringList.add(SET_FIELD_POSITION_BIG1);
@@ -71,120 +166,54 @@ public final class FieldValues {
         bigShipArmourStringList.add(SET_FIELD_POSITION_L6);
     }
 
-    public void initialize_H_list() {
-        h_list = new LinkedList<>();
-        h_list.add(SET_FIELD_POSITION_H1);
-        h_list.add(SET_FIELD_POSITION_H2);
-        h_list.add(SET_FIELD_POSITION_H3);
-        h_list.add(SET_FIELD_POSITION_H4);
+
+    public void initializeHList() {
+        hList = new LinkedList<>();
+        hList.add(SET_FIELD_POSITION_H1);
+        hList.add(SET_FIELD_POSITION_H2);
+        hList.add(SET_FIELD_POSITION_H3);
+        hList.add(SET_FIELD_POSITION_H4);
     }
 
-    public void initialize_I_list() {
-        i_list = new LinkedList<>();
-        i_list.add(SET_FIELD_POSITION_I1);
-        i_list.add(SET_FIELD_POSITION_I2);
-        i_list.add(SET_FIELD_POSITION_I3);
-        i_list.add(SET_FIELD_POSITION_I4);
-        i_list.add(SET_FIELD_POSITION_I5);
-        i_list.add(SET_FIELD_POSITION_I6);
-
+    public void initializeIList() {
+        iList = new LinkedList<>();
+        iList.add(SET_FIELD_POSITION_I1);
+        iList.add(SET_FIELD_POSITION_I2);
+        iList.add(SET_FIELD_POSITION_I3);
+        iList.add(SET_FIELD_POSITION_I4);
+        iList.add(SET_FIELD_POSITION_I5);
+        iList.add(SET_FIELD_POSITION_I6);
     }
 
-    public final String SET_FIELD_POSITION_A = "a";
-    public final String SET_FIELD_POSITION_B = "b";
-    public final String SET_FIELD_POSITION_C = "c";
+    public List<String> getSmallShipStringList() {
+        return smallShipStringList;
+    }
 
-    /**
-     * Used to set the position color in the playerfield array to d
-     * The character d is used for the position of the small ship
-     */
-    public final String SET_PLAYER_POSITION_SMALL = "d";
+    public List<String> getMiddleShipStringList() {
+        return middleShipStringList;
+    }
 
-    /**
-     * Used to set the position color in the playerfield array to e
-     * The character 'e' is used for the position of the middle ship
-     */
-    final String SET_PLAYER_POSITION_MIDDLE = "e";
-    public final String SET_PLAYER_POSITION_MIDDLE1 = "e1";
-    public final String SET_PLAYER_POSITION_MIDDLE2 = "e2";
+    public List<String> getBigShipStringList() {
+        return bigShipStringList;
+    }
 
-    public final String SET_PLAYER_POSITION_MIDDLE1R = "e3";
-    public final String SET_PLAYER_POSITION_MIDDLE2R = "e4";
+    public List<String> getSmallShipArmourStringList() {
+        return smallShipArmourStringList;
+    }
 
+    public List<String> getMiddleShipArmourStringList() {
+        return middleShipArmourStringList;
+    }
 
-    /**
-     * Used to set the position color in the player field array to 'f'
-     * The character 'f' is used for the position of the big ship
-     */
-    final String SET_FIELD_POSITION_BIG = "f";
-    public final String SET_FIELD_POSITION_BIG1 = "f1";
-    public final String SET_FIELD_POSITION_BIG2 = "f2";
-    public final String SET_FIELD_POSITION_BIG3 = "f3";
+    public List<String> getBigShipArmourStringList() {
+        return bigShipArmourStringList;
+    }
 
-    public final String SET_FIELD_POSITION_BIG1R = "f4";
-    public final String SET_FIELD_POSITION_BIG2R = "f5";
-    public final String SET_FIELD_POSITION_BIG3R = "f6";
+    public List<String> getHList() {
+        return hList;
+    }
 
-
-    public final String SET_FIELD_POSITION_G = "g";
-
-    public final String SET_FIELD_POSITION_H1 = "h1";
-    public final String SET_FIELD_POSITION_H2 = "h2";
-    public final String SET_FIELD_POSITION_H3 = "h3";
-    public final String SET_FIELD_POSITION_H4 = "h4";
-
-    public final String SET_FIELD_POSITION_I1 = "i1";
-    public final String SET_FIELD_POSITION_I2 = "i2";
-    public final String SET_FIELD_POSITION_I3 = "i3";
-    public final String SET_FIELD_POSITION_I4 = "i4";
-    public final String SET_FIELD_POSITION_I5 = "i5";
-    public final String SET_FIELD_POSITION_I6 = "i6";
-
-    public final String SET_FIELD_POSITION_EMPTY = "0";
-    public final String SET_FIELD_POSITION_J = "j";
-
-    public final String SET_FIELD_POSITION_K1 = "k1";
-    public final String SET_FIELD_POSITION_K2 = "k2";
-    public final String SET_FIELD_POSITION_K3 = "k3";
-    public final String SET_FIELD_POSITION_K4 = "k4";
-
-    public final String SET_FIELD_POSITION_L1 = "l1";
-    public final String SET_FIELD_POSITION_L2 = "l2";
-    public final String SET_FIELD_POSITION_L3 = "l3";
-    public final String SET_FIELD_POSITION_L4 = "l4";
-    public final String SET_FIELD_POSITION_L5 = "l5";
-    public final String SET_FIELD_POSITION_L6 = "l6";
-
-    public final String SET_FIELD_POSITION_MISS = "1";
-    public final String SET_FIELD_POSITION_TWO = "2";
-    public final String SET_FIELD_POSITION_ENEMY_HIT = "3";
-    public final String SET_FIELD_POSITION_PLAYER_HIT = "4";
-    public final String SET_FIELD_POSITION_ENEMY_MISS = "5";
-
-
-//    private void initialiseCheckAvailabilityList() {
-//        LinkedList<String> checkAvailabilityList = new LinkedList<>();
-//        checkAvailabilityList.add(SET_PLAYER_POSITION_SMALL);
-//        checkAvailabilityList.add(SET_PLAYER_POSITION_MIDDLE);
-//        checkAvailabilityList.add(SET_PLAYER_POSITION_MIDDLE1);
-//        checkAvailabilityList.add(SET_PLAYER_POSITION_MIDDLE2);
-//        checkAvailabilityList.add(SET_FIELD_POSITION_BIG);
-//        checkAvailabilityList.add(SET_FIELD_POSITION_BIG1);
-//        checkAvailabilityList.add(SET_FIELD_POSITION_BIG2);
-//        checkAvailabilityList.add(SET_FIELD_POSITION_BIG3);
-//        checkAvailabilityList.add(SET_FIELD_POSITION_ENEMY_HIT);
-//        checkAvailabilityList.add(SET_FIELD_POSITION_ENEMY_MISS);
-//    }
-
-
-    /**
-     * Used for the degree value in ship positioning
-     */
-    public final int HORIZONTAL = 0;
-    public final int VERTICAL = 1;
-
-    /**
-     * The field size of a players field
-     */
-    public final int FIELD_SIZE = 64;
+    public List<String> getIList() {
+        return iList;
+    }
 }

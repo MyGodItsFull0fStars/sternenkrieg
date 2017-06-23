@@ -46,6 +46,7 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
+import java.util.List;
 
 import pl.bclogic.pulsator4droid.library.PulsatorLayout;
 
@@ -243,34 +244,34 @@ public class Gameplay extends AppCompatActivity {
 
                 gridViewPlayer.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-                        fieldValues.initialize_H_list();
-                        fieldValues.initialize_I_list();
+                        fieldValues.initializeHList();
+                        fieldValues.initializeIList();
 
                         final String positionString = mapPlayer[position];
 
                         if (positionString.equals(fieldValues.SET_FIELD_POSITION_G)
-                                || fieldValues.h_list.contains(positionString)
-                                || fieldValues.i_list.contains(positionString))
+                                || fieldValues.getHList().contains(positionString)
+                                || fieldValues.getIList().contains(positionString))
                         {
 
                             if (positionString.equals(fieldValues.SET_FIELD_POSITION_G)) {
                                 mapPlayer[position] = fieldValues.SET_FIELD_POSITION_PLAYER_HIT;
                                 draw(mapPlayer, gridViewPlayer);
-                            } else if (fieldValues.h_list.contains(positionString)) {
+                            } else if (fieldValues.getHList().contains(positionString)) {
                                 for (int i = 0; i < mapPlayer.length; i++) {
                                     if (
                                         //mapPlayer[i].equals("h1") || mapPlayer[i].equals("h2") || mapPlayer[i].equals("h3") || mapPlayer[i].equals("h4")
-                                            fieldValues.h_list.contains(mapPlayer[i])) {
+                                            fieldValues.getHList().contains(mapPlayer[i])) {
 
                                         mapPlayer[i] = fieldValues.SET_FIELD_POSITION_PLAYER_HIT;
                                     }
 
                                     draw(mapPlayer, gridViewPlayer);
                                 }
-                            } else if (fieldValues.i_list.contains(positionString)) {
+                            } else if (fieldValues.getIList().contains(positionString)) {
                                 for (int i = 0; i < mapPlayer.length; i++) {
 
-                                    if (fieldValues.i_list.contains(mapPlayer[i])) {
+                                    if (fieldValues.getIList().contains(mapPlayer[i])) {
 
                                         mapPlayer[i] = fieldValues.SET_FIELD_POSITION_PLAYER_HIT;
                                     }
@@ -418,7 +419,6 @@ public class Gameplay extends AppCompatActivity {
             imageDice.setVisibility(View.VISIBLE);
             pulsatorLayout.start();
             pulsatorLayout.setVisibility(View.VISIBLE);
-
         }
     }
 
@@ -430,8 +430,6 @@ public class Gameplay extends AppCompatActivity {
         if (who_is_starting == 0 && oneShoot) {
             shoot = true;
         }
-
-
     }
 
     public void dice() {
@@ -444,26 +442,24 @@ public class Gameplay extends AppCompatActivity {
                 util.close();
             pulsatorLayout.stop();
             startActivity(intent);
-
-
         }
 
     }
 
     public void checkShoot(int position, int player) {
         fieldValues.initialiseShipLists();
-        if (fieldValues.smallShipStringList.contains(mapPlayer[position])
-                || fieldValues.middleShipStringList.contains(mapPlayer[position])
-                || fieldValues.bigShipStringList.contains(mapPlayer[position])) {
+        if (fieldValues.getSmallShipStringList().contains(mapPlayer[position])
+                || fieldValues.getMiddleShipStringList().contains(mapPlayer[position])
+                || fieldValues.getBigShipStringList().contains(mapPlayer[position])) {
             mapPlayer[position] = fieldValues.SET_FIELD_POSITION_ENEMY_HIT;
             vib.vibrate(500);
             highScore = highScore - 30;
         }
 
         //hits ship with armour
-        else if (fieldValues.smallShipArmourStringList.contains(mapPlayer[position])
-                || fieldValues.middleShipArmourStringList.contains(mapPlayer[position])
-                || fieldValues.bigShipArmourStringList.contains(mapPlayer[position])) {
+        else if (fieldValues.getSmallShipArmourStringList().contains(mapPlayer[position])
+                || fieldValues.getMiddleShipArmourStringList().contains(mapPlayer[position])
+                || fieldValues.getBigShipArmourStringList().contains(mapPlayer[position])) {
             switch (mapPlayer[position]) {
                 case "j":
                     mapPlayer[position] = fieldValues.SET_PLAYER_POSITION_SMALL;
@@ -512,9 +508,9 @@ public class Gameplay extends AppCompatActivity {
         draw(mapPlayer, gridViewPlayer); // update map
 
 
-        if (gameOver(fieldValues.smallShipStringList, mapPlayer) && gameOver(fieldValues.middleShipStringList, mapPlayer)
-                && gameOver(fieldValues.bigShipStringList, mapPlayer) && gameOver(fieldValues.smallShipArmourStringList, mapPlayer)
-                && gameOver(fieldValues.middleShipArmourStringList, mapPlayer) && gameOver(fieldValues.bigShipArmourStringList, mapPlayer)) { //determine whether all ships are already destroyed
+        if (gameOver(fieldValues.getSmallShipStringList(), mapPlayer) && gameOver(fieldValues.getMiddleShipStringList(), mapPlayer)
+                && gameOver(fieldValues.getBigShipStringList(), mapPlayer) && gameOver(fieldValues.getSmallShipArmourStringList(), mapPlayer)
+                && gameOver(fieldValues.getMiddleShipArmourStringList(), mapPlayer) && gameOver(fieldValues.getBigShipArmourStringList(), mapPlayer)) { //determine whether all ships are already destroyed
             alert("2");
         }
     }
@@ -525,9 +521,9 @@ public class Gameplay extends AppCompatActivity {
 
                 /* enemy hits one of player'hostBtn ships */
                 if (
-                        fieldValues.smallShipStringList.contains(mapPlayer[position])
-                                || fieldValues.middleShipStringList.contains(mapPlayer[position])
-                                || fieldValues.bigShipStringList.contains(mapPlayer[position])) {
+                        fieldValues.getSmallShipStringList().contains(mapPlayer[position])
+                                || fieldValues.getMiddleShipStringList().contains(mapPlayer[position])
+                                || fieldValues.getBigShipStringList().contains(mapPlayer[position])) {
                     mapPlayer[position] = fieldValues.SET_FIELD_POSITION_ENEMY_HIT;
                     vib.vibrate(500);
                     highScore = highScore - 30;
@@ -540,9 +536,9 @@ public class Gameplay extends AppCompatActivity {
                 draw(mapPlayer, gridViewPlayer); // update map
 
 
-                if (gameOver(fieldValues.smallShipStringList, mapPlayer) && gameOver(fieldValues.smallShipArmourStringList, mapPlayer)
-                        && gameOver(fieldValues.middleShipStringList, mapPlayer) && gameOver(fieldValues.middleShipArmourStringList, mapPlayer)
-                        && gameOver(fieldValues.bigShipStringList, mapPlayer) && gameOver(fieldValues.bigShipArmourStringList, mapPlayer)) { //determine whether all ships are already destroyed
+                if (gameOver(fieldValues.getSmallShipStringList(), mapPlayer) && gameOver(fieldValues.getSmallShipArmourStringList(), mapPlayer)
+                        && gameOver(fieldValues.getMiddleShipStringList(), mapPlayer) && gameOver(fieldValues.getMiddleShipArmourStringList(), mapPlayer)
+                        && gameOver(fieldValues.getBigShipStringList(), mapPlayer) && gameOver(fieldValues.getBigShipArmourStringList(), mapPlayer)) { //determine whether all ships are already destroyed
                     alert("2");
                 }
 
@@ -597,7 +593,6 @@ public class Gameplay extends AppCompatActivity {
                         if (relocateShip(position, posis, true)) {
                             mapPlayer[position] = "d";
                             shipPlaced = true;
-
                         }
                         break;
                     case "h1":
@@ -612,7 +607,6 @@ public class Gameplay extends AppCompatActivity {
                             mapPlayer[position] = "e3";
                             mapPlayer[position + 8] = "e4"; //relocate ship rotated
                             shipPlaced = true;
-
                         }
                         break;
                     case "i1":
@@ -691,12 +685,12 @@ public class Gameplay extends AppCompatActivity {
     public boolean checkAvailability(int position) {
         //  if(mapPlayer[position].equals(posis)){ return true;} else {
         //  fieldValues.initialiseCheckAvailabilityList();
-        if (fieldValues.smallShipStringList.contains(mapPlayer[position])
-                || fieldValues.middleShipStringList.contains(mapPlayer[position])
-                || fieldValues.bigShipStringList.contains(mapPlayer[position])
+        if (fieldValues.getSmallShipStringList().contains(mapPlayer[position])
+                || fieldValues.getMiddleShipStringList().contains(mapPlayer[position])
+                || fieldValues.getBigShipStringList().contains(mapPlayer[position])
                 || fieldValues.SET_FIELD_POSITION_G.equals(mapPlayer[position])
-                || fieldValues.h_list.contains(mapPlayer[position])
-                || fieldValues.i_list.contains(mapPlayer[position])
+                || fieldValues.getHList().contains(mapPlayer[position])
+                || fieldValues.getIList().contains(mapPlayer[position])
                 || fieldValues.SET_FIELD_POSITION_ENEMY_HIT.equals(mapPlayer[position])
                 || fieldValues.SET_FIELD_POSITION_ENEMY_MISS.equals(mapPlayer[position])) {
             return false;
@@ -799,7 +793,7 @@ public class Gameplay extends AppCompatActivity {
     }
 
     // TODO: 20/06/2017
-    public boolean gameOver(LinkedList<String> hi, String[] map) {
+    public boolean gameOver(List<String> hi, String[] map) {
             /* checks if String "ship" (either checks whether player has any ships left or if an
             entire ship of the opponent has been destroyed) is still present in array "map";
             if not, method returns true */
@@ -859,9 +853,7 @@ public class Gameplay extends AppCompatActivity {
                     public void onFinish() {
                         shootPlayer.setVisibility(View.INVISIBLE);
                         animation.setFillAfter(false);
-
                     }
-
                 }.start();
             }
 
@@ -894,7 +886,7 @@ public class Gameplay extends AppCompatActivity {
                 new CountDownTimer(1000, 100) {
 
                     public void onTick(long millisUntilFinished) {
-                        //wird nicht benötigt
+                        //  nothing to do here
                     }
 
                     @Override
@@ -903,7 +895,6 @@ public class Gameplay extends AppCompatActivity {
                         animation.setFillAfter(false);
 
                     }
-
                 }.start();
             }
 
@@ -1121,7 +1112,7 @@ public class Gameplay extends AppCompatActivity {
                                                 break;
                                         }
                                     }
-                                } else if (fieldValues.i_list.contains(posis)) {
+                                } else if (fieldValues.getIList().contains(posis)) {
                                     for (int i = 0; i < mapPlayer.length; i++) {
                                         switch (mapPlayer[i]) {
                                             case "i1":
