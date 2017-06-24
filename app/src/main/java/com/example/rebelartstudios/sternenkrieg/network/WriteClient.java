@@ -33,9 +33,9 @@ public class WriteClient extends Thread {
             }
 
         } catch (IOException e) {
-            Log.e(tag, "IOException in WriteThread: " + e.toString());
+            Log.e(tag, "IOException in WriteThread: " + e.getMessage(), e);
         } catch (NullPointerException e) {
-            Log.e(tag, "NullPointerException in WriteThread: " + e.toString());
+            Log.e(tag, "NullPointerException in WriteThread: " + e.getMessage(), e);
         }
     }
 

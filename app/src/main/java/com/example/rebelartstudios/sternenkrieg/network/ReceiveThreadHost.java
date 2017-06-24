@@ -30,8 +30,7 @@ public class ReceiveThreadHost extends Thread {
         try {
             is = sk.getInputStream();
         } catch (IOException e) {
-            Log.e(tag, "IOException in AcceptThreadHost: " + e.toString());
-            throw new MyRuntimeException(e);
+            Log.e(tag, "IOException in AcceptThreadHost: " + e.getMessage(), e);
         }
     }
 
@@ -50,19 +49,15 @@ public class ReceiveThreadHost extends Thread {
                 BufferedReader br = new BufferedReader(new InputStreamReader(is, "UTF-8"));
                 read = br.readLine();
             } catch (UnsupportedEncodingException e) {
-                Log.e(tag, "UnsupportedException in AcceptThreadHost: " + e.toString());
-                throw new MyRuntimeException(e);
+                Log.e(tag, "UnsupportedException in AcceptThreadHost: " + e.getMessage(), e);
             } catch (IOException e) {
-                Log.e(tag, "IOException in AcceptThreadHost: " + e.toString());
-                throw new MyRuntimeException(e);
+                Log.e(tag, "IOException in AcceptThreadHost: " + e.getMessage(), e);
             } catch (NullPointerException e) {
                 running = false;
                 Message msg2 = mHandler.obtainMessage();
                 msg2.what = 2;
                 mHandler.sendMessage(msg2);
-                Log.e(tag, "NullpointerException in AcceptThreadHost: " + e.toString());
-                throw new MyRuntimeException(e);
-
+                Log.e(tag, "NullpointerException in AcceptThreadHost: " + e.getMessage(), e);
             }
 
             try {
@@ -79,7 +74,7 @@ public class ReceiveThreadHost extends Thread {
                 }
 
             } catch (NullPointerException e) {
-                Log.e(tag, "NullpointerException in AcceptThreadHost: " + e.toString());
+                Log.e(tag, "NullpointerException in AcceptThreadHost: " + e.getMessage(), e);
             }
 
         }

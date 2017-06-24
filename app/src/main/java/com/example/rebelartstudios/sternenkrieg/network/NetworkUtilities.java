@@ -79,7 +79,7 @@ public class NetworkUtilities {
                 mAcceptThread.setRunning(false);
                 mAcceptThread.setSocket(null);
             } catch (NullPointerException e) {
-                Log.e(tag, "NullPointerException in Client: " + e.toString());
+                Log.e(tag, "NullPointerException in Client: " + e.getMessage(), e);
             }
             try {
                 mAcceptThread.getMReceiveThreadHost().close();
@@ -88,10 +88,10 @@ public class NetworkUtilities {
                 mAcceptThread.interrupt();
 
             } catch (NullPointerException e) {
-                Log.e(tag, "NullPointerException in Client: " + e.toString());
+                Log.e(tag, "NullPointerException in Client: " + e.getMessage(), e);
 
             } catch (IOException e) {
-                Log.e(tag, "IOPointerException in Client: " + e.toString());
+                Log.e(tag, "IOPointerException in Client: " + e.getMessage(), e);
             }
         } else {
             try {
@@ -102,10 +102,10 @@ public class NetworkUtilities {
                 startThread.setTryConnect(false);
                 startThread.interrupt();
             } catch (NullPointerException e) {
-                Log.e(tag, "NullPointerException in Client: " + e.toString());
+                Log.e(tag, "NullPointerException in Client: " + e.getMessage(), e);
 
             } catch (IOException e) {
-                Log.e(tag, "IOException in Client: " + e.toString());
+                Log.e(tag, "IOException in Client: " + e.getMessage(), e);
             }
         }
     }

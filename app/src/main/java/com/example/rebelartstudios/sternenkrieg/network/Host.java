@@ -120,7 +120,7 @@ public class Host extends AppCompatActivity {
 
                         }
                     } catch (NullPointerException e) {
-                        Log.e(tag, "NullpointerException in ReceiveThreadHost: " + e.toString());
+                        Log.e(tag, "NullpointerException in ReceiveThreadHost: " + e.getMessage(), e);
 
                     }
                     break;
@@ -135,7 +135,7 @@ public class Host extends AppCompatActivity {
                         socket.close();
                         mServerSocket.close();
                     } catch (IOException e) {
-                        Log.e(tag, "IOException in ReceiveThreadHost: " + e.toString());
+                        Log.e(tag, "IOException in ReceiveThreadHost: " + e.getMessage(), e);
                     }
                     break;
                 default:
@@ -195,6 +195,7 @@ public class Host extends AppCompatActivity {
                 animation.stop();
                 new CountDownTimer(200, 100) {
                     public void onTick(long millisUntilFinished) {
+                        // nothing to do here
                     }
 
                     @Override
@@ -211,7 +212,7 @@ public class Host extends AppCompatActivity {
         });
     }
 
-    private class onclicklistenerExit implements View.OnClickListener {
+    private class OnClickListenerExit implements View.OnClickListener {
         public void onClick(View view) {
             ExitHost();
         }
@@ -232,7 +233,7 @@ public class Host extends AppCompatActivity {
             mAcceptThread.setRunning(false);
             mAcceptThread.setSocket(null);
         } catch (NullPointerException e) {
-            Log.e(tag, "NullPointerException in Client: " + e.toString());
+            Log.e(tag, "NullPointerException in Client: " + e.getMessage(), e);
             displayToast("nicht Erfolg");
 
             btnStart.setEnabled(false);
@@ -244,9 +245,9 @@ public class Host extends AppCompatActivity {
             mAcceptThread.getSocket().close();
             mAcceptThread.interrupt();
         } catch (NullPointerException e) {
-            Log.e(tag, "NullPointerException in Client: " + e.toString());
+            Log.e(tag, "NullPointerException in Client: " + e.getMessage(), e);
         } catch (IOException e) {
-            Log.e(tag, "IOPointerException in Client: " + e.toString());
+            Log.e(tag, "IOPointerException in Client: " + e.getMessage(), e);
         }
     }
 

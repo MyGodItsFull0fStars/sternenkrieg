@@ -29,9 +29,9 @@ public class WriteHost extends Thread {
             os.flush();
 
         } catch (IOException e) {
-            Log.e(tag, "IOException in WriteHost: " + e.toString());
+            Log.e(tag, "IOException in WriteHost: " + e.getMessage(), e);
         } catch (NullPointerException e) {
-            Log.e(tag, "NUllException in WriteHost: " + e.toString());
+            Log.e(tag, "NUllException in WriteHost: " + e.getMessage(), e);
         }
     }
 

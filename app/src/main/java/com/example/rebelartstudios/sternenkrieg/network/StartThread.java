@@ -34,7 +34,7 @@ public class StartThread extends Thread {
         while (tryConnect) {
             try {
                 socket = new Socket(ip, port);
-                System.out.println("Connected" + socket);
+                Log.d(tag, "Connected" + socket);
                 Log.i(StartThread.class.getName(), "Connect success");
                 tryConnect = false;
                 rt = new ReceiveThreadClient(socket, running, myHandler);
@@ -46,7 +46,7 @@ public class StartThread extends Thread {
                     myHandler.sendMessage(msg0);
                 }
             } catch (IOException e) {
-                Log.e(tag, "IOException in StartThread: " + e.toString());
+                Log.e(tag, "IOException in StartThread: " + e.getMessage(), e);
             }
         }
 
@@ -69,7 +69,7 @@ public class StartThread extends Thread {
             this.socket.close();
             this.socket = null;
         } catch (IOException e) {
-            Log.e(tag, "IOException in StartThread (closeSocket): " + e.toString());
+            Log.e(tag, "IOException in StartThread (closeSocket): " + e.getMessage(), e);
             throw new MyRuntimeException(e);
         }
     }

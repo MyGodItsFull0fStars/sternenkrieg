@@ -40,11 +40,11 @@ public class ReceiveThreadClient extends Thread {
                 Message msg2 = myhandler.obtainMessage();
                 msg2.what = 2;
                 myhandler.sendMessage(msg2);
-                Log.e(tag, "NullpointerException in ReceiveThreadHost: " + e.toString());
+                Log.e(tag, "NullpointerException in ReceiveThreadHost: " + e.getMessage(), e);
                 Thread.currentThread().interrupt();
                 break;
             } catch (IOException e) {
-                Log.e(tag, "IOException in ReceiveThreadHost: " + e.toString());
+                Log.e(tag, "IOException in ReceiveThreadHost: " + e.getMessage(), e);
                 Thread.currentThread().interrupt();
             }
 
@@ -61,12 +61,12 @@ public class ReceiveThreadClient extends Thread {
                     myhandler.sendMessage(msg);
                 }
             } catch (NullPointerException e) {
-                Log.e(tag, "NullpointerException in ReceiveThreadHost: " + e.toString());
+                Log.e(tag, "NullpointerException in ReceiveThreadHost: " + e.getMessage(), e);
             }
             try {
                 sleep(500);
             } catch (InterruptedException e) {
-                Log.e(tag, "InterruptedException in ReceiveThreadHost: " + e.toString());
+                Log.e(tag, "InterruptedException in ReceiveThreadHost: " + e.getMessage(), e);
                 Thread.currentThread().interrupt();
             }
 

@@ -9,6 +9,8 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 public class AcceptThread extends Thread {
+    String tag = "AcceptThread";
+
     private boolean running;
     private ServerSocket mServerSocket;
     private Socket socket;
@@ -16,7 +18,6 @@ public class AcceptThread extends Thread {
     private ReceiveThreadHost mReceiveThreadHost;
     private int port;
     private Socket resocket;
-
 
     public AcceptThread(boolean running,
                         ServerSocket mServerSocket,
@@ -54,6 +55,7 @@ public class AcceptThread extends Thread {
             }
 
         } catch (IOException e) {
+            Log.e(tag, e.getMessage(), e);
 //                Log.w(AcceptThread.class.getName(),e.getMessage());
         }
     }
@@ -82,10 +84,10 @@ public class AcceptThread extends Thread {
             mServerSocket.close();
             mReceiveThreadHost.close();
         } catch (IOException e) {
-            Log.e(tag, "IOException in AcceptThreadHost: " + e.toString());
+            Log.e(tag, "IOException in AcceptThreadHost: " + e.getMessage(), e);
             Thread.currentThread().interrupt();
         } catch (NullPointerException e) {
-            Log.e(tag, "NULLPointerException in AcceptThreadHost: " + e.toString());
+            Log.e(tag, "NULLPointerException in AcceptThreadHost: " + e.getMessage(), e);
             Thread.currentThread().interrupt();
         }
     }
