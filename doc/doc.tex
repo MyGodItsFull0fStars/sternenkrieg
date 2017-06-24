@@ -53,12 +53,12 @@
 
 %%% The "real" document content comes below...
 
-\title{Sternenkrieg}
-\author{Christian Bauer\\ xyz@edu.aau.at
-\and Lukas Pagitz \\ xyz@edu.aau.at
-\and Anja Ressmann \\ xyz@edu.aau.at
-\and Christoph Roither \\ xyz@edu.aau.at
-\and Boda Wen \\ xyz@edu.aau.at}
+\title{Sternenkrieg \\\small{Rebel Art Studios Inc.}}
+\author{Christian Bauer\\ chrbauer@edu.aau.at
+\and Lukas Pagitz \\ l1pagitz@edu.aau.at
+\and Anja Ressmann \\ anjare@edu.aau.at
+\and Christoph Roither \\ chroither@edu.aau.at
+\and Boda Wen \\ bodawe@edu.aau.at}
 \date{21.06.2017}
 
 % Eigene Änderungen
@@ -90,27 +90,31 @@ Univ.-Ass. Dipl.-Ing. Christian Macho
 \end{figure}
 \end{center}
 \hfill \break
-\newpage
 \tableofcontents
 
 \newpage
 
 \section{Einleitung}
+Das Spiel \enquote{Sternenkrieg} baut auf dem Konzept des allgemein bekannten Brettspieles Schiffe versenken auf und verbindet dieses in moderner Art und Weise mit Weltall-Elementen.
+\\\\
+Der Fokus des Projekts ist klar: Moderne Konzepte und ein interaktiver Spielablauf soll die Kunden dazu anregen, \enquote{Sternenkrieg} gemeinsam am Smartphone zu spielen und sich dabei auch zu unterhalten.
+\\\\
+Das wichtigste Key-Element des Spieles ist das sogenannte PowerUp-System: Dieses Feature bringt durch eine physische Würfelfunktion noch mehr taktische Tiefe in das Spiel. Die gewürfelte Augenzahl ermöglicht den Kauf von PowerUps, welche in jedem Spiel nur begrenzt verfügbar sind und eine besondere Funktion mit sich bringen, also möglicherweise in brenzligen Situationen den Spielverlauf umdrehen können. Auch die implementierte Schummelfunktion kann für einige Überraschung im Spiel sorgen.
 
-Sternenkrieg <TODO>
+\newpage
 
 \section{Grundlegender Aufbau}
 \subsection{Spielablauf}
 Sternenkrieg orientiert sich am Spielprinzip von \enquote{Schiffe versenken}. Ziel ist es, die vom Gegner platzierten Schiffe als erster Spieler zu zerstören. Als Erweiterung zum herkömmlichen Spiel, bietet Sternenkrieg weitere Features, deren technische Funktionalität hier kurz erläutert wird. Dieses Kapitel soll zum Verständnis des Ablaufs im Programm beitragen.
-
+\\\\
 Gestartet wird das Spiel mit einem Klick auf den Button \enquote{Play}. Danach muss eine Verbindung zwischen beiden Spielern hergestellt werden. Hierzu ist es notwendig, dass sich die Smartphones beider Spieler im gleichen WLAN-Netzwerk befinden. Ein Spieler übernimmt im Spiel den Server, der andere übernimmt den Client.
-
+\\\\
 Der Server-Spieler startet danach den Server und bekommt eine IP-Adresse angezeigt, welche er dem Client-Spieler übermittelt. Dieser verbindet sich damit zum Server. Sobald die Verbindung erfolgreich war, melden sich beide Spieler als bereit und das Spiel beginnt.
-
+\\\\
 Um zu entscheiden, welcher der beiden Spieler das Spiel beginnen soll, muss gewürfelt werden. Dies geschieht durch Schütteln des Smartphones. Der Wert des jeweiligen Gegners wird dabei über das Netzwerk übertragen.
-
+\\\\
 Nun beginnt das eigentliche Spiel: Jeder Spieler muss seine Schiffe (ein kleines, ein mittleres und ein großes) platzieren. Ziel des Gegners ist es nun, die Schiffe des Gegners zu zerstören, bevor die eigenen vernichtet werden.
-
+\\\\
 Im weiteren Spielverlauf werden auch die besonderen Features von Sternenkrieg sichtbar. Diese sind unter anderem eine Schummelfunktion sowie ein PowerUp-System.
 
 \subsection{Menüaufbau}
@@ -121,6 +125,21 @@ Das Menü von Sternenkrieg bietet - abgesehen vom eigentlichen Spiel - noch folg
 \item About -- zeigt eine kurze About Us-Meldung an
 \end{itemize}
 
+\newpage
+\section{Aufbau des Projekts}
+\subsection{Aktivitätsdiagramm}
+\begin{figure}[H]
+	\centering
+ 	\includegraphics[width=1\textwidth]{img/activity}
+	\caption{Aktivitätsdiagramm}
+\end{figure}
+
+\subsection{Programmaufbau}
+\begin{figure}[H]
+	\centering
+ 	\includegraphics[height=0.9\textheight]{img/package}
+	\caption{Programmaufbau (Klassenübersicht)}
+\end{figure}
 
 \section{Klassen im Überblick}
 In diesem Kapitel werden die allgemeinen Klassen und die dazugehörigen Activities von Sternenkrieg beschrieben. Besonders wichtige Klassen und Methoden werden ausführlicher behandelt.
@@ -154,15 +173,14 @@ Das Spielfeld bietet folgende Buttons zur Auswahl:
 Wird die PowerUp-Funktion ausgewählt, so verändern sich die Icons in PowerUp-Icons, damit eine Funktion ausgewählt werden kann.
 
 \subsubsection{Cheat-Funktion}
+Die Cheat-Funktion im Spiel erlaubt es, ein noch nicht angegriffenes Schiff auszuwählen und dieses an einer anderen Stelle neu zu platzieren. Danach wird der eigene Zug fortgesetzt.
 
 \subsubsection{PowerUps}
 PowerUps sind Funktionen, die einem Spieler einen bestimmten Vorteil verschaffen sollen. Am Anfang jedes Zuges wird gewürfelt, diese Punkte werden zu den PowerUp-Punkten dazugezählt und können anschließend für ein PowerUp verwendet werden.
 Die PowerUps bieten folgende Funktionen:
 \begin{itemize}
-\item PowerUp 1: noch nicht implementiert
-\item PowerUp 2: noch nicht implementiert
-\item PowerUp 3: noch nicht implementiert
-\item PowerUp 4: noch nicht implementiert
+\item doppelte Rüstung für ein noch nicht angegriffenes Schiff (das große Schiff müsste statt drei Mal nach Aktivierung dieses PowerUps sechs Mal aktiviert werden)
+\item im aktuellen Spielzug darf zwei Mal auf das Spielfeld des Gegners geschossen werden
 \end{itemize}
 
 Besitzt ein Spieler zu wenig Punkte oder wurde ein PowerUp bereits zu oft verwendet, wird eine entsprechende Meldung ausgegeben.
@@ -196,6 +214,7 @@ Die Klasse \enquote{Options} behandelt alle Einstellungsmöglichkeiten von Stern
 Die Speicherung der Einstellungen erfolgt mithilfe von SharedPreferences (\enquote{prefs}). Diese bieten eine einfache Speicherung von Variablen, welche ebenfalls sehr einfach aktualisiert werden können. Nach einer Änderung wird die entsprechende Variable neu abgespeichert und steht somit auch den anderen Klassen zur Verfügung.
 
 \subsection{PlayAudio}
+Die Klasse \enquote{PlayAudio} dient zum Abspielen der Hintergrundmusik.
 
 \section{GameLogic-Klassen im Überblick}
 In diesem Kapitel werden die GameLogic-Klassen näher erläutert. Wie der Name schon sagt, beinhalten diese Klassen die eigentliche Spiellogik.
@@ -247,9 +266,9 @@ Die Klasse \enquote{ShipLogic} koopieriert mit der Klasse PlayerFieldLogic. In d
 \subsubsection{Positionen der Schiffe}
 Die Positionen der Schiffe werden in diesen Variablen gespeichert:
 \begin{itemize}
-\item int[] small\_ship
-\item int[] middle\_ship
-\item int[] big\_ship
+\item int[] smallShip
+\item int[] middleShip
+\item int[] bigShip
 \end{itemize}
 
 Für alle Arrays stehen entsprechende get-Methoden zur Verfügung.
@@ -291,18 +310,20 @@ Die Klasse \enquote{StartThread} stellt einen Thread für die Socket-Kommunikati
 Die Klassen \enquote{WriteClient} bzw. \enquote{WriteHost} dienen zum Senden von Text an den Client-Spieler bzw. an den Server-Spieler. Dabei wird die Nachricht über den entsprechenden Socket verschickt. Receive-Klassen: siehe ReceiveThreadClient/ReceiveThreadHost.
 
 \section{Resources-Klassen im Überblick}
+\subsection{Animation}
+Die Klasse \enquote{Animation} ermöglicht das Animieren eines Buttons (Wechseln zwischen zwei Farben). Diese Funktion wird beim Erstellen eines Spiels verwendet.
 
-\subsection{animationClass}
+\subsection{QRReader}
+Die Klasse \enquote{QRReader} stellt einen QR-Reader bereit. Dieser kann beim Erstellen eines Spiels zum Austausch der IP-Adresse verwendet werden (als Alternative zur manuellen Eingabe).
+
+\subsection{Sensors}
+Die Klasse \enquote{Sensors} ist eine unterstützende Hilfsklasse für die Klasse Dice und beinhaltet Berechnungen zur Bewegungserkennung des Smartphones.
+
+\section{Exception-Klassen im Überblick}
+Es wurden eigene Exceptions eingefügt, um Meldungen im SonarQube zu beheben.
 
 \subsection{ErrorMessages}
 Die Klasse \enquote{ErrorMessages} verwaltet zentrale Fehlermeldungen. In dieser Klasse werden nur Strings gespeichert.
-
-\subsection{QRReader}
-
-\subsection{Sensors}
-
-\section{Exception-Klassen im Überblick}
-Es wurden eigene Exceptions eingefügt, um Meldungen  im SonarQube zu beheben.
 
 \subsection{MyException}
 Die Klasse \enquote{MyException} ist eine Erweiterung der Klasse Exception, stellt aber keine weiteren Funktionen zur Verfügung.
@@ -310,10 +331,27 @@ Die Klasse \enquote{MyException} ist eine Erweiterung der Klasse Exception, stel
 \subsection{MyRuntimeException}
 Die Klasse \enquote{MyRuntimeException} ist eine Erweiterung der Klasse RuntimeException, stellt aber keine weiteren Funktionen zur Verfügung.
 
-\section{Erklärung besonderer Funktionen}
+\section{Grafiken}
+Für das Spiel wurden verschiedenste Grafiken erstellt. Diese wurde in den entsprechenden res-Verzeichnissen des Projekts abgelegt (u.a. Schiffe, Hintergrundbilder, Würfel, ...).
 
-\subsection{Shared Preferences}
-
-\section{Zusammenfassung}
+\newpage
+\section{Backlog}
+\begin{table}[H]
+\centering
+\begin{tabular}{l|p{10cm}|l}
+Funktion & Beschreibung & Erledigt \\
+\hline
+Anmeldefunktion     & Nach dem Start der Anwendung muss man einen Spielnamen eingeben, diesen kann man später in den Optionen ändern.                                                                                                                                                                                                                                                             & ja \\
+Optionen            & In den Optionen kann man den Anzeigenamen sowie die Musik (ein/aus) einstellen sowie das Leaderboard einsehen.                                                                                                                                                                                                                                                              & ja \\
+Multiplayerfunktion & Das Spiel beinhaltet eine Multiplayerfunktion, die durch 2 Spieler über WLAN initialisiert wird.                                                                                                                                                                                                                                                                          & ja \\
+Chat                & Die Chatfunktion beinhaltet den Textaustausch mit den Mitspielern.                                                                                                                                                                                                                                                                                                          & ja \\
+Drag\&Drop        & Startet man ein Spiel, so muss man die Schiffe durch Drag\&Drop auf das Spielfeld setzten.                                                                                                                                                                                                                                                                                & ja \\
+Würfelfunktion      & Der Würfel kann durch ein einfaches Schütteln des Handys gewürfelt werden, dies wird für die Startreihenfolge sowie für die PowerUps benötigt.                                                                                                                                                                                                                             & ja \\
+PowerUps           & PowerUps sind ein Key-Element des Spieles. Diese kann man durch Bezahlen von Würfelpunkten aktivieren und somit einen strategischen Vorteil erzielen.                                                                                                                                                                                                                      & ja \\
+Schummelfunktion    & Diese Funktion beinhaltet das Verschieben eines Schiffes an einen beliebigen Punkt.                                                                                                                                                                                                                                                                                         & ja \\
+Interaktive Map     & Die Spielfeldkarte kann durch Hilfe des Lichtsensors an die Umgebung angepasst werden. Das heißt: Spielt der Nutzer unter starkem Sonnenlichteinfall, so kann die Karte einen besseren Kontrast zu den Schiffen und anderen Elementen erzeugen. Spielt der Nutzer in einer dunkleren Umgebung, so könnte die Spielfeldkarte schwarz sein und pulsierende Sterne beinhalten. & ja \\
+Leaderboard         & Hier werden lokal alle Spiele mit den erreichten Punkten angezeigt.                                                                                                                                                                                                                                                                                                         & ja
+\end{tabular}
+\end{table}
 
 \end{document}
