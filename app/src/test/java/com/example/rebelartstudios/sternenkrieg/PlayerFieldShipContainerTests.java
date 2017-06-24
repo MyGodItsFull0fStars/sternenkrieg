@@ -36,6 +36,7 @@ public class PlayerFieldShipContainerTests {
             container.getPlayerFieldLogic();
             container.getShipLogic();
         } catch (Exception e) {
+            Log.e(tag, e.getMessage(), e);
             fail(ErrorMessages.EXCEPTION_REACHED);
         }
     }
@@ -45,10 +46,10 @@ public class PlayerFieldShipContainerTests {
         try {
             container = new PlayerFieldShipContainer(new PlayerFieldLogic(), new ShipLogic());
         } catch (IllegalArgumentException e) {
-            Log.e(tag, e.getMessage());
+            Log.e(tag, e.getMessage(), e);
             fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_REACHED);
         } catch (Exception e) {
-            Log.e(tag, e.getMessage());
+            Log.e(tag, e.getMessage(), e);
             fail(ErrorMessages.EXCEPTION_REACHED);
         }
     }
@@ -59,21 +60,21 @@ public class PlayerFieldShipContainerTests {
             container = new PlayerFieldShipContainer(null, new ShipLogic());
             fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_EXPECTED);
         } catch (IllegalArgumentException e) {
-            Log.e(tag, e.getMessage());
+            Log.e(tag, e.getMessage(), e);
             Assert.assertEquals(e.getMessage(), ErrorMessages.NULL_PARAMETER);
         }
         try {
             container = new PlayerFieldShipContainer(new PlayerFieldLogic(), null);
             fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_EXPECTED);
         } catch (IllegalArgumentException e) {
-            Log.e(tag, e.getMessage());
+            Log.e(tag, e.getMessage(), e);
             Assert.assertEquals(e.getMessage(), ErrorMessages.NULL_PARAMETER);
         }
         try {
             container = new PlayerFieldShipContainer(null, null);
             fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_EXPECTED);
         } catch (IllegalArgumentException e) {
-            Log.e(tag, e.getMessage());
+            Log.e(tag, e.getMessage(), e);
             Assert.assertEquals(e.getMessage(), ErrorMessages.NULL_PARAMETER);
         }
     }
@@ -86,7 +87,7 @@ public class PlayerFieldShipContainerTests {
                 container.setSmallShipContainer(position, fieldValues.SET_FIELD_POSITION_B);
             }
         } catch (IllegalArgumentException e) {
-            Log.e(tag, e.getMessage());
+            Log.e(tag, e.getMessage(), e);
             fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_REACHED);
         }
     }
@@ -98,7 +99,7 @@ public class PlayerFieldShipContainerTests {
             container.setSmallShipContainer(-1, fieldValues.SET_FIELD_POSITION_B);
             fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_EXPECTED);
         } catch (IllegalArgumentException e) {
-            Log.e(tag, e.getMessage());
+            Log.e(tag, e.getMessage(), e);
             Assert.assertEquals(e.getMessage(), ErrorMessages.POSITION_OUT_OF_RANGE);
         }
 
@@ -106,7 +107,7 @@ public class PlayerFieldShipContainerTests {
             container.setSmallShipContainer(fieldValues.FIELD_SIZE, fieldValues.SET_FIELD_POSITION_B);
             fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_EXPECTED);
         } catch (IllegalArgumentException e) {
-            Log.e(tag, e.getMessage());
+            Log.e(tag, e.getMessage(), e);
             Assert.assertEquals(e.getMessage(), ErrorMessages.POSITION_OUT_OF_RANGE);
         }
     }
@@ -117,7 +118,7 @@ public class PlayerFieldShipContainerTests {
             container.setSmallShipContainer(0, null);
             fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_EXPECTED);
         } catch (IllegalArgumentException e) {
-            Log.e(tag, e.getMessage());
+            Log.e(tag, e.getMessage(), e);
             Assert.assertEquals(e.getMessage(), ErrorMessages.NULL_PARAMETER);
         }
     }
@@ -142,7 +143,7 @@ public class PlayerFieldShipContainerTests {
                 container.setMiddleShipContainer(position, fieldValues.HORIZONTAL, fieldValues.SET_FIELD_POSITION_A);
             }
         } catch (Exception e) {
-            Log.e(tag, e.getMessage());
+            Log.e(tag, e.getMessage(), e);
             fail(ErrorMessages.EXCEPTION_REACHED);
         }
 
@@ -151,7 +152,7 @@ public class PlayerFieldShipContainerTests {
                 container.setMiddleShipContainer(position, fieldValues.VERTICAL, fieldValues.SET_FIELD_POSITION_B);
             }
         } catch (Exception e) {
-            Log.e(tag, e.getMessage());
+            Log.e(tag, e.getMessage(), e);
             fail(ErrorMessages.EXCEPTION_REACHED);
         }
     }
@@ -164,7 +165,7 @@ public class PlayerFieldShipContainerTests {
             container.setMiddleShipContainer(-1, fieldValues.HORIZONTAL, fieldValues.SET_FIELD_POSITION_A);
             fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_EXPECTED);
         } catch (IllegalArgumentException e) {
-            Log.e(tag, e.getMessage());
+            Log.e(tag, e.getMessage(), e);
             Assert.assertEquals(e.getMessage(), ErrorMessages.POSITION_OUT_OF_RANGE);
         }
 
@@ -173,7 +174,7 @@ public class PlayerFieldShipContainerTests {
             container.setMiddleShipContainer(fieldValues.FIELD_SIZE, fieldValues.HORIZONTAL, fieldValues.SET_FIELD_POSITION_A);
             fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_EXPECTED);
         } catch (IllegalArgumentException e) {
-            Log.e(tag, e.getMessage());
+            Log.e(tag, e.getMessage(), e);
             Assert.assertEquals(e.getMessage(), ErrorMessages.POSITION_OUT_OF_RANGE);
         }
 
@@ -182,7 +183,7 @@ public class PlayerFieldShipContainerTests {
             container.setMiddleShipContainer(0, fieldValues.HORIZONTAL, fieldValues.SET_FIELD_POSITION_A);
             fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_EXPECTED);
         } catch (IllegalArgumentException e) {
-            Log.e(tag, e.getMessage());
+            Log.e(tag, e.getMessage(), e);
             Assert.assertEquals(e.getMessage(), ErrorMessages.POSITION_OUT_OF_RANGE);
         }
     }
@@ -194,7 +195,7 @@ public class PlayerFieldShipContainerTests {
             container.setMiddleShipContainer(1, fieldValues.HORIZONTAL, null);
             fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_EXPECTED);
         } catch (IllegalArgumentException e) {
-            Log.e(tag, e.getMessage());
+            Log.e(tag, e.getMessage(), e);
             Assert.assertEquals(e.getMessage(), ErrorMessages.NULL_PARAMETER);
         }
 
@@ -203,7 +204,7 @@ public class PlayerFieldShipContainerTests {
             container.setMiddleShipContainer(32, fieldValues.HORIZONTAL, null);
             fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_EXPECTED);
         } catch (IllegalArgumentException e) {
-            Log.e(tag, e.getMessage());
+            Log.e(tag, e.getMessage(), e);
             Assert.assertEquals(e.getMessage(), ErrorMessages.NULL_PARAMETER);
         }
 
@@ -212,7 +213,7 @@ public class PlayerFieldShipContainerTests {
             container.setMiddleShipContainer(fieldValues.FIELD_SIZE - 1, fieldValues.HORIZONTAL, null);
             fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_EXPECTED);
         } catch (IllegalArgumentException e) {
-            Log.e(tag, e.getMessage());
+            Log.e(tag, e.getMessage(), e);
             Assert.assertEquals(e.getMessage(), ErrorMessages.NULL_PARAMETER);
         }
 
@@ -221,7 +222,7 @@ public class PlayerFieldShipContainerTests {
             container.setMiddleShipContainer(8, fieldValues.VERTICAL, null);
             fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_EXPECTED);
         } catch (IllegalArgumentException e) {
-            Log.e(tag, e.getMessage());
+            Log.e(tag, e.getMessage(), e);
             Assert.assertEquals(e.getMessage(), ErrorMessages.NULL_PARAMETER);
         }
     }
@@ -232,7 +233,7 @@ public class PlayerFieldShipContainerTests {
             container.setMiddleShipContainer(1, 2, fieldValues.SET_FIELD_POSITION_A);
             fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_EXPECTED);
         } catch (IllegalArgumentException e) {
-            Log.e(tag, e.getMessage());
+            Log.e(tag, e.getMessage(), e);
             Assert.assertEquals(e.getMessage(), ErrorMessages.DEGREE_NOT_DEFINED);
         }
 
@@ -240,7 +241,7 @@ public class PlayerFieldShipContainerTests {
             container.setMiddleShipContainer(1, -1, fieldValues.SET_FIELD_POSITION_A);
             fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_EXPECTED);
         } catch (IllegalArgumentException e) {
-            Log.e(tag, e.getMessage());
+            Log.e(tag, e.getMessage(), e);
             Assert.assertEquals(e.getMessage(), ErrorMessages.DEGREE_NOT_DEFINED);
         }
     }
@@ -254,7 +255,7 @@ public class PlayerFieldShipContainerTests {
                 container.setBigShipContainer(position, fieldValues.HORIZONTAL, fieldValues.SET_FIELD_POSITION_A);
             }
         } catch (Exception e) {
-            Log.e(tag, e.getMessage());
+            Log.e(tag, e.getMessage(), e);
             fail(ErrorMessages.EXCEPTION_REACHED);
         }
 
@@ -263,7 +264,7 @@ public class PlayerFieldShipContainerTests {
                 container.setBigShipContainer(position, fieldValues.HORIZONTAL, fieldValues.SET_FIELD_POSITION_B);
             }
         } catch (Exception e) {
-            Log.e(tag, e.getMessage());
+            Log.e(tag, e.getMessage(), e);
             fail(ErrorMessages.EXCEPTION_REACHED);
         }
     }
@@ -276,7 +277,7 @@ public class PlayerFieldShipContainerTests {
             container.setBigShipContainer(-1, fieldValues.HORIZONTAL, fieldValues.SET_FIELD_POSITION_A);
             fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_EXPECTED);
         } catch (IllegalArgumentException e) {
-            Log.e(tag, e.getMessage());
+            Log.e(tag, e.getMessage(), e);
             Assert.assertEquals(e.getMessage(), ErrorMessages.POSITION_OUT_OF_RANGE);
         }
         // Sibling is out of boundaries
@@ -284,7 +285,7 @@ public class PlayerFieldShipContainerTests {
             container.setBigShipContainer(0, fieldValues.HORIZONTAL, fieldValues.SET_FIELD_POSITION_A);
             fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_EXPECTED);
         } catch (IllegalArgumentException e) {
-            Log.e(tag, e.getMessage());
+            Log.e(tag, e.getMessage(), e);
             Assert.assertEquals(e.getMessage(), ErrorMessages.POSITION_OUT_OF_RANGE);
         }
 
@@ -293,7 +294,7 @@ public class PlayerFieldShipContainerTests {
             container.setBigShipContainer(64, fieldValues.HORIZONTAL, fieldValues.SET_FIELD_POSITION_A);
             fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_EXPECTED);
         } catch (IllegalArgumentException e) {
-            Log.e(tag, e.getMessage());
+            Log.e(tag, e.getMessage(), e);
             Assert.assertEquals(e.getMessage(), ErrorMessages.POSITION_OUT_OF_RANGE);
         }
         // Sibling out of boundaries
@@ -301,7 +302,7 @@ public class PlayerFieldShipContainerTests {
             container.setBigShipContainer(63, fieldValues.HORIZONTAL, fieldValues.SET_FIELD_POSITION_A);
             fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_EXPECTED);
         } catch (IllegalArgumentException e) {
-            Log.e(tag, e.getMessage());
+            Log.e(tag, e.getMessage(), e);
             Assert.assertEquals(e.getMessage(), ErrorMessages.POSITION_OUT_OF_RANGE);
         }
 
@@ -310,7 +311,7 @@ public class PlayerFieldShipContainerTests {
             container.setBigShipContainer(5, fieldValues.VERTICAL, fieldValues.SET_FIELD_POSITION_A);
             fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_EXPECTED);
         } catch (IllegalArgumentException e) {
-            Log.e(tag, e.getMessage());
+            Log.e(tag, e.getMessage(), e);
             Assert.assertEquals(e.getMessage(), ErrorMessages.POSITION_OUT_OF_RANGE);
         }
 
@@ -318,7 +319,7 @@ public class PlayerFieldShipContainerTests {
             container.setBigShipContainer(60, fieldValues.VERTICAL, fieldValues.SET_FIELD_POSITION_A);
             fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_EXPECTED);
         } catch (IllegalArgumentException e) {
-            Log.e(tag, e.getMessage());
+            Log.e(tag, e.getMessage(), e);
             Assert.assertEquals(e.getMessage(), ErrorMessages.POSITION_OUT_OF_RANGE);
         }
     }
@@ -330,7 +331,7 @@ public class PlayerFieldShipContainerTests {
             container.setBigShipContainer(1, 2, fieldValues.SET_FIELD_POSITION_A);
             fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_EXPECTED);
         } catch (IllegalArgumentException e) {
-            Log.e(tag, e.getMessage());
+            Log.e(tag, e.getMessage(), e);
             Assert.assertEquals(e.getMessage(), ErrorMessages.DEGREE_NOT_DEFINED);
         }
 
@@ -338,7 +339,7 @@ public class PlayerFieldShipContainerTests {
             container.setBigShipContainer(1, -1, fieldValues.SET_FIELD_POSITION_A);
             fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_EXPECTED);
         } catch (IllegalArgumentException e) {
-            Log.e(tag, e.getMessage());
+            Log.e(tag, e.getMessage(), e);
             Assert.assertEquals(e.getMessage(), ErrorMessages.DEGREE_NOT_DEFINED);
         }
     }
@@ -349,14 +350,14 @@ public class PlayerFieldShipContainerTests {
             container.setBigShipContainer(1, fieldValues.HORIZONTAL, null);
             fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_EXPECTED);
         } catch (IllegalArgumentException e) {
-            Log.e(tag, e.getMessage());
+            Log.e(tag, e.getMessage(), e);
             Assert.assertEquals(e.getMessage(), ErrorMessages.NULL_PARAMETER);
         }
 
         try {
             container.setBigShipContainer(9, fieldValues.VERTICAL, null);
         } catch (IllegalArgumentException e) {
-            Log.e(tag, e.getMessage());
+            Log.e(tag, e.getMessage(), e);
             Assert.assertEquals(e.getMessage(), ErrorMessages.NULL_PARAMETER);
         }
     }
@@ -388,7 +389,7 @@ public class PlayerFieldShipContainerTests {
             container.delete(null);
             fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_EXPECTED);
         } catch (IllegalArgumentException e) {
-            Log.e(tag, e.getMessage());
+            Log.e(tag, e.getMessage(), e);
             Assert.assertEquals(e.getMessage(), ErrorMessages.NULL_PARAMETER);
         }
     }
@@ -430,7 +431,7 @@ public class PlayerFieldShipContainerTests {
             container.checkPosition(-1, container.getShipLogic().SMALL_SHIP_ID, fieldValues.HORIZONTAL);
             fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_EXPECTED);
         } catch (IllegalArgumentException e) {
-            Log.e(tag, e.getMessage());
+            Log.e(tag, e.getMessage(), e);
             Assert.assertEquals(e.getMessage(), ErrorMessages.POSITION_OUT_OF_RANGE);
         }
 
@@ -439,7 +440,7 @@ public class PlayerFieldShipContainerTests {
             container.checkPosition(64, container.getShipLogic().SMALL_SHIP_ID, fieldValues.HORIZONTAL);
             fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_EXPECTED);
         } catch (IllegalArgumentException e) {
-            Log.e(tag, e.getMessage());
+            Log.e(tag, e.getMessage(), e);
             Assert.assertEquals(e.getMessage(), ErrorMessages.POSITION_OUT_OF_RANGE);
         }
     }

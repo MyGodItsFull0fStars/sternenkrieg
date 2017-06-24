@@ -37,7 +37,7 @@ public class PlayerFieldLogicTests {
         try {
             playerFieldLogic.initializePlayerField();
         } catch (Exception e) {
-            Log.e(tag, e.getMessage());
+            Log.e(tag, e.getMessage(), e);
             fail(ErrorMessages.EXCEPTION_REACHED);
         }
 
@@ -67,7 +67,7 @@ public class PlayerFieldLogicTests {
                 Assert.assertEquals("test", playerFieldLogic.getStringInPosition(i));
             }
         } catch (IllegalArgumentException e) {
-            Log.e(tag, e.getMessage());
+            Log.e(tag, e.getMessage(), e);
             fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_REACHED);
         }
     }
@@ -78,21 +78,21 @@ public class PlayerFieldLogicTests {
             playerFieldLogic.setPlayerField(null);
             fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_EXPECTED);
         } catch (IllegalArgumentException e) {
-            Log.e(tag, e.getMessage());
+            Log.e(tag, e.getMessage(), e);
             Assert.assertEquals(e.getMessage(), ErrorMessages.PLAYER_FIELD_WRONG_SIZE);
         }
 
         try {
             playerFieldLogic.setPlayerField(new String[1]);
         } catch (IllegalArgumentException e) {
-            Log.e(tag, e.getMessage());
+            Log.e(tag, e.getMessage(), e);
             Assert.assertEquals(e.getMessage(), ErrorMessages.PLAYER_FIELD_WRONG_SIZE);
         }
 
         try {
             playerFieldLogic.setPlayerField(new String[100]);
         } catch (IllegalArgumentException e) {
-            Log.e(tag, e.getMessage());
+            Log.e(tag, e.getMessage(), e);
             Assert.assertEquals(e.getMessage(), ErrorMessages.PLAYER_FIELD_WRONG_SIZE);
         }
 
@@ -111,7 +111,7 @@ public class PlayerFieldLogicTests {
             playerFieldLogic.getSibling(-1);
             fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_EXPECTED);
         } catch (IllegalArgumentException e) {
-            Log.e(tag, e.getMessage());
+            Log.e(tag, e.getMessage(), e);
             Assert.assertEquals(e.getMessage(), ErrorMessages.DEGREE_NOT_DEFINED);
         }
 
@@ -119,7 +119,7 @@ public class PlayerFieldLogicTests {
             playerFieldLogic.getSibling(8);
             fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_EXPECTED);
         } catch (IllegalArgumentException e) {
-            Log.e(tag, e.getMessage());
+            Log.e(tag, e.getMessage(), e);
             Assert.assertEquals(e.getMessage(), ErrorMessages.DEGREE_NOT_DEFINED);
         }
     }
@@ -132,7 +132,7 @@ public class PlayerFieldLogicTests {
                 playerFieldLogic.setSmallShipPosition(i, fieldValues.SET_FIELD_POSITION_A);
             }
         } catch (Exception e) {
-            Log.e(tag, e.getMessage());
+            Log.e(tag, e.getMessage(), e);
             fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_REACHED);
         }
     }
@@ -143,14 +143,14 @@ public class PlayerFieldLogicTests {
             playerFieldLogic.inRange(-1);
             fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_EXPECTED);
         } catch (IllegalArgumentException e) {
-            Log.e(tag, e.getMessage());
+            Log.e(tag, e.getMessage(), e);
             Assert.assertEquals(e.getMessage(), ErrorMessages.POSITION_OUT_OF_RANGE);
         }
 
         try {
             playerFieldLogic.inRange(65);
         } catch (IllegalArgumentException e) {
-            Log.e(tag, e.getMessage());
+            Log.e(tag, e.getMessage(), e);
             Assert.assertEquals(e.getMessage(), ErrorMessages.POSITION_OUT_OF_RANGE);
         }
 
@@ -166,7 +166,7 @@ public class PlayerFieldLogicTests {
                 playerFieldLogic.setMiddleShipPositionWithSiblingIndex(position, fieldValues.HORIZONTAL, fieldValues.SET_FIELD_POSITION_A);
             }
         } catch (IllegalArgumentException e) {
-            Log.e(tag, e.getMessage());
+            Log.e(tag, e.getMessage(), e);
             fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_REACHED);
         }
 
@@ -175,7 +175,7 @@ public class PlayerFieldLogicTests {
                 playerFieldLogic.setMiddleShipPositionWithSiblingIndex(position, fieldValues.VERTICAL, fieldValues.SET_FIELD_POSITION_A);
             }
         } catch (IllegalArgumentException e) {
-            Log.e(tag, e.getMessage());
+            Log.e(tag, e.getMessage(), e);
             fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_REACHED);
         }
     }
@@ -186,7 +186,7 @@ public class PlayerFieldLogicTests {
             playerFieldLogic.setMiddleShipPositionWithSiblingIndex(-1, fieldValues.HORIZONTAL, fieldValues.SET_FIELD_POSITION_A);
             fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_EXPECTED);
         } catch (IllegalArgumentException e) {
-            Log.e(tag, e.getMessage());
+            Log.e(tag, e.getMessage(), e);
             Assert.assertEquals(e.getMessage(), ErrorMessages.POSITION_OUT_OF_RANGE);
         }
 
@@ -194,14 +194,14 @@ public class PlayerFieldLogicTests {
             playerFieldLogic.setMiddleShipPositionWithSiblingIndex(4, fieldValues.VERTICAL, fieldValues.SET_FIELD_POSITION_A);
             fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_EXPECTED);
         } catch (IllegalArgumentException e) {
-            Log.e(tag, e.getMessage());
+            Log.e(tag, e.getMessage(), e);
             Assert.assertEquals(e.getMessage(), ErrorMessages.POSITION_OUT_OF_RANGE);
         }
         try {
             playerFieldLogic.setMiddleShipPositionWithSiblingIndex(65, fieldValues.VERTICAL, fieldValues.SET_FIELD_POSITION_A);
             fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_EXPECTED);
         } catch (IllegalArgumentException e) {
-            Log.e(tag, e.getMessage());
+            Log.e(tag, e.getMessage(), e);
             Assert.assertEquals(e.getMessage(), ErrorMessages.POSITION_OUT_OF_RANGE);
         }
 
@@ -210,7 +210,7 @@ public class PlayerFieldLogicTests {
             playerFieldLogic.setMiddleShipPositionWithSiblingIndex(1, 3, fieldValues.SET_FIELD_POSITION_A);
             fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_EXPECTED);
         } catch (IllegalArgumentException e) {
-            Log.e(tag, e.getMessage());
+            Log.e(tag, e.getMessage(), e);
             Assert.assertEquals(e.getMessage(), ErrorMessages.DEGREE_NOT_DEFINED);
         }
     }
@@ -222,7 +222,7 @@ public class PlayerFieldLogicTests {
                 playerFieldLogic.setMiddleShipPositionToString(position, fieldValues.HORIZONTAL, fieldValues.SET_FIELD_POSITION_A);
             }
         } catch (IllegalArgumentException e) {
-            Log.e(tag, e.getMessage());
+            Log.e(tag, e.getMessage(), e);
             fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_REACHED);
         }
 
@@ -231,7 +231,7 @@ public class PlayerFieldLogicTests {
                 playerFieldLogic.setMiddleShipPositionToString(position, fieldValues.VERTICAL, fieldValues.SET_FIELD_POSITION_A);
             }
         } catch (IllegalArgumentException e) {
-            Log.e(tag, e.getMessage());
+            Log.e(tag, e.getMessage(), e);
             fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_REACHED);
         }
     }
@@ -241,14 +241,14 @@ public class PlayerFieldLogicTests {
         try {
             playerFieldLogic.setMiddleShipPositionToString(0, fieldValues.HORIZONTAL, fieldValues.SET_FIELD_POSITION_A);
         } catch (IllegalArgumentException e) {
-            Log.e(tag, e.getMessage());
+            Log.e(tag, e.getMessage(), e);
             Assert.assertEquals(e.getMessage(), ErrorMessages.POSITION_OUT_OF_RANGE);
         }
 
         try {
             playerFieldLogic.setMiddleShipPositionToString(65, fieldValues.HORIZONTAL, fieldValues.SET_FIELD_POSITION_A);
         } catch (IllegalArgumentException e) {
-            Log.e(tag, e.getMessage());
+            Log.e(tag, e.getMessage(), e);
             Assert.assertEquals(e.getMessage(), ErrorMessages.POSITION_OUT_OF_RANGE);
         }
 
@@ -263,7 +263,7 @@ public class PlayerFieldLogicTests {
             }
 
         } catch (Exception e) {
-            Log.e(tag, e.getMessage());
+            Log.e(tag, e.getMessage(), e);
             fail(ErrorMessages.EXCEPTION_REACHED);
         }
 
@@ -272,7 +272,7 @@ public class PlayerFieldLogicTests {
                 playerFieldLogic.setBigShipPositionWithSiblingIndex(position, fieldValues.VERTICAL, fieldValues.SET_FIELD_POSITION_A);
             }
         } catch (Exception e) {
-            Log.e(tag, e.getMessage());
+            Log.e(tag, e.getMessage(), e);
             fail(ErrorMessages.EXCEPTION_REACHED);
         }
 
@@ -308,7 +308,7 @@ public class PlayerFieldLogicTests {
             playerFieldLogic.getStringInPosition(-1);
             fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_EXPECTED);
         } catch (IllegalArgumentException e) {
-            Log.e(tag, e.getMessage());
+            Log.e(tag, e.getMessage(), e);
             Assert.assertEquals(e.getMessage(), ErrorMessages.POSITION_OUT_OF_RANGE);
         }
 
@@ -317,7 +317,7 @@ public class PlayerFieldLogicTests {
             playerFieldLogic.getStringInPosition(64);
             fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_EXPECTED);
         } catch (IllegalArgumentException e) {
-            Log.e(tag, e.getMessage());
+            Log.e(tag, e.getMessage(), e);
             Assert.assertEquals(e.getMessage(), ErrorMessages.POSITION_OUT_OF_RANGE);
         }
     }
