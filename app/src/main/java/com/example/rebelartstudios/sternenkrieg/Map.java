@@ -394,7 +394,7 @@ public class Map extends AppCompatActivity {
         public void handleMessage(Message msg) {
             message = util.handleMessage(msg);
 
-            if (message.equals("boolean")) {
+            if ("boolean".equals(message)) {
                 finishEnemy = true;
                 syncClose();
 

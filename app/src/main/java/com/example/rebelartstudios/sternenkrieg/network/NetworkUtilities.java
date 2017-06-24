@@ -129,8 +129,10 @@ public class NetworkUtilities {
 
                 break;
             case 0:
-
+                break;
             case 2:
+                break;
+            default:
                 break;
         }
 

@@ -376,9 +376,8 @@ public class Gameplay extends AppCompatActivity {
 
                     // Toast.makeText(getApplicationContext(), "Pos: " + position + " Id: ",
                     //       Toast.LENGTH_SHORT).show();
-                    String shipType = mapEnemy[position];
            /* hit ship of enemy */
-                    if (mapEnemy[position].equals("a") || mapEnemy[position].equals("b") || mapEnemy[position].equals("clientBtn")) {
+                    if ("a".equals(mapEnemy[position]) || "b".equals(mapEnemy[position]) || "clientBtn".equals(mapEnemy[position])) {
                         mapEnemy[position] = fieldValues.SET_FIELD_POSITION_PLAYER_HIT;
 
                         vib.vibrate(500);
@@ -582,7 +581,7 @@ public class Gameplay extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
 
                 for (int i = 0; i < mapPlayer.length; i++) { //ship is no longer located here; set to 0
-                    if (mapPlayer[i].equals("4")) {
+                    if ("4".equals(mapPlayer[i])) {
                         mapPlayer[i] = fieldValues.SET_FIELD_POSITION_EMPTY;
                     }
                 }
@@ -743,7 +742,7 @@ public class Gameplay extends AppCompatActivity {
             /* "player" determines which message should be displayed
                 2 = enemy won; a = player won */
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        if (player.equals("2")) {
+        if ("2".equals(player)) {
             builder.setMessage("Your enemy destroyed all your ships.")
                     .setTitle("Game Over!")
                     .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
@@ -764,7 +763,7 @@ public class Gameplay extends AppCompatActivity {
                         }
                     })
                     .show();
-        } else if (player.equals("a")) {
+        } else if ("a".equals(player)) {
             builder.setMessage("You successfully destroyed all hostile ships!")
                     .setTitle("You win!")
                     .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
@@ -924,7 +923,7 @@ public class Gameplay extends AppCompatActivity {
                 case "e3":
                 case "e4":
                     countE.add(i);
-                    if (mapPlayer[i + 1].equals("e2")) {
+                    if ("e2".equals(mapPlayer[i + 1])) {
                         ship2Rotated = false;
                     }
                     break;
@@ -935,7 +934,7 @@ public class Gameplay extends AppCompatActivity {
                 case "f5":
                 case "f6":
                     countF.add(i);
-                    if (mapPlayer[i + 1].equals("f2")) {
+                    if ("f2".equals(mapPlayer[i + 1])) {
                         ship3Rotated = false;
                     }
                     break;
@@ -1093,9 +1092,9 @@ public class Gameplay extends AppCompatActivity {
                                 // final int posi=position;
                                 final String posis = mapPlayer[position];
 
-                                if (posis.equals("g")) {
+                                if ("g".equals(posis)) {
                                     mapPlayer[position] = "j";
-                                } else if (posis.equals("h1") || posis.equals("h2") || posis.equals("h3") || posis.equals("h4")) {
+                                } else if ("h1".equals(posis) || "h2".equals(posis) || "h3".equals(posis) || "h4".equals(posis)) {
                                     for (int i = 0; i < mapPlayer.length; i++) {
                                         switch (mapPlayer[i]) {
                                             case "h1":
@@ -1109,6 +1108,8 @@ public class Gameplay extends AppCompatActivity {
                                                 break;
                                             case "h4":
                                                 mapPlayer[i] = "k4";
+                                                break;
+                                            default:
                                                 break;
                                         }
                                     }
@@ -1132,6 +1133,8 @@ public class Gameplay extends AppCompatActivity {
                                                 break;
                                             case "i6":
                                                 mapPlayer[i] = "l6";
+                                                break;
+                                            default:
                                                 break;
                                         }
                                     }
@@ -1224,11 +1227,11 @@ public class Gameplay extends AppCompatActivity {
                         Log.d(tag, mapString + mapMsg[1]);
 
                     }
-                    if (mapMsg[0].equals("Gotit")) {
+                    if ("Gotit".equals(mapMsg[0])) {
                         Log.d(tag, "Gotit");
                         sendMap = false;
                     }
-                    if (mapMsg[0].equals("shoot")) {
+                    if ("shoot".equals(mapMsg[0])) {
                         String position = mapMsg[1];
                         came = true;
                         checkShoot(Integer.parseInt(position), 2);
@@ -1239,7 +1242,7 @@ public class Gameplay extends AppCompatActivity {
                         draw(mapEnemy, gridViewEnemy);
 
                     }
-                    if (mapMsg[0].equals("boolean")) {
+                    if ("boolean".equals(mapMsg[0])) {
                         Log.i("MessageBoolean", message);
                         Log.i(Dice.class.getName(), "Boolean");
                         dice2 = true;
@@ -1267,6 +1270,8 @@ public class Gameplay extends AppCompatActivity {
 
                     break;
                 case 2:
+                    break;
+                default:
                     break;
             }
         }

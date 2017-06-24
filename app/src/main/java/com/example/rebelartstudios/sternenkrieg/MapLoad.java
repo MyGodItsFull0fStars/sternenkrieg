@@ -69,7 +69,7 @@ public class MapLoad extends BaseAdapter {
                     .findViewById(R.id.grid_item_image);
             imageView.getLayoutParams().height = (height - 350) / 8;
             imageView.getLayoutParams().width = (height - 350) / 8;
-
+            // TODO change height to width?
 
             setFieldColor(mobileValues[position]);
 

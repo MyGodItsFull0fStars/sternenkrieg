@@ -225,7 +225,7 @@ public class Main extends AppCompatActivity {
     }
 
     private void playBackgroundMusic() {
-        // TODO not working yet
+        // TODO
         ServiceConnection soundConnection = new ServiceConnection() {
             @Override
             public void onServiceConnected(ComponentName name, IBinder service) {
@@ -240,16 +240,12 @@ public class Main extends AppCompatActivity {
 
         boolean soundEnabled = game.isSound();
         Intent audioIntent = new Intent(this, PlayAudio.class);
-        boolean on = soundEnabled;
 
         if (soundEnabled) {
             bindService(audioIntent, soundConnection, Context.BIND_AUTO_CREATE);
-            startService(audioIntent);
-            //on = true;
         } else {
             stopService(audioIntent);
             unbindService(soundConnection);
-            //on = false;
         }
     }
 
