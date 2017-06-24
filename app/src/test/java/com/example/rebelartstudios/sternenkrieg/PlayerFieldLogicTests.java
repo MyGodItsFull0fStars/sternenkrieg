@@ -279,11 +279,6 @@ public class PlayerFieldLogicTests {
     }
 
     @Test
-    public void checkBigShipPositionWithSiblingIndexThrowsException() {
-
-    }
-
-    @Test
     public void checkGetStringInPosition() {
         for (int position = 0; position < fieldValues.FIELD_SIZE; position++) {
             Assert.assertEquals(fieldValues.SET_FIELD_POSITION_EMPTY, playerFieldLogic.getStringInPosition(position));

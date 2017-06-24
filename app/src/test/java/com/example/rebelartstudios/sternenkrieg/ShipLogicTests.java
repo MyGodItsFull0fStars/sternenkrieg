@@ -44,7 +44,7 @@ public class ShipLogicTests {
             Assert.assertEquals(middleArray.length, shipLogicNoParameters.getMiddleShipArray().length, shipLogicWithParameters.getMiddleShipArray().length);
             Assert.assertEquals(bigArray.length, shipLogicNoParameters.getBigShipArray().length, shipLogicWithParameters.getBigShipArray().length);
         } catch (Exception e) {
-            Log.e(tag, e.getMessage());
+            Log.e(tag, e.getMessage(), e);
             fail(ErrorMessages.EXCEPTION_REACHED);
         }
     }
@@ -96,7 +96,7 @@ public class ShipLogicTests {
                 shipLogicWithParameters.setSmallShipPosition(position);
             }
         } catch (IllegalArgumentException e) {
-            Log.d(tag, e.getMessage());
+            Log.e(tag, e.getMessage(), e);
             fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_REACHED);
         }
     }
@@ -108,7 +108,7 @@ public class ShipLogicTests {
             fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_EXPECTED);
             shipLogicWithParameters.setSmallShipPosition(-1);
         } catch (IllegalArgumentException e) {
-            Log.e(tag, e.getMessage());
+            Log.e(tag, e.getMessage(), e);
             Assert.assertEquals(e.getMessage(), ErrorMessages.POSITION_OUT_OF_RANGE);
         }
 
@@ -117,7 +117,7 @@ public class ShipLogicTests {
             fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_EXPECTED);
 
         } catch (IllegalArgumentException e) {
-            Log.e(tag, e.getMessage());
+            Log.e(tag, e.getMessage(), e);
             Assert.assertEquals(e.getMessage(), ErrorMessages.POSITION_OUT_OF_RANGE);
         }
     }
@@ -131,7 +131,7 @@ public class ShipLogicTests {
             }
 
         } catch (IllegalArgumentException e) {
-            Log.e(tag, e.getMessage());
+            Log.e(tag, e.getMessage(), e);
             fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_REACHED);
         }
 
@@ -141,7 +141,7 @@ public class ShipLogicTests {
                 shipLogicWithParameters.setMiddleShipPosition(position, fieldValues.VERTICAL);
             }
         } catch (IllegalArgumentException e) {
-            Log.e(tag, e.getMessage());
+            Log.e(tag, e.getMessage(), e);
             fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_REACHED);
         }
     }
@@ -154,7 +154,7 @@ public class ShipLogicTests {
             shipLogicNoParameters.setMiddleShipPosition(0, fieldValues.HORIZONTAL);
             fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_EXPECTED);
         } catch (IllegalArgumentException e) {
-            Log.e(tag, e.getMessage());
+            Log.e(tag, e.getMessage(), e);
             Assert.assertEquals(e.getMessage(), ErrorMessages.POSITION_OUT_OF_RANGE);
         }
 
@@ -163,7 +163,7 @@ public class ShipLogicTests {
             shipLogicNoParameters.setMiddleShipPosition(64, fieldValues.HORIZONTAL);
             fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_EXPECTED);
         } catch (IllegalArgumentException e) {
-            Log.e(tag, e.getMessage());
+            Log.e(tag, e.getMessage(), e);
             Assert.assertEquals(e.getMessage(), ErrorMessages.POSITION_OUT_OF_RANGE);
         }
 
@@ -172,7 +172,7 @@ public class ShipLogicTests {
             shipLogicNoParameters.setMiddleShipPosition(7, fieldValues.VERTICAL);
             fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_EXPECTED);
         } catch (IllegalArgumentException e) {
-            Log.e(tag, e.getMessage());
+            Log.e(tag, e.getMessage(), e);
             Assert.assertEquals(e.getMessage(), ErrorMessages.POSITION_OUT_OF_RANGE);
         }
 
@@ -181,7 +181,7 @@ public class ShipLogicTests {
             shipLogicNoParameters.setMiddleShipPosition(64, fieldValues.VERTICAL);
             fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_EXPECTED);
         } catch (IllegalArgumentException e) {
-            Log.e(tag, e.getMessage());
+            Log.e(tag, e.getMessage(), e);
             Assert.assertEquals(e.getMessage(), ErrorMessages.POSITION_OUT_OF_RANGE);
         }
     }
@@ -195,7 +195,7 @@ public class ShipLogicTests {
                 shipLogicNoParameters.setBigShipPosition(1, fieldValues.HORIZONTAL);
             }
         } catch (IllegalArgumentException e) {
-            Log.e(tag, e.getMessage());
+            Log.e(tag, e.getMessage(), e);
             fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_REACHED);
         }
 
@@ -205,7 +205,7 @@ public class ShipLogicTests {
                 shipLogicNoParameters.setBigShipPosition(position, fieldValues.VERTICAL);
             }
         } catch (IllegalArgumentException e) {
-            Log.e(tag, e.getMessage());
+            Log.e(tag, e.getMessage(), e);
             fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_REACHED);
         }
     }
@@ -217,7 +217,7 @@ public class ShipLogicTests {
             shipLogicNoParameters.setBigShipPosition(0, fieldValues.HORIZONTAL);
             fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_EXPECTED);
         } catch (IllegalArgumentException e) {
-            Log.e(tag, e.getMessage());
+            Log.e(tag, e.getMessage(), e);
             Assert.assertEquals(e.getMessage(), ErrorMessages.POSITION_OUT_OF_RANGE);
         }
 
@@ -226,7 +226,7 @@ public class ShipLogicTests {
             shipLogicNoParameters.setBigShipPosition(63, fieldValues.HORIZONTAL);
             fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_EXPECTED);
         } catch (IllegalArgumentException e) {
-            Log.e(tag, e.getMessage());
+            Log.e(tag, e.getMessage(), e);
             Assert.assertEquals(e.getMessage(), ErrorMessages.POSITION_OUT_OF_RANGE);
         }
 
@@ -235,7 +235,7 @@ public class ShipLogicTests {
             shipLogicNoParameters.setBigShipPosition(5, fieldValues.VERTICAL);
             fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_EXPECTED);
         } catch (IllegalArgumentException e) {
-            Log.e(tag, e.getMessage());
+            Log.e(tag, e.getMessage(), e);
             Assert.assertEquals(e.getMessage(), ErrorMessages.POSITION_OUT_OF_RANGE);
         }
 
@@ -244,7 +244,7 @@ public class ShipLogicTests {
             shipLogicNoParameters.setBigShipPosition(61, fieldValues.VERTICAL);
             fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_EXPECTED);
         } catch (IllegalArgumentException e) {
-            Log.e(tag, e.getMessage());
+            Log.e(tag, e.getMessage(), e);
             Assert.assertEquals(e.getMessage(), ErrorMessages.POSITION_OUT_OF_RANGE);
         }
     }
@@ -296,7 +296,7 @@ public class ShipLogicTests {
             shipLogicWithParameters = new ShipLogic(null, null, null);
             fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_EXPECTED);
         } catch (IllegalArgumentException e) {
-            Log.e(tag, e.getMessage());
+            Log.e(tag, e.getMessage(), e);
             Assert.assertEquals(e.getMessage(), ErrorMessages.NULL_PARAMETER);
         }
 
@@ -305,7 +305,7 @@ public class ShipLogicTests {
             shipLogicWithParameters = new ShipLogic(null, middleArray, bigArray);
             fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_EXPECTED);
         } catch (IllegalArgumentException e) {
-            Log.e(tag, e.getMessage());
+            Log.e(tag, e.getMessage(), e);
             Assert.assertEquals(e.getMessage(), ErrorMessages.NULL_PARAMETER);
         }
 
@@ -314,7 +314,7 @@ public class ShipLogicTests {
             shipLogicWithParameters = new ShipLogic(smallArray, null, bigArray);
             fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_EXPECTED);
         } catch (IllegalArgumentException e) {
-            Log.e(tag, e.getMessage());
+            Log.e(tag, e.getMessage(), e);
             Assert.assertEquals(e.getMessage(), ErrorMessages.NULL_PARAMETER);
         }
 
@@ -323,7 +323,7 @@ public class ShipLogicTests {
             shipLogicWithParameters = new ShipLogic(smallArray, middleArray, null);
             fail(ErrorMessages.ILLEGAL_ARGUMENT_EXCEPTION_EXPECTED);
         } catch (IllegalArgumentException e) {
-            Log.e(tag, e.getMessage());
+            Log.e(tag, e.getMessage(), e);
             Assert.assertEquals(e.getMessage(), ErrorMessages.NULL_PARAMETER);
         }
     }

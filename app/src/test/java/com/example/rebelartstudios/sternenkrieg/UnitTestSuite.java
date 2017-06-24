@@ -12,7 +12,6 @@ import org.junit.runners.Suite;
 @Suite.SuiteClasses({
         NetworkingUnitTests.class,
         NetworkStatsTests.class,
-        NetworkUtilitiesTests.class,
         PlayerFieldLogicTests.class,
         ShipLogicTests.class,
         PlayerFieldShipContainerTests.class
