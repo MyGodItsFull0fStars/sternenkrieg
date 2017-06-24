@@ -799,7 +799,7 @@ public class Gameplay extends AppCompatActivity {
             if not, method returns true */
         int isTheGameOverYet = 0;
         for (int i = 0; i < fieldValues.FIELD_SIZE; i++) {
-            if ((hi.contains(map[i]))) {
+            if (hi.contains(map[i])) {
                 isTheGameOverYet++;
             }
         }
@@ -1215,17 +1215,17 @@ public class Gameplay extends AppCompatActivity {
                     break;
                 case 4: //map schiessen
                     message = (String) msg.obj;
-                    System.out.println(message);
+                    Log.d(tag, message);
                     String[] mapMsg = message.split(",");
                     if (mapMsg[0].equals(mapString)) {
                         mapEnemy = mapMsg[1].split("x");
                         draw(mapEnemy, gridViewEnemy);
                         util.messageSend("Gotit,1", playerIsHost);
-                        System.out.println(mapString + mapMsg[1]);
+                        Log.d(tag, mapString + mapMsg[1]);
 
                     }
                     if (mapMsg[0].equals("Gotit")) {
-                        System.out.println("Gotit");
+                        Log.d(tag, "Gotit");
                         sendMap = false;
                     }
                     if (mapMsg[0].equals("shoot")) {
@@ -1262,7 +1262,7 @@ public class Gameplay extends AppCompatActivity {
                         mapEnemy = new String[fieldValues.FIELD_SIZE];
                         Arrays.fill(mapEnemy, fieldValues.SET_FIELD_POSITION_EMPTY);
                         util.messageSend("Map," + sendMap, playerIsHost);
-                        System.out.println("Send" + sendMap);
+                        Log.d(tag, "Send" + sendMap);
                     }
 
                     break;
