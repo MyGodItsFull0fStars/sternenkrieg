@@ -1,2 +1,0 @@
-TASK com.example.rebelartstudios.sternenkrieg id=627
-  ACTIVITY com.example.rebelartstudios.sternenkrieg/.Dice b160bdf pid=17955
